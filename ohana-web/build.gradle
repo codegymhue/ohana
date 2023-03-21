@@ -12,6 +12,6 @@ repositories {
 }
 
 dependencies {
-//    testImplementation project(':sapo-address').sourceSets.test.output
+    implementation project(':ohana-core')
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 }

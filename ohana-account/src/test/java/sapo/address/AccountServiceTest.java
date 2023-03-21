@@ -13,7 +13,7 @@ import vn.sapo.account.AccountRepository;
 import vn.sapo.account.AccountService;
 import vn.sapo.account.dto.AccountMapper;
 import vn.sapo.account.dto.AccountResult;
-import vn.sapo.entities.Account;
+import vn.ohana.Account;
 import vn.sapo.shared.exceptions.NotFoundException;
 
 import static org.hamcrest.MatcherAssert.assertThat;

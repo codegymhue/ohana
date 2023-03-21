@@ -3,7 +3,7 @@ package vn.sapo.account.dto;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import vn.sapo.entities.Account;
+import vn.ohana.Account;
 
 @Component
 public class AccountMapper {

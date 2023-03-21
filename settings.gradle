@@ -3,5 +3,6 @@ include 'ohana-shared'
 include 'ohana-entity'
 include 'ohana-account'
 include 'ohana-rbac'
+include 'ohana-core'
 include 'ohana-web'
 
