@@ -29,10 +29,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByStatus(StatusPost status);
 
-    @Query(value = "SELECT * FROM Post p WHERE  p.location LIKE :province AND p.status=1 ORDER BY p.created_at DESC LIMIT 0, 10", nativeQuery = true)
+    @Query(value = "SELECT * FROM post p WHERE  p.location LIKE :province AND p.status=1 ORDER BY p.created_at DESC LIMIT 0, 10", nativeQuery = true)
     List<Post> findTop10ByCreatedAt(@Param("province") String province);
 
-    @Query(value = "SELECT * FROM Post p WHERE  p.location LIKE :location AND p.status=1 ORDER BY p.created_at DESC ", nativeQuery = true)
+    @Query(value = "SELECT * FROM post p WHERE  p.location LIKE :location AND p.status=1 ORDER BY p.created_at DESC ", nativeQuery = true)
     List<Post> findAllByLocation(@Param("location") String location);
 
     List<Post> findAllByRentHouse_PriceIsBetweenAndRentHouse_Gender(BigDecimal priceStarts, BigDecimal priceEnds, Gender gender);
@@ -56,7 +56,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     @Query("SELECT count(p.status) FROM Post p WHERE p.status=:statusPost")
     Long getQuantityStatus(@Param("statusPost") StatusPost statusPost);
 
-    @Query(value = "SELECT * FROM Post p WHERE  p.location LIKE :location AND p.location LIKE :province AND p.status=1 ORDER BY p.created_at DESC LIMIT 0, 10", nativeQuery = true)
+    @Query(value = "SELECT * FROM post p WHERE  p.location LIKE :location AND p.location LIKE :province AND p.status=1 ORDER BY p.created_at DESC LIMIT 0, 10", nativeQuery = true)
     List<Post> getDataSearch(@Param("location") String location, @Param("province") String province);
 
 //    @Query(value = "SELECT * FROM Post p WHERE p.location LIKE %:keyword%", nativeQuery = true)
