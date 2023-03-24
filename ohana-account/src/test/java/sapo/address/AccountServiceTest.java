@@ -14,7 +14,7 @@ import vn.sapo.account.AccountService;
 import vn.sapo.account.dto.AccountMapper;
 import vn.sapo.account.dto.AccountResult;
 import vn.ohana.Account;
-import vn.sapo.shared.exceptions.NotFoundException;
+import vn.rananu.exceptions.NotFoundException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.instanceOf;

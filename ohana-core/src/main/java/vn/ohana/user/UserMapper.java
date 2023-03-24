@@ -5,15 +5,18 @@ import org.springframework.stereotype.Component;
 import vn.ohana.PostMedia;
 import vn.ohana.User;
 import vn.ohana.google.dto.GooglePojo;
-import vn.ohana.user.dto.SignUpParam;
-import vn.ohana.user.dto.UserResult;
 import vn.ohana.post.PostMediaService;
+import vn.ohana.user.dto.BaseUser;
+import vn.ohana.user.dto.SignUpParam;
+import vn.ohana.user.dto.UpdateUserParam;
+import vn.ohana.user.dto.UserResult;
+import vn.rananu.mappers.BaseMapper;
 
 import java.util.Optional;
 
 
 @Component
-public class UserMapper {
+public class UserMapper extends BaseMapper<UserResult, User, BaseUser> {
 
     @Autowired
     PostMediaService postMediaService;
@@ -24,7 +27,7 @@ public class UserMapper {
         userResult.setFullName(user.getFullName());
 //        userResult.setEmail(user.getEmail());
 
-        if(user.getEmail().contains("@")){
+        if (user.getEmail().contains("@")) {
             userResult.setEmail(user.getEmail());
         } else {
             userResult.setEmail(null);
@@ -47,21 +50,7 @@ public class UserMapper {
         return userResult;
     }
 
-    public User signUpParamToUser(SignUpParam signUpParam) {
-        User user = new User();
-        if (signUpParam.getPhoneOrEmail().contains("@")) {
-            user.setEmail(signUpParam.getPhoneOrEmail());
-            user.setPhone(null);
-        } else {
-            user.setPhone(signUpParam.getPhoneOrEmail());
-            user.setEmail(String.valueOf(System.currentTimeMillis()));
-        }
-        user.setFullName(signUpParam.getFullName());
-        user.setPassword(signUpParam.getPassword());
-        return user;
-    }
-
-    public User googlePojoToUser(GooglePojo googlePojo) {
+    public User toEntity(GooglePojo googlePojo) {
         User user = new User();
         user.setPassword(googlePojo.getId());
         user.setEmail(googlePojo.getEmail());

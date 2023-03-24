@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import vn.ohana.StatusUtility;
 import vn.ohana.Utility;
+import vn.ohana.utility.dto.UpdateUtilityParam;
 import vn.ohana.utility.dto.UtilityResult;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -36,23 +36,6 @@ public class UtilityServiceImpl implements UtilityService {
         Optional<Utility> optionalUtility = utilityRepository.findById(id);
         return optionalUtility.map(utilities -> Optional.of(utilityMapper.toDTO(utilities))).orElse(null);
     }
-
-
-    @Override
-    public Utility save(Utility utility) {
-        return utilityRepository.save(utility);
-    }
-
-
-
-    @Override
-    public void delete(Utility utilityId) {
-        utilityRepository.delete(utilityId);
-
-    }
-
-
-
     @Override
     public void show(Long utilityId) {
         Optional<Utility> optionalUtility = utilityRepository.findById(utilityId);
@@ -73,31 +56,36 @@ public class UtilityServiceImpl implements UtilityService {
         }
 
     }
+
     @Override
     public List<UtilityResult> findAllById(Iterable<Long> longs) {
-        return utilityRepository.findAllById(longs).
-                stream()
-                .map(u -> utilityMapper.toDTO(u))
-                .collect(Collectors.toList());
+        List<Utility> entities = utilityRepository.findAllById(longs);
+        return utilityMapper.toDTOList(entities);
     }
 
     @Override
     public List<UtilityResult> findAllByStatus(StatusUtility status) {
-        List<UtilityResult> utilities = new ArrayList<>();
-        utilityRepository.findAllByStatus(status).
-            forEach(utility -> utilities.
-            add(utilityMapper.
-            toDTO(utility)));
-        return utilities;
+        List<Utility> entities = utilityRepository.findAllByStatus(status);
+        return utilityMapper.toDTOList(entities);
     }
 
     @Override
     public List<UtilityResult> findAllByIdASC(List<Long> utilityIds) {
-        List<Utility> utilities = utilityRepository.findAllById(utilityIds);
-        return utilities.
+        return utilityRepository.findAllById(utilityIds).
                 stream()
                 .sorted(Comparator.comparingInt(Utility::getPriority))
                 .map(u -> utilityMapper.toDTO(u))
                 .collect(Collectors.toList());
+
+    }
+
+    @Override
+    public void deleteById(Long id) {
+
+    }
+
+    @Override
+    public UtilityResult update(UpdateUtilityParam param) {
+        return null;
     }
 }

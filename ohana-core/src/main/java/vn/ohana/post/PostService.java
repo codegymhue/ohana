@@ -53,7 +53,7 @@ public interface PostService {
 //
 //    void overRoom(Long postId);
 
-    Long postPreview(PostCreateParam postCreateParam);
+    Long postPreview(PostCreateParam postCreateParam) throws IOException;
 
     void savePostPreview(Long id);
 

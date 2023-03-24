@@ -1,4 +1,4 @@
 package vn.ohana.category.dto;
 
-public class CreateCategoryParam {
+public class CreateCategoryParam extends BaseCategory {
 }

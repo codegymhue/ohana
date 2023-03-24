@@ -14,7 +14,7 @@ import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
 import vn.ohana.user.UserMapper;
 import vn.ohana.utility.UtilityService;
-import vn.ohana.utils.JacksonParser;
+import vn.rananu.parsers.JacksonParser;
 
 import java.util.List;
 import java.util.Optional;

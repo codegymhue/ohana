@@ -3,6 +3,7 @@ package vn.ohana.utils;
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.stereotype.Component;
 import vn.ohana.PostMedia;
+import vn.rananu.exceptions.ValidationException;
 
 import java.util.Map;
 
@@ -25,7 +26,7 @@ public class UploadUtils {
 
     public Map buildImageDestroyParams(PostMedia postMedia, String publicId) {
         if (postMedia == null || postMedia.getId() == null)
-            throw new DataInputException("Không thể destroy hình ảnh của sản phẩm không xác định");
+            throw new ValidationException("Không thể destroy hình ảnh của sản phẩm không xác định");
 
         return ObjectUtils.asMap(
                 "public_id", publicId,

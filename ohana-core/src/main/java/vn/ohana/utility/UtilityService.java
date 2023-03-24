@@ -2,6 +2,7 @@ package vn.ohana.utility;
 
 import vn.ohana.StatusUtility;
 import vn.ohana.Utility;
+import vn.ohana.utility.dto.UpdateUtilityParam;
 import vn.ohana.utility.dto.UtilityResult;
 
 import java.util.List;
@@ -12,11 +13,6 @@ public interface UtilityService {
 
     Optional<UtilityResult> findById(Long id);
 
-    Utility save(Utility utility);
-
-
-
-    void delete(Utility utilityId);
 
     void show(Long utilityId);
 
@@ -28,4 +24,8 @@ public interface UtilityService {
 
 
     List<UtilityResult> findAllByIdASC(List<Long> utilityIds);
+
+    void deleteById(Long id);
+
+    UtilityResult update(UpdateUtilityParam param);
 }

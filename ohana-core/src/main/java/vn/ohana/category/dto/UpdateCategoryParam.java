@@ -1,4 +1,10 @@
 package vn.ohana.category.dto;
 
-public class UpdateCategoryParam {
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+public class UpdateCategoryParam extends BaseCategory {
+    private Long id;
 }

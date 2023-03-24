@@ -69,7 +69,6 @@ public class PostServiceImpl implements PostService {
     }
 
 
-
     @Override
     public void postNews(PostCreateParam postCreateParam) throws IOException {
         Post newPost = postMapper.toPost(postCreateParam);
@@ -106,7 +105,6 @@ public class PostServiceImpl implements PostService {
         Optional<Post> postOption = postRepository.findById(id);
         return postOption.map(post -> Optional.of(postMapper.toDTO(post))).orElse(null);
     }
-
 
 
     @Override
@@ -185,7 +183,7 @@ public class PostServiceImpl implements PostService {
 //        }
 //    }
     @Override
-    public Long postPreview(PostCreateParam postCreateParam) {
+    public Long postPreview(PostCreateParam postCreateParam) throws IOException {
         Post newPost = postMapper.toPost(postCreateParam);
         RentHouse rentHouse = rentHouseService.save(newPost.getRentHouse());
         newPost.setRentHouse(rentHouse);
@@ -434,63 +432,50 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    private void uploadAndSaveProductImage(PostCreateParam postCreateParam, Post post, PostMedia postMedia, Integer index) {
-        try {
-            MultipartFile file = postCreateParam.getImages().get(index);
-            Map uploadResult = uploadService.uploadImage(file, uploadUtils.buildImageUploadParams(postMedia));
-            String fileUrl = (String) uploadResult.get("secure_url");
-            String fileFormat = (String) uploadResult.get("format");
+    private void uploadAndSaveProductImage(PostCreateParam postCreateParam, Post post, PostMedia postMedia, Integer index) throws IOException {
+        MultipartFile file = postCreateParam.getImages().get(index);
+        Map uploadResult = uploadService.uploadImage(file, uploadUtils.buildImageUploadParams(postMedia));
+        String fileUrl = (String) uploadResult.get("secure_url");
+        String fileFormat = (String) uploadResult.get("format");
 
-            postMedia.setFileName(postMedia.getId() + "." + fileFormat);
-            postMedia.setFileUrl(fileUrl);
-            postMedia.setFileFolder(UploadUtils.IMAGE_UPLOAD_FOLDER);
-            postMedia.setCloudId(postMedia.getFileFolder() + "/" + postMedia.getId());
-            postMedia.setPost(post);
-            postMediaService.save(postMedia);
-            if (index == 0) {
-                post.setThumbnailId(postMedia.getId());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new DataInputException("Upload hình ảnh thất bại");
-        }
-    }
-
-    private void uploadAndSaveProductImageEdit(MultipartFile file, Post post, PostMedia postMedia) {
-        try {
-            Map uploadResult = uploadService.uploadImage(file, uploadUtils.buildImageUploadParams(postMedia));
-            String fileUrl = (String) uploadResult.get("secure_url");
-            String fileFormat = (String) uploadResult.get("format");
-
-            postMedia.setFileName(postMedia.getId() + "." + fileFormat);
-            postMedia.setFileUrl(fileUrl);
-            postMedia.setFileFolder(UploadUtils.IMAGE_UPLOAD_FOLDER);
-            postMedia.setCloudId(postMedia.getFileFolder() + "/" + postMedia.getId());
-            postMedia.setPost(post);
-            postMediaService.save(postMedia);
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new DataInputException("Upload hình ảnh thất bại");
-        }
-    }
-
-    private void uploadAndSaveProductImageEditThumbnail(MultipartFile file, Post post, PostMedia postMedia) {
-        try {
-            Map uploadResult = uploadService.uploadImage(file, uploadUtils.buildImageUploadParams(postMedia));
-            String fileUrl = (String) uploadResult.get("secure_url");
-            String fileFormat = (String) uploadResult.get("format");
-
-            postMedia.setFileName(postMedia.getId() + "." + fileFormat);
-            postMedia.setFileUrl(fileUrl);
-            postMedia.setFileFolder(UploadUtils.IMAGE_UPLOAD_FOLDER);
-            postMedia.setCloudId(postMedia.getFileFolder() + "/" + postMedia.getId());
-            postMedia.setPost(post);
-            postMediaService.save(postMedia);
+        postMedia.setFileName(postMedia.getId() + "." + fileFormat);
+        postMedia.setFileUrl(fileUrl);
+        postMedia.setFileFolder(UploadUtils.IMAGE_UPLOAD_FOLDER);
+        postMedia.setCloudId(postMedia.getFileFolder() + "/" + postMedia.getId());
+        postMedia.setPost(post);
+        postMediaService.save(postMedia);
+        if (index == 0) {
             post.setThumbnailId(postMedia.getId());
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new DataInputException("Upload hình ảnh thất bại");
         }
+
+    }
+
+    private void uploadAndSaveProductImageEdit(MultipartFile file, Post post, PostMedia postMedia) throws IOException {
+        Map uploadResult = uploadService.uploadImage(file, uploadUtils.buildImageUploadParams(postMedia));
+        String fileUrl = (String) uploadResult.get("secure_url");
+        String fileFormat = (String) uploadResult.get("format");
+
+        postMedia.setFileName(postMedia.getId() + "." + fileFormat);
+        postMedia.setFileUrl(fileUrl);
+        postMedia.setFileFolder(UploadUtils.IMAGE_UPLOAD_FOLDER);
+        postMedia.setCloudId(postMedia.getFileFolder() + "/" + postMedia.getId());
+        postMedia.setPost(post);
+        postMediaService.save(postMedia);
+    }
+
+    private void uploadAndSaveProductImageEditThumbnail(MultipartFile file, Post post, PostMedia postMedia) throws IOException {
+        Map uploadResult = uploadService.uploadImage(file, uploadUtils.buildImageUploadParams(postMedia));
+        String fileUrl = (String) uploadResult.get("secure_url");
+        String fileFormat = (String) uploadResult.get("format");
+
+        postMedia.setFileName(postMedia.getId() + "." + fileFormat);
+        postMedia.setFileUrl(fileUrl);
+        postMedia.setFileFolder(UploadUtils.IMAGE_UPLOAD_FOLDER);
+        postMedia.setCloudId(postMedia.getFileFolder() + "/" + postMedia.getId());
+        postMedia.setPost(post);
+        postMediaService.save(postMedia);
+        post.setThumbnailId(postMedia.getId());
+
     }
 
     public void delete(String thumbnailId) throws IOException {

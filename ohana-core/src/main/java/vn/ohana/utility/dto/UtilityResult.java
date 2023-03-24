@@ -6,12 +6,7 @@ import vn.ohana.StatusUtility;
 
 @Getter
 @Setter
-public class UtilityResult {
+public class UtilityResult extends BaseUtility {
     private Long id;
-    private String name;
-    private StatusUtility hidden;
-    private String icon;
-    private int priority;
-    private StatusUtility status;
 }
 

@@ -1,4 +1,4 @@
 package vn.ohana.category.dto;
 
-public class CategoryResult {
+public class CategoryResult extends BaseCategory {
 }

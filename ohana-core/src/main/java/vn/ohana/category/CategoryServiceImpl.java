@@ -5,10 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.Category;
 import vn.ohana.category.dto.CategoryResult;
-import vn.sapo.shared.exceptions.NotFoundException;
+import vn.ohana.category.dto.CreateCategoryParam;
+import vn.ohana.category.dto.UpdateCategoryParam;
+import vn.rananu.exceptions.NotFoundException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -21,16 +22,42 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     @Transactional(readOnly = true)
     public List<CategoryResult> findAll() {
-        return categoryRepository.findAll();
+        List<Category> entities = categoryRepository.findAll();
+        return categoryMapper.toDTOList(entities);
     }
 
-    @Override
-
-    public CategoryResult findById(Long id) {
+    @Transactional(readOnly = true)
+    Category findById(Long id) {
         return categoryRepository.findById(id)
-                .map(categoryMapper::toDTO)
                 .orElseThrow(() -> new NotFoundException("category.exception.notFound"));
     }
 
+    @Override
+    public CategoryResult getById(Long id) {
+        return categoryMapper.toDTO(findById(id));
+    }
+
+    @Override
+    @Transactional
+    public CategoryResult create(CreateCategoryParam param) {
+        Category category = categoryMapper.toEntity(param);
+        category = categoryRepository.save(category);
+        return categoryMapper.toDTO(category);
+    }
+
+    @Override
+    @Transactional
+    public CategoryResult update(UpdateCategoryParam param) {
+        Category category;
+        category = findById(param.getId());
+        categoryMapper.transferFields(param, category);
+        return categoryMapper.toDTO(category);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        categoryRepository.deleteById(id);
+    }
 
 }

@@ -20,8 +20,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findAllByStatus(UserStatus status);
 
-    @Query("SELECT count(u.status) FROM User u")
-    Long getQuantityUser(UserStatus userStatus);
+    Long countByStatus(UserStatus userStatus);
+
     boolean existsByPhoneOrEmailAndPasswordAndRole(String phone, String email, String password, Role role);
 
 }
