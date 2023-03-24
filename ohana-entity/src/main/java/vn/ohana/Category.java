@@ -19,8 +19,8 @@ public class Category {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "name", length = 60, nullable = false)
-    private String name;
+    @Column(name = "title", length = 60, nullable = false)
+    private String title;
 
 
     public Category(Long id) {

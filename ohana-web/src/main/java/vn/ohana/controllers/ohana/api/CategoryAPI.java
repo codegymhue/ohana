@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.category.CategoryService;
-import vn.tg.ohana.repository.model.Category;
+import vn.ohana.category.dto.CategoryResult;
 
 import java.util.List;
 
@@ -16,10 +16,9 @@ public class CategoryAPI {
     @Autowired
     CategoryService categoryService;
 
-    @GetMapping()
-    public ResponseEntity<?> getCategories() {
-        List<Category> categories = categoryService.findAll();
-        return new ResponseEntity<>(categories, HttpStatus.OK);
+    @GetMapping
+    public ResponseEntity<?> findAll() {
+        List<CategoryResult> dtoList = categoryService.findAll();
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
-
 }
