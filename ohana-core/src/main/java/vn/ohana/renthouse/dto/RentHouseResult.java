@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import vn.ohana.Gender;
+import vn.ohana.entities.Gender;
 
 import java.math.BigDecimal;
 

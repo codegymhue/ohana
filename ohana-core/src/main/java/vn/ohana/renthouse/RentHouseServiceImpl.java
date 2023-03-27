@@ -2,7 +2,7 @@ package vn.ohana.renthouse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import vn.ohana.RentHouse;
+import vn.ohana.entities.RentHouse;
 
 import java.util.List;
 import java.util.Optional;

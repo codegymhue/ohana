@@ -13,5 +13,6 @@ repositories {
 
 dependencies {
     implementation project(':ohana-core')
+    implementation project(':ohana-entity')
     developmentOnly "org.springframework.boot:spring-boot-devtools"
 }

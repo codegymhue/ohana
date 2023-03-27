@@ -1,4 +1,4 @@
-package vn.ohana;
+package vn.ohana.entities;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonCreator;

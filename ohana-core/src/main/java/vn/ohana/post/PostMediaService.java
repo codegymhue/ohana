@@ -1,7 +1,7 @@
 package vn.ohana.post;
 
 
-import vn.ohana.PostMedia;
+import vn.ohana.entities.PostMedia;
 import vn.ohana.post.dto.PostMediaResult;
 
 import java.util.List;

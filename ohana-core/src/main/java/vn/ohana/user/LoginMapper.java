@@ -2,8 +2,8 @@ package vn.ohana.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import vn.ohana.PostMedia;
-import vn.ohana.User;
+import vn.ohana.entities.PostMedia;
+import vn.ohana.entities.User;
 import vn.ohana.user.dto.LoginResult;
 import vn.ohana.post.PostMediaService;
 

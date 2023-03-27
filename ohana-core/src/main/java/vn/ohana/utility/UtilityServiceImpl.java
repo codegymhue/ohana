@@ -2,8 +2,8 @@ package vn.ohana.utility;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import vn.ohana.StatusUtility;
-import vn.ohana.Utility;
+import vn.ohana.entities.StatusUtility;
+import vn.ohana.entities.Utility;
 import vn.ohana.utility.dto.UpdateUtilityParam;
 import vn.ohana.utility.dto.UtilityResult;
 

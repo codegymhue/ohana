@@ -3,11 +3,11 @@ package vn.ohana.category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vn.ohana.Category;
+import vn.ohana.entities.Category;
 import vn.ohana.category.dto.CategoryResult;
 import vn.ohana.category.dto.CreateCategoryParam;
 import vn.ohana.category.dto.UpdateCategoryParam;
-import vn.rananu.exceptions.NotFoundException;
+import vn.rananu.shared.exceptions.NotFoundException;
 
 import java.util.List;
 

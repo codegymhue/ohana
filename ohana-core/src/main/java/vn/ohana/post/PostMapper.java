@@ -3,7 +3,7 @@ package vn.ohana.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import vn.ohana.*;
+import vn.ohana.entities.*;
 import vn.ohana.location.LocationMapper;
 import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.renthouse.RentHouseMapper;
@@ -14,7 +14,7 @@ import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
 import vn.ohana.user.UserMapper;
 import vn.ohana.utility.UtilityService;
-import vn.rananu.parsers.JacksonParser;
+import vn.rananu.shared.parsers.JacksonParser;
 
 import java.util.List;
 import java.util.Optional;

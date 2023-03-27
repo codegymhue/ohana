@@ -1,6 +1,8 @@
-package vn.ohana;
+package vn.ohana.entities;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.Accessors;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -8,13 +10,10 @@ import javax.persistence.*;
 import java.util.Date;
 
 
-@ToString(exclude = "product")
-@EqualsAndHashCode(exclude = "product")
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
 @Accessors(chain = true)
 @Table(name = "post_media")
 public class PostMedia {

@@ -29,12 +29,13 @@ allprojects { proj ->
 
     dependencies {
         switch (proj.name) {
+            case 'web-utils-springboot': break
             case 'ohana-shared': break
             case 'ohana-entity': break
             default: {
                 if (proj.name != 'ohana-web')
                     implementation project(':ohana-entity')
-                implementation project(':ohana-shared')
+                implementation project(':web-utils-springboot')
                 break
             }
         }
@@ -69,4 +70,10 @@ allprojects { proj ->
     ext {
         jjwt_version = "0.11.5"
     }
+}
+def filesToExclude = [
+        '**/*User*.java',
+]
+tasks.withType(org.gradle.api.tasks.SourceTask.class).configureEach {
+    it.exclude(filesToExclude)
 }

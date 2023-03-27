@@ -2,7 +2,7 @@ package vn.ohana.post;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import vn.ohana.PostMedia;
+import vn.ohana.entities.PostMedia;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package vn.ohana;
+package vn.ohana.entities;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,13 +1,11 @@
 package vn.ohana.user;
 
 import org.springframework.transaction.annotation.Transactional;
-import vn.ohana.User;
-import vn.ohana.UserStatus;
+import vn.ohana.entities.UserStatus;
 import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.user.dto.*;
 
 import java.util.List;
-import java.util.Optional;
 
 
 public interface UserService {
@@ -23,4 +21,15 @@ public interface UserService {
 
     void deleteById(Long id);
 
+    boolean existsByPhoneOrEmail(String phoneOrEmail);
+
+    LoginResult login(String phoneOrEmail, String phoneOrEmail1);
+
+    boolean checkAdmin(LoginParam loginParam);
+
+    List<UserResult> findAllByStatus(UserStatus activated);
+
+    LoginResult findByEmail(String email);
+
+    LoginResult saveGoogleEmail(GooglePojo googlePojo);
 }

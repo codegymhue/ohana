@@ -1,7 +1,7 @@
 package vn.ohana.renthouse;
 
 
-import vn.ohana.RentHouse;
+import vn.ohana.entities.RentHouse;
 
 import java.util.List;
 import java.util.Optional;

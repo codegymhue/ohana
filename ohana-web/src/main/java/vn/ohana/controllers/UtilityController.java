@@ -20,7 +20,7 @@ public class UtilityController {
     public LoginResult getUserLoginFromCookie(@CookieValue(value = "loginAdmin", defaultValue = "0") String loginUsername) {
         LoginResult adminLogin = null;
         if (!loginUsername.equals("0")) {
-            adminLogin = userService.findByEmailOrPhone(loginUsername, loginUsername);
+            adminLogin = userService.login(loginUsername, loginUsername);
         }
         return adminLogin;
     }

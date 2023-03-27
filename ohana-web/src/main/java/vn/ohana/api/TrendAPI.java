@@ -6,9 +6,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import vn.ohana.trend.TrendService;
-import vn.tg.ohana.repository.model.Trend;
 
 import java.util.List;
 
@@ -20,7 +18,7 @@ public class TrendAPI {
 
     @GetMapping()
     public ResponseEntity<?> getCategories() {
-        List<Trend> trends = trendService.getAllTrend();
-        return new ResponseEntity<>(trends, HttpStatus.OK);
+        List<?> dtoList = trendService.getAllTrend();
+        return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 }

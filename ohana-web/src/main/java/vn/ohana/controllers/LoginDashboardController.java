@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import vn.ohana.entities.StatusPost;
 import vn.ohana.user.dto.LoginParam;
 import vn.ohana.user.dto.LoginResult;
 import vn.ohana.post.PostService;
 import vn.ohana.user.UserService;
-import vn.tg.ohana.repository.model.StatusPost;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +27,7 @@ public class LoginDashboardController {
     public LoginResult getUserLoginFromCookie(@CookieValue(value = "loginAdmin", defaultValue = "0") String loginUsername) {
         LoginResult adminLogin = null;
         if (!loginUsername.equals("0")) {
-            adminLogin = userService.findByEmailOrPhone(loginUsername, loginUsername);
+            adminLogin = userService.login(loginUsername, loginUsername);
         }
         return adminLogin;
     }
@@ -49,7 +49,7 @@ public class LoginDashboardController {
         ModelAndView modelAndView = new ModelAndView();
         boolean check = userService.checkAdmin(loginParam);
         if (check) {
-            LoginResult adminLogin = userService.findByEmailOrPhone(loginParam.getPhoneOrEmail(), loginParam.getPhoneOrEmail());
+            LoginResult adminLogin = userService.login(loginParam.getPhoneOrEmail(), loginParam.getPhoneOrEmail());
             modelAndView.setViewName("/dashboard/index");
             Long quantity = postService.getQuantityStatus(StatusPost.PENDING_REVIEW);
             modelAndView.addObject("pendingReview", quantity);

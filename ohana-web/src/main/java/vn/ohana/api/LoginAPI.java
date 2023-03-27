@@ -7,11 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.ohana.user.UserService;
 import vn.ohana.user.dto.LoginParam;
 import vn.ohana.user.dto.LoginResult;
-import vn.ohana.user.UserService;
-import vn.tg.ohana.repository.model.StatusPost;
-import vn.tg.ohana.repository.model.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +32,7 @@ public class LoginAPI {
     @PostMapping("/sign-in")
     public ResponseEntity<?> doLogin(@RequestBody LoginParam loginParam, @CookieValue(value = "loginUser", defaultValue = "0") String loginUser, HttpServletResponse response, HttpServletRequest request) {
 
-        LoginResult userResult = userService.findByEmailOrPhone(loginParam.getPhoneOrEmail(), loginParam.getPhoneOrEmail());
+        LoginResult userResult = userService.login(loginParam.getPhoneOrEmail(), loginParam.getPhoneOrEmail());
         if (userResult != null) {
             if ((loginParam.getPhoneOrEmail().equals(userResult.getEmail()) || loginParam.getPhoneOrEmail().equals(userResult.getPhone())) && loginParam.getPassword().equals(userResult.getPassword())) {
 

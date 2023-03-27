@@ -1,21 +1,10 @@
 package vn.ohana.category;
 
-import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-import vn.ohana.Category;
+import vn.ohana.entities.Category;
 import vn.ohana.category.dto.BaseCategory;
 import vn.ohana.category.dto.CategoryResult;
-import vn.ohana.category.dto.CreateCategoryParam;
-import vn.ohana.category.dto.UpdateCategoryParam;
-import vn.rananu.mappers.BaseMapper;
-
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static vn.rananu.configurations.MapperConfiguration.MODEL_MAPPER_SKIP_NULL_DISABLED;
-import static vn.rananu.configurations.MapperConfiguration.MODEL_MAPPER_SKIP_NULL_ENABLED;
+import vn.rananu.shared.mappers.BaseMapper;
 
 @Component
 public class CategoryMapper extends BaseMapper<CategoryResult, Category, BaseCategory> {

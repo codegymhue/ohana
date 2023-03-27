@@ -2,7 +2,7 @@ package vn.ohana.gender;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import vn.ohana.Gender;
+import vn.ohana.entities.Gender;
 
 import java.util.List;
 

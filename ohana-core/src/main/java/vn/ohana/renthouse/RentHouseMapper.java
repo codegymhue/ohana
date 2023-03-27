@@ -1,8 +1,8 @@
 package vn.ohana.renthouse;
 
 import org.springframework.stereotype.Component;
-import vn.ohana.Gender;
-import vn.ohana.RentHouse;
+import vn.ohana.entities.Gender;
+import vn.ohana.entities.RentHouse;
 import vn.ohana.renthouse.dto.RentHouseParam;
 import vn.ohana.renthouse.dto.RentHouseResult;
 

@@ -4,12 +4,14 @@ package vn.ohana.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vn.ohana.User;
+import vn.ohana.entities.User;
+import vn.ohana.entities.UserStatus;
+import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.post.PostMediaService;
-import vn.ohana.user.dto.SignUpParam;
-import vn.ohana.user.dto.UpdateUserParam;
-import vn.ohana.user.dto.UserResult;
-import vn.rananu.exceptions.NotFoundException;
+import vn.ohana.user.dto.*;
+import vn.rananu.shared.exceptions.NotFoundException;
+
+import java.util.List;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -58,6 +60,36 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteById(Long id) {
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public boolean existsByPhoneOrEmail(String phoneOrEmail) {
+        return false;
+    }
+
+    @Override
+    public LoginResult login(String phoneOrEmail, String phoneOrEmail1) {
+        return null;
+    }
+
+    @Override
+    public boolean checkAdmin(LoginParam loginParam) {
+        return false;
+    }
+
+    @Override
+    public List<UserResult> findAllByStatus(UserStatus activated) {
+        return null;
+    }
+
+    @Override
+    public LoginResult findByEmail(String email) {
+        return null;
+    }
+
+    @Override
+    public LoginResult saveGoogleEmail(GooglePojo googlePojo) {
+        return null;
     }
 
 }

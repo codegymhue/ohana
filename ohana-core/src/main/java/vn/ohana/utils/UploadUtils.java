@@ -2,8 +2,8 @@ package vn.ohana.utils;
 
 import com.cloudinary.utils.ObjectUtils;
 import org.springframework.stereotype.Component;
-import vn.ohana.PostMedia;
-import vn.rananu.exceptions.ValidationException;
+import vn.ohana.entities.PostMedia;
+import vn.rananu.shared.exceptions.ValidationException;
 
 import java.util.Map;
 

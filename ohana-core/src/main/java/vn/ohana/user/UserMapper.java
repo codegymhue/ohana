@@ -2,15 +2,13 @@ package vn.ohana.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import vn.ohana.PostMedia;
-import vn.ohana.User;
+import vn.ohana.entities.PostMedia;
+import vn.ohana.entities.User;
 import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.post.PostMediaService;
 import vn.ohana.user.dto.BaseUser;
-import vn.ohana.user.dto.SignUpParam;
-import vn.ohana.user.dto.UpdateUserParam;
 import vn.ohana.user.dto.UserResult;
-import vn.rananu.mappers.BaseMapper;
+import vn.rananu.shared.mappers.BaseMapper;
 
 import java.util.Optional;
 

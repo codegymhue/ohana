@@ -4,12 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.ohana.post.dto.PostResult;
+import vn.ohana.entities.StatusPost;
 import vn.ohana.post.PostService;
-import vn.tg.ohana.repository.model.Cart;
-import vn.tg.ohana.repository.model.Post;
-import vn.tg.ohana.repository.model.StatusPost;
-import vn.tg.ohana.repository.model.UserStatus;
+import vn.ohana.post.dto.PostResult;
 
 import java.util.List;
 

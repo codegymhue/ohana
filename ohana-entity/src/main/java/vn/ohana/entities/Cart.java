@@ -1,4 +1,4 @@
-package vn.ohana;
+package vn.ohana.entities;
 
 import java.util.HashMap;
 import java.util.Map;

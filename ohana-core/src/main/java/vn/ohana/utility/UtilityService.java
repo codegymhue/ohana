@@ -1,7 +1,6 @@
 package vn.ohana.utility;
 
-import vn.ohana.StatusUtility;
-import vn.ohana.Utility;
+import vn.ohana.entities.StatusUtility;
 import vn.ohana.utility.dto.UpdateUtilityParam;
 import vn.ohana.utility.dto.UtilityResult;
 

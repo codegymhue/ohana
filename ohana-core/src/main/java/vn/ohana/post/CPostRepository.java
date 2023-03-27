@@ -1,7 +1,7 @@
 package vn.ohana.post;
 
 import org.springframework.stereotype.Component;
-import vn.ohana.Post;
+import vn.ohana.entities.Post;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

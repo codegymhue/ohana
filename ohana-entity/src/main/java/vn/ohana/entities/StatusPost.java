@@ -1,4 +1,4 @@
-package vn.ohana;
+package vn.ohana.entities;
 
 public enum StatusPost {
     PENDING_REVIEW,PUBLISHED,REFUSED,DRAFT,OVER_ROOM,EMPTY_ROOM

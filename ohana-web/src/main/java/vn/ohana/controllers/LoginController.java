@@ -28,7 +28,7 @@ public class LoginController {
     public LoginResult getUserLoginFromCookie(@CookieValue(value = "loginUser", defaultValue = "0") String loginUsername) {
         LoginResult userLogin = null;
         if (!loginUsername.equals("0")) {
-            userLogin = userService.findByEmailOrPhone(loginUsername, loginUsername);
+            userLogin = userService.login(loginUsername, loginUsername);
         }
         return userLogin;
     }

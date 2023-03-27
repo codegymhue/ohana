@@ -2,13 +2,15 @@ package vn.ohana.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import vn.ohana.user.dto.LoginResult;
-import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.PostService;
+import vn.ohana.post.dto.PostResult;
 import vn.ohana.user.UserService;
-import vn.tg.ohana.repository.model.Cart;
+import vn.ohana.user.dto.LoginResult;
 
 import java.util.List;
 
@@ -22,7 +24,7 @@ public class PostController {
     public LoginResult getUserLoginFromCookie(@CookieValue(value = "loginAdmin", defaultValue = "0") String loginUsername) {
         LoginResult adminLogin = null;
         if (!loginUsername.equals("0")) {
-            adminLogin = userService.findByEmailOrPhone(loginUsername, loginUsername);
+            adminLogin = userService.login(loginUsername, loginUsername);
         }
         return adminLogin;
     }

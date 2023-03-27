@@ -1,6 +1,6 @@
 package vn.ohana.gender;
 
-import vn.ohana.Gender;
+import vn.ohana.entities.Gender;
 
 import java.util.List;
 

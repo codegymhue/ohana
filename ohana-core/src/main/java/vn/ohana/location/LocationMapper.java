@@ -1,7 +1,7 @@
 package vn.ohana.location;
 
 import org.springframework.stereotype.Component;
-import vn.ohana.Location;
+import vn.ohana.entities.Location;
 import vn.ohana.location.dto.LocationParam;
 import vn.ohana.location.dto.LocationResult;
 

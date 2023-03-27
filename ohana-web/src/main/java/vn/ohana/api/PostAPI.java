@@ -7,19 +7,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import vn.ohana.entities.StatusPost;
+import vn.ohana.entities.User;
 import vn.ohana.filter.dto.FilterParam;
 import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.PostMapper;
+import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostCreateParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
-import vn.ohana.post.PostService;
 import vn.ohana.user.UserService;
 import vn.ohana.user.dto.LoginResult;
 import vn.ohana.utils.AppUtils;
-import vn.tg.ohana.dto.*;
-import vn.tg.ohana.repository.model.StatusPost;
-import vn.tg.ohana.repository.model.User;
 
 import java.io.IOException;
 import java.util.List;
@@ -44,7 +43,7 @@ public class PostAPI {
     public LoginResult getUserLoginFromCookie(@CookieValue(value = "loginUser", defaultValue = "0") String loginUsername) {
         LoginResult userLogin = null;
         if (!loginUsername.equals("0")) {
-            userLogin = userService.findByEmail(loginUsername);
+          //  userLogin = userService.findByEmail(loginUsername);
         }
         return userLogin;
     }
@@ -70,7 +69,7 @@ public class PostAPI {
 
     @GetMapping("/list-post-published")
     public ResponseEntity<?> listPublished(@ModelAttribute("userLogin") LoginResult userLogin) throws IOException {
-        List<PostResult> postResults = postService.findAllByStatusAndUser(StatusPost.PUBLISHED, new User(userLogin.getId()));
+        List<?> postResults = postService.findAllByStatusAndUser(StatusPost.PUBLISHED, new User(userLogin.getId()));
         return new ResponseEntity<>(postResults, HttpStatus.OK);
     }
 

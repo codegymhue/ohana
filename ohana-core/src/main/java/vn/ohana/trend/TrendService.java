@@ -1,6 +1,6 @@
 package vn.ohana.trend;
 
-import vn.ohana.Trend;
+import vn.ohana.entities.Trend;
 
 import java.util.List;
 

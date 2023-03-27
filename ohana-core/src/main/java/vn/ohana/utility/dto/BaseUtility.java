@@ -3,7 +3,7 @@ package vn.ohana.utility.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
-import vn.ohana.StatusUtility;
+import vn.ohana.entities.StatusUtility;
 
 @Getter
 @Setter

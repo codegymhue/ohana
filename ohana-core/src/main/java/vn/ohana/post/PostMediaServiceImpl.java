@@ -4,7 +4,7 @@ package vn.ohana.post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vn.ohana.PostMedia;
+import vn.ohana.entities.PostMedia;
 import vn.ohana.post.dto.PostMediaResult;
 
 import java.util.ArrayList;

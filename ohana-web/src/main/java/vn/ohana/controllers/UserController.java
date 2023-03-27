@@ -7,12 +7,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-import vn.ohana.user.dto.LoginResult;
 import vn.ohana.post.PostService;
 import vn.ohana.user.UserService;
-import vn.tg.ohana.repository.model.StatusPost;
-import vn.tg.ohana.repository.model.User;
-import vn.tg.ohana.repository.model.UserStatus;
+import vn.ohana.user.dto.LoginResult;
 
 @Controller
 @RequestMapping("/dashboard")
@@ -27,7 +24,7 @@ public class UserController {
     public LoginResult getUserLoginFromCookie(@CookieValue(value = "loginAdmin", defaultValue = "0") String loginUsername) {
         LoginResult adminLogin = null;
         if (!loginUsername.equals("0")) {
-            adminLogin = userService.findByEmailOrPhone(loginUsername, loginUsername);
+            adminLogin = userService.login(loginUsername, loginUsername);
         }
         return adminLogin;
     }
@@ -39,11 +36,11 @@ public class UserController {
             return "redirect:/dashboard/sign-in";
         }
         ModelAndView modelAndView = new ModelAndView("/dashboard/index");
-        Long quantity = postService.getQuantityStatus(StatusPost.PENDING_REVIEW);
-        Long user = userService.getQuantityUser(UserStatus.ACTIVATED);
-        modelAndView.addObject("pendingReview", quantity);
-        modelAndView.addObject("activated", user);
-        modelAndView.addObject("userLogin", userLogin);
+//        Long quantity = postService.getQuantityStatus(StatusPost.PENDING_REVIEW);
+//        Long user = userService.getQuantityUser(UserStatus.ACTIVATED);
+//        modelAndView.addObject("pendingReview", quantity);
+//        modelAndView.addObject("activated", user);
+//        modelAndView.addObject("userLogin", userLogin);
         return modelAndView;
     }
 
