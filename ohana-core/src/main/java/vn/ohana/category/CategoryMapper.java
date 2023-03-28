@@ -1,14 +1,18 @@
 package vn.ohana.category;
 
 import org.springframework.stereotype.Component;
-import vn.ohana.entities.Category;
 import vn.ohana.category.dto.BaseCategory;
 import vn.ohana.category.dto.CategoryResult;
+import vn.ohana.entities.Category;
 import vn.rananu.shared.mappers.BaseMapper;
 
 @Component
 public class CategoryMapper extends BaseMapper<CategoryResult, Category, BaseCategory> {
-//    @Autowired
+    @Override
+    public void afterPropertiesSet() {
+
+    }
+    //    @Autowired
 //    @Qualifier(MODEL_MAPPER_SKIP_NULL_ENABLED)
 //    protected ModelMapper modelMapper;
 //    @Autowired
@@ -23,12 +27,13 @@ public class CategoryMapper extends BaseMapper<CategoryResult, Category, BaseCat
 //        return entities.stream().map(this::toDTO).collect(Collectors.toList());
 //    }
 //
-//    public Category toEntity(CreateCategoryParam createSupplierParam) {
+//    public Category toEntity(BaseCategory createSupplierParam) {
 //        return modelMapper.map(createSupplierParam, Category.class);
 //    }
 //
 //    public void transferFields(UpdateCategoryParam updateSupplierParam, Category category) {
 //        modelMapperSkipNullDisabled.map(updateSupplierParam, category);
 //    }
+
 
 }
