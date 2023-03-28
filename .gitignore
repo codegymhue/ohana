@@ -34,3 +34,5 @@ nbproject/
 
 # Mac OS
 .DS_Store
+
+settings.gradle
