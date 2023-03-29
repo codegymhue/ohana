@@ -30,7 +30,7 @@ public class Post {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "rent_house_id")
+    @JoinColumn(name = "rent_house_id",foreignKey = @ForeignKey(name = "fk_post_rent_house"))
     private RentHouse rentHouse;
 
     @Column(name = "title", length = 100, nullable = false)
@@ -49,7 +49,7 @@ public class Post {
     private Instant updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id",foreignKey = @ForeignKey(name = "fk_post_user"))
     private User user;
 
     @Column(name = "location", nullable = false, columnDefinition = "JSON")
