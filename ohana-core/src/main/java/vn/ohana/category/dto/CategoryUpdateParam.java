@@ -4,8 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import javax.validation.constraints.NotNull;
+
 @Getter
 @Setter
 @Accessors(chain = true)
-public class CreateCategoryParam extends BaseCategory {
+public class CategoryUpdateParam extends BaseCategory {
+    @NotNull
+    private Long id;
 }

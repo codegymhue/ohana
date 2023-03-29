@@ -9,10 +9,9 @@ import java.util.List;
 
 @Repository
 public interface UtilityRepository extends JpaRepository<Utility, Long> {
-    List<Utility> findAllById(Iterable<Long> ids);
+    List<Utility> findAllByIdIn(Iterable<Long> ids);
 
     List<Utility> findAllByStatus(StatusUtility status);
-
 
 
 }

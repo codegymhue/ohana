@@ -3,12 +3,10 @@ package vn.ohana.controllers.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import vn.ohana.entities.User;
 import vn.ohana.user.UserService;
+import vn.ohana.user.dto.UserUpdateParam;
 
 import java.util.Optional;
 
@@ -18,24 +16,8 @@ public class UserAPI {
     @Autowired
     UserService userService;
 
-    @PutMapping("/update-user")
-    public ResponseEntity<?> doUpdate(@RequestBody User user) {
-        Long id = user.getId();
-
-//        Optional<User> optionalUserResult = userService.findById(id);
-//
-//        if (optionalUserResult.isPresent()) {
-//            user.setId(optionalUserResult.get().getId());
-//            user.setPassword(optionalUserResult.get().getPassword());
-//            user.setThumbnailId(optionalUserResult.get().getThumbnailId());
-//            user.setRole(optionalUserResult.get().getRole());
-//            user.setStatus(optionalUserResult.get().getStatus());
-//            userService.save(user);
-//
-//            return new ResponseEntity<>(user, HttpStatus.ACCEPTED);
-//        } else {
-//            return new ResponseEntity<>("Error for update icon", HttpStatus.BAD_REQUEST);
-//        }
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> doUpdate(@PathVariable Long id,@RequestBody UserUpdateParam creationParam) {
         return null;
     }
 }

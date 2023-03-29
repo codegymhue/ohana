@@ -28,7 +28,7 @@ public class Utility {
     @Column(name = "priority")
     private int priority;
 
-    @Column(columnDefinition = "boolean default false")
+    @Column(name = "status")
     private StatusUtility status;
 
 

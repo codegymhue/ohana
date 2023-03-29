@@ -1,10 +1,10 @@
-package vn.ohana.renthouse;
+package vn.ohana.post.dto;
 
 import org.springframework.stereotype.Component;
 import vn.ohana.entities.Gender;
 import vn.ohana.entities.RentHouse;
-import vn.ohana.renthouse.dto.RentHouseParam;
-import vn.ohana.renthouse.dto.RentHouseResult;
+import vn.ohana.post.dto.RentHouseParam;
+import vn.ohana.post.dto.RentHouseResult;
 
 @Component
 public class RentHouseMapper {

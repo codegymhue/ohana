@@ -5,6 +5,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UpdateUserParam extends BaseUser {
+public class UserUpdateParam extends BaseUser {
     private Long id;
 }

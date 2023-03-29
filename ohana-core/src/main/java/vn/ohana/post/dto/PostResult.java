@@ -7,7 +7,6 @@ import lombok.Setter;
 import vn.ohana.entities.Category;
 import vn.ohana.entities.StatusPost;
 import vn.ohana.location.dto.LocationResult;
-import vn.ohana.renthouse.dto.RentHouseResult;
 import vn.ohana.utility.dto.UtilityResult;
 import vn.ohana.user.dto.UserResult;
 
