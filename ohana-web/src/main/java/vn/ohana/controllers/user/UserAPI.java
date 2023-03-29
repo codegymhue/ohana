@@ -1,4 +1,4 @@
-package vn.ohana.api;
+package vn.ohana.controllers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

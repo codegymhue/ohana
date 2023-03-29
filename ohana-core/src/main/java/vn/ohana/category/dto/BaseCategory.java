@@ -1,9 +1,15 @@
 package vn.ohana.category.dto;
 
-import javax.persistence.Column;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
 import javax.validation.constraints.NotBlank;
 
+@Getter
+@Setter
+@Accessors(chain = true)
 public abstract class BaseCategory {
-    @NotBlank
+    @NotBlank(message = "{category.validation.title.notBlank}")
     private String title;
 }

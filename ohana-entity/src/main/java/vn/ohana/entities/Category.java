@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @Getter
 @Setter
+@Accessors(chain = true)
 @Entity
 @Table(name = "categories")
 public class Category {
@@ -21,7 +23,6 @@ public class Category {
 
     @Column(name = "title", length = 60, nullable = false)
     private String title;
-
 
     public Category(Long id) {
         this.id = id;
