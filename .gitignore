@@ -4,6 +4,7 @@ target/
 # Gradle Project
 build/
 .gradle/
+./settings.gradle
 
 # Eclipse
 .apt_generated
