@@ -1,7 +1,0 @@
-rootProject.name = 'ohana'
-include 'ohana-shared'
-include 'ohana-entity'
-include 'ohana-core'
-include 'ohana-web'
-include 'web-utils-springboot'
-project(':web-utils-springboot').projectDir = new File("D:\\web-utils-springboot")
