@@ -1,4 +1,4 @@
-package vn.ohana.controllers;
+package vn.ohana.controllers.user;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

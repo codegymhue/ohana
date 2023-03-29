@@ -1,6 +1,8 @@
 package vn.ohana.post;
 
 
+import org.modelmapper.Conditions;
+import org.modelmapper.TypeMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import vn.ohana.entities.*;
@@ -14,6 +16,7 @@ import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
 import vn.ohana.user.UserMapper;
 import vn.ohana.utility.UtilityService;
+import vn.rananu.shared.mappers.BaseMapper;
 import vn.rananu.shared.parsers.JacksonParser;
 
 import java.util.List;
@@ -21,7 +24,18 @@ import java.util.Optional;
 
 
 @Component
-public class PostMapper {
+public class PostMapper extends BaseMapper<PostResult, Post, PostUpdateParam> {
+    @Override
+    public void afterPropertiesSet() {
+//        TypeMap<PostUpdateParam, Post> updateDTO2Model
+//                = modelMapperSkipNullDisabled.createTypeMap(PostUpdateParam.class, Post.class);
+
+//        updateDTO2Model.addMappings(mapper -> {
+//            mapper.when(Conditions.isNotNull())
+//                    .map(PostUpdateParam::getCategoryId, Post::setCategoryId);
+//        });
+    }
+
     @Autowired
     RentHouseMapper rentHouseMapper;
 
