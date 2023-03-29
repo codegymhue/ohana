@@ -27,7 +27,7 @@ public class RentHouse {
     private Long area;
 
     @OneToOne
-    @JoinColumn(name = "gender_id")
+    @JoinColumn(name = "gender_id",foreignKey = @ForeignKey(name = "fk_rent_house_gender"))
     private Gender gender;
 
     @Column(name = "status")
