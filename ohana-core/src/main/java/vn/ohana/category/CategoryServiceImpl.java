@@ -5,16 +5,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.Category;
 import vn.ohana.category.dto.CategoryResult;
-import vn.ohana.category.dto.CreateCategoryParam;
-import vn.ohana.category.dto.UpdateCategoryParam;
+import vn.ohana.category.dto.CategoryCreationParam;
+import vn.ohana.category.dto.CategoryUpdateParam;
 import vn.rananu.shared.exceptions.NotFoundException;
-import vn.rananu.shared.exceptions.ValidationException;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -58,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryResult create(CreateCategoryParam param) {
+    public CategoryResult create(CategoryCreationParam param) {
         Category category = categoryMapper.toEntity(param);
         category = categoryRepository.save(category);
         return categoryMapper.toDTO(category);
@@ -66,7 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     @Transactional
-    public CategoryResult update(UpdateCategoryParam param) {
+    public CategoryResult update(CategoryUpdateParam param) {
         Category category = findById(param.getId());
         categoryMapper.transferFields(param, category);
         return categoryMapper.toDTO(category);

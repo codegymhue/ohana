@@ -4,12 +4,11 @@ package vn.ohana.controllers.category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.category.CategoryService;
 import vn.ohana.category.dto.CategoryResult;
-import vn.ohana.category.dto.CreateCategoryParam;
-import vn.ohana.category.dto.UpdateCategoryParam;
+import vn.ohana.category.dto.CategoryCreationParam;
+import vn.ohana.category.dto.CategoryUpdateParam;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -33,13 +32,13 @@ public class CategoryAPI {
     }
 
     @PostMapping
-    public ResponseEntity<?> category(@Valid @RequestBody CreateCategoryParam param) {
+    public ResponseEntity<?> category(@Valid @RequestBody CategoryCreationParam param) {
         CategoryResult dto = categoryService.create(param);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid UpdateCategoryParam param) {
+    public ResponseEntity<?> update(@Valid CategoryUpdateParam param) {
         CategoryResult dto = categoryService.update(param);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

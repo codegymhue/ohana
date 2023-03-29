@@ -36,32 +36,7 @@ public class UtilityServiceImpl implements UtilityService {
         Optional<Utility> optionalUtility = utilityRepository.findById(id);
         return optionalUtility.map(utilities -> Optional.of(utilityMapper.toDTO(utilities))).orElse(null);
     }
-    @Override
-    public void show(Long utilityId) {
-        Optional<Utility> optionalUtility = utilityRepository.findById(utilityId);
-        if (optionalUtility.isPresent()) {
-            Utility utility = optionalUtility.get();
-            utility.setStatus(StatusUtility.SHOW);
-            utilityRepository.save(utility);
-        }
-    }
 
-    @Override
-    public void hidden(Long utilityId) {
-        Optional<Utility> optionalUtility = utilityRepository.findById(utilityId);
-        if (optionalUtility.isPresent()) {
-            Utility utility = optionalUtility.get();
-            utility.setStatus(StatusUtility.HIDDEN);
-            utilityRepository.save(utility);
-        }
-
-    }
-
-    @Override
-    public List<UtilityResult> findAllById(Iterable<Long> longs) {
-        List<Utility> entities = utilityRepository.findAllById(longs);
-        return utilityMapper.toDTOList(entities);
-    }
 
     @Override
     public List<UtilityResult> findAllByStatus(StatusUtility status) {
@@ -69,15 +44,7 @@ public class UtilityServiceImpl implements UtilityService {
         return utilityMapper.toDTOList(entities);
     }
 
-    @Override
-    public List<UtilityResult> findAllByIdASC(List<Long> utilityIds) {
-        return utilityRepository.findAllById(utilityIds).
-                stream()
-                .sorted(Comparator.comparingInt(Utility::getPriority))
-                .map(u -> utilityMapper.toDTO(u))
-                .collect(Collectors.toList());
 
-    }
 
     @Override
     public void deleteById(Long id) {
