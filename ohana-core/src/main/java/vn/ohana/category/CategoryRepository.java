@@ -6,4 +6,5 @@ import vn.ohana.entities.Category;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<Category, Long> {
+    boolean existsByTitle(String title);
 }

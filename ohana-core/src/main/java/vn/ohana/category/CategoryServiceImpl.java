@@ -3,11 +3,12 @@ package vn.ohana.category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vn.ohana.entities.Category;
-import vn.ohana.category.dto.CategoryResult;
 import vn.ohana.category.dto.CategoryCreationParam;
+import vn.ohana.category.dto.CategoryResult;
 import vn.ohana.category.dto.CategoryUpdateParam;
+import vn.ohana.entities.Category;
 import vn.rananu.shared.exceptions.NotFoundException;
+import vn.rananu.shared.exceptions.ValidationException;
 
 import java.util.List;
 
@@ -51,9 +52,16 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.toDTO(findById(id));
     }
 
+    private void validationByTitle(String title) {
+        if (categoryRepository.existsByTitle(title)) {
+            throw new ValidationException("title", "customer_group.validation.title.existed");
+        }
+    }
+
     @Override
     @Transactional
     public CategoryResult create(CategoryCreationParam param) {
+        validationByTitle(param.getTitle());
         Category category = categoryMapper.toEntity(param);
         category = categoryRepository.save(category);
         return categoryMapper.toDTO(category);
@@ -63,6 +71,12 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryResult update(CategoryUpdateParam param) {
         Category category = findById(param.getId());
+        String title = param.getTitle();
+
+        if (!category.getTitle().equalsIgnoreCase(title)) {
+            validationByTitle(title);
+        }
+
         categoryMapper.transferFields(param, category);
         return categoryMapper.toDTO(category);
     }
