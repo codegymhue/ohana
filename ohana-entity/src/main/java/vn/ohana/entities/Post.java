@@ -24,21 +24,12 @@ import java.util.Set;
         @Index(name = "fk_category_idx", columnList = "category_id")
 })
 @TypeDef(
-<<<<<<< HEAD
-        typeClass = JsonType.class,
-        defaultForType = Location.class
-)
-
-
-public class Post {
-=======
         name = "location",
         typeClass = JsonType.class)
 @TypeDef(
         name = "utilities",
         typeClass = JsonType.class)
 public class Post extends BaseEntity {
->>>>>>> main
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
