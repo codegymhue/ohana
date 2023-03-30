@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
 
 
     @Transactional(readOnly = true)
-    User findById(Long id) {
+    public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("category.exception.notFound"));
     }
