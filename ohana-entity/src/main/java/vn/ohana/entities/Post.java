@@ -23,6 +23,8 @@ import java.util.List;
         typeClass = JsonType.class,
         defaultForType = Location.class
 )
+
+
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
