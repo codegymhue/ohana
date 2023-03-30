@@ -6,20 +6,30 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.entities.User;
 import vn.ohana.user.UserService;
+import vn.ohana.user.dto.UserResult;
 import vn.ohana.user.dto.UserUpdateParam;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/user")
+@RequestMapping("/api/users")
+@CrossOrigin("*")
 public class UserAPI {
     @Autowired
     UserService userService;
 
+    @GetMapping
+    public ResponseEntity<?> getAllUsers (){
+
+
+        return new ResponseEntity<>(userService.getAll(),HttpStatus.OK);
+    }
+
+
     @PatchMapping("/{id}")
-    public ResponseEntity<?> doUpdate(@PathVariable Long id,@RequestBody UserUpdateParam creationParam) {
+    public ResponseEntity<?> doUpdate(@PathVariable Long id,@RequestBody UserUpdateParam updateParam) {
 
-
-        return null;
+        return new ResponseEntity<>(userService.update(updateParam),HttpStatus.OK);
     }
 }
