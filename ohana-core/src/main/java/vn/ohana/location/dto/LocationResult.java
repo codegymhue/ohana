@@ -1,20 +1,25 @@
 package vn.ohana.location.dto;
 
-import lombok.AllArgsConstructor;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class LocationResult {
-    private Long provinceId;
-    private String provinceName;
-    private Long districtId;
-    private String districtName;
     private Long wardId;
     private String wardName;
+    private String wardUnsignedName;
+
+    private Long districtId;
+    private String districtName;
+    private String districtUnsignedName;
+
+    private Long provinceId;
+    private String provinceName;
+    private String provinceUnsignedName;
+
     private String line1;
+    private String line1Unsigned;
 }

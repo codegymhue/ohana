@@ -18,6 +18,8 @@ public class UserAPI {
 
     @PatchMapping("/{id}")
     public ResponseEntity<?> doUpdate(@PathVariable Long id,@RequestBody UserUpdateParam creationParam) {
+
+
         return null;
     }
 }

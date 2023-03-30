@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vn.ohana.category.dto.CategoryResult;
 import vn.ohana.entities.Category;
 import vn.ohana.entities.StatusPost;
 import vn.ohana.location.dto.LocationResult;
@@ -28,7 +29,7 @@ public class PostResult {
     private LocationResult location;
     private PostMediaResult thumbnailUrl;
     private List<PostMediaResult> imageUrls;
-    private Category category;
+    private CategoryResult category;
     private List<UtilityResult> utilities;
     private StatusPost status;
 }
