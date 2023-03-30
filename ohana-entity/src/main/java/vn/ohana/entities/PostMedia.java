@@ -39,7 +39,7 @@ public class PostMedia {
     private Long ts = new Date().getTime();
 
     @ManyToOne
-    @JoinColumn(name = "post_id")
+    @JoinColumn(name = "post_id",foreignKey = @ForeignKey(name = "fk_media_post"))
     private Post post;
 
 }

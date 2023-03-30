@@ -16,5 +16,5 @@ public class LocationResult {
     private String districtName;
     private Long wardId;
     private String wardName;
-    private String locationDetail;
+    private String line1;
 }

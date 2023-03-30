@@ -1,8 +1,8 @@
 package vn.ohana.category;
 
 import vn.ohana.category.dto.CategoryResult;
-import vn.ohana.category.dto.CreateCategoryParam;
-import vn.ohana.category.dto.UpdateCategoryParam;
+import vn.ohana.category.dto.CategoryCreationParam;
+import vn.ohana.category.dto.CategoryUpdateParam;
 
 import java.util.List;
 
@@ -11,9 +11,9 @@ public interface CategoryService {
 
     CategoryResult getById(Long id);
 
-    CategoryResult create(CreateCategoryParam param);
+    CategoryResult create(CategoryCreationParam param);
 
-    CategoryResult update(UpdateCategoryParam param);
+    CategoryResult update(CategoryUpdateParam param);
 
     void deleteById(Long id);
 }

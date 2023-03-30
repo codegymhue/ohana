@@ -1,6 +1,9 @@
 package vn.ohana.entities;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -12,7 +15,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -21,10 +24,10 @@ public class User {
     @Column(name = "full_name", nullable = false, length = 50)
     private String fullName;
 
-    @Column(name = "email",unique = true, length = 50)
+    @Column(name = "email", unique = true, length = 50)
     private String email;
 
-    @Column(name = "phone",unique = true, length = 11)
+    @Column(name = "phone", unique = true, length = 11)
     private String phone;
 
     @Column(name = "description")
@@ -38,9 +41,6 @@ public class User {
 
     @Column(name = "password", nullable = false, length = 25)
     private String password;
-
-    @Column(name = "registered_at")
-    private Instant registeredAt;
 
     @Column(name = "last_login")
     private Instant lastLogin;

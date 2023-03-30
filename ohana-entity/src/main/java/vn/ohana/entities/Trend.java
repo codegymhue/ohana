@@ -23,7 +23,7 @@ public class Trend {
     private String name;
 
     @OneToOne
-    @JoinColumn(name = "province_id")
+    @JoinColumn(name = "province_id",foreignKey = @ForeignKey(name = "fk_trend_province"))
     private Province province;
 
     @Column(name = "number_of_searches")

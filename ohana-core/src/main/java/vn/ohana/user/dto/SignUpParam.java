@@ -14,12 +14,5 @@ public class SignUpParam {
 
     private String password;
 
-    @Override
-    public String toString() {
-        return "SignUpParam{" +
-                "fullName='" + fullName + '\'' +
-                ", phoneOrEmail='" + phoneOrEmail + '\'' +
-                ", password='" + password + '\'' +
-                '}';
-    }
+
 }

@@ -1,4 +1,4 @@
-package vn.ohana.renthouse.dto;
+package vn.ohana.post.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vn.ohana.location.dto.LocationParam;
-import vn.ohana.renthouse.dto.RentHouseParam;
 
 import java.util.List;
 

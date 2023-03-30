@@ -8,10 +8,10 @@ import lombok.experimental.Accessors;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Getter
 @Setter
+@NoArgsConstructor
 @Accessors(chain = true)
 @Entity
 @Table(name = "categories")
