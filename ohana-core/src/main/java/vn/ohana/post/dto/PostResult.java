@@ -1,23 +1,18 @@
 package vn.ohana.post.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vn.ohana.category.dto.CategoryResult;
-import vn.ohana.entities.Category;
 import vn.ohana.entities.StatusPost;
 import vn.ohana.location.dto.LocationResult;
-import vn.ohana.utility.dto.UtilityResult;
 import vn.ohana.user.dto.UserResult;
+import vn.ohana.utility.dto.UtilityResult;
 
 import java.time.Instant;
 import java.util.List;
 
 @Setter
 @Getter
-@AllArgsConstructor
-@NoArgsConstructor
 public class PostResult {
     private Long id;
     private RentHouseResult rentHouse;

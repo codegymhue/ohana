@@ -5,22 +5,21 @@ import vn.ohana.entities.Utility;
 import vn.ohana.utility.dto.UpdateUtilityParam;
 import vn.ohana.utility.dto.UtilityResult;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 public interface UtilityService {
-    List<UtilityResult> findAllByIds(Set<Long> ids);
+    List<UtilityResult> findAllByIds(Set<Integer> ids);
 
-    Utility findById(Long id);
+    Utility findById(Integer id);
 
-    UtilityResult getById(Long id);
+    UtilityResult getById(Integer id);
 
 
     List<UtilityResult> findAllByStatus(StatusUtility status);
 
-    void deleteById(Long id);
+    void deleteById(Integer id);
 
     UtilityResult update(UpdateUtilityParam param);
+
+    List<UtilityResult> findAll();
 }

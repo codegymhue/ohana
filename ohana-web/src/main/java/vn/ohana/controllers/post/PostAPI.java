@@ -1,6 +1,7 @@
 package vn.ohana.controllers.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +16,7 @@ public class PostAPI {
     PostService postService;
 
     @GetMapping
-    public ResponseEntity<?> findAll() {
-        return new ResponseEntity<>(postService.findAll(),HttpStatus.OK);
+    public ResponseEntity<?> findAll(Pageable pageable) {
+        return new ResponseEntity<>(postService.findAll(pageable), HttpStatus.OK);
     }
 }

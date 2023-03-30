@@ -17,9 +17,9 @@ public class UtilityAPI {
     @Autowired
     UtilityService utilityService;
 
-//    @GetMapping
-//    public ResponseEntity<?> getUtilities() {
-//        List<UtilityResult> utilities = utilityService.findAll();
-//        return new ResponseEntity<>(utilities, HttpStatus.OK);
-//    }
+    @GetMapping
+    public ResponseEntity<?> findAll() {
+        List<UtilityResult> utilities = utilityService.findAll();
+        return new ResponseEntity<>(utilities, HttpStatus.OK);
+    }
 }

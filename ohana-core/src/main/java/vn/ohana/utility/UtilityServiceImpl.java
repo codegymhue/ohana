@@ -2,6 +2,7 @@ package vn.ohana.utility;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.StatusUtility;
 import vn.ohana.entities.Utility;
 import vn.ohana.utility.dto.UpdateUtilityParam;
@@ -22,19 +23,20 @@ public class UtilityServiceImpl implements UtilityService {
 
 
     @Override
-    public List<UtilityResult> findAllByIds(Set<Long> ids) {
+    @Transactional(readOnly = true)
+    public List<UtilityResult> findAllByIds(Set<Integer> ids) {
         List<Utility> utilities = utilityRepository.findAllByIdIn(ids);
         return utilityMapper.toDTOList(utilities);
     }
 
     @Override
-    public Utility findById(Long id) {
+    public Utility findById(Integer id) {
         return utilityRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("utility.exception.notFound"));
     }
 
     @Override
-    public UtilityResult getById(Long id) {
+    public UtilityResult getById(Integer id) {
         return utilityMapper.toDTO(findById(id));
     }
 
@@ -47,12 +49,17 @@ public class UtilityServiceImpl implements UtilityService {
 
 
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
 
     }
 
     @Override
     public UtilityResult update(UpdateUtilityParam param) {
+        return null;
+    }
+
+    @Override
+    public List<UtilityResult> findAll() {
         return null;
     }
 }

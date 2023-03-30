@@ -1,13 +1,13 @@
 package vn.ohana.post;
 
-import vn.ohana.entities.Post;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.post.dto.PostResult;
-
-import java.util.List;
 
 
 public interface PostService {
 
 
-
+    Page<PostResult> findAll(Pageable pageable);
 }
