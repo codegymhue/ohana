@@ -24,22 +24,8 @@ public class CategoryServiceImpl implements CategoryService {
     public List<CategoryResult> findAll() {
         List<Category> entities = categoryRepository.findAll();
         return categoryMapper.toDTOList(entities);
-//
-//        List<CategoryResult> dtoList = new ArrayList<>();
-//
-//        for (Category category : entities) {
-//            CategoryResult dto = categoryMapper.toDTO(category);
-//////            dtoList.add(dto);
-//        }
-//       return dtoList;
-//      return   entities
-//              .stream()
-//              .map( categoryMapper::toDTO)
-//              .collect(Collectors.toList());
-
 
     }
-
     @Transactional(readOnly = true)
     public Category findById(Long id) {
         return categoryRepository.findById(id)
