@@ -73,7 +73,7 @@ public class Post extends BaseEntity {
 
     @Type(type = "utilities")
     @Column(name = "utilities", nullable = false, columnDefinition = "JSON")
-    private Set<Long> utilities;
+    private Set<Integer> utilities;
 
     @Column(name = "status", nullable = false)
     private StatusPost status;

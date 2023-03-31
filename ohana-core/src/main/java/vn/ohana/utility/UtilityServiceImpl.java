@@ -2,39 +2,42 @@ package vn.ohana.utility;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.StatusUtility;
 import vn.ohana.entities.Utility;
 import vn.ohana.utility.dto.UpdateUtilityParam;
 import vn.ohana.utility.dto.UtilityResult;
+import vn.rananu.shared.exceptions.NotFoundException;
 
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import java.util.Set;
 
 @Service
 public class UtilityServiceImpl implements UtilityService {
 
     @Autowired
-    UtilityRepository utilityRepository;
+    private UtilityRepository utilityRepository;
 
     @Autowired
-    UtilityMapper utilityMapper;
+    private UtilityMapper utilityMapper;
+
 
     @Override
-    public List<UtilityResult> findAll() {
-        List<Utility> utilities = utilityRepository.findAll();
-        return utilities.
-                stream()
-                .sorted(Comparator.comparingInt(Utility::getPriority))
-                .map(u -> utilityMapper.toDTO(u))
-                .collect(Collectors.toList());
+    @Transactional(readOnly = true)
+    public List<UtilityResult> findAllByIds(Set<Integer> ids) {
+        List<Utility> utilities = utilityRepository.findAllByIdIn(ids);
+        return utilityMapper.toDTOList(utilities);
     }
 
     @Override
-    public Optional<UtilityResult> findById(Long id) {
-        Optional<Utility> optionalUtility = utilityRepository.findById(id);
-        return optionalUtility.map(utilities -> Optional.of(utilityMapper.toDTO(utilities))).orElse(null);
+    public Utility findById(Integer id) {
+        return utilityRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("utility.exception.notFound"));
+    }
+
+    @Override
+    public UtilityResult getById(Integer id) {
+        return utilityMapper.toDTO(findById(id));
     }
 
 
@@ -45,14 +48,18 @@ public class UtilityServiceImpl implements UtilityService {
     }
 
 
-
     @Override
-    public void deleteById(Long id) {
+    public void deleteById(Integer id) {
 
     }
 
     @Override
     public UtilityResult update(UpdateUtilityParam param) {
+        return null;
+    }
+
+    @Override
+    public List<UtilityResult> findAll() {
         return null;
     }
 }

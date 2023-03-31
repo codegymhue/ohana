@@ -6,10 +6,11 @@ import vn.ohana.entities.StatusUtility;
 import vn.ohana.entities.Utility;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
-public interface UtilityRepository extends JpaRepository<Utility, Long> {
-    List<Utility> findAllByIdIn(Iterable<Long> ids);
+public interface UtilityRepository extends JpaRepository<Utility, Integer> {
+    List<Utility> findAllByIdIn(Set<Integer> ids);
 
     List<Utility> findAllByStatus(StatusUtility status);
 
