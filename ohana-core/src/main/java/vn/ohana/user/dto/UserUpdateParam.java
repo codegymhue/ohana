@@ -8,7 +8,8 @@ import vn.ohana.entities.UserStatus;
 
 import java.time.Instant;
 
-@Data
+@Setter
+@Getter
 public class UserUpdateParam extends BaseUser {
     private Long id;
 
