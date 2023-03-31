@@ -16,5 +16,7 @@ import java.util.Optional;
 @Component
 public class UserMapper extends BaseMapper<UserResult, User, BaseUser> {
 
-
+    public void transferFieldsSkipNull(BaseUser updateParam, User category) {
+        modelMapper.map(updateParam,category);
+    }
 }
