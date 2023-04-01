@@ -29,12 +29,12 @@ public interface UserFilterRepository extends JpaRepository<User,Long>, JpaSpeci
             }
 
             if (filter.getRole()!=null) {
-                Predicate rolePredicare = criteriaBuilder.equal(root.get("role"), filter.getRole());
-                predicateList.add(rolePredicare);
+                Predicate rolePredicate = criteriaBuilder.equal(root.get("role"), filter.getRole());
+                predicateList.add(rolePredicate);
             }
 
-            if (filter.getStatusList()!=null && !filter.getStatusList().isEmpty()) {
-                Predicate statusListPredicate = criteriaBuilder.or(root.get("status").in(filter.getStatusList()));
+            if (filter.getStatus()!=null) {
+                Predicate statusListPredicate = criteriaBuilder.equal(root.get("status"),filter.getStatus());
                 predicateList.add(statusListPredicate);
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));

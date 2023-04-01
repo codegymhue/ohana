@@ -28,7 +28,5 @@ public class UserUpdateParam extends BaseUser {
 
     private Instant lastLogin;
 
-    private String thumbnailId;
-
     private UserStatus status;
 }

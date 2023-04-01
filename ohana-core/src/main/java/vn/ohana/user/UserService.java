@@ -18,4 +18,8 @@ public interface UserService {
     UserResult update(UserUpdateParam updateParam);
 
     Page<UserResult> filter(UserFilterParam filter, Pageable pageable);
+
+    void deactivateAllByIds(Long[] ids);
+
+    void activateAllByIds(Long[] ids);
 }

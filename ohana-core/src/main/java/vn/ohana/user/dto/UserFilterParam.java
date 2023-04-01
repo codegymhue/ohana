@@ -5,9 +5,6 @@ import lombok.Setter;
 import vn.ohana.entities.Role;
 import vn.ohana.entities.UserStatus;
 
-import java.time.Instant;
-import java.util.List;
-
 @Getter
 @Setter
 public class UserFilterParam {
@@ -17,5 +14,5 @@ public class UserFilterParam {
 
     private Role role;
 
-    private List<UserStatus> statusList;
+    private UserStatus status;
 }

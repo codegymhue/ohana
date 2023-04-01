@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.User;
+import vn.ohana.entities.UserStatus;
 import vn.ohana.post.PostMediaService;
 import vn.ohana.user.dto.UserFilterParam;
 import vn.ohana.user.dto.UserResult;
@@ -41,31 +42,43 @@ public class UserServiceImpl implements UserService {
 
     public Page<UserResult> getAll(Pageable pageable) {
         Page<User> page = findAll(pageable);
-        return page.map(entity->userMapper.toDTO(entity));
+        return toDtoPage(page);
     }
     @Override
     @Transactional
     public UserResult update(UserUpdateParam updateParam) {
-        try {
-            User user  = findById(updateParam.getId());
-            userMapper.transferFieldsSkipNull(updateParam,user);
-            return userMapper.toDTO(user);
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            return null;
-        }
+        User user = findById(updateParam.getId());
+        userMapper.transferFieldsSkipNull(updateParam, user);
+        return userMapper.toDTO(user);
     }
 
     @Override
     public Page<UserResult> filter(UserFilterParam filter, Pageable pageable) {
-        Page<User> page = userFilterRepository.findAllByFilters(filter,pageable);
+        Page<User> page = userFilterRepository.findAllByFilters(filter, pageable);
         return toDtoPage(page);
     }
 
-    private Page<UserResult> toDtoPage(Page<User> page) {
-
-        return  page.map(entity -> userMapper.toDTO(entity));
+    @Override
+    @Transactional
+    public void deactivateAllByIds(Long[] ids) {
+        for (Long id : ids) {
+            userRepository.findById(id)
+                    .map(user -> user.setStatus(UserStatus.NOT_ACTIVATED))
+                    .orElseThrow(() -> new NotFoundException("user.notFound"));
+        }
     }
 
+    @Override
+    @Transactional
+    public void activateAllByIds(Long[] ids) {
+        for (Long id : ids) {
+            userRepository.findById(id)
+                    .map(user -> user.setStatus(UserStatus.ACTIVATED))
+                    .orElseThrow(() -> new NotFoundException("user.notFound"));
+        }
+    }
+
+    private Page<UserResult> toDtoPage(Page<User> page) {
+        return page.map(entity -> userMapper.toDTO(entity));
+    }
 }
