@@ -1,5 +1,5 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
-<div th:block th:fragment="header (userLogin)">
+<div >
     <div class="_1akvT">
         <div class="_3bjUj">
             <div class="_3Ob4b">
@@ -39,16 +39,13 @@
                          </a>
                     </span>
 
-                    <th:block th:unless="${userLogin}!=null">
                         <span  class="_1vH0j">
                           <a href="/sign-in">
                                     <i class="far fa-user" style="color: rgb(255, 255, 255); font-size: 21px;"></i>
                                     <span class="_3Uk1Q _1UWQe">Đăng nhập</span>
                           </a>
                     </span>
-                    </th:block>
                 </ul>
-                <th:block th:if="${userLogin}!=null">
                     <!--                        <span class="_1vH0j">-->
                     <!--                          <a>-->
                     <!--                                    <span class="_3Uk1Q _1UWQe" th:text="${userLogin.fullName}"></span>-->
@@ -75,16 +72,14 @@
 <!--                                       th:src="${userLogin.thumbnailUrl}"-->
 <!--                                       alt="Image Description">-->
 <!--                             </th:block>-->
-                            <th:block th:unless="${userLogin.thumbnailUrl}!=null">
                                   <img style="
                                 width: 30px;
                                 height: 30px;"
                                        class="rounded-circle"
                                        src="/resources/image/22-223863_no-avatar-png-circle-transparent-png.png"
                                        alt="Image Description">
-                             </th:block>
 
-                        <span style="color:white" th:text="${userLogin.fullName}"></span>
+                        <span style="color:white" ></span>
                             </a>
 
                     <ul class="dropdown-menu">
@@ -96,8 +91,6 @@
                         <li><a class="dropdown-item" href="/sign-out">Đăng xuất</a></li>
                     </ul>
                     </span>
-                </th:block>
-
                 </ul>
             </div>
         </div>
