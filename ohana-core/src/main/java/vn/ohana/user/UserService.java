@@ -22,4 +22,6 @@ public interface UserService {
     void deactivateAllByIds(Long[] ids);
 
     void activateAllByIds(Long[] ids);
+
+    UserResult getById(Long id);
 }

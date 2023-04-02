@@ -78,6 +78,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public UserResult getById(Long id) {
+        return userMapper.toDTO(findById(id));
+    }
+
     private Page<UserResult> toDtoPage(Page<User> page) {
         return page.map(entity -> userMapper.toDTO(entity));
     }

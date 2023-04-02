@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.filter.dto.FilterParam;
 import vn.ohana.user.UserService;
+import vn.ohana.user.dto.SignUpParam;
 import vn.ohana.user.dto.UserFilterParam;
 import vn.ohana.user.dto.UserUpdateParam;
 
@@ -24,9 +25,15 @@ public class UserAPI {
         return new ResponseEntity<>(userService.getAll(PageRequest.of(page,size)),HttpStatus.OK);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> findById(@PathVariable Long id) {
+        return new ResponseEntity<>(userService.getById(id),HttpStatus.OK);
+    }
+
     @PostMapping("/filter")
     public ResponseEntity<?> filter(@RequestBody UserFilterParam filter, @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
-        return new ResponseEntity<>(userService.filter(filter, PageRequest.of(page,size)), HttpStatus.OK);
+
+        return new ResponseEntity<>(userService.filter(filter, PageRequest.of(page, size)), HttpStatus.OK);
     }
 
 
@@ -44,6 +51,12 @@ public class UserAPI {
     @PatchMapping("/activate")
     public ResponseEntity<?> activateAll(@RequestBody Long[] ids) {
         userService.activateAllByIds(ids);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/sign-up")
+    public ResponseEntity<?> signUp(SignUpParam signUpParam) {
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

@@ -18,7 +18,7 @@ public interface UserFilterRepository extends JpaRepository<User,Long>, JpaSpeci
         return  findAll((root,criteriaQuery,criteriaBuilder)->{
             List<Predicate> predicateList = new ArrayList<>();
 
-            if (filter.getKeyword()!=null) {
+            if (filter.getKeyword()!=null || !filter.getKeyword().trim().equals("")) {
                 Predicate fullNamePredicate = criteriaBuilder.like(root.get("fullName"),"%" + filter.getKeyword() + "%");
                 Predicate emailPredicate = criteriaBuilder.like(root.get("email"),"%" + filter.getKeyword() + "%");
                 Predicate addressPredicate = criteriaBuilder.like(root.get("address"),"%" + filter.getKeyword() + "%");
