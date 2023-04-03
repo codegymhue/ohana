@@ -40,7 +40,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     private void validationByTitle(String title) {
         if (categoryRepository.existsByTitle(title)) {
-            throw new ValidationException("title", "customer_group.validation.title.existed");
+            throw new ValidationException("title", "category.validation.title.existed");
         }
     }
 

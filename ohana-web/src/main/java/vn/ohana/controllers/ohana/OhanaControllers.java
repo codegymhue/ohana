@@ -18,9 +18,15 @@ public class OhanaControllers {
     @Autowired
     UserService userService;
 
-    @GetMapping("/search")
+    @GetMapping("/")
     public ModelAndView home() {
-        ModelAndView modelAndView = new ModelAndView("/ohana/search-bar");
+        ModelAndView modelAndView = new ModelAndView("/ohana/index");
+        return modelAndView;
+    }
+
+    @GetMapping("/search")
+    public ModelAndView search() {
+        ModelAndView modelAndView = new ModelAndView("/ohana/view-all");
         return modelAndView;
     }
 }

@@ -28,7 +28,7 @@
     <div class="app">
         <div class="_3bjUj">
             <!--header-->
-            <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
+            <th:block th:replace="/ohana/layout/header :: header"/>
             <div class="QZg_h _18fKS">
                 <div class="_3oMi4">
                     <div class="_3OgY1"><a href="/"><img
@@ -107,9 +107,7 @@
                             <div class="wzw4X"><span class="_2dNxP">Tiện ích</span><span
                                     class="icon-a-down _11wO8 _2enHb" id="btnUtility"
                                     style="color: rgb(51, 51, 51); font-size: 20px;"></span></div>
-                            <div class="_1ZENx _1-FEc _1Zx6Q" id="utilities">
-
-                            </div>
+                            <div class="_1ZENx _1-FEc _1Zx6Q" id="utilities"></div>
                         </div>
                         <div class="q49VD">
                             <div class="wzw4X"><span class="_2dNxP">Loại phòng</span><span
@@ -136,8 +134,8 @@
                 <div class="TJKfZ _3Nvxb">
                     <th:block th:if="${trend}!=null">
                         <div>
-                                            <span style="color: rgb(102, 102, 102);"><a href="/view-all"
-                                                                                        style="color: rgb(72, 119, 248);">Huế</a>
+                                     <span style="color: rgb(102, 102, 102);"><a href="/view-all"
+                                                                                 style="color: rgb(72, 119, 248);">Huế</a>
                                                  <span class="icon-a-right"
                                                        style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
                                                 </span>
@@ -151,12 +149,12 @@
                     </th:block>
                     <th:block th:if="${provinceName}!=null">
                         <div>
-                                            <span style="color: rgb(102, 102, 102);"><a href="/view-all"
-                                                                                        style="color: rgb(72, 119, 248);">Huế</a>
-                                                <!--                                                 <span class="icon-a-right"-->
-                                                <!--                                                       style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">-->
-                                                <!--                                                </span>-->
-                                                <!--                                                <span style="color: rgb(102, 102, 102);">Thành phố Huế</span>-->
+                              <span style="color: rgb(102, 102, 102);"><a href="/view-all"
+                                                                          style="color: rgb(72, 119, 248);">Huế</a>
+                                  <!--                                                 <span class="icon-a-right"-->
+                                  <!--                                                       style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">-->
+                                  <!--                                                </span>-->
+                                  <!--                                                <span style="color: rgb(102, 102, 102);">Thành phố Huế</span>-->
                                                 <span class="icon-a-right"
                                                       style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
                                                 </span>
@@ -167,45 +165,41 @@
                     <div class="_1Tf_Z"><span class="_3gUBz"><span class="_2TvH9">Phòng mới nhất</span></span></div>
                     <!--                    <div class="_1WjTi" id="postFilters">-->
                     <div class="_1WjTi" id="pagination-demo1">
-                        <!--                        <th:block th:each="item : ${posts}">-->
-                        <!--                            <div class="nctjX"><a target="_blank" th:href="@{/room/__${item.id}__}">-->
-                        <!--                                <div class="X8svI _2DJkz">-->
-                        <!--                                    <div class="pcGxo">-->
-                        <!--                                        <div class="_1Gm0b"><img-->
-                        <!--                                                src="/resources/ohana/img/20c8373d39e30d04cde885686abc2987.png"-->
-                        <!--                                                alt="verified-img" class="_1TPDO"></div>-->
-                        <!--                                        <img th:src="${item.thumbnailUrl.fileUrl}"-->
-                        <!--                                             alt="room-img"-->
-                        <!--                                             class="_1IOeB">-->
-                        <!--                                    </div>-->
-                        <!--                                    <div class="_228LH">-->
-                        <!--                                        <p class="_3xXyQ" th:text="${item.title}"></p>-->
-                        <!--                                        <div class="_27rcQ">-->
-                        <!--                                            <div class="_3piN7">-->
-                        <!--                                                <div class="wpwoK"><span class="icon-nav-home"-->
-                        <!--                                                                         style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span-->
-                        <!--                                                        th:text="${item.category.name}"></span></div>-->
-                        <!--                                                <div class="_3TYbx"><span><span class="icon-nav-roomate"-->
-                        <!--                                                                                style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"-->
-                        <!--                                                                                th:text="${item.rentHouse.gender.name}"></span></span><span><span-->
-                        <!--                                                        class="icon-squaremeter"-->
-                        <!--                                                        style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"-->
-                        <!--                                                        th:text="${item.rentHouse.area}"></span>m<sup>2</sup></span>-->
-                        <!--                                                </div>-->
-                        <!--                                                <div class="_1jHdY"><span class="icon-location"-->
-                        <!--                                                                          style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span-->
-                        <!--                                                        class="uKi2L"-->
-                        <!--                                                        th:text="${item.location.locationDetail} + ', ' + ${item.location.wardName} + ', ' + ${item.location.districtName} + ', ' + ${item.location.provinceName}"></span>-->
-                        <!--                                                </div>-->
-                        <!--                                            </div>-->
-                        <!--                                            <div class="_1ezn1"><span class="_36r7N"-->
-                        <!--                                                                      th:text="${item.rentHouse.price}/1000000"></span><span-->
-                        <!--                                                    class="_11LqE">tr/phòng</span></div>-->
-                        <!--                                        </div>-->
-                        <!--                                    </div>-->
-                        <!--                                </div>-->
-                        <!--                            </a></div>-->
-                        <!--                        </th:block>-->
+                        <div class="nctjX"><a target="_blank">
+                            <div class="X8svI _2DJkz">
+                                <div class="pcGxo">
+                                    <div class="_1Gm0b"><img
+                                            src="https://bayleaf.s3.amazonaws.com/property-images%2F1582523248083_2020-02-22+04.54.44+2.jpg"
+                                            alt="verified-img" class="_1TPDO"></div>
+                                    <img src="https://bayleaf.s3.amazonaws.com/property-images%2F1582523248083_2020-02-22+04.54.44+2.jpg"
+                                         alt="room-img"
+                                         class="_1IOeB">
+                                </div>
+                                <div class="_228LH">
+                                    <p class="_3xXyQ">Phòng cho thuê Nguyễn văn Nguyễn, Quận 1</p>
+                                    <div class="_27rcQ">
+                                        <div class="_3piN7">
+                                            <div class="wpwoK"><span class="icon-nav-home"
+                                                                     style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span>Phòng
+                                                cho thuê<span></span></div>
+                                            <div class="_3TYbx"><span><span class="icon-nav-roomate"
+                                                                            style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"
+                                            >Nam và nữ</span></span><span><span
+                                                    class="icon-squaremeter"
+                                                    style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"
+                                            >40</span>m<sup>2</sup></span>
+                                            </div>
+                                            <div class="_1jHdY"><span class="icon-location"
+                                                                      style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span
+                                                    class="uKi2L">7 Nguyễn văn Nguyễn, Phường Tân Định, Quận 1, Hồ Chí Minh</span>
+                                            </div>
+                                        </div>
+                                        <div class="_1ezn1"><span class="_36r7N">4</span><span
+                                                class="_11LqE">tr/phòng</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a></div>
 
                         <div class="_1RkT-">
                             <section>
@@ -222,10 +216,12 @@
                 </div>
             </div>
         </div>
-        <!--footer-->
-        <th:block th:replace="/ohana/layout/footer :: footer"/>
-        <th:block th:replace="/ohana/layout/script :: script"/>
     </div>
+</div>
+<!--footer-->
+<th:block th:replace="/ohana/layout/footer :: footer"/>
+<th:block th:replace="/ohana/layout/script :: script"/>
+</div>
 </div>
 <script src="/resources/paginationjs-master/paginationjs-master/src/pagination.js"></script>
 <script th:inline="javascript">

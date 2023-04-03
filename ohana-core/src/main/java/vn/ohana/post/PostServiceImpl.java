@@ -6,9 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.Post;
+import vn.ohana.entities.StatusPost;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
+import vn.rananu.shared.exceptions.NotFoundException;
 
 import java.util.List;
 import java.util.Set;
@@ -23,8 +25,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
-    @Autowired
-    private CPostRepository cpostRepository;
+
     @Autowired
     private UtilityService utilityService;
 
@@ -51,6 +52,25 @@ public class PostServiceImpl implements PostService {
             dto.setUtilities(newUtilities);
             return dto;
         });
+    }
+
+
+    @Override
+    @Transactional
+    public void approve(Long id) {
+        Post post = findById(id);
+        post.setStatus(StatusPost.PUBLISHED);
+    }
+
+    @Override
+    @Transactional
+    public void unApprove(Long id) {
+        Post post = findById(id);
+        post.setStatus(StatusPost.REFUSED);
+    }
+
+    public Post findById(Long id) {
+        return postRepository.findById(id).orElseThrow(() -> new NotFoundException("post.exception.notFound"));
     }
 
 
