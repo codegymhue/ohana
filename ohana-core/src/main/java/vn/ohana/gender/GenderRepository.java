@@ -7,4 +7,5 @@ import vn.ohana.entities.Gender;
 @Repository
 public interface GenderRepository extends JpaRepository<Gender,Long> {
 
+
 }

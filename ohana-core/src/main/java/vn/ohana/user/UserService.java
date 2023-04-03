@@ -8,13 +8,14 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.UserStatus;
 import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.user.dto.*;
+import vn.rananu.shared.mappers.BaseMapper;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 
-public interface UserService {
+public interface UserService  {
     Page<UserResult> getAll(Pageable pageable);
 
     UserResult update(UserUpdateParam updateParam);
@@ -29,4 +30,14 @@ public interface UserService {
     void modifyStatusById(Long id, String statusRaw);
 
     UserResult getById(Long id);
+
+    LoginResult saveGoogleEmail(GooglePojo googlePojo);
+
+    UserResult signUp(SignUpParam signUpParam);
+
+    boolean existsByPhoneOrEmail(String phoneOrEmail);
+
+    LoginResult findByEmail(String email);
+
+
 }
