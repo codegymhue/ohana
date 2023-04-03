@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.post.PostService;
 
+import java.util.Set;
+
 @RestController
 @RequestMapping("api/posts")
 public class PostAPI {
@@ -18,15 +20,9 @@ public class PostAPI {
         return new ResponseEntity<>(postService.findAll(pageable), HttpStatus.OK);
     }
 
-    @PostMapping("/{id}/approve")
-    public ResponseEntity<?> approve(@PathVariable Long id) {
-        postService.approve(id);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-    @PostMapping({"/{id}/unapproved"})
-    public ResponseEntity<?> unApprove(@PathVariable Long id) {
-        postService.unApprove(id);
+    @PatchMapping ("/approveAll")
+    public ResponseEntity<?> approveAll(@RequestBody Set<Long> ids) {
+        postService.modifyStatusByIds(ids, "PUBLISHED");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

@@ -8,13 +8,13 @@ import vn.ohana.entities.StatusPost;
 import vn.ohana.post.dto.PostResult;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public interface PostService {
 
     Page<PostResult> findAll(Pageable pageable);
 
-    void approve(Long id);
-
-    void unApprove(Long id);
+    Map<Long, String> modifyStatusByIds(Set<Long> ids, String published);
 }
