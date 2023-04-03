@@ -10,6 +10,8 @@ import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.user.dto.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 
 public interface UserService {
@@ -19,9 +21,12 @@ public interface UserService {
 
     Page<UserResult> filter(UserFilterParam filter, Pageable pageable);
 
-    void deactivateAllByIds(Long[] ids);
+//   void deactivateAllByIds(Long[] ids);
 
-    void activateAllByIds(Long[] ids);
+    Map<Long, String> modifyStatusByIds(Set<Long> ids, String status);
+
+    @Transactional
+    void modifyStatusById(Long id, String statusRaw);
 
     UserResult getById(Long id);
 }

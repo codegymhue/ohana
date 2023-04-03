@@ -14,6 +14,13 @@ import vn.ohana.user.dto.UserResult;
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.rananu.shared.exceptions.NotFoundException;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -29,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     PostMediaService postMediaService;
 
-    public Page<User> findAll(Pageable pageable){
+    public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
     }
 
@@ -42,40 +49,56 @@ public class UserServiceImpl implements UserService {
 
     public Page<UserResult> getAll(Pageable pageable) {
         Page<User> page = findAll(pageable);
-        return toDtoPage(page);
+        return userMapper.toDtoPage(page);
     }
+
     @Override
     @Transactional
     public UserResult update(UserUpdateParam updateParam) {
         User user = findById(updateParam.getId());
-        userMapper.transferFieldsSkipNull(updateParam, user);
+        userMapper.transferFields(updateParam, user);
         return userMapper.toDTO(user);
     }
 
     @Override
     public Page<UserResult> filter(UserFilterParam filter, Pageable pageable) {
         Page<User> page = userFilterRepository.findAllByFilters(filter, pageable);
-        return toDtoPage(page);
+        return userMapper.toDtoPage(page);
+    }
+
+    //    @Override
+//    @Transactional
+//    public void deactivateAllByIds(Set[] ids) {
+//        for (Long id : ids) {
+//            userRepository.findById(id)
+//                    .map(user -> user.setStatus(UserStatus.NOT_ACTIVATED))
+//                    .orElseThrow(() -> new NotFoundException("user.notFound"));
+//        }
+//    }
+    @Override
+    @Transactional
+    public Map<Long, String> modifyStatusByIds(Set<Long> ids, String statusRaw) {
+        UserStatus status = UserStatus.parseUserStatus(statusRaw);
+        Map<Long, String> result = new HashMap<>();
+        Iterable<User> entities = userRepository.findAllById(ids);
+        entities.forEach(entity -> {
+            entity.setStatus(status);
+            result.put(entity.getId(), "successful");
+        });
+
+        List<Long> entityIds = StreamSupport.stream(entities.spliterator(), false).map(User::getId).collect(Collectors.toList());
+        ids.forEach(id -> {
+            if (!entityIds.contains(id))
+                result.put(id, "failed");
+        });
+        return result;
     }
 
     @Override
     @Transactional
-    public void deactivateAllByIds(Long[] ids) {
-        for (Long id : ids) {
-            userRepository.findById(id)
-                    .map(user -> user.setStatus(UserStatus.NOT_ACTIVATED))
-                    .orElseThrow(() -> new NotFoundException("user.notFound"));
-        }
-    }
-
-    @Override
-    @Transactional
-    public void activateAllByIds(Long[] ids) {
-        for (Long id : ids) {
-            userRepository.findById(id)
-                    .map(user -> user.setStatus(UserStatus.ACTIVATED))
-                    .orElseThrow(() -> new NotFoundException("user.notFound"));
-        }
+    public void modifyStatusById(Long id, String statusRaw) {
+        UserStatus status = UserStatus.parseUserStatus(statusRaw);
+        findById(id).setStatus(status);
     }
 
     @Override
@@ -83,7 +106,5 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDTO(findById(id));
     }
 
-    private Page<UserResult> toDtoPage(Page<User> page) {
-        return page.map(entity -> userMapper.toDTO(entity));
-    }
+
 }

@@ -12,6 +12,8 @@ import vn.ohana.user.dto.SignUpParam;
 import vn.ohana.user.dto.UserFilterParam;
 import vn.ohana.user.dto.UserUpdateParam;
 
+import java.util.Set;
+
 
 @RestController
 @RequestMapping("/api/users")
@@ -21,13 +23,13 @@ public class UserAPI {
     UserService userService;
 
     @GetMapping
-    public ResponseEntity<?> getAllUsers (@RequestParam(name = "page") int  page, @RequestParam(name = "size") int size){
-        return new ResponseEntity<>(userService.getAll(PageRequest.of(page,size)),HttpStatus.OK);
+    public ResponseEntity<?> getAllUsers(@RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
+        return new ResponseEntity<>(userService.getAll(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-        return new ResponseEntity<>(userService.getById(id),HttpStatus.OK);
+        return new ResponseEntity<>(userService.getById(id), HttpStatus.OK);
     }
 
     @PostMapping("/filter")
@@ -38,19 +40,29 @@ public class UserAPI {
 
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> doUpdate(@PathVariable Long id,@RequestBody UserUpdateParam updateParam) {
+    public ResponseEntity<?> doUpdate(@PathVariable Long id, @RequestBody UserUpdateParam updateParam) {
 
-        return new ResponseEntity<>(userService.update(updateParam),HttpStatus.OK);
+        return new ResponseEntity<>(userService.update(updateParam), HttpStatus.OK);
     }
 
     @PatchMapping("/deactivate")
-    public ResponseEntity<?> deactivateAll(@RequestBody Long[] ids) {
-        userService.deactivateAllByIds(ids);
+    public ResponseEntity<?> deactivateAll(@RequestBody Set<Long> ids) {
+//        userService.deactivateAllByIds(ids);
+        userService.modifyStatusByIds(ids, "DEACTIVATED");
+
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @PatchMapping("/activate")
-    public ResponseEntity<?> activateAll(@RequestBody Long[] ids) {
-        userService.activateAllByIds(ids);
+    public ResponseEntity<?> activateAll(@RequestBody Set<Long> ids) {
+//        userService.activateAllByIds(ids);
+        userService.modifyStatusByIds(ids, "ACTIVATED");
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("/modifyStatusByIds?status=ACTIVE")
+    public ResponseEntity<?> modifyStatusByIds(@RequestBody Set<Long> ids, String status) {
+        userService.modifyStatusByIds(ids, status);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
