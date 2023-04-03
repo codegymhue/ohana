@@ -1,12 +1,34 @@
 package vn.ohana.entities;
 
-public enum StatusPost {
-    PENDING_REVIEW,PUBLISHED,REFUSED,DRAFT,OVER_ROOM,EMPTY_ROOM
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 
-    //PENDING_REVIEW: bài viết chưa phê duyệt
-    //PUBLISHED: bài viết đã phê duyệt
-    //REFUSED: bài viết đã bị từ chối
-    //DRAFT: bài viết nháp
-    //OVER_ROOM: HẾT PHÒNG
-//EMPTY_ROOM: CÒN PHÒNG
+public enum StatusPost {
+    PENDING_REVIEW ("PENDING_REVIEW"),
+    PUBLISHED("PUBLISHED"),
+    REFUSED("REFUSED"),
+    DRAFT("DRAFT"),
+    OVER_ROOM("OVER_ROOM"),
+    EMPTY_ROOM("EMPTY_ROOM");
+
+    private final String value;
+
+    StatusPost(String value) {
+        this.value = value;
+    }
+
+    @JsonValue
+    public String getValue() {
+        return value;
+    }
+
+    @JsonCreator
+    public static StatusPost parseStatusPosts(String value) {
+        StatusPost[] values = values();
+        for (StatusPost statusPost : values) {
+            if (statusPost.value.equals(value)) return statusPost;
+        }
+        throw new IllegalArgumentException(value + "invalid");
+    }
+
 }

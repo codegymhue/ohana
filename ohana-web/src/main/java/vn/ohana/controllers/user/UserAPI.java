@@ -60,11 +60,6 @@ public class UserAPI {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("/modifyStatusByIds?status=ACTIVE")
-    public ResponseEntity<?> modifyStatusByIds(@RequestBody Set<Long> ids, String status) {
-        userService.modifyStatusByIds(ids, status);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(SignUpParam signUpParam) {

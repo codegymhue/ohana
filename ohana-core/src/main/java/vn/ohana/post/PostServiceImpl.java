@@ -7,14 +7,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
+import vn.ohana.entities.User;
+import vn.ohana.entities.UserStatus;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
 import vn.rananu.shared.exceptions.NotFoundException;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 
 @Service
@@ -56,18 +61,17 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    @Transactional
-    public void approve(Long id) {
-        Post post = findById(id);
-        post.setStatus(StatusPost.PUBLISHED);
+    public Map<Long, String> modifyStatusByIds(Set<Long> ids, String published) {
+        StatusPost statusPost = StatusPost.parseStatusPosts(published);
+        Map<Long, String> result = new HashMap<>();
+        Iterable<Post> entities = postRepository.findAllById(ids);
+        entities.forEach(entity -> {
+            entity.setStatus(statusPost);
+            result.put(entity.getId(), "successful");
+        });
+        return null;
     }
 
-    @Override
-    @Transactional
-    public void unApprove(Long id) {
-        Post post = findById(id);
-        post.setStatus(StatusPost.REFUSED);
-    }
 
     public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException("post.exception.notFound"));
