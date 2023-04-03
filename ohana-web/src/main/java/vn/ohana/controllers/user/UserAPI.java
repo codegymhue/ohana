@@ -2,11 +2,9 @@ package vn.ohana.controllers.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.ohana.filter.dto.FilterParam;
 import vn.ohana.user.UserService;
 import vn.ohana.user.dto.SignUpParam;
 import vn.ohana.user.dto.UserFilterParam;
@@ -47,24 +45,22 @@ public class UserAPI {
 
     @PatchMapping("/deactivate")
     public ResponseEntity<?> deactivateAll(@RequestBody Set<Long> ids) {
-//        userService.deactivateAllByIds(ids);
-        userService.modifyStatusByIds(ids, "DEACTIVATED");
 
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(userService.modifyStatusByIds(ids, "DEACTIVATED"), HttpStatus.OK);
     }
 
     @PatchMapping("/activate")
     public ResponseEntity<?> activateAll(@RequestBody Set<Long> ids) {
-//        userService.activateAllByIds(ids);
-        userService.modifyStatusByIds(ids, "ACTIVATED");
+
+        return new ResponseEntity<>(userService.modifyStatusByIds(ids, "ACTIVATED"), HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> modifyStatusById(@PathVariable Long id, @RequestParam(name = "status") String status) {
+        userService.modifyStatusById(id, status);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping("/modifyStatusByIds?status=ACTIVE")
-    public ResponseEntity<?> modifyStatusByIds(@RequestBody Set<Long> ids, String status) {
-        userService.modifyStatusByIds(ids, status);
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> signUp(SignUpParam signUpParam) {

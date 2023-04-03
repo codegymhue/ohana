@@ -50,6 +50,7 @@ public class User extends BaseEntity {
     private String thumbnailId;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private UserStatus status;
 
     public User(Long poster) {
