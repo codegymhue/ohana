@@ -1,4 +1,4 @@
-package vn.ohana.user.impl;
+package vn.ohana.user;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +12,8 @@ import vn.ohana.entities.User;
 import vn.ohana.entities.UserStatus;
 import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.post.PostMediaService;
-import vn.ohana.user.UserFilterRepository;
-import vn.ohana.user.UserRepository;
-import vn.ohana.user.UserService;
 import vn.ohana.user.dto.*;
 import vn.rananu.shared.exceptions.NotFoundException;
-import vn.rananu.shared.mappers.BaseMapper;
 
 @Service
 public class UserServiceImpl implements UserService {
