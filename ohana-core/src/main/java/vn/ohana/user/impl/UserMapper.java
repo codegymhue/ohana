@@ -29,5 +29,9 @@ public class UserMapper extends BaseMapper<UserResult, User, BaseUser> {
         return modelMapper.map(googlePojo,User.class);
     }
 
+    public UserResult toUserDTO(User user) {
+        return modelMapper.map(user,UserResult.class);
+    }
+
 
 }

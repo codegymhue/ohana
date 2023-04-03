@@ -28,11 +28,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserFilterRepository userFilterRepository;
 
-    @Override
-    public UserResult signUp(SignUpParam signUpParam) {
-        return null;
-    }
-
     @Autowired
     UserMapper userMapper;
     @Autowired
@@ -41,6 +36,38 @@ public class UserServiceImpl implements UserService {
 
     public Page<User> findAll(Pageable pageable){
         return userRepository.findAll(pageable);
+    }
+
+    @Override
+    public boolean existsByPhoneOrEmail(String phoneOrEmail) {
+        String phone = phoneOrEmail;
+        String email = phoneOrEmail;
+        return userRepository.existsByPhoneOrEmail(phone, email);
+    }
+
+    @Override
+    public UserResult signUp(SignUpParam signUpParam) {
+//        check email tồn tại hay chưa
+//        Lưu user
+//        set các trường mặc định
+//        chuyển DTO và trả về
+        boolean exits = existsByPhoneOrEmail(signUpParam.getPhoneOrEmail());
+        if (exits) {
+            throw new RuntimeException("tài khoản đã tồn tại");
+        } else {
+            User user = new User();
+            if (signUpParam.getPhoneOrEmail().contains("@")) {
+                user.setEmail(signUpParam.getPhoneOrEmail());
+            } else {
+                user.setPhone(signUpParam.getPhoneOrEmail());
+            }
+            user.setFullName(signUpParam.getFullName());
+            user.setPassword(signUpParam.getPassword());
+            user.setStatus(UserStatus.ACTIVATED);
+            user.setRole(Role.USER);
+            userRepository.save(user);
+            return userMapper.toUserDTO(user);
+        }
     }
 
     @Transactional(readOnly = true)
@@ -92,6 +119,15 @@ public class UserServiceImpl implements UserService {
         return page.map(entity -> userMapper.toDTO(entity));
     }
 
+
+    @Override
+    public LoginResult findByEmail(String email) {
+        User loginResult = userRepository.findByEmail(email);
+        if (loginResult != null) {
+            return userMapper.toLoginResultDTO(loginResult);
+        }
+        return null;
+    }
 
     @Override
     public LoginResult saveGoogleEmail(GooglePojo googlePojo) {

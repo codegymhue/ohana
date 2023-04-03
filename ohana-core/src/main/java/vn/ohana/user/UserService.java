@@ -27,4 +27,10 @@ public interface UserService  {
     LoginResult saveGoogleEmail(GooglePojo googlePojo);
 
     UserResult signUp(SignUpParam signUpParam);
+
+    boolean existsByPhoneOrEmail(String phoneOrEmail);
+
+    LoginResult findByEmail(String email);
+
+
 }
