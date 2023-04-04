@@ -1,14 +1,10 @@
 package vn.ohana.user;
 
-import org.apache.xmlbeans.impl.xb.xsdschema.Attribute;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import vn.ohana.entities.UserStatus;
 import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.user.dto.*;
-import vn.rananu.shared.mappers.BaseMapper;
 
 import java.util.List;
 import java.util.Map;
@@ -31,7 +27,7 @@ public interface UserService  {
 
     UserResult getById(Long id);
 
-    LoginResult saveGoogleEmail(GooglePojo googlePojo);
+    LoginResult signUpByGoogle(GooglePojo googlePojo);
 
     UserResult signUp(SignUpParam signUpParam);
 

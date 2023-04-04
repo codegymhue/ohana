@@ -38,10 +38,10 @@ public class GoogleService {
             String familyName = (String) payload.get("family_name");
             String givenName = (String) payload.get("given_name");
             GooglePojo googlePojo = new GooglePojo();
-            googlePojo.setId(userId);
+//            googlePojo.setId(userId);
             googlePojo.setEmail(email);
-            googlePojo.setName(name);
-            googlePojo.setPicture(pictureUrl);
+            googlePojo.setFullName(name);
+            googlePojo.setThumbnailId(pictureUrl);
             return googlePojo;
         } else {
             return new GooglePojo();
