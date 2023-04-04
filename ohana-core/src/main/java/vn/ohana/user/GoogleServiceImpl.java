@@ -1,4 +1,4 @@
-package vn.ohana.google;
+package vn.ohana.user.impl;
 
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
 import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
@@ -6,7 +6,6 @@ import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.gson.GsonFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import vn.ohana.google.dto.GooglePojo;
 
 import java.io.IOException;
@@ -14,7 +13,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 @Component
-public class GoogleService {
+public class GoogleServiceImpl {
     @Value("${google.app.id}")
     private String googleAppId;
 
@@ -25,9 +24,11 @@ public class GoogleService {
                 .build();
 
         GoogleIdToken idToken = verifier.verify(token);
+        System.out.println("idToken: " + idToken);
 
         if (idToken != null) {
             GoogleIdToken.Payload payload = idToken.getPayload();
+            System.out.println("payload: " + payload);
 
             String userId = payload.getSubject();
             String email = payload.getEmail();
