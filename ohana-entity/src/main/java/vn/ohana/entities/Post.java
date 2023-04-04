@@ -64,7 +64,7 @@ public class Post extends BaseEntity {
     @OneToMany(mappedBy = "post")
     private List<PostMedia> postMedia;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "fk_post_category"))
     private Category category;
 

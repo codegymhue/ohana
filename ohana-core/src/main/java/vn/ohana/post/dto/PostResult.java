@@ -25,6 +25,7 @@ public class PostResult {
     private PostMediaResult thumbnailUrl;
     private List<PostMediaResult> imageUrls;
     private CategoryResult category;
+    private String thumbnailId;
     private List<UtilityResult> utilities;
     private StatusPost status;
 }
