@@ -21,6 +21,11 @@ import java.util.stream.Collectors;
 @Service
 public class PostServiceImpl implements PostService {
 
+    @Override
+    public Map<Long, String> modifyStatusByIds(Set<Long> ids, String published) {
+        return null;
+    }
+
     @Autowired
     private PostMapper postMapper;
 
@@ -56,36 +61,6 @@ public class PostServiceImpl implements PostService {
             dto.setUtilities(newUtilities);
             return dto;
         });
-    }
-
-
-    @Override
-    public Map<Long, String> modifyStatusPostByIds(Set<Long> ids, String published) {
-        StatusPost statusPost = StatusPost.parseStatusPosts(published);
-        Map<Long, String> result = new HashMap<>();
-        Iterable<Post> entities = postRepository.findAllById(ids);
-        entities.forEach(entity -> {
-            entity.setStatus(statusPost);
-            result.put(entity.getId(), "Posts are approved successful");
-        });
-        return result;
-    }
-
-    @Override
-    public Map<Long, String> notModifyStatusPostByIds(Set<Long> ids, String refused) {
-        StatusPost statusPost = StatusPost.parseStatusPosts(refused);
-        Map<Long, String> result = new HashMap<>();
-        Iterable<Post> entities = postRepository.findAllById(ids);
-        entities.forEach(entity -> {
-            entity.setStatus(statusPost);
-            result.put(entity.getId(), "Posts are approved failed");
-        });
-        return result;
-    }
-
-    @Override
-    public void postEdit(PostUpdateParam postUpdateParam) {
-        Post entity=  findById(postUpdateParam.getId());
     }
 
 
