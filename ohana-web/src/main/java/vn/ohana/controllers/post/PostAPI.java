@@ -1,11 +1,14 @@
 package vn.ohana.controllers.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.post.PostService;
+import vn.ohana.post.dto.PostFilterParam;
+import vn.ohana.user.dto.UserFilterParam;
 
 import java.util.Set;
 
@@ -25,6 +28,12 @@ public class PostAPI {
         postService.modifyStatusByIds(ids, "PUBLISHED");
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PostMapping("/filter")
+    public ResponseEntity<?> filter(@RequestBody PostFilterParam filter, @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
+        return new ResponseEntity<>(postService.filter(filter, PageRequest.of(page, size)), HttpStatus.OK);
+    }
+
 
 
 }
