@@ -15,10 +15,7 @@ import vn.ohana.post.PostMediaService;
 import vn.ohana.user.dto.*;
 import vn.rananu.shared.exceptions.NotFoundException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -99,20 +96,25 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public Map<Long, String> modifyStatusByIds(Set<Long> ids, String statusRaw) {
+    public Map<String, List<Long>> modifyStatusByIds(Set<Long> ids, String statusRaw) {
         UserStatus status = UserStatus.parseUserStatus(statusRaw);
-        Map<Long, String> result = new HashMap<>();
+        Map<String, List<Long>> result = new HashMap<>();
+        List<Long> successIds = new ArrayList<>();
+        List<Long> failIds = new ArrayList<>();
         Iterable<User> entities = userRepository.findAllById(ids);
         entities.forEach(entity -> {
             entity.setStatus(status);
-            result.put(entity.getId(), "successful");
+            successIds.add(entity.getId());
         });
+        result.put("succeed",successIds );
 
         List<Long> entityIds = StreamSupport.stream(entities.spliterator(), false).map(User::getId).collect(Collectors.toList());
         ids.forEach(id -> {
-            if (!entityIds.contains(id))
-                result.put(id, "failed");
+            if (!entityIds.contains(id)) {
+                failIds.add((id));
+            }
         });
+        result.put("failed",failIds);
         return result;
     }
 

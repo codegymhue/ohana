@@ -24,7 +24,7 @@ public interface UserService  {
 
 //   void deactivateAllByIds(Long[] ids);
 
-    Map<Long, String> modifyStatusByIds(Set<Long> ids, String status);
+    Map<String, List<Long>> modifyStatusByIds(Set<Long> ids, String status);
 
     @Transactional
     void modifyStatusById(Long id, String statusRaw);
