@@ -36,21 +36,17 @@
     <div class="app">
         <div class="_3bjUj">
             <!--header-->
-            <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
-
-
+            <th:block th:replace="/ohana/layout/header :: header"/>
             <div class="_1El-8">
-
                 <div class="container-login100">
                     <!-- <img src="/avatar-tag-black.png"> -->
                     <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
-
                         <form class="login100-form validate-form-sign-in" th:action="@{/sign-in}" method="post"
-                              th:object="${user}">
+                              th:object="${loginParam}">
                             <div class="login100-form-title p-b-37 div-sign-in">
-                                        <span>
-                                            Đăng nhập
-                                        </span>
+                                    <span>
+                                        Đăng nhập
+                                    </span>
                             </div>
                             <label style="size: 10px" id="message">
 
@@ -63,9 +59,9 @@
                             </div>
 
                             <div class="wrap-input100 validate-input m-b-25" data-validate="Nhập mật khẩu">
-                                <span class="btn-show-pass">
-							        <i class="zmdi zmdi-eye"></i>
-						        </span>
+                                    <span class="btn-show-pass">
+                                        <i class="zmdi zmdi-eye"></i>
+                                    </span>
                                 <input class="input100" type="password" id="pass" name="pass"
                                        placeholder="Nhập mật khẩu" th:field="*{password}">
                                 <span class="focus-input100"></span>
@@ -77,34 +73,17 @@
                             </div>
 
                             <div class="text-center p-t-57 p-b-20">
-                                        <span class="txt1">
-                                           Hoặc đăng nhập với
-                                        </span>
-                            </div>
-
-                            <div class="flex-c p-b-50">
-                                <a href="#" class="login100-social-item">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-
-                                <!--                                <a href="#" class="login100-social-item">-->
-                                <!--                                    <img src="/resources/ohana/sign-in/images/icons/icon-google.png" alt="GOOGLE">-->
-                                <!--                                </a>-->
-
+                                    <span class="txt1">
+                                        Hoặc đăng nhập với
+                                    </span>
                             </div>
                             <div class="flex-c p-b-50">
                                 <div id="g_id_onload"
                                      data-client_id="809100511304-qcmbmqj4m2njft9vs8deo2791s6miodm.apps.googleusercontent.com"
-                                     data-login_uri="http://localhost:8080/sign-in"
-                                     data-auto_prompt="false">
+                                     data-login_uri="http://localhost:8080/sign-in" data-auto_prompt="false">
                                 </div>
-                                <div class="g_id_signin"
-                                     data-type="standard"
-                                     data-size="large"
-                                     data-theme="outline"
-                                     data-text="sign_in_with"
-                                     data-shape="rectangular"
-                                     data-logo_alignment="left">
+                                <div class="g_id_signin" data-type="standard" data-size="large" data-theme="outline"
+                                     data-text="sign_in_with" data-shape="rectangular" data-logo_alignment="left">
                                 </div>
                             </div>
                             <div class="text-center">
@@ -113,24 +92,16 @@
                                 </a>
                             </div>
                         </form>
-
-
                     </div>
                 </div>
 
             </div>
             <!--footer-->
             <th:block th:replace="/ohana/layout/footer :: footer"/>
-            <!--            <th:block th:replace="/ohana/layout/script :: script"/>-->
         </div>
     </div>
 </div>
-<!-- <script type="text/javascript"
-src="/runtime.0a67c7ac13035fb53d78.js.download"></script>
-<script type="text/javascript"
-src="/vendors.0a67c7ac13035fb53d78.js.download"></script>
-<script type="text/javascript"
-src="/main.0a67c7ac13035fb53d78.js.download"></script> -->
+
 
 <!--===============================================================================================-->
 <script src="/resources/ohana/sign-in/vendor/jquery/jquery-3.2.1.min.js"></script>
@@ -152,7 +123,6 @@ src="/main.0a67c7ac13035fb53d78.js.download"></script> -->
 <script src="/resources/ohana/js/app.js"></script>
 
 <script>
-
     // $('.validate-form-sign-in').on('submit', function () {
     //     if (!$('#termsCheckbox').is(':checked')) {
     //         return false;
@@ -177,7 +147,8 @@ src="/main.0a67c7ac13035fb53d78.js.download"></script> -->
             location.href = App.DOMAIN
         }).fail((error) => {
             $("#message").html("");
-            let str = `<label id="title-error" class="error" for="title">Tài khoản hoặc mật khẩu sai</label>`;
+            let str =
+                `<label id="title-error" class="error" for="title">Tài khoản hoặc mật khẩu sai</label>`;
             $("#message").append(str);
         })
     });
@@ -197,11 +168,6 @@ src="/main.0a67c7ac13035fb53d78.js.download"></script> -->
         }
 
     });
-
 </script>
-
-
 </body>
-
-
 </html>

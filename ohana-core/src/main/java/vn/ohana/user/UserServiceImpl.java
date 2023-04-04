@@ -1,6 +1,7 @@
 package vn.ohana.user;
 
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -145,21 +146,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public LoginResult saveGoogleEmail(GooglePojo googlePojo) {
+    @Transactional
+    public LoginResult signUpByGoogle(GooglePojo googlePojo) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
+        String pwd = RandomStringUtils.random( 15, characters );
         User userCheck = userRepository.findByEmail(googlePojo.getEmail());
         if (userCheck != null) {
             return userMapper.toLoginResultDTO(userCheck);
         } else {
             User user = userMapper.toGooglePojo(googlePojo);
-            user.setStatus(UserStatus.ACTIVATED);
+            user.setStatus(UserStatus.CONFIRM_EMAIL);
             user.setRole(Role.USER);
-            user.setPassword(googlePojo.getPassword());
+            user.setPassword(pwd);
             PostMedia postMedia = new PostMedia();
-            postMedia.setFileUrl(googlePojo.getPicture());
+            postMedia.setFileUrl(googlePojo.getThumbnailId());
             postMediaService.save(postMedia);
             user.setThumbnailId(postMedia.getId());
-            User userResult = userRepository.save(user);
-            return userMapper.toLoginResultDTO(userResult);
+            User entity = userRepository.save(user);
+            return userMapper.toLoginResultDTO(entity);
         }
     }
 }
