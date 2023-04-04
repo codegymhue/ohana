@@ -13,7 +13,7 @@ import java.security.GeneralSecurityException;
 import java.util.Collections;
 
 @Component
-public class GoogleService {
+public class GoogleServiceImpl {
     @Value("${google.app.id}")
     private String googleAppId;
 
