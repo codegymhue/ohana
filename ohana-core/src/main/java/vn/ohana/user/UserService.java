@@ -24,15 +24,12 @@ public interface UserService  {
 
 //   void deactivateAllByIds(Long[] ids);
 
-<<<<<<< HEAD
     Map<Long, String> modifyStatusByIds(Set<Long> ids, String status);
 
     @Transactional
     void modifyStatusById(Long id, String statusRaw);
 
     UserResult getById(Long id);
-=======
-    void activateAllByIds(Long[] ids);
 
     LoginResult saveGoogleEmail(GooglePojo googlePojo);
 
@@ -43,5 +40,4 @@ public interface UserService  {
     LoginResult findByEmail(String email);
 
 
->>>>>>> hoang_dev
 }

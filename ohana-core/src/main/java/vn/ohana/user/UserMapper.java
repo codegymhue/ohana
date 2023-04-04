@@ -1,8 +1,9 @@
-package vn.ohana.user.impl;
+package vn.ohana.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import vn.ohana.entities.User;
+import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.user.dto.BaseUser;
 import vn.ohana.user.dto.LoginResult;
 import vn.ohana.user.dto.UserResult;
