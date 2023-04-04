@@ -1,12 +1,14 @@
 package vn.ohana.controllers.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.post.PostService;
-import vn.ohana.post.dto.PostUpdateParam;
+import vn.ohana.post.dto.PostFilterParam;
+import vn.ohana.user.dto.UserFilterParam;
 
 import java.util.Set;
 
@@ -21,21 +23,17 @@ public class PostAPI {
         return new ResponseEntity<>(postService.findAll(pageable), HttpStatus.OK);
     }
 
-    @PatchMapping ("/approveAllPosts")
+    @PatchMapping ("/approveAll")
     public ResponseEntity<?> approveAll(@RequestBody Set<Long> ids) {
-        return new ResponseEntity<>(postService.modifyStatusPostByIds(ids,"PUBLISHED") ,HttpStatus.OK);
+        postService.modifyStatusByIds(ids, "PUBLISHED");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PatchMapping ("/unApproveAllPosts")
-    public ResponseEntity<?> unApproveAll(@RequestBody Set<Long> ids) {
-        return new ResponseEntity<>(postService.notModifyStatusPostByIds(ids,"REFUSED") ,HttpStatus.OK);
+    @PostMapping("/filter")
+    public ResponseEntity<?> filter(@RequestBody PostFilterParam filter, @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
+        return new ResponseEntity<>(postService.filter(filter, PageRequest.of(page, size)), HttpStatus.OK);
     }
 
-    @PatchMapping ("/edit")
-    public ResponseEntity<?> edit(@ModelAttribute PostUpdateParam postUpdateParam) {
-        postService.postEdit(postUpdateParam);
-        return new ResponseEntity<>("Cập nhật bài viết thành công", HttpStatus.OK);
-    }
 
 
 }
