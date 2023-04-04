@@ -15,6 +15,7 @@ public class UserFilterParam {
 
     private String keyword;
 
+    @Enumerated(EnumType.STRING)
     private Role role;
 
 
