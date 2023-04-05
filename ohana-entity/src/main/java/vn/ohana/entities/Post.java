@@ -61,10 +61,10 @@ public class Post extends BaseEntity {
     @Column(name = "thumbnail_id", length = 45)
     private String thumbnailId;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<PostMedia> postMedia;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "fk_post_category"))
     private Category category;
 

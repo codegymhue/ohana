@@ -14,6 +14,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("api/posts")
+@CrossOrigin("*")
 public class PostAPI {
     @Autowired
     PostService postService;

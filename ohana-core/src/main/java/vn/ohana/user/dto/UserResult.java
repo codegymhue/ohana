@@ -13,23 +13,13 @@ import java.time.Instant;
 @Data
 public class UserResult {
     private Long id;
-
     private String fullName;
-
     private String email;
     private String phone;
-
     private String description;
-
     private String address;
-
     private Role role;
-
-    private String password;
-
     private Instant lastLogin;
-
     private String thumbnailId;
-
     private UserStatus status;
 }
