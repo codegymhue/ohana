@@ -42,7 +42,12 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true)
     public Page<PostResult> findAll(Pageable pageable) {
         Page<Post> page = postRepository.findAll(pageable);
+        return insertUtilityResultList(page);
+    }
+
+    public Page<PostResult> insertUtilityResultList(Page<Post> page) {
         List<Post> entities = page.getContent();
+
 
         Set<Integer> utilityIds = entities.stream().map(Post::getUtilities)
                 .flatMap(Set::stream).collect(Collectors.toSet());
@@ -71,7 +76,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostResult> filter(PostFilterParam filter, Pageable pageable) {
         Page<Post> page = postFilterRepository.findAllByFilters(filter, pageable);
-        return postMapper.toDtoPage(page);
+         return insertUtilityResultList(page);
     }
 
     private Page<PostResult> toDtoPage(Page<Post> page) {
