@@ -32,7 +32,7 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
                 Predicate pricePredicate = criteriaBuilder.or(minPricePredicate, maxPricePredicate);
                 predicateList.add(pricePredicate);
             }
-            if (filter.getGender().getId() != null) {
+            if (filter.getGender() != null && filter.getGender().getId() != null) {
                 Predicate renderIdPredicate = criteriaBuilder.equal(rentHouse.get("gender"), filter.getGender().getId());
                 predicateList.add(renderIdPredicate);
             }
@@ -45,7 +45,7 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
 //                Join<Post, Location> postLocationJoin = root.join("location");
 
                 if (filter.getLocation().getProvinceId() != null ) {
-                    Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.location"));
+                    Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.provinceId"));
                     Predicate provinceIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocation().getProvinceId());
                     predicateList.add(provinceIdEqual);
 

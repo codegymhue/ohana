@@ -61,7 +61,7 @@ public class Post extends BaseEntity {
     @Column(name = "thumbnail_id", length = 45)
     private String thumbnailId;
 
-    @OneToMany(mappedBy = "post")
+    @OneToMany(mappedBy = "post",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private List<PostMedia> postMedia;
 
     @OneToOne
