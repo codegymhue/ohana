@@ -16,6 +16,7 @@ import vn.rananu.shared.exceptions.NotFoundException;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 
 @Service
@@ -61,6 +62,35 @@ public class PostServiceImpl implements PostService {
             dto.setUtilities(newUtilities);
             return dto;
         });
+    }
+
+
+    public Map<Long, String> modifyStatusPostByIds(Set<Long> ids, String statusPost) {
+        StatusPost status = StatusPost.parseStatusPosts(statusPost);
+        Map<Long, String> result = new HashMap<>();
+        Iterable<Post> entities = postRepository.findAllById(ids);
+        entities.forEach(entity -> {
+            entity.setStatus(status);
+            result.put(entity.getId(), "successful");
+        });
+
+        List<Long> entityIds = StreamSupport.stream(entities.spliterator(), false).map(Post::getId).collect(Collectors.toList());
+        ids.forEach(id -> {
+            if (!entityIds.contains(id))
+                result.put(id, "failed");
+        });
+        return result;
+    }
+
+
+    @Override
+    public void postEdit(PostUpdateParam postUpdateParam) {
+        Post entity=  findById(postUpdateParam.getId());
+    }
+
+    @Override
+    public Object findAllByUserId(Long userId) {
+        return null;
     }
 
 
