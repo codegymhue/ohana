@@ -5,8 +5,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
-    <link href="/resources/paginationjs-master/paginationjs-master/dist/pagination.css" rel="stylesheet"
-          type="text/css">
     <!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"-->
     <!--            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"-->
     <!--            crossorigin="anonymous"></script>-->
@@ -34,25 +32,25 @@
                     <div class="_3OgY1"><a href="/"><img
                             src="/resources/ohana/img/8cc95480cbd2708db10ad4b8de56306a.svg"></a>
                         <div class="_1_U71">
-                            <div class="_2lKdR">
-                                <div class="_3p4ES _1vH0j" id="floating-city-dropdown">
-                                    <div class="wj6oE"><span class="icon-location-fill"
-                                                             style="color: rgb(247, 52, 134); font-size: 16px;"></span><span
-                                            class="_1qNTb">HUẾ</span>
-                                    </div>
-                                </div>
-                                <div class="_1pVEQ"><input id="search" class="bX6zE"
-                                                           placeholder="Tìm kiếm theo địa điểm, quận, tên đường..."
-                                                           value="">
-                                    <div class="_2QckJ"><span class="icon-search"
-                                                              style="color: rgb(247, 52, 134); font-size: 24px;"></span>
-                                    </div>
-                                </div>
-                                <div class="_1IdUV">
-                                    <ul class="b-CdA _11SSO" style="left: 157px;" id="location">
-                                    </ul>
-                                </div>
-                            </div>
+<!--                            <div class="_2lKdR">-->
+<!--                                <div class="_3p4ES _1vH0j" id="floating-city-dropdown">-->
+<!--                                    <div class="wj6oE"><span class="icon-location-fill"-->
+<!--                                                             style="color: rgb(247, 52, 134); font-size: 16px;"></span><span-->
+<!--                                            class="_1qNTb">HUẾ</span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="_1pVEQ"><input id="search" class="bX6zE"-->
+<!--                                                           placeholder="Tìm kiếm theo địa điểm, quận, tên đường..."-->
+<!--                                                           value="">-->
+<!--                                    <div class="_2QckJ"><span class="icon-search"-->
+<!--                                                              style="color: rgb(247, 52, 134); font-size: 24px;"></span>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                                <div class="_1IdUV">-->
+<!--                                    <ul class="b-CdA _11SSO" style="left: 157px;" id="location">-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                            </div>-->
                             <div class="_1IdUV">
                                 <ul class="b-CdA" style="width: 123px;">
                                     <li class="J_X1w _1vH0j" value="HCM">Huế</li>
@@ -121,10 +119,25 @@
                             </div>
                         </div>
                         <div class="q49VD">
-                            <div class="wzw4X"><span class="_2dNxP">Vị Trí</span><span
-                                    class="icon-a-down _11wO8 _2enHb" id="btnLocation"
-                                    style="color: rgb(51, 51, 51); font-size: 20px;"></span></div>
-                            <div class="_1ZENx _1-FEc X0uZX" id="#">
+                            <div class="row col-lg-12 mt-3">
+
+                                <div class="wzw4X mb-3"><span class="_2dNxP">Vị trí</span></div>
+
+                                <div class="mt-2">
+                                    <label>Province</label>
+                                    <select class="form-select" id="provinceId" name="provinceId">
+                                    </select>
+                                </div>
+                                <div class="my-2">
+                                    <label>District</label>
+                                    <select class="form-select" id="districtId" name="districtId">
+                                    </select>
+                                </div>
+                                <div class="my-2">
+                                    <label>Ward</label>
+                                    <select class="form-select" id="wardId" name="warId ">
+                                    </select>
+                                </div>
                                 <!--                                <label class="zOnI7" id="all"><span class="_1HWTz">Tất-->
                                 <!--                                            cả</span><input type="radio" name="roomGendersRadio"><span-->
                                 <!--                                    class="_30lzl"></span></label>-->
@@ -234,17 +247,30 @@
             getAllCategories: App.BASE_URL_API + "/categories",
             getAllUtilities: App.BASE_URL_API + "/utilities",
             getAllGenders: App.BASE_URL_API + "/genders",
-            getAllProvinces: App.BASE_URL_PROVINCE,
             doCreatePost: App.BASE_URL_API + "/posts/postNews",
             doFilter: App.BASE_URL_API + "/posts/filter",
+            getAllProvinces: App.BASE_URL_PROVINCE,
+            getAllDistrictsByProvinceId: App.BASE_URL_PROVINCE + "/district/",
+            getAllWardsByDistrictId: App.BASE_URL_PROVINCE + "/ward/"
 
         },
         element: {},
         loadData: {},
         commands: {},
-        initializeControlEvent: {}
-
+        dialogs: {
+            elements: {},
+            loadData: {},
+            commands: {},
+            alertDanger: {}
+        },
+        initializeControlEvent: {},
+        // let isClickInside = specifiedElement.contains(event.target)
     }
+
+    page.dialogs.elements.province = $("#provinceId");
+    page.dialogs.elements.district = $("#districtId");
+    page.dialogs.elements.ward = $("#wardId");
+
     let post = new Post();
     let filter = new Filter();
     let listPost = [];
@@ -388,8 +414,8 @@
     //     $("#pagination-demo1").html("");
     // })
 
-    $("#btnUtility").on('click', function () {
-        page.commands.getAllUtilities();
+    $("#btnLocation").on('click', function () {
+        page.commands.getAllLocation();
     })
 
     $("#btnCategory").on('click', function () {
@@ -482,7 +508,7 @@
             type: "GET",
             url: page.url.getAllGenders
         }).done(function (data) {
-            $("#genders").html('');
+            $("#location").html('');
             data.forEach((item) => {
                 let str = `<label class="zOnI7" id="male"><span
                                         class="_1HWTz">${item.name}</span><input value="${item.id}" type="radio" name="roomGendersRadio"><span
@@ -494,6 +520,100 @@
             showError('Error')
         })
     }
+
+    page.commands.getAllProvinces = () => {
+        return $.ajax({
+            type: "GET",
+            url: page.url.getAllProvinces
+        })
+
+            .done((data) => {
+                let results = data.results;
+
+                results.map(item => {
+                    let str = `<option value="${item.province_id}">${item.province_name}</option>`;
+                    page.dialogs.elements.province.append(str);
+                })
+
+            })
+
+            .fail((error) => {
+                console.log(error);
+                console.log("Không thể tải dữ liệu Tỉnh/Thành phố");
+            })
+    }
+
+    page.commands.getAllDistrictsByProvinceId = (provinceId) => {
+        return $.ajax({
+            type: "GET",
+            url: page.url.getAllDistrictsByProvinceId + provinceId
+        })
+
+            .done((data) => {
+
+                page.dialogs.elements.district.empty();
+
+                let results = data.results;
+
+                results.map(item => {
+                    let str = `<option value="${item.district_id}">${item.district_name}</option>`;
+                    page.dialogs.elements.district.append(str);
+                })
+            })
+
+            .fail((error) => {
+                console.log(error);
+                console.log("Không thể tải dữ liệu Thành phố/Quận/Huyện");
+            })
+    }
+
+    page.commands.getAllWardsByDistrictId = (districtId) => {
+        return $.ajax({
+            type: "GET",
+            url: page.url.getAllWardsByDistrictId + districtId
+        })
+
+            .done((data) => {
+                page.dialogs.elements.ward.empty();
+
+                let {results} = data;
+
+                results.map(item => {
+                    let str = `<option value="${item.ward_id}">${item.ward_name}</option>`;
+                    page.dialogs.elements.ward.append(str);
+                })
+            })
+
+            .fail((error) => {
+                console.log(error);
+                console.log("Không thể tải dữ liệu Phường/Xã/Thị trấn");
+            })
+    }
+
+    page.dialogs.elements.province.on("change", function () {
+        let provinceId = $(this).val();
+
+        page.commands.getAllDistrictsByProvinceId(provinceId).then(() => {
+            let districtId = page.dialogs.elements.district.val();
+
+            page.commands.getAllWardsByDistrictId(districtId);
+        });
+
+    });
+
+    page.commands.loadData = () => {
+        page.commands.getAllProvinces().then(() => {
+            let provinceId = page.dialogs.elements.province.val();
+
+            page.commands.getAllDistrictsByProvinceId(provinceId).then(() => {
+                let districtId = page.dialogs.elements.district.val();
+
+                page.commands.getAllWardsByDistrictId(districtId);
+            });
+        })
+
+    }
+
 
     $(function () {
         let wardId = [[${wardId}]];
@@ -725,15 +845,19 @@
             })
         }
     })
-    let specifiedElement = document.getElementById('search');
-    //I'm using "click" but it works with any event
-    document.addEventListener('click', function (event) {
-        let isClickInside = specifiedElement.contains(event.target);
+    // let specifiedElement = document.getElementById('search');
+    // //I'm using "click" but it works with any event
+    // document.addEventListener('click', function (event) {
+    //     let isClickInside = specifiedElement.contains(event.target);
+    //
+    //     if (!isClickInside) {
+    //         $("#search").val("");
+    //         $("#location").html("");
+    //     }
+    // });
 
-        if (!isClickInside) {
-            $("#search").val("");
-            $("#location").html("");
-        }
+    $(() => {
+        page.commands.loadData();
     });
 
 </script>
