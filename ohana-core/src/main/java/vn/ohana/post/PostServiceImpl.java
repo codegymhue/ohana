@@ -59,32 +59,32 @@ public class PostServiceImpl implements PostService {
 
 
     @Override
-    public Map<Long, String> modifyStatusPostByIds(Set<Long> ids, String published) {
-        StatusPost statusPost = StatusPost.parseStatusPosts(published);
+    public Map<Long, String> modifyStatusPostByIds(Set<Long> ids, String statusPost) {
+        StatusPost status = StatusPost.parseStatusPosts(statusPost);
         Map<Long, String> result = new HashMap<>();
         Iterable<Post> entities = postRepository.findAllById(ids);
         entities.forEach(entity -> {
-            entity.setStatus(statusPost);
-            result.put(entity.getId(), "Posts are approved successful");
+            entity.setStatus(status);
+            result.put(entity.getId(), "successful");
+        });
+
+        List<Long> entityIds = StreamSupport.stream(entities.spliterator(), false).map(Post::getId).collect(Collectors.toList());
+        ids.forEach(id -> {
+            if (!entityIds.contains(id))
+                result.put(id, "failed");
         });
         return result;
     }
 
-    @Override
-    public Map<Long, String> notModifyStatusPostByIds(Set<Long> ids, String refused) {
-        StatusPost statusPost = StatusPost.parseStatusPosts(refused);
-        Map<Long, String> result = new HashMap<>();
-        Iterable<Post> entities = postRepository.findAllById(ids);
-        entities.forEach(entity -> {
-            entity.setStatus(statusPost);
-            result.put(entity.getId(), "Posts are approved failed");
-        });
-        return result;
-    }
 
     @Override
     public void postEdit(PostUpdateParam postUpdateParam) {
         Post entity=  findById(postUpdateParam.getId());
+    }
+
+    @Override
+    public Object findAllByUserId(Long userId) {
+        return null;
     }
 
 

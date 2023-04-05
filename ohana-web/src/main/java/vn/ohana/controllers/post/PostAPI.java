@@ -21,6 +21,11 @@ public class PostAPI {
         return new ResponseEntity<>(postService.findAll(pageable), HttpStatus.OK);
     }
 
+    @GetMapping
+    public ResponseEntity<?> findAllByUserId(@RequestParam Long userId) {
+        return new ResponseEntity<>(postService.findAllByUserId(userId), HttpStatus.OK);
+    }
+
     @PatchMapping ("/approveAllPosts")
     public ResponseEntity<?> approveAll(@RequestBody Set<Long> ids) {
         return new ResponseEntity<>(postService.modifyStatusPostByIds(ids,"PUBLISHED") ,HttpStatus.OK);
@@ -28,7 +33,7 @@ public class PostAPI {
 
     @PatchMapping ("/unApproveAllPosts")
     public ResponseEntity<?> unApproveAll(@RequestBody Set<Long> ids) {
-        return new ResponseEntity<>(postService.notModifyStatusPostByIds(ids,"REFUSED") ,HttpStatus.OK);
+        return new ResponseEntity<>(postService.modifyStatusPostByIds(ids,"REFUSED") ,HttpStatus.OK);
     }
 
     @PatchMapping ("/edit")

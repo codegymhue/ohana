@@ -19,7 +19,7 @@ public interface PostService {
 
     Map<Long, String> modifyStatusPostByIds(Set<Long> ids, String published);
 
-    Map<Long, String> notModifyStatusPostByIds(Set<Long> ids, String refused);
-
     void postEdit(PostUpdateParam postUpdateParam);
+
+    Object findAllByUserId(Long userId);
 }
