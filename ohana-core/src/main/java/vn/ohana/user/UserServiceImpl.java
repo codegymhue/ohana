@@ -15,6 +15,7 @@ import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.post.PostMediaService;
 import vn.ohana.user.dto.*;
 import vn.rananu.shared.exceptions.NotFoundException;
+import vn.rananu.shared.exceptions.ValidationException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -52,7 +53,7 @@ public class UserServiceImpl implements UserService {
 //        chuyển DTO và trả về
         boolean exits = existsByPhoneOrEmail(signUpParam.getPhoneOrEmail());
         if (exits) {
-            throw new RuntimeException("tài khoản đã tồn tại");
+            throw new ValidationException("phoneOrEmail", "tài khoản đã tồn tại");
         } else {
             User user = new User();
             if (signUpParam.getPhoneOrEmail().contains("@")) {
@@ -107,7 +108,7 @@ public class UserServiceImpl implements UserService {
             entity.setStatus(status);
             successIds.add(entity.getId());
         });
-        result.put("succeed",successIds );
+        result.put("succeed", successIds);
 
         List<Long> entityIds = StreamSupport.stream(entities.spliterator(), false).map(User::getId).collect(Collectors.toList());
         ids.forEach(id -> {
@@ -115,7 +116,7 @@ public class UserServiceImpl implements UserService {
                 failIds.add((id));
             }
         });
-        result.put("failed",failIds);
+        result.put("failed", failIds);
         return result;
     }
 
@@ -149,13 +150,13 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public LoginResult signUpByGoogle(GooglePojo googlePojo) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
-        String pwd = RandomStringUtils.random( 15, characters );
+        String pwd = RandomStringUtils.random(15, characters);
         User userCheck = userRepository.findByEmail(googlePojo.getEmail());
         if (userCheck != null) {
             return userMapper.toLoginResultDTO(userCheck);
         } else {
             User user = userMapper.toGooglePojo(googlePojo);
-            user.setStatus(UserStatus.CONFIRM_EMAIL);
+            user.setStatus(UserStatus.ACTIVATED);
             user.setRole(Role.USER);
             user.setPassword(pwd);
             PostMedia postMedia = new PostMedia();
