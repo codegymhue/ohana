@@ -135,7 +135,7 @@
                                 </div>
                                 <div class="my-2">
                                     <label>Ward</label>
-                                    <select class="form-select" id="wardId" name="warId ">
+                                    <select class="form-select" id="wardId" name="wardId">
                                     </select>
                                 </div>
                                 <!--                                <label class="zOnI7" id="all"><span class="_1HWTz">Tất-->
@@ -599,6 +599,12 @@
             page.commands.getAllWardsByDistrictId(districtId);
         });
 
+    });
+
+    page.dialogs.elements.district.on("change", function () {
+        let districtId = $(this).val();
+
+        page.commands.getAllWardsByDistrictId(districtId);
     });
 
     page.commands.loadData = () => {
