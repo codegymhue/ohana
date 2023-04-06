@@ -7,9 +7,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
+import vn.ohana.entities.User;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
+import vn.ohana.user.UserRepository;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
 import vn.rananu.shared.exceptions.NotFoundException;
@@ -21,11 +23,6 @@ import java.util.stream.StreamSupport;
 
 @Service
 public class PostServiceImpl implements PostService {
-
-    @Override
-    public Map<Long, String> modifyStatusByIds(Set<Long> ids, String published) {
-        return null;
-    }
 
     @Autowired
     private PostMapper postMapper;
@@ -44,6 +41,11 @@ public class PostServiceImpl implements PostService {
     public Page<PostResult> findAll(Pageable pageable) {
         Page<Post> page = postRepository.findAll(pageable);
         return insertUtilityResultList(page);
+    }
+
+    @Override
+    public Map<Long, String> modifyStatusByIds(Set<Long> ids, String published) {
+        return null;
     }
 
     public Page<PostResult> insertUtilityResultList(Page<Post> page) {
@@ -82,8 +84,10 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Object findAllByUserId(Long userId) {
-        return null;
+    public Page<PostResult> findAllByUser(User user,Pageable pageable) {
+        Page<Post> post = postRepository.findByUser(user,pageable);
+
+        return insertUtilityResultList(post);
     }
 
     @Override

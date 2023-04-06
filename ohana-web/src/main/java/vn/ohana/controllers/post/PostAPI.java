@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.ohana.entities.User;
 import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostUpdateParam;
@@ -25,17 +26,14 @@ public class PostAPI {
         return new ResponseEntity<>(postService.findAll(pageable), HttpStatus.OK);
     }
 
+    @PostMapping("/{userId}/user")
+    public ResponseEntity<?> findAllByUserId(@PathVariable Long userId, @RequestBody User user,@RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
+        return new ResponseEntity<>(postService.findAllByUser(user,PageRequest.of(page, size)), HttpStatus.OK);
+    }
     @GetMapping("/{pId}")
     public ResponseEntity<?> findById(@PathVariable Long pId) {
         return new ResponseEntity<>(postService.getById(pId), HttpStatus.OK);
     }
-
-    @PatchMapping ("/approveAll")
-    @GetMapping
-    public ResponseEntity<?> findAllByUserId(@RequestParam Long userId) {
-        return new ResponseEntity<>(postService.findAllByUserId(userId), HttpStatus.OK);
-    }
-
     @PatchMapping ("/{userId}/users")
     public ResponseEntity<?> approveAll(@RequestBody Set<Long> ids) {
         postService.modifyStatusByIds(ids, "PUBLISHED");

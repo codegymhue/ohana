@@ -2,6 +2,9 @@ package vn.ohana.post;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import vn.ohana.entities.Post;
+import vn.ohana.entities.User;
+import vn.ohana.entities.User;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
@@ -19,7 +22,8 @@ public interface PostService {
     Page<PostResult> filter(PostFilterParam filter, Pageable pageable);
     void postEdit(PostUpdateParam postUpdateParam);
 
-    Object findAllByUserId(Long userId);
+    Page<PostResult> findAllByUser(User user, Pageable pageable);
+
 
     PostResult getById(Long pId);
 }
