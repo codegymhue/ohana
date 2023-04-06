@@ -76,6 +76,7 @@ public class Post extends BaseEntity {
     private Set<Integer> utilities;
 
     @Column(name = "status", nullable = false)
+    @Enumerated(EnumType.STRING)
     private StatusPost status;
 
     public Post setCategoryId(Long categoryId) {

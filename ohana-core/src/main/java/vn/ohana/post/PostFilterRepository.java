@@ -45,6 +45,11 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
                 predicateList.add(renderIdPredicate);
             }
 
+            if (filter.getStatus()!=null) {
+                Predicate statusPredicate = criteriaBuilder.equal(root.get("status"), filter.getStatus());
+                predicateList.add(statusPredicate);
+            }
+
             if (filter.getUser() != null && filter.getUser().getId() != null) {
                 Predicate userIdPredicate = criteriaBuilder.equal(root.get("user"), filter.getUser().getId());
                 predicateList.add(userIdPredicate);

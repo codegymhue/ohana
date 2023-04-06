@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import vn.ohana.entities.Gender;
 import vn.ohana.entities.Location;
+import vn.ohana.entities.StatusPost;
 import vn.ohana.entities.User;
 import vn.ohana.location.dto.LocationParam;
 
@@ -20,9 +21,9 @@ import java.util.Set;
 public class PostFilterParam {
     private User user;
     private String keyword;
-    @Enumerated(EnumType.STRING)
     private Gender gender;
     @Enumerated(EnumType.STRING)
+    private StatusPost status;
     private Long categoryId;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
