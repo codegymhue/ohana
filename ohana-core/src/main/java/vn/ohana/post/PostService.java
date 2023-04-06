@@ -20,4 +20,6 @@ public interface PostService {
     void postEdit(PostUpdateParam postUpdateParam);
 
     Object findAllByUserId(Long userId);
+
+    PostResult getById(Long pId);
 }
