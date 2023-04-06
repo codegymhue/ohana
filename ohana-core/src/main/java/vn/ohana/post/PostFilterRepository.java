@@ -42,22 +42,24 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
             }
             if (filter.getLocation() != null) {
 
-//                Join<Post, Location> postLocationJoin = root.join("location");
-
                 if (filter.getLocation().getProvinceId() != null ) {
                     Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.provinceId"));
                     Predicate provinceIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocation().getProvinceId());
                     predicateList.add(provinceIdEqual);
 
                 }
-//                if (filter.getLocation().getDistrictId() != null) {
-//                    Predicate districtIdPredicate = criteriaBuilder.equal(root.get("location"), filter.getLocation().getDistrictId());
-//                    predicateList.add(districtIdPredicate);
-//                }
-//                if (filter.getLocation().getWardId() != null) {
-//                    Predicate wardIdPredicate = criteriaBuilder.equal(root.get("location"), filter.getLocation().getWardId());
-//                    predicateList.add(wardIdPredicate);
-//                }
+                if (filter.getLocation().getDistrictId() != null ) {
+                    Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.districtId"));
+                    Predicate districtIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocation().getDistrictId());
+                    predicateList.add(districtIdEqual);
+
+                }
+                if (filter.getLocation().getWardId() != null ) {
+                    Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.wardId"));
+                    Predicate wardIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocation().getWardId());
+                    predicateList.add(wardIdEqual);
+
+                }
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
         }, pageable);

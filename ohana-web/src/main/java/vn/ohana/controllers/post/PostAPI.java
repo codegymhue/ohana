@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostFilterParam;
+import vn.ohana.post.dto.PostUpdateParam;
 import vn.ohana.user.dto.UserFilterParam;
 
 import java.util.Set;
@@ -25,6 +26,12 @@ public class PostAPI {
     }
 
     @PatchMapping ("/approveAll")
+    @GetMapping
+    public ResponseEntity<?> findAllByUserId(@RequestParam Long userId) {
+        return new ResponseEntity<>(postService.findAllByUserId(userId), HttpStatus.OK);
+    }
+
+    @PatchMapping ("/approveAllPosts")
     public ResponseEntity<?> approveAll(@RequestBody Set<Long> ids) {
         postService.modifyStatusByIds(ids, "PUBLISHED");
         return new ResponseEntity<>(HttpStatus.OK);
@@ -35,6 +42,11 @@ public class PostAPI {
         return new ResponseEntity<>(postService.filter(filter, PageRequest.of(page, size)), HttpStatus.OK);
     }
 
+    @PatchMapping ("/edit")
+    public ResponseEntity<?> edit(@ModelAttribute PostUpdateParam postUpdateParam) {
+        postService.postEdit(postUpdateParam);
+        return new ResponseEntity<>("Cập nhật bài viết thành công", HttpStatus.OK);
+    }
 
 
 }
