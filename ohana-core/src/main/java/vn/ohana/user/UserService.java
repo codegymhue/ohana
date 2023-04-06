@@ -3,6 +3,7 @@ package vn.ohana.user;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
+import vn.ohana.entities.User;
 import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.user.dto.*;
 
@@ -33,7 +34,16 @@ public interface UserService  {
 
     boolean existsByPhoneOrEmail(String phoneOrEmail);
 
+
+
+    LoginResult findByEmailAndPassword(String email, String password);
+
+    boolean existsByPhoneOrEmail(String phone, String email);
+
+    boolean existsByEmail(String email);
+
     LoginResult findByEmail(String email);
+
 
 
 }

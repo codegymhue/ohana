@@ -21,7 +21,7 @@
 					<label for="fullName">Name</label> <input type="text"
 						th:field="*{fullName}" id="fullName" placeholder="Full Name">
 					<ul>
-						<li th:each="err : ${#fields.errors('fullName')}" th:text="${err}"
+						<li th:each="err : ${#fields.errors('email')}" th:text="${err}"
 							class="error" />
 					</ul>
 				</div>

@@ -28,10 +28,10 @@ public class LoginAPI {
         return new ResponseEntity<>(null, HttpStatus.OK);
     }
 
-    @PostMapping("/sign-in")
-    public ResponseEntity<?> doLogin(@RequestBody LoginParam loginParam, @CookieValue(value = "loginUser", defaultValue = "0") String loginUser, HttpServletResponse response, HttpServletRequest request) {
-        return null;
-    }
+//    @PostMapping("/sign-in")
+//    public ResponseEntity<?> doLogin(@RequestBody LoginParam loginParam, @CookieValue(value = "loginUser", defaultValue = "0") String loginUser, HttpServletResponse response, HttpServletRequest request) {
+//        return null;
+//    }
 
     @GetMapping("/sign-out")
     public ResponseEntity<?> logout(HttpServletResponse response) {

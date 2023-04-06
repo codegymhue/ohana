@@ -15,7 +15,6 @@ import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.post.PostMediaService;
 import vn.ohana.user.dto.*;
 import vn.rananu.shared.exceptions.NotFoundException;
-import vn.rananu.shared.exceptions.ValidationException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -26,6 +25,11 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Override
+    public boolean existsByPhoneOrEmail(String phone, String email) {
+        return false;
+    }
 
     @Autowired
     UserFilterRepository userFilterRepository;
@@ -40,42 +44,12 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pageable);
     }
 
-    @Override
-    public boolean existsByPhoneOrEmail(String phoneOrEmail) {
-        return userRepository.existsByPhoneOrEmail(phoneOrEmail, phoneOrEmail);
-    }
-
-    @Override
-    public UserResult signUp(SignUpParam signUpParam) {
-//        check email tồn tại hay chưa
-//        Lưu user
-//        set các trường mặc định
-//        chuyển DTO và trả về
-        boolean exits = existsByPhoneOrEmail(signUpParam.getPhoneOrEmail());
-        if (exits) {
-            throw new ValidationException("phoneOrEmail", "tài khoản đã tồn tại");
-        } else {
-            User user = new User();
-            if (signUpParam.getPhoneOrEmail().contains("@")) {
-                user.setEmail(signUpParam.getPhoneOrEmail());
-            } else {
-                user.setPhone(signUpParam.getPhoneOrEmail());
-            }
-            user.setFullName(signUpParam.getFullName());
-            user.setPassword(signUpParam.getPassword());
-            user.setStatus(UserStatus.ACTIVATED);
-            user.setRole(Role.USER);
-            userRepository.save(user);
-            return userMapper.toUserDTO(user);
-        }
-    }
 
     @Transactional(readOnly = true)
     public User findById(Long id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("category.exception.notFound"));
     }
-
 
     public Page<UserResult> getAll(Pageable pageable) {
         Page<User> page = findAll(pageable);
@@ -147,6 +121,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public LoginResult findByEmailAndPassword(String email, String password) {
+        User user = userRepository.findByEmailAndPassword(email,password);
+        if (user != null) {
+            return userMapper.toLoginResultDTO(user);
+        }
+        return null;
+    }
+
+    @Override
+    public boolean existsByPhoneOrEmail(String phoneOrEmail) {
+        return userRepository.existsByPhoneOrEmail(phoneOrEmail, phoneOrEmail);
+    }
+    @Override
+    public boolean existsByEmail(String Email) {
+        return userRepository.existsByEmail(Email);
+    }
+
+    @Override
     @Transactional
     public LoginResult signUpByGoogle(GooglePojo googlePojo) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
@@ -165,6 +157,29 @@ public class UserServiceImpl implements UserService {
             user.setThumbnailId(postMedia.getId());
             User entity = userRepository.save(user);
             return userMapper.toLoginResultDTO(entity);
+        }
+    }
+
+    @Override
+    public UserResult signUp(SignUpParam signUpParam) {
+//        check email tồn tại hay chưa
+//        Lưu user
+//        set các trường mặc định
+//        chuyển DTO và trả về
+        String password = signUpParam.getPassWord();
+
+        boolean exists = existsByEmail(signUpParam.getEmail());
+        if (exists) {
+            throw new RuntimeException("Email da ton tai");
+        }else {
+            User user = new User();
+            user.setEmail(signUpParam.getEmail());
+            user.setFullName(signUpParam.getFullName());
+            user.setPassword(signUpParam.getPassWord());
+            user.setStatus(UserStatus.CONFIRM_EMAIL);
+            user.setRole(Role.USER);
+            userRepository.save(user);
+            return userMapper.toUserDTO(user);
         }
     }
 }
