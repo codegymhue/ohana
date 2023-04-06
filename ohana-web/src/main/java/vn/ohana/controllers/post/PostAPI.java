@@ -31,7 +31,7 @@ public class PostAPI {
         return new ResponseEntity<>(postService.findAllByUserId(userId), HttpStatus.OK);
     }
 
-    @PatchMapping ("/approveAllPosts")
+    @PatchMapping ("/{userId}/users")
     public ResponseEntity<?> approveAll(@RequestBody Set<Long> ids) {
         postService.modifyStatusByIds(ids, "PUBLISHED");
         return new ResponseEntity<>(HttpStatus.OK);
