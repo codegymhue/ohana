@@ -48,26 +48,28 @@
                                         Đăng nhập
                                     </span>
                             </div>
-                            <label style="size: 10px" id="message">
 
+                            <th:block th:if="${error == true}">
+                                <label id="title-error" class="error" th:text="${messages}"></label>
+                            </th:block>
+
+                            <label  class="error" id="message" th:each="err : ${#fields.errors('email')}"
+                                    th:text="${err}">
                             </label>
-                            <div class="wrap-input100 validate-input m-b-20"
-                                 data-validate="Nhập số điện thoại hoặc email">
-                                <input class="input100" type="text" id="phoneOrEmail" name="phoneOrEmail"
-                                       placeholder="Nhập SĐT hoặc email" th:field="*{phoneOrEmail}">
+
+                            <div class="wrap-input100 validate-input m-b-20" data-validate="Nhập email">
+                                <input class="input100" type="text" name="username" id="phoneOrEmail"
+                                       placeholder="Nhập email" th:field="*{email}">
                                 <span class="focus-input100"></span>
                             </div>
 
                             <div class="wrap-input100 validate-input m-b-25" data-validate="Nhập mật khẩu">
-                                    <span class="btn-show-pass">
-                                        <i class="zmdi zmdi-eye"></i>
-                                    </span>
                                 <input class="input100" type="password" id="pass" name="pass"
                                        placeholder="Nhập mật khẩu" th:field="*{password}">
                                 <span class="focus-input100"></span>
                             </div>
                             <div class="container-login100-form-btn">
-                                <button type="button" id="btnLogin" class="login100-form-btn">
+                                <button type="submit" id="btnLogin" class="login100-form-btn">
                                     Đăng nhập
                                 </button>
                             </div>
@@ -123,35 +125,30 @@
 <script src="/resources/ohana/js/app.js"></script>
 
 <script>
-    // $('.validate-form-sign-in').on('submit', function () {
-    //     if (!$('#termsCheckbox').is(':checked')) {
-    //         return false;
+
+    // $("#btnLogin").on("click", () => {
+    //     let data = {
+    //         phoneOrEmail: $("#phoneOrEmail").val(),
+    //         password: $("#pass").val()
     //     }
+    //
+    //     $.ajax({
+    //         type: "POST",
+    //         headers: {
+    //             "Content-type": "application/json"
+    //         },
+    //         url: "/api/login/sign-in",
+    //         data: JSON.stringify(data)
+    //     }).done((resp) => {
+    //         showSuccess(resp);
+    //         location.href = App.DOMAIN
+    //     }).fail((error) => {
+    //         $("#message").html("");
+    //         let str =
+    //             `<label id="title-error" class="error" for="title">Tài khoản hoặc mật khẩu sai</label>`;
+    //         $("#message").append(str);
+    //     })
     // });
-
-    $("#btnLogin").on("click", () => {
-        let data = {
-            phoneOrEmail: $("#phoneOrEmail").val(),
-            password: $("#pass").val()
-        }
-
-        $.ajax({
-            type: "POST",
-            headers: {
-                "Content-type": "application/json"
-            },
-            url: "/api/login/sign-in",
-            data: JSON.stringify(data)
-        }).done((resp) => {
-            showSuccess(resp);
-            location.href = App.DOMAIN
-        }).fail((error) => {
-            $("#message").html("");
-            let str =
-                `<label id="title-error" class="error" for="title">Tài khoản hoặc mật khẩu sai</label>`;
-            $("#message").append(str);
-        })
-    });
 
     var showPass = 0;
     $('.btn-show-pass').on('click', function () {

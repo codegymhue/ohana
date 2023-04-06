@@ -62,9 +62,9 @@ public class UserAPI {
     }
 
 
-    @PostMapping("/sign-up")
-    public ResponseEntity<?> signUp(SignUpParam signUpParam) {
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+//    @PostMapping("/sign-up")
+//    public ResponseEntity<?> signUp(SignUpParam signUpParam) {
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
 }
