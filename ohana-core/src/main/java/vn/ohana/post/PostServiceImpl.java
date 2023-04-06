@@ -53,20 +53,8 @@ public class PostServiceImpl implements PostService {
         Set<Integer> utilityIds = entities.stream().map(Post::getUtilities)
                 .flatMap(Set::stream).collect(Collectors.toSet());
 
-        List<UtilityResult> utilities = utilityService.findAllByIds(utilityIds);
 
-        return page.map(entity -> {
-            PostResult dto = postMapper.toDTO(entity);
-            List<UtilityResult> newUtilities = utilities
-                    .stream()
-                    .filter(utility ->
-                            entity.getUtilities()
-                                    .stream()
-                                    .anyMatch(id -> utility.getId().equals(id)))
-                    .collect(Collectors.toList());
-            dto.setUtilities(newUtilities);
-            return dto;
-        });
+        return page.map(entity -> addPostResultUtilities(entity,utilityIds));
     }
 
 
@@ -100,7 +88,9 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResult getById(Long pId) {
-        return postMapper.toDTO(findById(pId));
+
+        Post post = findById(pId);
+        return addPostResultUtilities(post, post.getUtilities());
     }
 
 
@@ -118,5 +108,17 @@ public class PostServiceImpl implements PostService {
         return page.map(entity -> postMapper.toDTO(entity));
     }
 
-
+    private PostResult addPostResultUtilities(Post entity, Set<Integer> utilityIds) {
+        List<UtilityResult> utilities = utilityService.findAllByIds(utilityIds);
+        PostResult dto= postMapper.toDTO(entity);
+        List<UtilityResult> newUtilities = utilities
+                .stream()
+                .filter(utility ->
+                        entity.getUtilities()
+                                .stream()
+                                .anyMatch(id -> utility.getId().equals(id)))
+                .collect(Collectors.toList());
+        dto.setUtilities(newUtilities);
+        return dto;
+    }
 }
