@@ -40,25 +40,23 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true)
     public Page<PostResult> findAll(Pageable pageable) {
         Page<Post> page = postRepository.findAll(pageable);
+        return insertUtilityResultList(page);
+    }
+
+    @Override
+    public Map<Long, String> modifyStatusByIds(Set<Long> ids, String published) {
+        return null;
+    }
+
+    public Page<PostResult> insertUtilityResultList(Page<Post> page) {
         List<Post> entities = page.getContent();
+
 
         Set<Integer> utilityIds = entities.stream().map(Post::getUtilities)
                 .flatMap(Set::stream).collect(Collectors.toSet());
 
-        List<UtilityResult> utilities = utilityService.findAllByIds(utilityIds);
 
-        return page.map(entity -> {
-            PostResult dto = postMapper.toDTO(entity);
-            List<UtilityResult> newUtilities = utilities
-                    .stream()
-                    .filter(utility ->
-                            entity.getUtilities()
-                                    .stream()
-                                    .anyMatch(id -> utility.getId().equals(id)))
-                    .collect(Collectors.toList());
-            dto.setUtilities(newUtilities);
-            return dto;
-        });
+        return page.map(entity -> addPostResultUtilities(entity,utilityIds));
     }
 
 
@@ -89,7 +87,14 @@ public class PostServiceImpl implements PostService {
     public Page<PostResult> findAllByUser(User user,Pageable pageable) {
         Page<Post> post = postRepository.findByUser(user,pageable);
 
-        return toDtoPage(post);
+        return insertUtilityResultList(post);
+    }
+
+    @Override
+    public PostResult getById(Long pId) {
+
+        Post post = findById(pId);
+        return addPostResultUtilities(post, post.getUtilities());
     }
 
 
@@ -100,12 +105,24 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostResult> filter(PostFilterParam filter, Pageable pageable) {
         Page<Post> page = postFilterRepository.findAllByFilters(filter, pageable);
-        return postMapper.toDtoPage(page);
+         return insertUtilityResultList(page);
     }
 
     private Page<PostResult> toDtoPage(Page<Post> page) {
         return page.map(entity -> postMapper.toDTO(entity));
     }
 
-
+    private PostResult addPostResultUtilities(Post entity, Set<Integer> utilityIds) {
+        List<UtilityResult> utilities = utilityService.findAllByIds(utilityIds);
+        PostResult dto= postMapper.toDTO(entity);
+        List<UtilityResult> newUtilities = utilities
+                .stream()
+                .filter(utility ->
+                        entity.getUtilities()
+                                .stream()
+                                .anyMatch(id -> utility.getId().equals(id)))
+                .collect(Collectors.toList());
+        dto.setUtilities(newUtilities);
+        return dto;
+    }
 }

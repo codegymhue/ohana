@@ -8,6 +8,8 @@ import vn.ohana.location.dto.LocationResult;
 import vn.ohana.user.dto.UserResult;
 import vn.ohana.utility.dto.UtilityResult;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.time.Instant;
 import java.util.List;
 
@@ -27,5 +29,7 @@ public class PostResult {
     private CategoryResult category;
     private String thumbnailId;
     private List<UtilityResult> utilities;
+
+    @Enumerated(EnumType.STRING)
     private StatusPost status;
 }
