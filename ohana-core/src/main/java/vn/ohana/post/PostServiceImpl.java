@@ -93,6 +93,11 @@ public class PostServiceImpl implements PostService {
         return null;
     }
 
+    @Override
+    public PostResult getById(Long pId) {
+        return postMapper.toDTO(findById(pId));
+    }
+
 
     public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException("post.exception.notFound"));

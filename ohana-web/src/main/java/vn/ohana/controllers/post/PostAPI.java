@@ -25,6 +25,11 @@ public class PostAPI {
         return new ResponseEntity<>(postService.findAll(pageable), HttpStatus.OK);
     }
 
+    @GetMapping("/{pId}")
+    public ResponseEntity<?> findById(@PathVariable Long pId) {
+        return new ResponseEntity<>(postService.getById(pId), HttpStatus.OK);
+    }
+
     @PatchMapping ("/approveAll")
     @GetMapping
     public ResponseEntity<?> findAllByUserId(@RequestParam Long userId) {
