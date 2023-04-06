@@ -110,9 +110,9 @@
                         </div>
                         <div class="q49VD">
                             <div class="wzw4X"><span class="_2dNxP">Tiệm ích</span><span
-                                    class="icon-a-down _11wO8 _2enHb" id="btnCategory"
+                                    class="icon-a-down _11wO8 _2enHb" id="btnUtilities"
                                     style="color: rgb(51, 51, 51); font-size: 20px;"></span></div>
-                            <div class="_1ZENx _1-FEc _1Ed3U" id="categories">
+                            <div class="_1ZENx _1-FEc _1Ed3U" id="utilities">
                             </div>
                         </div>
                         <div class="q49VD">
@@ -252,6 +252,7 @@
     let page = {
         url: {
             getAllCategories: App.BASE_URL_API + "/categories",
+            getAllUtilities: App.BASE_URL_API + "/utilities",
             getAllGenders: App.BASE_URL_API + "/genders",
             doCreatePost: App.BASE_URL_API + "/posts/postNews",
             doFilter: App.BASE_URL_API + "/posts/filter",
@@ -313,8 +314,8 @@
     function doFilter(filter) {
         $.ajax({
             type: "POST",
-            url: page.url.doFilter,
-            data: filter
+            url: page.url.doFilter+ `?page=0&size=20`,
+            data: filter,
         }).done(function (data) {
             paging(data);
 
@@ -327,9 +328,6 @@
     $("#btnPrice").on("click", function () {
     })
 
-    $("#btnLocation").on('click', function () {
-        page.commands.getAllLocation();
-    })
 
     $("#btnCategory").on('click', function () {
         page.commands.getAllCategories();
@@ -337,6 +335,10 @@
 
     $("#btnGender").on('click', function () {
         page.commands.getAllGenders();
+    })
+
+    $("#btnUtilities").on('click', function () {
+        page.commands.getAllUtilities();
     })
 
     $(".btn-search").on('click', function () {
@@ -551,7 +553,16 @@
             $.each($("input[name='roomTypesCheckbox']:checked"), function () {
                 categories.push(+$(this).val());
             });
+
             filter.categories = categories;
+
+            let utilities = [];
+
+            $.each($("input[name='roomTypesCheckbox']:checked"), function () {
+                utilities.push(+$(this).val());
+            });
+            filter.utilities = utilities;
+
             filter.gender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val();
             doFilter(JSON.stringify(filter))
         }

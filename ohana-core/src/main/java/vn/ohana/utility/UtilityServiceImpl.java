@@ -60,6 +60,6 @@ public class UtilityServiceImpl implements UtilityService {
 
     @Override
     public List<UtilityResult> findAll() {
-        return null;
+        return utilityMapper.toDTOList(utilityRepository.findAll());
     }
 }

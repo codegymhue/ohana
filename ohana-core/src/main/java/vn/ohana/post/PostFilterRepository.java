@@ -26,15 +26,15 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
 
             List<Predicate> predicateList = new ArrayList<>();
 
-            if (filter.getKeyword()!=null && filter.getKeyword().trim().length() != 0) {
-                Predicate locationPredicate = criteriaBuilder.like(root.get("location"),"%" + filter.getKeyword() + "%");
-                Predicate titlePredicate = criteriaBuilder.like(root.get("title"),"%" + filter.getKeyword() + "%");
+            if (filter.getKeyword() != null && filter.getKeyword().trim().length() != 0) {
+                Predicate locationPredicate = criteriaBuilder.like(root.get("location"), "%" + filter.getKeyword() + "%");
+                Predicate titlePredicate = criteriaBuilder.like(root.get("title"), "%" + filter.getKeyword() + "%");
                 Predicate kwPredicate = criteriaBuilder.or(locationPredicate, titlePredicate);
                 predicateList.add(kwPredicate);
             }
 
             if (filter.getMinPrice() != null && filter.getMaxPrice() != null) {
-                Predicate minPricePredicate = criteriaBuilder.greaterThan(rentHouse.get("price"),filter.getMinPrice());
+                Predicate minPricePredicate = criteriaBuilder.greaterThan(rentHouse.get("price"), filter.getMinPrice());
                 Predicate maxPricePredicate = criteriaBuilder.lessThan(rentHouse.get("price"), filter.getMaxPrice());
                 Predicate pricePredicate = criteriaBuilder.or(minPricePredicate, maxPricePredicate);
                 predicateList.add(pricePredicate);
@@ -45,7 +45,7 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
                 predicateList.add(renderIdPredicate);
             }
 
-            if (filter.getStatus()!=null) {
+            if (filter.getStatus() != null) {
                 Predicate statusPredicate = criteriaBuilder.equal(root.get("status"), filter.getStatus());
                 predicateList.add(statusPredicate);
             }
@@ -61,7 +61,7 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
                 List<Integer> utilities = filter.getUtilities();
                 List<Predicate> expressionList = new ArrayList<>();
                 for (Integer utility : utilities) {
-                    expressionList.add(criteriaBuilder.equal(criteriaBuilder.function("JSON_CONTAINS",String.class,root.get("utilities"),criteriaBuilder.literal(String.format("%s", utility))),1));
+                    expressionList.add(criteriaBuilder.equal(criteriaBuilder.function("JSON_CONTAINS", String.class, root.get("utilities"), criteriaBuilder.literal(String.format("%s", utility))), 1));
                 }
 
                 Predicate joinQuery = criteriaBuilder.and(expressionList.toArray(new Predicate[0]));
@@ -75,19 +75,19 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
 
             if (filter.getLocation() != null) {
 
-                if (filter.getLocation().getProvinceId() != null ) {
+                if (filter.getLocation().getProvinceId() != null) {
                     Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.provinceId"));
                     Predicate provinceIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocation().getProvinceId());
                     predicateList.add(provinceIdEqual);
 
                 }
-                if (filter.getLocation().getDistrictId() != null ) {
+                if (filter.getLocation().getDistrictId() != null) {
                     Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.districtId"));
                     Predicate districtIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocation().getDistrictId());
                     predicateList.add(districtIdEqual);
 
                 }
-                if (filter.getLocation().getWardId() != null ) {
+                if (filter.getLocation().getWardId() != null) {
                     Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.wardId"));
                     Predicate wardIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocation().getWardId());
                     predicateList.add(wardIdEqual);
