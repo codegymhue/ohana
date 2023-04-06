@@ -27,7 +27,8 @@ public class UserController {
     @PostMapping("/add")
     public String addUser(@Valid @ModelAttribute("user") SignUpParam user, BindingResult result, Model model) {
 
-        String err = ";";//validationService.validateUser(user);
+//        String err = validationService.validateUser(user);
+        String err = "";
 
         if (!err.isEmpty()) {
             ObjectError error = new ObjectError("globalError", err);

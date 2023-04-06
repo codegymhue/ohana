@@ -1,19 +1,54 @@
 package vn.ohana.user.dto;
 
 import lombok.*;
-
-import javax.validation.constraints.NotBlank;
+import org.springframework.validation.Errors;
+import org.springframework.validation.Validator;
 
 @Getter
 @Setter
-public class SignUpParam {
+public class SignUpParam implements Validator {
 
-    @NotBlank(message = "{category.validation.title.notBlank}")
     private String fullName;
 
-    private String phoneOrEmail;
+    private String email;
 
-    private String password;
+    private String passWord;
+
+    @Override
+    public boolean supports(Class<?> clazz) {
+        return LoginParam.class.isAssignableFrom(clazz);
+    }
+
+    @Override
+    public void validate(Object target, Errors errors) {
+        SignUpParam signUpParam = (SignUpParam) target;
+
+        String fullName = signUpParam.getFullName();
+        String email = signUpParam.getEmail();
+        String password = signUpParam.getPassWord();
 
 
+        if (fullName.length() == 0) {
+            errors.rejectValue("fullName", "user.validation.fullName.notBlank");
+        } else {
+            if (fullName.length() < 4 || fullName.length() > 25) {
+                errors.rejectValue("fullName", "fullName.length");
+            }
+        }
+
+        if (email.length() == 0) {
+            errors.rejectValue("email", "user.validation.email.notBlank");
+        } else {
+            if (!email.matches("^[\\w]+@([\\w-]+\\.)+[\\w-]{2,6}$")) {
+                errors.rejectValue("email", "user.validation.email.notFormat");
+            }
+        }
+
+        if (password.length() == 0) {
+            errors.rejectValue("passWord", "user.validation.passWord.notBlank");
+        } else if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[-`!~({})|.,*_@#$%^&+=/])(?=\\S+$).{6,}$")) {
+            errors.rejectValue("passWord", "user.validation.passWord.notFormat");
+        }
+
+    }
 }
