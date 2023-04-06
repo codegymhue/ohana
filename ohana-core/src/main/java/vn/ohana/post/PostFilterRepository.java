@@ -55,8 +55,8 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
 
                 List<Integer> utilities = filter.getUtilities();
                 List<Predicate> expressionList = new ArrayList<>();
-                for (Integer u : utilities) {
-                    expressionList.add(criteriaBuilder.equal(criteriaBuilder.function("JSON_CONTAINS",String.class,root.get("utilities"),criteriaBuilder.literal(String.format("%s", u))),1));
+                for (Integer utility : utilities) {
+                    expressionList.add(criteriaBuilder.equal(criteriaBuilder.function("JSON_CONTAINS",String.class,root.get("utilities"),criteriaBuilder.literal(String.format("%s", utility))),1));
                 }
 
                 Predicate joinQuery = criteriaBuilder.and(expressionList.toArray(new Predicate[0]));
