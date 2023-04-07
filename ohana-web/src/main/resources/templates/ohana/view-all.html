@@ -86,41 +86,58 @@
                                             <span class="thumb" id="thumbMax" style="left: 100%;"></span>
                                         </div>
                                         <input class="input-class" id="rangeMin" type="range" max="15000000" min="0"
-                                               step="500000"
+                                               step="50"
                                                value="0">
                                         <input class="input-class" id="rangeMax" type="range" max="15000000" min="0"
-                                               step="500000"
+                                               step="50"
                                                value="15000000">
                                     </div>
                                     <div class="display">
-                                        <span id="min">0tr</span>
-                                        <span id="max">15tr+</span>
+                                        <span class="text-start" id="min" >0tr</span>
+                                        <span class="text-end" id="max" style="width: 50px;">15tr</span>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="q49VD">
-                            <div class="wzw4X"><span class="_2dNxP">Loại phòng</span><span
-                                    class="icon-a-down _11wO8 _2enHb" id="btnCategory"
-                                    style="color: rgb(51, 51, 51); font-size: 20px;"></span></div>
-                            <div class="_1ZENx _1-FEc _1Ed3U" id="categories">
+                            <div class="wzw4X d-flex flex-column">
+                                <div class="d-flex justify-content-between w-100">
+                                    <span class="_2dNxP">Loại phòng</span>
+                                    <span
+                                            class="icon-a-down float-end _11wO8 _2enHb" id="btnCategory"
+                                            style="color: rgb(51, 51, 51); font-size: 20px;">
+
+                                    </span>
+                                </div>
+                                <div class="_1ZENx _1-FEc _1Ed3U align-self-start" id="categories">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="q49VD">
+                            <div class="wzw4X d-flex flex-column">
+                                <div class="d-flex justify-content-between w-100">
+                                    <span class="_2dNxP">Tiện ích</span>
+                                    <span
+                                            class="icon-a-down float-end _11wO8 _2enHb" id="btnUtilities"
+                                            style="color: rgb(51, 51, 51); font-size: 20px;">
+                                    </span>
+                                </div>
+                                <div class="_1ZENx _1-FEc _1Ed3U align-self-start" id="utilities">
+                                </div>
                             </div>
                         </div>
                         <div class="q49VD">
-                            <div class="wzw4X"><span class="_2dNxP">Tiệm ích</span><span
-                                    class="icon-a-down _11wO8 _2enHb" id="btnUtilities"
-                                    style="color: rgb(51, 51, 51); font-size: 20px;"></span></div>
-                            <div class="_1ZENx _1-FEc _1Ed3U" id="utilities">
-                            </div>
-                        </div>
-                        <div class="q49VD">
-                            <div class="wzw4X"><span class="_2dNxP">Giới tính</span><span
-                                    class="icon-a-down _11wO8 _2enHb" id="btnGender"
-                                    style="color: rgb(51, 51, 51); font-size: 20px;"></span></div>
-                            <div class="_1ZENx _1-FEc X0uZX" id="genders">
-                                <!--                                <label class="zOnI7" id="all"><span class="_1HWTz">Tất-->
-                                <!--                                            cả</span><input type="radio" name="roomGendersRadio"><span-->
-                                <!--                                    class="_30lzl"></span></label>-->
+                            <div class="wzw4X d-flex flex-column">
+                                <div class="d-flex justify-content-between w-100">
+                                    <span class="_2dNxP">Giới tính</span>
+                                    <span
+                                            class="icon-a-down float-end _11wO8 _2enHb" id="btnGenders"
+                                            style="color: rgb(51, 51, 51); font-size: 20px;">
+                                    </span>
+                                </div>
+                                <div class="_1ZENx _1-FEc X0uZX align-self-start" id="genders">
+                                </div>
                             </div>
                         </div>
                         <div class="q49VD">
@@ -130,17 +147,17 @@
 
                                 <div class="mt-2">
                                     <label>Province</label>
-                                    <select class="form-select"  id="provinceId" name="provinceId">
+                                    <select class="form-select" id="provinceId" name="provinceId">
                                     </select>
                                 </div>
                                 <div class="my-2">
                                     <label>District</label>
-                                    <select class="form-select"  id="districtId" name="districtId">
+                                    <select class="form-select" id="districtId" name="districtId">
                                     </select>
                                 </div>
                                 <div class="my-2">
                                     <label>Ward</label>
-                                    <select class="form-select"  id="wardId" name="wardId">
+                                    <select class="form-select" id="wardId" name="wardId">
                                     </select>
                                 </div>
                                 <!--                                <label class="zOnI7" id="all"><span class="_1HWTz">Tất-->
@@ -149,7 +166,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="_1vH0j _3X6_U btn-search"><button id="filterPost _1Gwyz span">Áp dụng</button></div>
+                    <div class="_1vH0j _3X6_U btn-search">
+                        <button id="filterPost _1Gwyz span">Áp dụng</button>
+                    </div>
                 </div>
             </div>
             <div class="aR5Eq">
@@ -281,22 +300,22 @@
         provinceId,
         districtId,
         wardId
-    }
+    };
     let filter = {locationFilter};
     let listPost = [];
     let min = 0;
     let max = 15000000;
 
-
-
     const calcLeftPosition = value => 100 / (15000000) * (value);
+
+    // Rang: Min, Max
 
     $('#rangeMin').on('input', function (e) {
         const newValue = parseInt(e.target.value);
         if (newValue + 500000 > max) return;
         min = newValue;
         $('#thumbMin').css('left', calcLeftPosition(newValue) + '%');
-        $('#min').html(newValue / 1000000 + 'tr');
+        $('#min').html(Math.ceil(newValue / 500000) * 500000 / 1000000 + 'tr');
         $('#line').css({
             'left': calcLeftPosition(newValue) + '%',
             'right': (100 - calcLeftPosition(max)) + '%'
@@ -308,39 +327,80 @@
         if (newValue - 500000 < min) return;
         max = newValue;
         $('#thumbMax').css('left', calcLeftPosition(newValue) + '%');
-        $('#max').html(newValue / 1000000 + 'tr');
+        $('#max').html(Math.ceil(newValue / 500000) * 500000 / 1000000 + 'tr');
         $('#line').css({
             'left': calcLeftPosition(min) + '%',
             'right': (100 - calcLeftPosition(newValue)) + '%'
         });
     });
-    var postList;
+
+    // END ======
+
 
     function doFilter(filter) {
         $.ajax({
             type: "POST",
-            url: page.url.doFilter + `?page=0&size=20`,
+            url: page.url.doFilter ,
             data: filter,
         }).done(function (data) {
             paging(data);
-
-
         }).fail(function () {
             showError("Get Filter Fail")
         })
     }
 
-    $("#btnCategory").on('click', function () {
-        page.commands.getAllCategories();
-    })
+    // Chang handleBtn: btnCategory, btnUtilities, btnGenders
 
-    $("#btnGender").on('click', function () {
-        page.commands.getAllGenders();
-    })
+    let isCategoryClick = false
+
+    $("#btnCategory").on('click', function () {
+        page.commands.handleCategoryClick(isCategoryClick = !isCategoryClick)
+    });
+
+    page.commands.handleCategoryClick = (isClick) => {
+        if (isClick) {
+            $("#categories").show(250);
+            $("#btnCategory").animate({rotate: "90deg"}, 250)
+        } else {
+            $("#categories").hide(250);
+            $("#btnCategory").animate({rotate: "0deg"}, 250)
+        }
+    }
+
+    let isUtilitieClick = false
 
     $("#btnUtilities").on('click', function () {
-        page.commands.getAllUtilities();
+        page.commands.handleUtilitieClick(isUtilitieClick = !isUtilitieClick)
     })
+
+    page.commands.handleUtilitieClick = (isClick) => {
+        if (isClick) {
+            $("#utilities").show(250);
+            $("#btnUtilities").animate({rotate: "90deg"}, 250)
+        } else {
+            $("#utilities").hide(250);
+            $("#btnUtilities").animate({rotate: "0deg"}, 250)
+        }
+    }
+
+    let isGenderClick = false
+
+    $("#btnGenders").on('click', function () {
+        page.commands.handleGenderClick(isGenderClick = !isGenderClick)
+    })
+
+    page.commands.handleGenderClick = (isClick) => {
+        if (isClick) {
+            $("#genders").show(250);
+            $("#btnGenders").animate({rotate: "90deg"}, 250)
+        } else {
+            $("#genders").hide(250);
+            $("#btnGenders").animate({rotate: "0deg"}, 250)
+        }
+    }
+
+    // END =======
+
 
     $(".btn-search").on('click', function () {
         filter.priceStarts = min;
@@ -359,6 +419,8 @@
         doFilter(JSON.stringify(filter));
     })
 
+
+    // GetALl: categories
 
     page.commands.getAllUtilities = () => {
         $.ajax({
@@ -491,10 +553,10 @@
     }
 
 
-
     page.dialogs.elements.province.on("change", function () {
         let provinceId = $(this).val();
 
+        filter.locationFilter.provinceId = provinceId;
 
         page.commands.getAllDistrictsByProvinceId(provinceId).then(() => {
             let districtId = page.dialogs.elements.district.val();
@@ -506,9 +568,16 @@
 
     page.dialogs.elements.district.on("change", function () {
         let districtId = $(this).val();
+        filter.locationFilter.districtId = districtId;
 
         page.commands.getAllWardsByDistrictId(districtId);
     });
+
+    page.dialogs.elements.ward.on("change", function () {
+        let wardId = $(this).val();
+        filter.locationFilter.wardId = wardId;
+    });
+
 
     page.commands.loadData = () => {
         page.commands.getAllProvinces().then(() => {
@@ -529,6 +598,17 @@
             let districtId = [[${districtId}]];
             let provinceId = [[${provinceId}]];
             let mess = [[${mess}]];
+
+            $("#categories").hide();
+            page.commands.getAllCategories();
+
+            $("#genders").hide();
+            page.commands.getAllGenders();
+
+            $("#utilities").hide();
+            page.commands.getAllUtilities();
+
+
             if (mess != null) {
                 showError(mess);
                 const myTimeout = setTimeout(redirectAllListPost, 1000);
@@ -536,17 +616,19 @@
                 function redirectAllListPost() {
                     location.href = App.DOMAIN;
                 }
-            } if (provinceId != null) {
+            }
+            if (provinceId != null) {
                 filter.locationFilter.provinceId = provinceId;
                 console.log("có provinceId")
-            } if (districtId != null) {
+            }
+            if (districtId != null) {
                 filter.locationFilter.districtId = districtId;
                 console.log("có districtId")
-            } if (wardId != null) {
+            }
+            if (wardId != null) {
                 console.log("có wardId")
                 filter.locationFilter.wardId = wardId;
             }
-
             filter.priceStarts = min;
             filter.priceEnds = max;
 
@@ -560,7 +642,6 @@
             filter.utilities = utilities;
 
             filter.gender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val();
-            doFilter(JSON.stringify(filter))
         }
     )
 

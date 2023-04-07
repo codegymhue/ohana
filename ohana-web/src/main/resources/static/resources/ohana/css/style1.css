@@ -7190,3 +7190,8 @@ a {
     justify-content: space-between;
 }
 
+ #categories {
+     transition: 250ms ease;
+ }
+
+

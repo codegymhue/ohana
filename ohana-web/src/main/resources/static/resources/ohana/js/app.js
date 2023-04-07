@@ -110,6 +110,7 @@ class Filter {
         this.gender = gender;
         this.location = location;
 
+
     }
 }
 

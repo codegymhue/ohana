@@ -1,6 +1,5 @@
 package vn.ohana.post;
 
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,10 +7,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
 import vn.ohana.entities.*;
-
-import vn.ohana.location.dto.LocationParam;
 import vn.ohana.post.dto.PostFilterParam;
-
 
 import javax.persistence.criteria.*;
 import java.util.*;
@@ -73,23 +69,23 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
                 predicateList.add(categoryIdPredicate);
             }
 
-            if (filter.getLocation() != null) {
+            if (filter.getLocationFilter() != null) {
 
-                if (filter.getLocation().getProvinceId() != null) {
+                if (filter.getLocationFilter().getProvinceId() != null) {
                     Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.provinceId"));
-                    Predicate provinceIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocation().getProvinceId());
+                    Predicate provinceIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocationFilter().getProvinceId());
                     predicateList.add(provinceIdEqual);
 
                 }
-                if (filter.getLocation().getDistrictId() != null) {
+                if (filter.getLocationFilter().getDistrictId() != null) {
                     Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.districtId"));
-                    Predicate districtIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocation().getDistrictId());
+                    Predicate districtIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocationFilter().getDistrictId());
                     predicateList.add(districtIdEqual);
 
                 }
-                if (filter.getLocation().getWardId() != null) {
+                if (filter.getLocationFilter().getWardId() != null) {
                     Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.wardId"));
-                    Predicate wardIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocation().getWardId());
+                    Predicate wardIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocationFilter().getWardId());
                     predicateList.add(wardIdEqual);
 
                 }

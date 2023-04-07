@@ -27,7 +27,7 @@ public class PostFilterParam {
     private Long categoryId;
     private BigDecimal minPrice;
     private BigDecimal maxPrice;
-    private Location location;
+    private Location locationFilter;
     private List<Integer> utilities;
 
 }
