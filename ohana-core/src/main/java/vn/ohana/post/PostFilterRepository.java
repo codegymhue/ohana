@@ -29,10 +29,10 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
                 predicateList.add(kwPredicate);
             }
 
-            if (filter.getMinPrice() != null && filter.getMaxPrice() != null) {
-                Predicate minPricePredicate = criteriaBuilder.greaterThan(rentHouse.get("price"), filter.getMinPrice());
-                Predicate maxPricePredicate = criteriaBuilder.lessThan(rentHouse.get("price"), filter.getMaxPrice());
-                Predicate pricePredicate = criteriaBuilder.or(minPricePredicate, maxPricePredicate);
+            if (filter.getPriceStarts() != null && filter.getPriceEnds() != null) {
+                Predicate priceStartsPredicate = criteriaBuilder.greaterThan(rentHouse.get("price"), filter.getPriceStarts());
+                Predicate priceEndsPredicate = criteriaBuilder.lessThan(rentHouse.get("price"), filter.getPriceEnds());
+                Predicate pricePredicate = criteriaBuilder.or(priceStartsPredicate, priceEndsPredicate);
                 predicateList.add(pricePredicate);
             }
 
@@ -64,9 +64,9 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
                 predicateList.add(joinQuery);
             }
 
-            if (filter.getCategoryId() != null) {
-                Predicate categoryIdPredicate = criteriaBuilder.equal(root.get("categoryId"), filter.getCategoryId());
-                predicateList.add(categoryIdPredicate);
+            if (filter.getCategory() != null) {
+                Predicate categoryPredicate = criteriaBuilder.equal(root.get("category"), filter.getCategory());
+                predicateList.add(categoryPredicate);
             }
 
             if (filter.getLocationFilter() != null) {

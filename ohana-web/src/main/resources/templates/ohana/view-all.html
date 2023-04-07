@@ -413,7 +413,7 @@
         filter.utilities = utilities;
         filter.locationFilter = locationFilter
 
-        filter.categories = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
+        filter.categorie = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
         filter.gender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val();
 
         doFilter(JSON.stringify(filter));
@@ -633,7 +633,7 @@
             filter.priceEnds = max;
 
 
-            filter.categories = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
+            filter.categorie = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
 
             let utilities = [];
             $.each($("input[name='utilitiesCheckbox']:checked"), function () {
