@@ -102,16 +102,13 @@ class PostMedia {
 }
 
 class Filter {
-    constructor(priceStarts, priceEnds, utilities, categories, gender, wardId, provinceId,districtId , locationName) {
+    constructor(priceStarts, priceEnds, utilities, categories, gender , location) {
         this.priceStarts = priceStarts;
         this.priceEnds = priceEnds;
         this.utilities = utilities;
         this.categories = categories;
         this.gender = gender;
-        this.wardId = wardId;
-        this.provinceId = provinceId;
-        this.districtId = districtId;
-        this.locationName = locationName;
+        this.location = location;
 
     }
 }

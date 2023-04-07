@@ -75,9 +75,7 @@
                     </div>
                     <div class="ySUHy">
                         <div class="q49VD">
-                            <div class="wzw4X"><span class="_2dNxP">Giá</span><span
-                                    class="icon-a-down _11wO8 _2enHb" id="btnPrice"
-                                    style="color: rgb(51, 51, 51); font-size: 20px;"></span></div>
+                            <div class="wzw4X"><span class="_2dNxP">Giá</span></span></div>
                             <div class="_1ZENx _1-FEc _39FVJ" id="price">
 
                                 <div class="oH889">
@@ -132,17 +130,17 @@
 
                                 <div class="mt-2">
                                     <label>Province</label>
-                                    <select class="form-select" style="width: 108%" id="provinceId" name="provinceId">
+                                    <select class="form-select"  id="provinceId" name="provinceId">
                                     </select>
                                 </div>
                                 <div class="my-2">
                                     <label>District</label>
-                                    <select class="form-select" style="width: 108%" id="districtId" name="districtId">
+                                    <select class="form-select"  id="districtId" name="districtId">
                                     </select>
                                 </div>
                                 <div class="my-2">
                                     <label>Ward</label>
-                                    <select class="form-select" style="width: 108%" id="wardId" name="wardId">
+                                    <select class="form-select"  id="wardId" name="wardId">
                                     </select>
                                 </div>
                                 <!--                                <label class="zOnI7" id="all"><span class="_1HWTz">Tất-->
@@ -151,7 +149,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="_1vH0j _3X6_U btn-search"><span>Áp dụng</span></div>
+                    <div class="_1vH0j _3X6_U btn-search"><button id="filterPost _1Gwyz span">Áp dụng</button></div>
                 </div>
             </div>
             <div class="aR5Eq">
@@ -279,10 +277,17 @@
     page.dialogs.elements.ward = $("#wardId");
 
     let post = new Post();
-    let filter = new Filter();
+    let locationFilter = {
+        provinceId,
+        districtId,
+        wardId
+    }
+    let filter = {locationFilter};
     let listPost = [];
     let min = 0;
     let max = 15000000;
+
+
 
     const calcLeftPosition = value => 100 / (15000000) * (value);
 
@@ -314,7 +319,7 @@
     function doFilter(filter) {
         $.ajax({
             type: "POST",
-            url: page.url.doFilter+ `?page=0&size=20`,
+            url: page.url.doFilter + `?page=0&size=20`,
             data: filter,
         }).done(function (data) {
             paging(data);
@@ -324,10 +329,6 @@
             showError("Get Filter Fail")
         })
     }
-
-    $("#btnPrice").on("click", function () {
-    })
-
 
     $("#btnCategory").on('click', function () {
         page.commands.getAllCategories();
@@ -350,12 +351,9 @@
             utilities.push(+$(this).val());
         });
         filter.utilities = utilities;
-        let categories = [];
+        filter.locationFilter = locationFilter
 
-        $.each($("input[name='roomTypesCheckbox']:checked"), function () {
-            categories.push(+$(this).val());
-        });
-        filter.categories = categories;
+        filter.categories = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
         filter.gender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val();
 
         doFilter(JSON.stringify(filter));
@@ -395,7 +393,7 @@
             $("#categories").html('');
             data.forEach((item) => {
                 let str = `<label class="zOnI7" id="male"><span
-                                        class="_1HWTz">${item.title}</span><input value="${item.id}" type="radio" name="roomGendersRadio"><span
+                                        class="_1HWTz">${item.title}</span><input value="${item.id}" type="radio" name="roomCategoriesRadio"><span
                                         class="_30lzl"></span>
                            </label>`;
                 $("#categories").append(str);
@@ -492,8 +490,11 @@
             })
     }
 
+
+
     page.dialogs.elements.province.on("change", function () {
         let provinceId = $(this).val();
+
 
         page.commands.getAllDistrictsByProvinceId(provinceId).then(() => {
             let districtId = page.dialogs.elements.district.val();
@@ -535,30 +536,25 @@
                 function redirectAllListPost() {
                     location.href = App.DOMAIN;
                 }
-            } else if (provinceId != null) {
-                filter.provinceId = provinceId;
+            } if (provinceId != null) {
+                filter.locationFilter.provinceId = provinceId;
                 console.log("có provinceId")
-            } else if (districtId != null) {
-                filter.districtId = districtId;
+            } if (districtId != null) {
+                filter.locationFilter.districtId = districtId;
                 console.log("có districtId")
-            } else if (wardId != null) {
+            } if (wardId != null) {
                 console.log("có wardId")
-                filter.wardId = wardId;
+                filter.locationFilter.wardId = wardId;
             }
+
             filter.priceStarts = min;
             filter.priceEnds = max;
 
-            let categories = [];
 
-            $.each($("input[name='roomTypesCheckbox']:checked"), function () {
-                categories.push(+$(this).val());
-            });
-
-            filter.categories = categories;
+            filter.categories = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
 
             let utilities = [];
-
-            $.each($("input[name='roomTypesCheckbox']:checked"), function () {
+            $.each($("input[name='utilitiesCheckbox']:checked"), function () {
                 utilities.push(+$(this).val());
             });
             filter.utilities = utilities;
