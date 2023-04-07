@@ -11,7 +11,9 @@ import vn.ohana.entities.User;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
+import vn.ohana.user.UserMapper;
 import vn.ohana.user.UserRepository;
+import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
 import vn.rananu.shared.exceptions.NotFoundException;
@@ -26,6 +28,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostMapper postMapper;
+
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private PostRepository postRepository;
@@ -84,8 +89,9 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Page<PostResult> findAllByUser(User user,Pageable pageable) {
-        Page<Post> post = postRepository.findByUser(user,pageable);
+    public Page<PostResult> findAllByUser(UserUpdateParam user, Pageable pageable) {
+
+        Page<Post> post = postRepository.findByUser(userMapper.toEntity(user),pageable);
 
         return insertUtilityResultList(post);
     }
