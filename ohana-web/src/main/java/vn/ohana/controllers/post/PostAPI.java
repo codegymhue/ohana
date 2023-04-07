@@ -6,11 +6,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.ohana.entities.User;
 import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostUpdateParam;
 import vn.ohana.user.dto.UserFilterParam;
+import vn.ohana.user.dto.UserUpdateParam;
 
 import java.util.Set;
 
@@ -27,9 +27,10 @@ public class PostAPI {
     }
 
     @PostMapping("/{userId}/user")
-    public ResponseEntity<?> findAllByUserId(@PathVariable Long userId, @RequestBody User user,@RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
+    public ResponseEntity<?> findAllByUserId(@PathVariable Long userId, @RequestBody UserUpdateParam user, @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
         return new ResponseEntity<>(postService.findAllByUser(user,PageRequest.of(page, size)), HttpStatus.OK);
     }
+
     @GetMapping("/{pId}")
     public ResponseEntity<?> findById(@PathVariable Long pId) {
         return new ResponseEntity<>(postService.getById(pId), HttpStatus.OK);

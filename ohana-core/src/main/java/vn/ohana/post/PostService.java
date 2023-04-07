@@ -8,6 +8,7 @@ import vn.ohana.entities.User;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
+import vn.ohana.user.dto.UserUpdateParam;
 
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +23,7 @@ public interface PostService {
     Page<PostResult> filter(PostFilterParam filter, Pageable pageable);
     void postEdit(PostUpdateParam postUpdateParam);
 
-    Page<PostResult> findAllByUser(User user, Pageable pageable);
+    Page<PostResult> findAllByUser(UserUpdateParam user, Pageable pageable);
 
 
     PostResult getById(Long pId);
