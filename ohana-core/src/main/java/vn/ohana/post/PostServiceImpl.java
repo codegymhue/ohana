@@ -103,6 +103,14 @@ public class PostServiceImpl implements PostService {
         return addPostResultUtilities(post, post.getUtilities());
     }
 
+    @Override
+    @Transactional
+    public PostResult updateStatusById(PostUpdateParam postUpdateParam) {
+        Post post = findById(postUpdateParam.getId());
+        postMapper.transferFields(postUpdateParam,post,true);
+        return postMapper.toDTO(post);
+    }
+
 
     public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException("post.exception.notFound"));

@@ -27,4 +27,6 @@ public interface PostService {
 
 
     PostResult getById(Long pId);
+
+    PostResult updateStatusById(PostUpdateParam postUpdateParam);
 }

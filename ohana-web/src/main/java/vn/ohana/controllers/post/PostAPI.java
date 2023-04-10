@@ -52,5 +52,10 @@ public class PostAPI {
         return new ResponseEntity<>("Cập nhật bài viết thành công", HttpStatus.OK);
     }
 
+    @PatchMapping ("/{id}")
+    public ResponseEntity<?> updateStatusById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
+        return new ResponseEntity<>( postService.updateStatusById(postUpdateParam), HttpStatus.OK);
+    }
+
 
 }
