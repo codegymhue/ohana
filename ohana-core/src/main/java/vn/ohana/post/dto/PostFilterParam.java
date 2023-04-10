@@ -1,6 +1,8 @@
 package vn.ohana.post.dto;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vn.ohana.entities.Gender;
 import vn.ohana.entities.Location;
@@ -18,6 +20,8 @@ import java.util.Set;
 
 @Getter
 @Setter
+@Data
+@NoArgsConstructor
 public class PostFilterParam {
     private User user;
     private String keyword;
@@ -29,5 +33,4 @@ public class PostFilterParam {
     private BigDecimal priceEnds;
     private Location locationFilter;
     private List<Integer> utilities;
-
 }

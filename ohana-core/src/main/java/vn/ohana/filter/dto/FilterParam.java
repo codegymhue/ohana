@@ -22,5 +22,4 @@ public class FilterParam {
     private Long wardId;
     private String provinceName;
     private String locationName;
-
 }

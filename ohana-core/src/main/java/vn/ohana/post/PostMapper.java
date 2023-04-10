@@ -4,6 +4,7 @@ package vn.ohana.post;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import vn.ohana.entities.*;
+import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
 import vn.ohana.utility.dto.UtilityResult;
@@ -21,6 +22,5 @@ public class PostMapper extends BaseMapper<PostResult, Post, PostUpdateParam> {
     public Page<PostResult> toDtoPage(Page<Post> page) {
         return page.map(this::toDTO);
     }
-
 
 }

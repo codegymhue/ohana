@@ -43,7 +43,7 @@ public class PostAPI {
 
     @PostMapping("/filter")
     public ResponseEntity<?> filter(@RequestBody PostFilterParam filter, @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
-        return new ResponseEntity<>(postService.filter(filter, PageRequest.of(page, size)), HttpStatus.OK);
+            return new ResponseEntity<>(postService.filter(filter, PageRequest.of(page, size)), HttpStatus.OK);
     }
 
     @PatchMapping ("/edit")

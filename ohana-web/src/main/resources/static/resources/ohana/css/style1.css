@@ -28,7 +28,7 @@
     letter-spacing: 0;
     line-height: 28px;
     color: rgb(247, 52, 134);
-    /*font-size: 24px;*/
+    font-size: 16px;
     background-color: white;
 }
 
@@ -1671,7 +1671,6 @@ h1 {
     background-color: #F6F7F9;
     padding-left: 32px;
     padding-right: 32px;
-    border-radius: 20px;
 }
 
 ._1say4 .ySUHy .q49VD {
