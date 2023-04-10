@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="/resources/bootstrap-5.0.2/css/bootstrap.min.css">
+    <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
+
+    <style>
+        .col-md-3 {
+            float: left;
+        }
+
+        .pd-25 {
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+
+        .pd {
+            padding: 10px;
+        }
+
+        /*    css upload file*/
+        .image_container {
+            height: 120px;
+            width: 200px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 10px;
+        }
+
+        .image_container img {
+            height: 100%;
+            width: auto;
+            object-fit: cover;
+        }
+
+        .image_container span {
+            top: -6px;
+            right: 8px;
+            color: red;
+            font-size: 28px;
+            font-weight: normal;
+            cursor: pointer;
+        }
+
+        .img_avatar {
+            height: 120px;
+            width: 200px;
+        }
+
+        /*.cover-image {*/
+        /*    position: absolute;*/
+        /*    bottom: -10px;*/
+        /*    background-image: linear-gradient(rgba(206, 141, 206, 0.91), #f517e9);*/
+        /*}*/
+
+        /*.position-relative {*/
+        /*    position: relative;*/
+        /*}*/
+    </style>
+
+
+</head>
+
+<body data-new-gr-c-s-check-loaded="14.1057.0" data-gr-ext-installed="" cz-shortcut-listen="true">
+<th:block th:replace="/ohana/layout/modal/modal-loading :: modal-loading "/>
+<div class="container">
+    <div class="_3bjUj">
+        <!--header-->
+        <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
+    </div>
+
+    <div class="container mt-xl-5">
+        <div class="text-center">
+            <h3>
+                Thông tin tài khoản
+            </h3>
+        </div>
+        <th:block th:if="${userUpdateParam}!=null">
+            <form class="pt-6" method="post" th:action="@{/myinfo}"
+                  th:object="${userUpdateParam}">
+                <div class="row col-md-12">
+                    <input type="hidden" class="form-control" th:field="${userUpdateParam.id}">
+                    <div class="form-group col-md-6">
+                        <label class="m-1">Họ và tên</label>
+                        <input type="text" class="form-control" th:field="${userUpdateParam.fullName}">
+                        <div th:if="${#fields.hasErrors('fullName')}">
+                            <p>2222</p>
+                        <label  class="error" id="message" th:each="err : ${#fields.errors('fullName')}"
+                                th:text="${err}">
+                        </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="m-1">Số điện thoại</label>
+                        <input type="number" class="form-control" placeholder="" th:field="${userUpdateParam.phone}">
+                        <label class="error" th:each="err : ${#fields.errors('phone')}"
+                               th:text="${err}">
+                        </label>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="form-group col-md-6">
+                        <label class="m-1">Email</label>
+                        <input type="email" class="form-control" placeholder="" th:field="${userUpdateParam.email}">
+                        <label class="error" th:each="err : ${#fields.errors('email')}"
+                               th:text="${err}">
+                        </label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="m-1">Mô tả</label>
+                        <input type="text" class="form-control" placeholder=""
+                               th:field="${userUpdateParam.description}">
+                        <label class="error" th:each="err : ${#fields.errors('address')}"
+                               th:text="${err}">
+                        </label>
+                    </div>
+                </div>
+
+                <div class="row col-md-12">
+                    <div class="form-group col-md-6">
+                        <label class="m-1">Địa chỉ</label>
+                        <input type="text" class="form-control" th:field="${userUpdateParam.address}">
+                        <label class="error" th:each="err : ${#fields.errors('description')}"
+                               th:text="${err}">
+                        </label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="m-1">Ảnh đại diện</label>
+                        <input type="file" class="form-control" placeholder="">
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <button type="submit" class="btn btn-primary mt-3">Cập nhật</button>
+                </div>
+            </form>
+        </th:block>
+    </div>
+
+    <!--</div>-->
+</div>
+<th:block th:replace="/ohana/layout/footer :: footer"/>
+
+<th:block th:replace="/ohana/layout/script :: script"/>
+<script>
+    $(".view-avatar").change(function () {
+        const src = URL.createObjectURL(this.files[0]);
+        this.parentElement.getElementsByClassName('img-preview')[0].src = src;
+    })
+</script>
+<th:block th:if="${success == true}">
+    <script>
+        showSuccess('Cập nhật thành công!!!')
+    </script>
+</th:block>
+</body>
+
+</html>

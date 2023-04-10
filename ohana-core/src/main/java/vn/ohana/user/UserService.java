@@ -44,6 +44,10 @@ public interface UserService  {
 
     LoginResult findByEmail(String email);
 
+    User findByEmailUser(String email);
+
+    LoginResult save(LoginResult userResult);
+
 
 
 }
