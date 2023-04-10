@@ -15,12 +15,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/categories")
+@CrossOrigin("*")
 public class CategoryAPI {
     @Autowired
     CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<?> findAll() {
+    public ResponseEntity<?> getAllCategory() {
         List<CategoryResult> dtoList = categoryService.findAll();
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
@@ -37,10 +38,10 @@ public class CategoryAPI {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> update(@Valid CategoryUpdateParam param) {
-        CategoryResult dto = categoryService.update(param);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CategoryUpdateParam param) {
+
+        return new ResponseEntity<>(categoryService.update(param), HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

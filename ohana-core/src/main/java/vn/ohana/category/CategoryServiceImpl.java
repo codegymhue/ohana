@@ -57,13 +57,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryResult update(CategoryUpdateParam param) {
         Category category = findById(param.getId());
-        String title = param.getTitle();
+        categoryMapper.transferFields(param, category,true);
 
-        if (!category.getTitle().equalsIgnoreCase(title)) {
-            validationByTitle(title);
-        }
-
-        categoryMapper.transferFields(param, category);
         return categoryMapper.toDTO(category);
     }
 
