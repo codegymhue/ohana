@@ -36,7 +36,7 @@
     <div class="app">
         <div class="_3bjUj">
             <!--header-->
-            <th:block th:replace="/ohana/layout/header :: header"/>
+            <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
             <div class="_1El-8">
                 <div class="container-login100">
                     <!-- <img src="/avatar-tag-black.png"> -->
@@ -105,6 +105,7 @@
 </div>
 
 
+
 <!--===============================================================================================-->
 <script src="/resources/ohana/sign-in/vendor/jquery/jquery-3.2.1.min.js"></script>
 <!--===============================================================================================-->
@@ -123,8 +124,14 @@
 <script src="/resources/ohana/sign-in/js/main.js"></script>
 <script src="/resources/js/sweetalert2@11.js"></script>
 <script src="/resources/ohana/js/app.js"></script>
-
+<th:block th:if="${success == true}">
+    <script>
+        showSuccess('Bạn đã đăng kí thành công, xin mời đăng nhập')
+    </script>
+</th:block>
 <script>
+
+
 
     // $("#btnLogin").on("click", () => {
     //     let data = {

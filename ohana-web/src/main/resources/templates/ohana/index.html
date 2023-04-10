@@ -15,7 +15,7 @@
     <div class="app">
         <div class="_3bjUj">
             <!--header-->
-            <th:block th:replace="/ohana/layout/header :: header"/>
+            <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
             <div class="QZg_h">
                 <div class="_3oMi4">
                     <div class="_3OgY1">
@@ -353,78 +353,83 @@
         </div>
         <!--            footer-->
         <th:block th:replace="/ohana/layout/footer :: footer"/>
-
     </div>
 </div>
 <th:block th:replace="/ohana/layout/script :: script"/>
-<script>
-    // let messLogin = [[${messLogin}]]
-    // if(messLogin!=null){
-    //   showSuccess(messLogin);
-    // }
 
-    $.ajax({
-        type: "GET",
-        url: App.BASE_URL_API + "/trends"
-    }).done(function (data) {
-        data.forEach((item) => {
-            let str = `<div>
-                        <a href="/view-all/${item.id}">
-                            <div class="_1vH0j FvthK"
-                                 style="background-image: url(${'/resources/ohana/img/' + item.thumbnailUrl}); background-repeat: no-repeat; background-size: cover;">
-                                <div class="_2CKh0">
-                                    <span class="_3BLx6">${item.name}</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>`
-            $("#trends").append(str);
-        });
-    }).fail(function () {
-        showError('Error')
-    })
+<th:block th:if="${success == true}">
+    <script>
+        showSuccess('Đăng nhập thành công!!!')
+    </script>
+</th:block>
+<!--<script>-->
+<!--    // let messLogin = [[${messLogin}]]-->
+<!--    // if(messLogin!=null){-->
+<!--    //   showSuccess(messLogin);-->
+<!--    // }-->
 
-    $("#search").on('input', () => {
-        let valueSearch = $("#search").val();
-        $("#location").html("");
-        if (valueSearch.length > 2) {
-            $.ajax({
-                type: "GET",
-                url: App.BASE_URL_API + "/posts/get-data-search/" + valueSearch
-            }).done(function (data) {
-                console.log(data);
-                let locationDetail;
-                data.forEach(item => {
-                    if (item.wardName == null) {
-                        locationDetail = item.districtName;
-                    } else {
-                        locationDetail = item.wardName;
-                    }
-                    let str = `<a href="/view-all?provinceName=${item.provinceName}&locationName=${locationDetail}">
-                                    <li class="li-search" className="J_X1w">${item.locationDetail}</li>
-                                </a>
-                             `;
-                    $("#location").append(str);
-                })
-            }).fail(function () {
-                showError('Error')
-            })
-        }
-    })
+<!--    $.ajax({-->
+<!--        type: "GET",-->
+<!--        url: App.BASE_URL_API + "/trends"-->
+<!--    }).done(function (data) {-->
+<!--        data.forEach((item) => {-->
+<!--            let str = `<div>-->
+<!--                        <a href="/view-all/${item.id}">-->
+<!--                            <div class="_1vH0j FvthK"-->
+<!--                                 style="background-image: url(${'/resources/ohana/img/' + item.thumbnailUrl}); background-repeat: no-repeat; background-size: cover;">-->
+<!--                                <div class="_2CKh0">-->
+<!--                                    <span class="_3BLx6">${item.name}</span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </a>-->
+<!--                    </div>`-->
+<!--            $("#trends").append(str);-->
+<!--        });-->
+<!--    }).fail(function () {-->
+<!--        showError('Error')-->
+<!--    })-->
 
-    let specifiedElement = document.getElementById('search');
-    //I'm using "click" but it works with any event
-    document.addEventListener('click', function (event) {
-        let isClickInside = specifiedElement.contains(event.target);
+<!--    $("#search").on('input', () => {-->
+<!--        let valueSearch = $("#search").val();-->
+<!--        $("#location").html("");-->
+<!--        if (valueSearch.length > 2) {-->
+<!--            $.ajax({-->
+<!--                type: "GET",-->
+<!--                url: App.BASE_URL_API + "/posts/get-data-search/" + valueSearch-->
+<!--            }).done(function (data) {-->
+<!--                console.log(data);-->
+<!--                let locationDetail;-->
+<!--                data.forEach(item => {-->
+<!--                    if (item.wardName == null) {-->
+<!--                        locationDetail = item.districtName;-->
+<!--                    } else {-->
+<!--                        locationDetail = item.wardName;-->
+<!--                    }-->
+<!--                    let str = `<a href="/view-all?provinceName=${item.provinceName}&locationName=${locationDetail}">-->
+<!--                                    <li class="li-search" className="J_X1w">${item.locationDetail}</li>-->
+<!--                                </a>-->
+<!--                             `;-->
+<!--                    $("#location").append(str);-->
+<!--                })-->
+<!--            }).fail(function () {-->
+<!--                showError('Error')-->
+<!--            })-->
+<!--        }-->
+<!--    })-->
 
-        if (!isClickInside) {
-            $("#search").val("");
-            $("#location").html("");
-        }
-    });
+<!--    let specifiedElement = document.getElementById('search');-->
+<!--    //I'm using "click" but it works with any event-->
+<!--    document.addEventListener('click', function (event) {-->
+<!--        let isClickInside = specifiedElement.contains(event.target);-->
+
+<!--        if (!isClickInside) {-->
+<!--            $("#search").val("");-->
+<!--            $("#location").html("");-->
+<!--        }-->
+<!--    });-->
 
 
-</script>
+<!--</script>-->
 </body>
 
 </html>

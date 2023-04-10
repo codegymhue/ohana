@@ -37,6 +37,8 @@
     <div class="app">
         <div class="_3bjUj">
             <!--header-->
+            <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
+
             <div class="_1El-8">
                 <div class="container-login100">
                     <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
@@ -74,7 +76,7 @@
                                     <span class="btn-show-pass">
                                         <i class="zmdi zmdi-eye"></i>
                                     </span>
-                                <input class="input100" type="password" name="pass" id="password" th:field="*{getPassWord}"
+                                <input class="input100" type="password" name="pass" id="password" th:field="*{passWord}"
                                        placeholder="Nhập mật khẩu">
                                 <span class="focus-input100"></span>
                             </div>

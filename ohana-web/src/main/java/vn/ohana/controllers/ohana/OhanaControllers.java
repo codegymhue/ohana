@@ -18,9 +18,22 @@ public class OhanaControllers {
     @Autowired
     UserService userService;
 
+    @ModelAttribute("userLogin")
+    public LoginResult getUserLoginFromCookie(@CookieValue(value = "cookie", defaultValue = "0") String loginUsername) {
+        LoginResult userLogin = null;
+        if (!loginUsername.equals("0")) {
+            userLogin = userService.findByEmail(loginUsername);
+        }
+        return userLogin;
+    }
+
     @GetMapping("/")
-    public ModelAndView home() {
+    public ModelAndView home(@ModelAttribute("userLogin") LoginResult userLogin, @CookieValue(value = "cookieLogin", defaultValue = "0") String loginUsername) {
         ModelAndView modelAndView = new ModelAndView("/ohana/index");
+        if (!loginUsername.equals("0")) {
+            modelAndView.addObject("success", true);
+        }
+        modelAndView.addObject("userLogin", userLogin);
         return modelAndView;
     }
 

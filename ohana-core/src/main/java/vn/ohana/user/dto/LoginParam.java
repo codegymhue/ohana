@@ -29,7 +29,7 @@ public class LoginParam implements Validator {
         if (email.length() == 0) {
             errors.rejectValue("email", "user.validation.email.notBlank");
         } else {
-            if (!email.matches("(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[-`!~({})|.,*_@#$%^&+=/])(?=\\S+$).{6,}$")) {
+            if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
                 errors.rejectValue("email", "user.validation.email.notFormat");
             }
         }

@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +43,10 @@ public class LoginControllers extends BaseController {
     }
 
     @GetMapping("/sign-in")
-    public Object signIn() {
+    public Object signIn(@CookieValue(value = "CookieSignUp", defaultValue = "0") String loginUsername, Model model) {
+        if (!loginUsername.equals("0")) {
+            model.addAttribute("success", true);
+        }
         LoginParam loginParam = new LoginParam();
         ModelAndView modelAndView = new ModelAndView("/ohana/sign-in");
         modelAndView.addObject("loginParam", loginParam);
@@ -50,12 +54,13 @@ public class LoginControllers extends BaseController {
     }
 
     @PostMapping("/sign-in")
-    public Object doLogin(@ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute LoginParam loginParam, BindingResult bindingResult, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
+    public Object doLogin( @ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute LoginParam loginParam, BindingResult bindingResult, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
         ModelAndView modelAndView = new ModelAndView("/ohana/sign-in");
         LoginResult loginResult = null;
         Cookie cookie;
 
         if (ggSignInParam.getCredential() == null) {
+
             new LoginParam().validate(loginParam, bindingResult);
             if (bindingResult.hasFieldErrors()) {
                 return modelAndView;
@@ -63,8 +68,12 @@ public class LoginControllers extends BaseController {
 
             loginResult = userService.findByEmailAndPassword(loginParam.getEmail(), loginParam.getPassword());
             if (loginResult != null) {
-                cookie = new Cookie("CookieEmail", loginParam.getEmail());
+                cookie = new Cookie("cookie", loginParam.getEmail());
                 cookie.setMaxAge(24 * 60 * 60 * 30);
+                response.addCookie(cookie);
+
+                cookie = new Cookie("cookieLogin", loginParam.getEmail());
+                cookie.setMaxAge(3);
                 response.addCookie(cookie);
                 return "redirect:/";
             }
@@ -92,8 +101,12 @@ public class LoginControllers extends BaseController {
             } else {
                 loginResult = userService.signUpByGoogle(googlePojo);
             }
-            cookie = new Cookie("CookieEmail", loginResult.getEmail());
+            cookie = new Cookie("cookie", loginResult.getEmail());
             cookie.setMaxAge(24 * 60 * 60 * 30);
+            response.addCookie(cookie);
+
+            cookie = new Cookie("cookieLogin", loginResult.getEmail());
+            cookie.setMaxAge(3);
             response.addCookie(cookie);
         } catch (Exception e) {
             model.addAttribute("messages", "Dang nhap google khong thanh cong");
@@ -110,9 +123,15 @@ public class LoginControllers extends BaseController {
         if (ggSignInParam.getCredential() == null) {
             try {
                 UserResult userResult = userService.signUp(signUpParam);
-                cookie = new Cookie("CookieEmail", userResult.getEmail());
+
+                cookie = new Cookie("cookie", userResult.getEmail());
                 cookie.setMaxAge(24 * 60 * 60 * 30);
                 response.addCookie(cookie);
+
+                cookie = new Cookie("CookieSignUp", userResult.getEmail());
+                cookie.setMaxAge(5);
+                response.addCookie(cookie);
+
                 return "redirect:/sign-in";
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -125,6 +144,16 @@ public class LoginControllers extends BaseController {
             return "redirect:/";
         }
 
+    }
+
+    @GetMapping("/sign-out")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("cookie", "");
+        cookie.setMaxAge(0);
+        cookie.setPath("/");
+        cookie.setComment("EXPIRING COOKIE at " + System.currentTimeMillis());
+        response.addCookie(cookie);
+        return "redirect:/";
     }
 
 
