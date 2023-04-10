@@ -3,6 +3,9 @@ class App {
     static BASE_URL_API = this.DOMAIN + "/api";
     static BASE_URL_POST = this.DOMAIN + "/api/dashboard";
     static BASE_URL_PROVINCE = "https://vapi.vnappmob.com/api/province";
+    static BASE_URL_CLOUD_IMAGE = "https://res.cloudinary.com/ohana123/image/upload";
+    // static SCALE_IMAGE_W100_H80_Q100 = "c_limit,w_100,h_80,q_100";
+    static SCALE_IMAGE_W600_H650_Q100 = "c_limit,w_600,h_650,q_100";
 
 }
 
@@ -55,13 +58,14 @@ class RentHouse {
 }
 
 class LocationDTO {
-    constructor(provinceId, provinceName, districtId, districtName, wardId, wardName, locationDetail) {
+    constructor(provinceId, provinceName, districtId, districtName, wardId, wardName, locationDetail, line1) {
         this.provinceId = provinceId;
         this.provinceName = provinceName;
         this.districtId = districtId;
         this.districtName = districtName;
         this.wardId = wardId;
         this.wardName = wardName;
+        this.line1 = line1;
         this.locationDetail = locationDetail;
     }
 }
@@ -102,18 +106,17 @@ class PostMedia {
 }
 
 class Filter {
-    constructor(priceStarts, priceEnds, utilities, categorie, gender , location) {
+    constructor(priceStarts, priceEnds, utilities, categories, gender, wardId, provinceName, locationName) {
         this.priceStarts = priceStarts;
         this.priceEnds = priceEnds;
         this.utilities = utilities;
-        this.categorie = categorie;
+        this.categories = categories;
         this.gender = gender;
-        this.location = location;
-
-
+        this.wardId = wardId;
+        this.provinceName = provinceName;
+        this.locationName = provinceName;
     }
 }
-
 function showSuccess(msg) {
     Swal.fire({
         position: 'top-end',

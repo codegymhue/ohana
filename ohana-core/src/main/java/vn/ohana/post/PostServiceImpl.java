@@ -1,5 +1,6 @@
 package vn.ohana.post;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -7,12 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
-import vn.ohana.entities.User;
+import vn.ohana.filter.dto.FilterParam;
+import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
 import vn.ohana.user.UserMapper;
-import vn.ohana.user.UserRepository;
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
@@ -40,6 +41,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostFilterRepository postFilterRepository;
+
 
     @Override
     @Transactional(readOnly = true)
@@ -132,3 +134,5 @@ public class PostServiceImpl implements PostService {
         return dto;
     }
 }
+
+

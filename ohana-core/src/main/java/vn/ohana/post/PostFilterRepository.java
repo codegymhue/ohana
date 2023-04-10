@@ -4,6 +4,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import vn.ohana.entities.*;
@@ -32,13 +34,13 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
             if (filter.getPriceStarts() != null && filter.getPriceEnds() != null) {
                 Predicate priceStartsPredicate = criteriaBuilder.greaterThan(rentHouse.get("price"), filter.getPriceStarts());
                 Predicate priceEndsPredicate = criteriaBuilder.lessThan(rentHouse.get("price"), filter.getPriceEnds());
-                Predicate pricePredicate = criteriaBuilder.or(priceStartsPredicate, priceEndsPredicate);
+                Predicate pricePredicate = criteriaBuilder.and(priceStartsPredicate, priceEndsPredicate);
                 predicateList.add(pricePredicate);
             }
 
             if (filter.getGender() != null && filter.getGender().getId() != null) {
-                Predicate renderIdPredicate = criteriaBuilder.equal(rentHouse.get("gender"), filter.getGender().getId());
-                predicateList.add(renderIdPredicate);
+                Predicate genderIdPredicate = criteriaBuilder.equal(rentHouse.get("gender"), filter.getGender().getId());
+                predicateList.add(genderIdPredicate);
             }
 
             if (filter.getStatus() != null) {
