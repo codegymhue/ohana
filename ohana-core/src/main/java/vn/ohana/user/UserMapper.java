@@ -38,6 +38,8 @@ PostMediaService postMediaService;
         loginResult.setFullName(user.getFullName());
         loginResult.setEmail(user.getEmail());
         loginResult.setPhone(user.getPhone());
+        loginResult.setDescription(user.getDescription());
+        loginResult.setAddress(user.getAddress());
         loginResult.setPassword(user.getPassword());
         if (user.getThumbnailId() != null) {
             Optional<PostMedia> option = postMediaService.findById(user.getThumbnailId());
