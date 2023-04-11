@@ -39,7 +39,7 @@ public class CategoryAPI {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CategoryUpdateParam param) {
+    public ResponseEntity<?> updateCategoryTitle(@PathVariable Long id, @RequestBody CategoryUpdateParam param) {
 
         return new ResponseEntity<>(categoryService.update(param), HttpStatus.OK);
     }
