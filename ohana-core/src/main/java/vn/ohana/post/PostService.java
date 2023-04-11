@@ -25,10 +25,7 @@ public interface PostService {
     Page<PostResult> findAllByUser(UserUpdateParam user, Pageable pageable);
     Page<PostResult> filterPublishedPosts(PostFilterParam filter, Pageable pageable);
 
-
     PostResult getById(Long pId);
 
     PostResult updateStatusById(PostUpdateParam postUpdateParam);
-
-    List<DataSearchResult> getDataSearch(String provinceId,String wardName);
 }

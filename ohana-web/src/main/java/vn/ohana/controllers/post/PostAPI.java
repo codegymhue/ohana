@@ -66,9 +66,4 @@ public class PostAPI {
         return new ResponseEntity<>( postService.updateStatusById(postUpdateParam), HttpStatus.OK);
     }
 
-    @GetMapping("/get-data-search/{dataSearch}")
-    public ResponseEntity<?> getDataSearch(@PathVariable String dataSearch, @ModelAttribute("userLogin") LoginResult userLogin) throws IOException {
-        List<DataSearchResult> dataSearchResults = postService.getDataSearch(dataSearch, dataSearch);
-        return new ResponseEntity<>(dataSearchResults, HttpStatus.OK);
-    }
 }

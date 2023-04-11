@@ -147,20 +147,6 @@ public class PostServiceImpl implements PostService {
         return dto;
     }
 
-    public List<DataSearchResult> getDataSearch(String location, String province) {
-        List<DataSearchResult> dataSearchResults = new ArrayList<>();
-        String locationUnsigned = StringUtils.stripAccents(location).toLowerCase();
-        postRepository.getDataSearch("%" + locationUnsigned + "%", province).forEach(post -> dataSearchResults.add(postMapper.toDataSearchResult(post, locationUnsigned)));
-        dataSearchResults.removeIf(data -> data.getLocationDetail() == null);
-        for (int i = 0; i < dataSearchResults.size(); i++) {
-            for (int j = dataSearchResults.size() - 1; j > i; j--) {
-                if (dataSearchResults.get(i).getLocationDetail().equals(dataSearchResults.get(j).getLocationDetail())) {
-                    dataSearchResults.remove(j);
-                }
-            }
-        }
-        return dataSearchResults;
-    }
 }
 
 

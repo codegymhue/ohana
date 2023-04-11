@@ -18,11 +18,4 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long>{
     Page<Post> findByUser(User user, Pageable pageable);
 
-    @Query(value = "select distinct json_extract(p.location, '$.provinceName') AS province," +
-            "json_extract(p.location, '$.wardName') AS district " +
-            "from post p where (JSON_Extract (p.location,\"$.provinceId\") = :provinceId) " +
-            "and upper( JSON_Extract (p.location,\"$.wardName\")) like upper(:wardName) " +
-            "or upper( JSON_Extract (p.location,\"$.wardUnsignedName\")) like upper(:wardName)", nativeQuery = true)
-    List<Post> getDataSearch(@Param("provinceId") String provinceId, @Param("wardName") String wardName);
-
 }
