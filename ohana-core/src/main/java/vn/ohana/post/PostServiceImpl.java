@@ -94,7 +94,7 @@ public class PostServiceImpl implements PostService {
 
         Page<Post> post = postRepository.findByUser(userMapper.toEntity(user),pageable);
 
-        return insertUtilityResultList(post);
+        return toDtoPage(post);
     }
 
     @Override
