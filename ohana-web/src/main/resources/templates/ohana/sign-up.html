@@ -55,7 +55,6 @@
                                 <span class="focus-input100"></span>
                             </div>
                             <label id="checkPhoneOrEmail"></label>
-
                             <label  class="error" th:each="err : ${#fields.errors('email')}"
                                     th:text="${err}">
                             </label>
@@ -76,7 +75,7 @@
                                     <span class="btn-show-pass">
                                         <i class="zmdi zmdi-eye"></i>
                                     </span>
-                                <input class="input100" type="password" name="pass" id="password" th:field="*{passWord}"
+                                <input class="input100" type="password" name="pass" id="aapassword" th:field="*{passWord}"
                                        placeholder="Nhập mật khẩu">
                                 <span class="focus-input100"></span>
                             </div>
