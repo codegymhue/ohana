@@ -53,7 +53,7 @@ public class LoginResult implements Validator {
         }
 
         if (address.length() > 255) {
-            errors.rejectValue("address", "user.validation.address.length");
+            errors.rejectValue("address", "user.validation.address.description");
         }
 
         if (description.length() > 255) {
