@@ -106,7 +106,7 @@ class PostMedia {
 }
 
 class Filter {
-    constructor(priceStarts, priceEnds, utilities, categories, gender, wardId, provinceName, locationName) {
+    constructor(priceStarts, priceEnds, utilities, categories, gender, wardId, provinceName, locationName, keyword) {
         this.priceStarts = priceStarts;
         this.priceEnds = priceEnds;
         this.utilities = utilities;
@@ -114,7 +114,9 @@ class Filter {
         this.gender = gender;
         this.wardId = wardId;
         this.provinceName = provinceName;
-        this.locationName = provinceName;
+        this.locationName = locationName;
+        this.keyword = keyword;
+
     }
 }
 function showSuccess(msg) {

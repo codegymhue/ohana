@@ -95,5 +95,4 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
             return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
         }, pageable);
     }
-
 }

@@ -293,7 +293,7 @@ h1 {
     -ms-flex-pack: justify;
     justify-content: space-between;
     -ms-flex-align: center;
-    align-items: center;
+    /*align-items: center;*/
     padding-bottom: 32px;
 }
 

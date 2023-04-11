@@ -191,59 +191,18 @@
                             <span style="color: rgb(102, 102, 102);" th:text="${locationName}"></span>
                         </div>
                     </th:block>
-                    <div class="_1Tf_Z"><span class="_3gUBz"><span class="_2TvH9">Phòng mới nhất</span></span></div>
-                    <!--                    <div class="_1WjTi" id="postFilters">-->
-                    <!--                    <div class="_1WjTi" id="pagination-demo1">-->
-                    <!--                        <th:block th:each="item : ${posts}">-->
-                    <!--                            <div class="nctjX"><a target="_blank" th:href="@{/room/__${item.id}__}">-->
-                    <!--                                <div class="X8svI _2DJkz">-->
-                    <!--                                    <div class="pcGxo">-->
-                    <!--                                        <div class="_1Gm0b"><img-->
-                    <!--                                                src="/resources/ohana/img/20c8373d39e30d04cde885686abc2987.png"-->
-                    <!--                                                alt="verified-img" class="_1TPDO"></div>-->
-                    <!--                                        <img th:src="${item.thumbnailUrl.fileUrl}"-->
-                    <!--                                             alt="room-img"-->
-                    <!--                                             class="_1IOeB">-->
-                    <!--                                    </div>-->
-                    <!--                                    <div class="_228LH">-->
-                    <!--                                        <p class="_3xXyQ" th:text="${item.title}"></p>-->
-                    <!--                                        <div class="_27rcQ">-->
-                    <!--                                            <div class="_3piN7">-->
-                    <!--                                                <div class="wpwoK"><span class="icon-nav-home"-->
-                    <!--                                                                         style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span-->
-                    <!--                                                        th:text="${item.category.name}"></span></div>-->
-                    <!--                                                <div class="_3TYbx"><span><span class="icon-nav-roomate"-->
-                    <!--                                                                                style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"-->
-                    <!--                                                                                th:text="${item.rentHouse.gender.name}"></span></span><span><span-->
-                    <!--                                                        class="icon-squaremeter"-->
-                    <!--                                                        style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"-->
-                    <!--                                                        th:text="${item.rentHouse.area}"></span>m<sup>2</sup></span>-->
-                    <!--                                                </div>-->
-                    <!--                                                <div class="_1jHdY"><span class="icon-location"-->
-                    <!--                                                                          style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span-->
-                    <!--                                                        class="uKi2L"-->
-                    <!--                                                        th:text="${item.location.locationDetail} + ', ' + ${item.location.wardName} + ', ' + ${item.location.districtName} + ', ' + ${item.location.provinceName}"></span>-->
-                    <!--                                                </div>-->
-                    <!--                                            </div>-->
-                    <!--                                            <div class="_1ezn1"><span class="_36r7N"-->
-                    <!--                                                                      th:text="${item.rentHouse.price}/1000000"></span><span-->
-                    <!--                                                    class="_11LqE">tr/phòng</span></div>-->
-                    <!--                                        </div>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </a></div>-->
-                    <!--                        </th:block>-->
+                    <div class="_1Tf_Z">
+                        <span class="_3gUBz">
+                            <span class="_2TvH9">Phòng mới nhất</span>
+                        </span>
+                        <div class="_1RkT-">
+                            <section>
+                                <div class="data-container"></div>
+                            </section>
+                            <div id="pagination-demo1">
 
-                    <div class="_1RkT-">
-                        <section>
-                            <div class="data-container"></div>
-                        </section>
-                        <div id="pagination-demo1"></div>
-                        <!--                            <div class="_3l_fA"><span class="_2Cf4k _2jTB6">first</span><span-->
-                        <!--                                    class="_18QWa _2jTB6">prev</span><span class="_2jTB6 _2oguF">1</span><span-->
-                        <!--                                    class="_2jTB6">2</span><span class="_2jTB6">3</span><span-->
-                        <!--                                    class="_2jTB6">4</span><span class="_2jTB6">5</span><span-->
-                        <!--                                    class="_2jTB6 _3kWYf">next</span><span class="_2jTB6 _2zswP">last</span></div>-->
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -280,7 +239,7 @@
     }
 
     let post = new Post();
-    let filter = new Filter();
+    let filter = {};
     let listPost = [];
     let min = 0;
     let max = 15000000;
@@ -317,7 +276,6 @@
 
 
     function doFilter(filter) {
-        console.log(filter)
         $.ajax({
             data: JSON.stringify(filter),
             "headers": {
@@ -327,7 +285,6 @@
             type: "POST",
             url: page.url.doFilter + "?page=0&size=10",
         }).done(function (data) {
-            console.log(data)
             paging(data);
         }).fail(function () {
             showError("Get Filter Fail")
@@ -664,6 +621,7 @@
         let valueSearch = $("#search").val();
         $("#location").html("");
         if (valueSearch.length > 2) {
+            $("._1IdUV").show(250);
             $.ajax({
                 type: "POST",
                 headers: {
@@ -671,18 +629,18 @@
                 },
                 data: JSON.stringify({keyword: valueSearch})
                 ,
-                url: App.BASE_URL_API + "/posts/filter?page=0&size=10"
+                url: App.BASE_URL_API + "/posts/filter?page=0&size=5"
             }).done(function (data) {
                 let locationDetail;
+                $("#location").empty()
                 data.content.forEach(({location}) => {
                     let item = location
-                    console.log(item)
                     if (item.wardName == null) {
                         locationDetail = item.districtName;
                     } else {
                         locationDetail = item.wardName;
                     }
-                    let str = `<li class="li-search" className="J_X1w" i>${item.line1}, ${item.wardName}</li>`;
+                    let str = `<li role="button" class="li-search" value="${item.wardId}" onclick="doSearchFilter(this.value)">${item.line1}, ${item.wardName}</li>`;
                     $("#location").append(str);
                 })
             }).fail(function () {
@@ -692,7 +650,7 @@
     })
 
     let specifiedElement = document.getElementById('search');
-    //I'm using "click" but it works with any event
+ //   I'm using "click" but it works with any event
     document.addEventListener('click', function (event) {
         let isClickInside = specifiedElement.contains(event.target);
 
@@ -701,6 +659,17 @@
             $("#location").html("");
         }
     });
+
+    function doSearchFilter(wardName){
+        let location = {
+            keyword: $("#search").val(),
+            locationFilter:{
+                wardId: wardName
+            }
+        }
+        doFilter(location);
+        $("._1IdUV").hide(250);
+    }
 
 
 </script>

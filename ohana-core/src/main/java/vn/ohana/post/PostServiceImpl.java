@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
-import vn.ohana.filter.dto.FilterParam;
 import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
@@ -99,6 +98,12 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
+    public Page<PostResult> filterPublishedPosts(PostFilterParam filter, Pageable pageable) {
+        filter.setStatus(StatusPost.PUBLISHED);
+        return toDtoPage( postFilterRepository.findAllByFilters(filter,pageable));
+    }
+
+    @Override
     public PostResult getById(Long pId) {
 
         Post post = findById(pId);
@@ -121,7 +126,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostResult> filter(PostFilterParam filter, Pageable pageable) {
         Page<Post> page = postFilterRepository.findAllByFilters(filter, pageable);
-         return insertUtilityResultList(page);
+         return toDtoPage(page);
     }
 
     private Page<PostResult> toDtoPage(Page<Post> page) {
@@ -140,6 +145,21 @@ public class PostServiceImpl implements PostService {
                 .collect(Collectors.toList());
         dto.setUtilities(newUtilities);
         return dto;
+    }
+
+    public List<DataSearchResult> getDataSearch(String location, String province) {
+        List<DataSearchResult> dataSearchResults = new ArrayList<>();
+        String locationUnsigned = StringUtils.stripAccents(location).toLowerCase();
+        postRepository.getDataSearch("%" + locationUnsigned + "%", province).forEach(post -> dataSearchResults.add(postMapper.toDataSearchResult(post, locationUnsigned)));
+        dataSearchResults.removeIf(data -> data.getLocationDetail() == null);
+        for (int i = 0; i < dataSearchResults.size(); i++) {
+            for (int j = dataSearchResults.size() - 1; j > i; j--) {
+                if (dataSearchResults.get(i).getLocationDetail().equals(dataSearchResults.get(j).getLocationDetail())) {
+                    dataSearchResults.remove(j);
+                }
+            }
+        }
+        return dataSearchResults;
     }
 }
 

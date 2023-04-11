@@ -6,12 +6,16 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostUpdateParam;
+import vn.ohana.user.dto.LoginResult;
 import vn.ohana.user.dto.UserFilterParam;
 import vn.ohana.user.dto.UserUpdateParam;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -46,6 +50,11 @@ public class PostAPI {
             return new ResponseEntity<>(postService.filter(filter, PageRequest.of(page, size)), HttpStatus.OK);
     }
 
+    @PostMapping("/filter/published")
+    public ResponseEntity<?> filterPublished(@RequestBody PostFilterParam filter, @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
+        return new ResponseEntity<>(postService.filterPublishedPosts(filter, PageRequest.of(page, size)), HttpStatus.OK);
+    }
+
     @PatchMapping ("/edit")
     public ResponseEntity<?> edit(@ModelAttribute PostUpdateParam postUpdateParam) {
         postService.postEdit(postUpdateParam);
@@ -57,5 +66,9 @@ public class PostAPI {
         return new ResponseEntity<>( postService.updateStatusById(postUpdateParam), HttpStatus.OK);
     }
 
-
+    @GetMapping("/get-data-search/{dataSearch}")
+    public ResponseEntity<?> getDataSearch(@PathVariable String dataSearch, @ModelAttribute("userLogin") LoginResult userLogin) throws IOException {
+        List<DataSearchResult> dataSearchResults = postService.getDataSearch(dataSearch, dataSearch);
+        return new ResponseEntity<>(dataSearchResults, HttpStatus.OK);
+    }
 }
