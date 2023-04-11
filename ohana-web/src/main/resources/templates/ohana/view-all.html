@@ -14,6 +14,14 @@
     <!--            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"-->
     <!--            crossorigin="anonymous"></script>-->
     <style>
+        body {
+            background-color: #F6F5F2;
+        }
+
+        .X0uZX {
+            padding-left: 20px;
+        }
+
         ul {
             list-style-type: none;
         !important;
@@ -26,35 +34,36 @@
     <div class="app">
         <div class="_3bjUj">
             <!--header-->
-            <th:block th:replace="/ohana/layout/header :: header"/>
+            <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
+            <
             <div class="QZg_h _18fKS">
                 <div class="_3oMi4">
                     <div class="_3OgY1"><a href="/"><img
                             src="/resources/ohana/img/8cc95480cbd2708db10ad4b8de56306a.svg"></a>
                         <div class="_1_U71">
-                            <!--                            <div class="_2lKdR">-->
-                            <!--                                <div class="_3p4ES _1vH0j" id="floating-city-dropdown">-->
-                            <!--                                    <div class="wj6oE"><span class="icon-location-fill"-->
-                            <!--                                                             style="color: rgb(247, 52, 134); font-size: 16px;"></span><span-->
-                            <!--                                            class="_1qNTb">HUẾ</span>-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--                                <div class="_1pVEQ"><input id="search" class="bX6zE"-->
-                            <!--                                                           placeholder="Tìm kiếm theo địa điểm, quận, tên đường..."-->
-                            <!--                                                           value="">-->
-                            <!--                                    <div class="_2QckJ"><span class="icon-search"-->
-                            <!--                                                              style="color: rgb(247, 52, 134); font-size: 24px;"></span>-->
-                            <!--                                    </div>-->
-                            <!--                                </div>-->
-                            <!--                                <div class="_1IdUV">-->
-                            <!--                                    <ul class="b-CdA _11SSO" style="left: 157px;" id="location">-->
-                            <!--                                    </ul>-->
-                            <!--                                </div>-->
-                            <!--                            </div>-->
+                            <div class="_2lKdR">
+                                <div class="_3p4ES _1vH0j" id="floating-city-dropdown">
+                                    <div class="wj6oE"><span class="icon-location-fill"
+                                                             style="color: rgb(247, 52, 134); font-size: 16px;"></span><span
+                                            class="_1qNTb">HUẾ</span>
+                                    </div>
+                                </div>
+                                <div class="_1pVEQ"><input id="search" class="bX6zE"
+                                                           placeholder="Tìm kiếm theo địa điểm, quận, tên đường..."
+                                                           value fdprocessedid="ncxia9">
+                                    <div class="_2QckJ"><span class="icon-search"
+                                                              style="color: rgb(247, 52, 134); font-size: 24px; align-content: center"></span>
+                                    </div>
+                                </div>
+                                <div class="_1IdUV">
+                                    <ul class="b-CdA _11SSO" style="left: 157px;" id="location">
+                                    </ul>
+                                </div>
+                            </div>
                             <div class="_1IdUV">
                                 <ul class="b-CdA" style="width: 123px;">
                                     <li class="J_X1w _1vH0j" value="HCM">Huế</li>
-                                    <!--                                    <li class="J_X1w _1vH0j GpngF" value="HN">Hà Nội</li>-->
+<!--                                    <li class="J_X1w _1vH0j GpngF" value="HN">Hà Nội</li>-->
                                 </ul>
                                 <ul class="b-CdA" style="left: 128px;"></ul>
                             </div>
@@ -75,9 +84,16 @@
                     </div>
                     <div class="ySUHy">
                         <div class="q49VD">
-                            <div class="wzw4X"><span class="_2dNxP">Giá</span></span></div>
+                            <div class="wzw4X d-flex flex-column">
+                                <div class="d-flex justify-content-between w-100">
+                                    <span class="_2dNxP">Giá</span>
+                                    <span
+                                            class="icon-a-down float-end _11wO8 _2enHb" id="btnPrice"
+                                            style="color: rgb(51, 51, 51); font-size: 20px;">
+                                    </span>
+                                </div>
+                            </div>
                             <div class="_1ZENx _1-FEc _39FVJ" id="price">
-
                                 <div class="oH889">
                                     <div class="range-slide">
                                         <div class="slide">
@@ -93,7 +109,7 @@
                                                value="15000000">
                                     </div>
                                     <div class="display">
-                                        <span class="text-start" id="min" >0tr</span>
+                                        <span class="text-start" id="min">0tr</span>
                                         <span class="text-end" id="max" style="width: 50px;">15tr</span>
                                     </div>
                                 </div>
@@ -106,10 +122,9 @@
                                     <span
                                             class="icon-a-down float-end _11wO8 _2enHb" id="btnCategory"
                                             style="color: rgb(51, 51, 51); font-size: 20px;">
-
                                     </span>
                                 </div>
-                                <div class="_1ZENx _1-FEc _1Ed3U align-self-start" id="categories">
+                                <div class="_1ZENx _1-FEc X0uZX align-self-start" id="categories">
                                 </div>
                             </div>
 
@@ -140,34 +155,9 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="q49VD">
-                            <div class="row col-lg-12 mt-3">
-
-                                <div class="wzw4X mb-3"><span class="_2dNxP">Vị trí</span></div>
-
-                                <div class="mt-2">
-                                    <label>Province</label>
-                                    <select class="form-select" id="provinceId" name="provinceId">
-                                    </select>
-                                </div>
-                                <div class="my-2">
-                                    <label>District</label>
-                                    <select class="form-select" id="districtId" name="districtId">
-                                    </select>
-                                </div>
-                                <div class="my-2">
-                                    <label>Ward</label>
-                                    <select class="form-select" id="wardId" name="wardId">
-                                    </select>
-                                </div>
-                                <!--                                <label class="zOnI7" id="all"><span class="_1HWTz">Tất-->
-                                <!--                                            cả</span><input type="radio" name="roomGendersRadio"><span-->
-                                <!--                                    class="_30lzl"></span></label>-->
-                            </div>
-                        </div>
                     </div>
                     <div class="_1vH0j _3X6_U btn-search">
-                        <button id="filterPost _1Gwyz span">Áp dụng</button>
+                        <span>Áp dụng</span>
                     </div>
                 </div>
             </div>
@@ -175,8 +165,8 @@
                 <div class="TJKfZ _3Nvxb">
                     <th:block th:if="${trend}!=null">
                         <div>
-                                     <span style="color: rgb(102, 102, 102);"><a href="/view-all"
-                                                                                 style="color: rgb(72, 119, 248);">Huế</a>
+                                            <span style="color: rgb(102, 102, 102);"><a href="/view-all"
+                                                                                        style="color: rgb(72, 119, 248);">Huế</a>
                                                  <span class="icon-a-right"
                                                        style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
                                                 </span>
@@ -190,12 +180,12 @@
                     </th:block>
                     <th:block th:if="${provinceName}!=null">
                         <div>
-                              <span style="color: rgb(102, 102, 102);"><a href="/view-all"
-                                                                          style="color: rgb(72, 119, 248);">Huế</a>
-                                  <!--                                                 <span class="icon-a-right"-->
-                                  <!--                                                       style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">-->
-                                  <!--                                                </span>-->
-                                  <!--                                                <span style="color: rgb(102, 102, 102);">Thành phố Huế</span>-->
+                                            <span style="color: rgb(102, 102, 102);"><a href="/view-all"
+                                                                                        style="color: rgb(72, 119, 248);">Huế</a>
+                                                <!--                                                 <span class="icon-a-right"-->
+                                                <!--                                                       style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">-->
+                                                <!--                                                </span>-->
+                                                <!--                                                <span style="color: rgb(102, 102, 102);">Thành phố Huế</span>-->
                                                 <span class="icon-a-right"
                                                       style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
                                                 </span>
@@ -203,55 +193,17 @@
                             <span style="color: rgb(102, 102, 102);" th:text="${locationName}"></span>
                         </div>
                     </th:block>
-                    <div class="_1Tf_Z"><span class="_3gUBz"><span class="_2TvH9">Phòng mới nhất</span></span></div>
-                    <!--                    <div class="_1WjTi" id="postFilters">-->
-                    <div class="_1WjTi" id="pagination-demo1">
-                        <div class="nctjX"><a target="_blank">
-                            <div class="X8svI _2DJkz">
-                                <div class="pcGxo">
-                                    <div class="_1Gm0b"><img
-                                            src="https://bayleaf.s3.amazonaws.com/property-images%2F1582523248083_2020-02-22+04.54.44+2.jpg"
-                                            alt="verified-img" class="_1TPDO"></div>
-                                    <img src="https://bayleaf.s3.amazonaws.com/property-images%2F1582523248083_2020-02-22+04.54.44+2.jpg"
-                                         alt="room-img"
-                                         class="_1IOeB">
-                                </div>
-                                <div class="_228LH">
-                                    <p class="_3xXyQ">Phòng cho thuê Nguyễn văn Nguyễn, Quận 1</p>
-                                    <div class="_27rcQ">
-                                        <div class="_3piN7">
-                                            <div class="wpwoK"><span class="icon-nav-home"
-                                                                     style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span>Phòng
-                                                cho thuê<span></span></div>
-                                            <div class="_3TYbx"><span><span class="icon-nav-roomate"
-                                                                            style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"
-                                            >Nam và nữ</span></span><span><span
-                                                    class="icon-squaremeter"
-                                                    style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"
-                                            >40</span>m<sup>2</sup></span>
-                                            </div>
-                                            <div class="_1jHdY"><span class="icon-location"
-                                                                      style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span
-                                                    class="uKi2L">7 Nguyễn văn Nguyễn, Phường Tân Định, Quận 1, Hồ Chí Minh</span>
-                                            </div>
-                                        </div>
-                                        <div class="_1ezn1"><span class="_36r7N">4</span><span
-                                                class="_11LqE">tr/phòng</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a></div>
+                    <div class="_1Tf_Z">
+                        <span class="_3gUBz">
+                            <span class="_2TvH9">Phòng mới nhất</span>
+                        </span>
+                    </div>
+                    <div class="_1RkT-">
+                        <section>
+                            <div class="data-container"></div>
+                        </section>
+                        <div id="pagination-demo1">
 
-                        <div class="_1RkT-">
-                            <section>
-                                <div class="data-container"></div>
-                            </section>
-                            <!--                            <div id="pagination-demo1"></div>-->
-                            <!--                            <div class="_3l_fA"><span class="_2Cf4k _2jTB6">first</span><span-->
-                            <!--                                    class="_18QWa _2jTB6">prev</span><span class="_2jTB6 _2oguF">1</span><span-->
-                            <!--                                    class="_2jTB6">2</span><span class="_2jTB6">3</span><span-->
-                            <!--                                    class="_2jTB6">4</span><span class="_2jTB6">5</span><span-->
-                            <!--                                    class="_2jTB6 _3kWYf">next</span><span class="_2jTB6 _2zswP">last</span></div>-->
                         </div>
                     </div>
                 </div>
@@ -274,9 +226,6 @@
             doCreatePost: App.BASE_URL_API + "/posts/postNews",
             doFilter: App.BASE_URL_API + "/posts/filter",
             getAllProvinces: App.BASE_URL_PROVINCE,
-            getAllDistrictsByProvinceId: App.BASE_URL_PROVINCE + "/district/",
-            getAllWardsByDistrictId: App.BASE_URL_PROVINCE + "/ward/"
-
         },
         element: {},
         loadData: {},
@@ -291,17 +240,8 @@
         // let isClickInside = specifiedElement.contains(event.target)
     }
 
-    page.dialogs.elements.province = $("#provinceId");
-    page.dialogs.elements.district = $("#districtId");
-    page.dialogs.elements.ward = $("#wardId");
-
     let post = new Post();
-    let locationFilter = {
-        provinceId,
-        districtId,
-        wardId
-    };
-    let filter = {locationFilter};
+    let filter = {};
     let listPost = [];
     let min = 0;
     let max = 15000000;
@@ -339,9 +279,13 @@
 
     function doFilter(filter) {
         $.ajax({
+            data: JSON.stringify(filter),
+            "headers": {
+                "Content-Type": "application/json"
+            },
+
             type: "POST",
-            url: page.url.doFilter ,
-            data: filter,
+            url: page.url.doFilter + "?page=0&size=10",
         }).done(function (data) {
             paging(data);
         }).fail(function () {
@@ -399,6 +343,22 @@
         }
     }
 
+    let isPiceClick = false
+
+    $("#btnPrice").on('click', function () {
+        page.commands.handlePriceClick(isPiceClick = !isPiceClick)
+    })
+
+    page.commands.handlePriceClick = (isClick) => {
+        if (isClick) {
+            $("#price").show(250);
+            $("#btnPrice").animate({rotate: "90deg"}, 250)
+        } else {
+            $("#price").hide(250);
+            $("#btnPrice").animate({rotate: "0deg"}, 250)
+        }
+    }
+
     // END =======
 
 
@@ -411,12 +371,11 @@
             utilities.push(+$(this).val());
         });
         filter.utilities = utilities;
-        filter.locationFilter = locationFilter
 
-        filter.categorie = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
+        filter.categories = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
         filter.gender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val();
 
-        doFilter(JSON.stringify(filter));
+        doFilter(filter);
     })
 
 
@@ -454,7 +413,7 @@
         }).done(function (data) {
             $("#categories").html('');
             data.forEach((item) => {
-                let str = `<label class="zOnI7" id="male"><span
+                let str = `<label class="zOnI7" id="categories"><span
                                         class="_1HWTz">${item.title}</span><input value="${item.id}" type="radio" name="roomCategoriesRadio"><span
                                         class="_30lzl"></span>
                            </label>`;
@@ -483,121 +442,14 @@
         })
     }
 
-    page.commands.getAllProvinces = () => {
-        return $.ajax({
-            type: "GET",
-            url: page.url.getAllProvinces
-        })
-
-            .done((data) => {
-                let results = data.results;
-
-                results.map(item => {
-                    let str = `<option value="${item.province_id}">${item.province_name}</option>`;
-                    page.dialogs.elements.province.append(str);
-                })
-
-            })
-
-            .fail((error) => {
-                console.log(error);
-                console.log("Không thể tải dữ liệu Tỉnh/Thành phố");
-            })
-    }
-
-    page.commands.getAllDistrictsByProvinceId = (provinceId) => {
-        return $.ajax({
-            type: "GET",
-            url: page.url.getAllDistrictsByProvinceId + provinceId
-        })
-
-            .done((data) => {
-
-                page.dialogs.elements.district.empty();
-
-                let results = data.results;
-
-                results.map(item => {
-                    let str = `<option value="${item.district_id}">${item.district_name}</option>`;
-                    page.dialogs.elements.district.append(str);
-                })
-            })
-
-            .fail((error) => {
-                console.log(error);
-                console.log("Không thể tải dữ liệu Thành phố/Quận/Huyện");
-            })
-    }
-
-    page.commands.getAllWardsByDistrictId = (districtId) => {
-        return $.ajax({
-            type: "GET",
-            url: page.url.getAllWardsByDistrictId + districtId
-        })
-
-            .done((data) => {
-                page.dialogs.elements.ward.empty();
-
-                let {results} = data;
-
-                results.map(item => {
-                    let str = `<option value="${item.ward_id}">${item.ward_name}</option>`;
-                    page.dialogs.elements.ward.append(str);
-                })
-            })
-
-            .fail((error) => {
-                console.log(error);
-                console.log("Không thể tải dữ liệu Phường/Xã/Thị trấn");
-            })
-    }
-
-
-    page.dialogs.elements.province.on("change", function () {
-        let provinceId = $(this).val();
-
-        filter.locationFilter.provinceId = provinceId;
-
-        page.commands.getAllDistrictsByProvinceId(provinceId).then(() => {
-            let districtId = page.dialogs.elements.district.val();
-
-            page.commands.getAllWardsByDistrictId(districtId);
-        });
-
-    });
-
-    page.dialogs.elements.district.on("change", function () {
-        let districtId = $(this).val();
-        filter.locationFilter.districtId = districtId;
-
-        page.commands.getAllWardsByDistrictId(districtId);
-    });
-
-    page.dialogs.elements.ward.on("change", function () {
-        let wardId = $(this).val();
-        filter.locationFilter.wardId = wardId;
-    });
-
-
-    page.commands.loadData = () => {
-        page.commands.getAllProvinces().then(() => {
-            let provinceId = page.dialogs.elements.province.val();
-
-            page.commands.getAllDistrictsByProvinceId(provinceId).then(() => {
-                let districtId = page.dialogs.elements.district.val();
-
-                page.commands.getAllWardsByDistrictId(districtId);
-            });
-        })
-
-    }
-
 
     $(function () {
             let wardId = [[${wardId}]];
-            let districtId = [[${districtId}]];
-            let provinceId = [[${provinceId}]];
+            let provinceName = [[${provinceName}]];
+            let locationName = [[${locationName}]];
             let mess = [[${mess}]];
+
+            $("#price").hide();
 
             $("#categories").hide();
             page.commands.getAllCategories();
@@ -608,7 +460,6 @@
             $("#utilities").hide();
             page.commands.getAllUtilities();
 
-
             if (mess != null) {
                 showError(mess);
                 const myTimeout = setTimeout(redirectAllListPost, 1000);
@@ -616,24 +467,17 @@
                 function redirectAllListPost() {
                     location.href = App.DOMAIN;
                 }
+            } else if (wardId != null) {
+                filter.wardId = wardId;
+                console.log("có warDid")
+            } else if (provinceName != null && locationName != null) {
+                console.log("có provinceName")
+                filter.provinceName = provinceName;
+                filter.locationName = locationName;
             }
-            if (provinceId != null) {
-                filter.locationFilter.provinceId = provinceId;
-                console.log("có provinceId")
-            }
-            if (districtId != null) {
-                filter.locationFilter.districtId = districtId;
-                console.log("có districtId")
-            }
-            if (wardId != null) {
-                console.log("có wardId")
-                filter.locationFilter.wardId = wardId;
-            }
+
             filter.priceStarts = min;
             filter.priceEnds = max;
-
-
-            filter.categorie = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
 
             let utilities = [];
             $.each($("input[name='utilitiesCheckbox']:checked"), function () {
@@ -641,17 +485,19 @@
             });
             filter.utilities = utilities;
 
+            filter.categories = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
+
             filter.gender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val();
+            doFilter(filter)
         }
     )
 
-    function paging(list) {
+    function paging(data) {
         (function (name) {
             var container = $('#pagination-' + name);
             var sources = function () {
                 var result = [];
-                console.log("size " + list.length);
-                list.forEach(item => {
+                data.content.forEach(item => {
                     result.push(item);
                 })
                 // for (var i = 1; i < 196; i++) {
@@ -662,7 +508,7 @@
             var options = {
                 dataSource: sources,
                 callback: function (response, pagination) {
-                    window.console && console.log(response, pagination);
+                    window.console;
                     let str = '<ul>';
                     $.each(response, function (index, item) {
                         post = item;
@@ -689,6 +535,8 @@
                             }
                         }
 
+                        let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
+
                         let price = checkPrice(post.rentHouse.price);
                         let gender;
                         if (post.rentHouse.gender.id == 1) {
@@ -704,7 +552,7 @@
                                     <div class="_1Gm0b"><img
                                             src="/resources/ohana/img/20c8373d39e30d04cde885686abc2987.png"
                                             alt="verified-img" class="_1TPDO"></div>
-                                    <img src="${post.thumbnailUrl.fileUrl}"
+                                    <img src=${image_thumbnail}
                                          alt="room-img"
                                          class="_1IOeB">
                                 </div>
@@ -714,7 +562,7 @@
                                         <div class="_3piN7">
                                             <div class="wpwoK"><span class="icon-nav-home"
                                                                      style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span
-                                                   >${post.category.name}</span>
+                                                   >${post.category.title}</span>
                                                    <span
                                                                      style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span
                                                    >Sức chứa: ${post.rentHouse.capacity}</span></div>
@@ -728,7 +576,7 @@
                                             <div class="_1jHdY"><span class="icon-location"
                                                                       style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span
                                                     class="uKi2L"
-                                                   >${post.location.locationDetail}, ${post.location.wardName}, ${post.location.districtName}, ${post.location.provinceName}</span>
+                                                   >${post.location.line1}, ${post.location.wardName}, ${post.location.districtName}, ${post.location.provinceName}</span>
                                             </div>
                                         </div>
                                         <div class="_1ezn1">
@@ -752,15 +600,15 @@
             //$.pagination(container, options);
 
             container.addHook('beforeInit', function () {
-                window.console && console.log('beforeInit...');
+                window.console;
             });
             container.pagination(options);
 
             container.addHook('beforePageOnClick', function () {
-                window.console && console.log('beforePageOnClick...');
+                window.console;
                 //return false
             });
-            if (list.length == 0) {
+            if (data.length == 0) {
                 $('#pagination-demo1').html("");
                 let str = `<ul><li><div class="nctjX"><div class="X8svI _2DJkz"> <div class="pcGxo"><div class="_228LH">
                                 Không có bài đăng nào phù hợp
@@ -775,22 +623,26 @@
         let valueSearch = $("#search").val();
         $("#location").html("");
         if (valueSearch.length > 2) {
+            $("._1IdUV").show(250);
             $.ajax({
-                type: "GET",
-                url: App.BASE_URL_API + "/posts/get-data-search/" + valueSearch
+                type: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify({keyword: valueSearch})
+                ,
+                url: App.BASE_URL_API + "/posts/filter?page=0&size=5"
             }).done(function (data) {
-                console.log(data);
                 let locationDetail;
-                data.forEach(item => {
+                $("#location").empty()
+                data.content.forEach(({location}) => {
+                    let item = location
                     if (item.wardName == null) {
                         locationDetail = item.districtName;
                     } else {
                         locationDetail = item.wardName;
                     }
-                    let str = `<a href="/view-all?provinceName=${item.provinceName}&locationName=${locationDetail}">
-                                    <li class="li-search" className="J_X1w">${item.locationDetail}</li>
-                                </a>
-                             `;
+                    let str = `<li role="button" class="li-search" value="${item.wardId}" onclick="doSearchFilter(this.value)">${item.line1}, ${item.wardName}</li>`;
                     $("#location").append(str);
                 })
             }).fail(function () {
@@ -799,10 +651,28 @@
         }
     })
 
+    let specifiedElement = document.getElementById('search');
+    //   I'm using "click" but it works with any event
+    document.addEventListener('click', function (event) {
+        let isClickInside = specifiedElement.contains(event.target);
 
-    $(() => {
-        page.commands.loadData();
+        if (!isClickInside) {
+            $("#search").val("");
+            $("#location").html("");
+        }
     });
+
+    function doSearchFilter(wardName) {
+        let location = {
+            keyword: $("#search").val(),
+            locationFilter: {
+                wardId: wardName
+            }
+        }
+        doFilter(location);
+        $("._1IdUV").hide(250);
+    }
+
 
 </script>
 </body>

@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import vn.ohana.entities.StatusPost;
 import vn.ohana.location.dto.LocationParam;
 
 import java.util.List;
@@ -23,4 +24,5 @@ public class PostUpdateParam {
     private RentHouseParam rentHouse;
     private Long poster;
     private List<Long> utilities;
+    private StatusPost status;
 }

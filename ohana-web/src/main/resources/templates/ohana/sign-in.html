@@ -53,17 +53,16 @@
                                 <label id="title-error" class="error" th:text="${messages}"></label>
                             </th:block>
 
-                            <label  class="error" id="message" th:each="err : ${#fields.errors('email')}"
-                                    th:text="${err}">
+                            <label  class="error"  th:each="err : ${#fields.errors('email')}" th:text="${err}">
                             </label>
 
-                            <div class="wrap-input100 validate-input m-b-20" data-validate="Nhập email">
+                            <div class="wrap-input100  m-b-20" data-validate="Nhập email">
                                 <input class="input100" type="text" name="username" id="phoneOrEmail"
                                        placeholder="Nhập email" th:field="*{email}">
                                 <span class="focus-input100"></span>
                             </div>
 
-                            <div class="wrap-input100 validate-input m-b-25" data-validate="Nhập mật khẩu">
+                            <div class="wrap-input100  m-b-25" data-validate="Nhập mật khẩu">
                                 <input class="input100" type="password" id="pass" name="pass"
                                        placeholder="Nhập mật khẩu" th:field="*{password}">
                                 <span class="focus-input100"></span>

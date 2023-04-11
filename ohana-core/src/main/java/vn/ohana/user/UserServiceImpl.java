@@ -121,8 +121,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public LoginResult save(LoginResult userUpdateParam) {
+        User user = findById(userUpdateParam.getId());
+
+        user.setFullName(userUpdateParam.getFullName());
+        user.setEmail(userUpdateParam.getEmail());
+        user.setPhone(userUpdateParam.getPhone());
+        user.setAddress(userUpdateParam.getAddress());
+        if (userUpdateParam.getPassword() != null) {
+            user.setPassword(userUpdateParam.getPassword());
+        }
+
+        user.setDescription(userUpdateParam.getDescription());
+        if (userUpdateParam.getThumbnailUrl() != null) {
+            Optional<PostMedia> option = postMediaService.findById(user.getThumbnailId());
+            option.ifPresent(postMedia -> userUpdateParam.setThumbnailUrl(option.get().getFileUrl()));
+        }
+        userRepository.save(user);
+        return userMapper.toLoginResultDTO(user);
+    }
+
+    @Override
+    public User findByEmailUser(String email) {
+
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
     public LoginResult findByEmailAndPassword(String email, String password) {
-        User user = userRepository.findByEmailAndPassword(email,password);
+        User user = userRepository.findByEmailAndPassword(email, password);
         if (user != null) {
             return userMapper.toLoginResultDTO(user);
         }
@@ -133,6 +160,7 @@ public class UserServiceImpl implements UserService {
     public boolean existsByPhoneOrEmail(String phoneOrEmail) {
         return userRepository.existsByPhoneOrEmail(phoneOrEmail, phoneOrEmail);
     }
+
     @Override
     public boolean existsByEmail(String Email) {
         return userRepository.existsByEmail(Email);
@@ -171,7 +199,7 @@ public class UserServiceImpl implements UserService {
         boolean exists = existsByEmail(signUpParam.getEmail());
         if (exists) {
             throw new RuntimeException("Email da ton tai");
-        }else {
+        } else {
             User user = new User();
             user.setEmail(signUpParam.getEmail());
             user.setFullName(signUpParam.getFullName());

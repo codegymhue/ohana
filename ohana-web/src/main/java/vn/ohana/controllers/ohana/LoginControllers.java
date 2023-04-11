@@ -73,7 +73,7 @@ public class LoginControllers extends BaseController {
                 response.addCookie(cookie);
 
                 cookie = new Cookie("cookieLogin", loginParam.getEmail());
-                cookie.setMaxAge(3);
+                cookie.setMaxAge(2);
                 response.addCookie(cookie);
                 return "redirect:/";
             }
@@ -106,7 +106,7 @@ public class LoginControllers extends BaseController {
             response.addCookie(cookie);
 
             cookie = new Cookie("cookieLogin", loginResult.getEmail());
-            cookie.setMaxAge(3);
+            cookie.setMaxAge(2);
             response.addCookie(cookie);
         } catch (Exception e) {
             model.addAttribute("messages", "Dang nhap google khong thanh cong");
