@@ -17,7 +17,8 @@
         body {
             background-color: #F6F5F2;
         }
-        .X0uZX{
+
+        .X0uZX {
             padding-left: 20px;
         }
 
@@ -34,43 +35,44 @@
         <div class="_3bjUj">
             <!--header-->
             <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
-            <<div class="QZg_h _18fKS">
-            <div class="_3oMi4">
-                <div class="_3OgY1"><a href="/"><img
-                        src="/resources/ohana/img/8cc95480cbd2708db10ad4b8de56306a.svg"></a>
-                    <div class="_1_U71">
-                        <div class="_2lKdR">
-                            <div class="_3p4ES _1vH0j" id="floating-city-dropdown">
-                                <div class="wj6oE"><span class="icon-location-fill"
-                                                         style="color: rgb(247, 52, 134); font-size: 16px;"></span><span
-                                        class="_1qNTb">HUẾ</span>
+            <
+            <div class="QZg_h _18fKS">
+                <div class="_3oMi4">
+                    <div class="_3OgY1"><a href="/"><img
+                            src="/resources/ohana/img/8cc95480cbd2708db10ad4b8de56306a.svg"></a>
+                        <div class="_1_U71">
+                            <div class="_2lKdR">
+                                <div class="_3p4ES _1vH0j" id="floating-city-dropdown">
+                                    <div class="wj6oE"><span class="icon-location-fill"
+                                                             style="color: rgb(247, 52, 134); font-size: 16px;"></span><span
+                                            class="_1qNTb">HUẾ</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="_1pVEQ"><input id="search" class="bX6zE"
-                                                       placeholder="Tìm kiếm theo địa điểm, quận, tên đường..."
-                                                       value fdprocessedid="ncxia9">
-                                <div class="_2QckJ"><span class="icon-search"
-                                                          style="color: rgb(247, 52, 134); font-size: 24px; align-content: center"></span>
+                                <div class="_1pVEQ"><input id="search" class="bX6zE"
+                                                           placeholder="Tìm kiếm theo địa điểm, quận, tên đường..."
+                                                           value fdprocessedid="ncxia9">
+                                    <div class="_2QckJ"><span class="icon-search"
+                                                              style="color: rgb(247, 52, 134); font-size: 24px; align-content: center"></span>
+                                    </div>
+                                </div>
+                                <div class="_1IdUV">
+                                    <ul class="b-CdA _11SSO" style="left: 157px;" id="location">
+                                    </ul>
                                 </div>
                             </div>
                             <div class="_1IdUV">
-                                <ul class="b-CdA _11SSO" style="left: 157px;" id="location">
+                                <ul class="b-CdA" style="width: 123px;">
+                                    <li class="J_X1w _1vH0j" value="HCM">Huế</li>
+<!--                                    <li class="J_X1w _1vH0j GpngF" value="HN">Hà Nội</li>-->
                                 </ul>
+                                <ul class="b-CdA" style="left: 128px;"></ul>
                             </div>
                         </div>
-                        <div class="_1IdUV">
-                            <ul class="b-CdA" style="width: 123px;">
-                                <li class="J_X1w _1vH0j" value="HCM">Huế</li>
-                                <!--                                    <li class="J_X1w _1vH0j GpngF" value="HN">Hà Nội</li>-->
-                            </ul>
-                            <ul class="b-CdA" style="left: 128px;"></ul>
-                        </div>
+                    </div>
+                    <div>
                     </div>
                 </div>
-                <div>
-                </div>
             </div>
-        </div>
         </div>
         <div class="_2fxFG">
             <div class="FMSe2 _3Nvxb">
@@ -533,7 +535,7 @@
                             }
                         }
 
-                        let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" +   "post_images/" + post.thumbnailId;
+                        let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
 
                         let price = checkPrice(post.rentHouse.price);
                         let gender;
@@ -650,7 +652,7 @@
     })
 
     let specifiedElement = document.getElementById('search');
- //   I'm using "click" but it works with any event
+    //   I'm using "click" but it works with any event
     document.addEventListener('click', function (event) {
         let isClickInside = specifiedElement.contains(event.target);
 
@@ -660,10 +662,10 @@
         }
     });
 
-    function doSearchFilter(wardName){
+    function doSearchFilter(wardName) {
         let location = {
             keyword: $("#search").val(),
-            locationFilter:{
+            locationFilter: {
                 wardId: wardName
             }
         }
