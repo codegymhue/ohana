@@ -21,7 +21,7 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     @Query(value = "SELECT * \n" +
             "FROM post p \n" +
             "where p.status = \"PUBLISHED\"\n" +
-            "ORDER BY p.created_at DESC " +
+            "ORDER BY p.created_at " +
             "LIMIT 10;", nativeQuery = true)
     List<Post> getPostsNew();
 }
