@@ -22,7 +22,7 @@ public class Utility {
     @Column(name = "name", length = 45)
     private String name;
 
-    @Column(name = "icon", length = 45, updatable = false)
+    @Column(name = "icon", length = 45)
     private String icon;
 
     @Column(name = "priority")

@@ -6,9 +6,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.utility.UtilityService;
-import vn.ohana.utility.dto.UtilityResult;
-
-import java.util.List;
+import vn.ohana.utility.dto.CreateUtilityParam;
+import vn.ohana.utility.dto.UpdateUtilityParam;
 
 @RestController
 @RequestMapping("api/utilities")
@@ -22,9 +21,16 @@ public class UtilityAPI {
         return new ResponseEntity<>( utilityService.findAll(PageRequest.of(page, size)), HttpStatus.OK);
     }
 
-    @GetMapping("/{uId}")
-    public ResponseEntity<?> findAll(@PathVariable int uId) {
-
-        return new ResponseEntity<>(utilityService.getById(uId), HttpStatus.OK);
+    @GetMapping("/{utilityId}")
+    public ResponseEntity<?> findAll(@PathVariable int utilityId) {
+        return new ResponseEntity<>(utilityService.getById(utilityId), HttpStatus.OK);
+    }
+    @PostMapping()
+    public ResponseEntity<?> createNew(@RequestBody CreateUtilityParam params) {
+        return new ResponseEntity<>(utilityService.save(params), HttpStatus.OK);
+    }
+    @PatchMapping("/{utilityId}")
+    public ResponseEntity<?> update(@PathVariable int utilityId,@RequestBody UpdateUtilityParam params) {
+        return new ResponseEntity<>(utilityService.update(params), HttpStatus.OK);
     }
 }

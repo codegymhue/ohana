@@ -10,11 +10,13 @@ import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusUtility;
 import vn.ohana.entities.Utility;
 import vn.ohana.post.dto.PostResult;
+import vn.ohana.utility.dto.CreateUtilityParam;
 import vn.ohana.utility.dto.UpdateUtilityParam;
 import vn.ohana.utility.dto.UtilityResult;
 import vn.rananu.shared.exceptions.NotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -45,6 +47,13 @@ public class UtilityServiceImpl implements UtilityService {
         return utilityMapper.toDTO(findById(id));
     }
 
+    @Override
+    public UtilityResult save(CreateUtilityParam param) {
+        param.setStatus(StatusUtility.SHOW);
+        Utility utility = utilityMapper.toEntity(param);
+        return utilityMapper.toDTO(utilityRepository.save(utility));
+    }
+
 
     @Override
     public List<UtilityResult> findAllByStatus(StatusUtility status) {
@@ -59,8 +68,12 @@ public class UtilityServiceImpl implements UtilityService {
     }
 
     @Override
+    @Transactional
     public UtilityResult update(UpdateUtilityParam param) {
-        return null;
+        Utility utility = utilityRepository.findById(param.getId())
+                .orElseThrow(()-> new NotFoundException("utility.exception.notFound"));
+        utilityMapper.transferFields(param, utility,true);
+        return utilityMapper.toDTO(utility);
     }
 
 

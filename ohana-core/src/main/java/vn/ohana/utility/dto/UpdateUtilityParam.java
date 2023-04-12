@@ -1,5 +1,8 @@
 package vn.ohana.utility.dto;
 
+import lombok.Data;
+
+@Data
 public class UpdateUtilityParam extends BaseUtility {
-    private Long id;
+    private Integer id;
 }
