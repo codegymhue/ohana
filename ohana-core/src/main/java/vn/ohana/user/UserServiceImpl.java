@@ -57,6 +57,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public String findUserPasswordById(Long id) {
+        return findById(id).getPassword();
+    }
+
+    @Override
     @Transactional
     public UserResult update(UserUpdateParam updateParam) {
         User user = findById(updateParam.getId());
@@ -112,16 +117,16 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public LoginResult findByEmail(String email) {
-        User loginResult = userRepository.findByEmail(email);
-        if (loginResult != null) {
-            return userMapper.toLoginResultDTO(loginResult);
+    public UserResult findByEmail(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return userMapper.toUserResultDTO(user);
         }
         return null;
     }
 
     @Override
-    public LoginResult save(LoginResult userUpdateParam) {
+    public UserResult save(UserUpdateParam userUpdateParam) {
         User user = findById(userUpdateParam.getId());
 
         user.setFullName(userUpdateParam.getFullName());
@@ -133,12 +138,15 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setDescription(userUpdateParam.getDescription());
-        if (userUpdateParam.getThumbnailUrl() != null) {
-            Optional<PostMedia> option = postMediaService.findById(user.getThumbnailId());
-            option.ifPresent(postMedia -> userUpdateParam.setThumbnailUrl(option.get().getFileUrl()));
-        }
+        user.setThumbnailId(userUpdateParam.getThumbnailId());
         userRepository.save(user);
-        return userMapper.toLoginResultDTO(user);
+        return userMapper.toUserResultDTO(user);
+    }
+    public UserResult savePassword(UserUpdateParam userUpdateParam) {
+        User user = findById(userUpdateParam.getId());
+        user.setPassword(userUpdateParam.getPassword());
+        userRepository.save(user);
+        return userMapper.toUserResultDTO(user);
     }
 
     @Override
@@ -156,6 +164,24 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+
+    public LoginResult findByEmailAndPasswordMapper(String email, String password) {
+        User user = userRepository.findByEmailAndPassword(email, password);
+        if (user != null) {
+            return userMapper.toLoginResult(user);
+        }
+        return null;
+    }
+
+    @Override
+    public UserResult findByEmailAndPasswordUserResult(String email, String password) {
+        User user = userRepository.findByEmailAndPassword(email, password);
+        if (user != null) {
+            return userMapper.toUserResultDTO(user);
+        }
+        return null;
+    }
+
     @Override
     public boolean existsByPhoneOrEmail(String phoneOrEmail) {
         return userRepository.existsByPhoneOrEmail(phoneOrEmail, phoneOrEmail);
@@ -168,12 +194,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public LoginResult signUpByGoogle(GooglePojo googlePojo) {
+    public UserResult signUpByGoogle(GooglePojo googlePojo) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
         String pwd = RandomStringUtils.random(15, characters);
         User userCheck = userRepository.findByEmail(googlePojo.getEmail());
         if (userCheck != null) {
-            return userMapper.toLoginResultDTO(userCheck);
+            return userMapper.toUserResultDTO(userCheck);
         } else {
             User user = userMapper.toGooglePojo(googlePojo);
             user.setStatus(UserStatus.ACTIVATED);
@@ -184,7 +210,7 @@ public class UserServiceImpl implements UserService {
             postMediaService.save(postMedia);
             user.setThumbnailId(postMedia.getId());
             User entity = userRepository.save(user);
-            return userMapper.toLoginResultDTO(entity);
+            return userMapper.toUserResultDTO(entity);
         }
     }
 

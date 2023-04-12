@@ -22,24 +22,24 @@ public class CategoryAPI {
 
     @GetMapping
     public ResponseEntity<?> getAllCategory() {
-        List<CategoryResult> dtoList = categoryService.findAll();
-        return new ResponseEntity<>(dtoList, HttpStatus.OK);
+
+        return new ResponseEntity<>(categoryService.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-        CategoryResult dto = categoryService.getById(id);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+
+        return new ResponseEntity<>(categoryService.getById(id), HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<?> category(@Valid @RequestBody CategoryCreationParam param) {
-        CategoryResult dto = categoryService.create(param);
-        return new ResponseEntity<>(dto, HttpStatus.OK);
+    @PostMapping("/add-category")
+    public ResponseEntity<?> addNewCategory(@Valid @RequestBody CategoryCreationParam param) {
+
+        return new ResponseEntity<>(categoryService.create(param), HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody CategoryUpdateParam param) {
+    public ResponseEntity<?> updateCategoryTitle(@PathVariable Long id, @RequestBody CategoryUpdateParam param) {
 
         return new ResponseEntity<>(categoryService.update(param), HttpStatus.OK);
     }

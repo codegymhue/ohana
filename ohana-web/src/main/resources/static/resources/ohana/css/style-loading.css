@@ -36,10 +36,8 @@ body {
 }
 
 .logo {
-    background: url("https://dl.dropboxusercontent.com/s/r0n3iyiuhub6j1t/test-fill-01.svg?dl=0") no-repeat 50%/70%;
-    width: 100%;
-    height: 100%;
-    transform: rotate(-45deg);
+    /*background: url("https://dl.dropboxusercontent.com/s/r0n3iyiuhub6j1t/test-fill-01.svg?dl=0") no-repeat 50%/70%;*/
+    height: 35px;
 }
 
 .codepad-logo::before,

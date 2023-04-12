@@ -27,27 +27,40 @@ PostMediaService postMediaService;
         return page.map(this::toDTO);
     }
 
-
+//
 //    public LoginResult toLoginResultDTO(User user) {
 //        return modelMapper.map(user, LoginResult.class);
 //    }
 
-    public LoginResult toLoginResultDTO(User user) {
-        LoginResult loginResult = new LoginResult();
-        loginResult.setId(user.getId());
-        loginResult.setFullName(user.getFullName());
-        loginResult.setEmail(user.getEmail());
-        loginResult.setPhone(user.getPhone());
-        loginResult.setDescription(user.getDescription());
-        loginResult.setAddress(user.getAddress());
-        loginResult.setPassword(user.getPassword());
-        if (user.getThumbnailId() != null) {
-            Optional<PostMedia> option = postMediaService.findById(user.getThumbnailId());
-            option.ifPresent(postMedia -> loginResult.setThumbnailUrl(option.get().getFileUrl()));
-        }
-        return loginResult;
+//    public LoginResult toLoginResultDTO(User user) {
+//        LoginResult loginResult = new LoginResult();
+//        loginResult.setId(user.getId());
+//        loginResult.setFullName(user.getFullName());
+//        loginResult.setEmail(user.getEmail());
+//        loginResult.setPhone(user.getPhone());
+//        loginResult.setDescription(user.getDescription());
+//        loginResult.setAddress(user.getAddress());
+//        loginResult.setPassword(user.getPassword());
+//        if (user.getThumbnailId() != null) {
+//            Optional<PostMedia> option = postMediaService.findById(user.getThumbnailId());
+//            option.ifPresent(postMedia -> loginResult.setThumbnailUrl(option.get().getFileUrl()));
+//        }
+//        return loginResult;
+//    }
+
+    public LoginResult toLoginResultDTO(User user){
+        return modelMapper.map(user,LoginResult.class);
     }
 
+    public UserResult toUserResultDTO(User user){
+        return modelMapper.map(user,UserResult.class);
+    }
+
+
+    public LoginResult toLoginResult(User user) {
+
+        return modelMapper.map(user, LoginResult.class);
+    }
 
     public User toGooglePojo(GooglePojo googlePojo) {
         return modelMapper.map(googlePojo,User.class);

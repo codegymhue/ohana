@@ -28,7 +28,7 @@ public interface UserService  {
 
     UserResult getById(Long id);
 
-    LoginResult signUpByGoogle(GooglePojo googlePojo);
+    UserResult signUpByGoogle(GooglePojo googlePojo);
 
     UserResult signUp(SignUpParam signUpParam);
 
@@ -38,17 +38,22 @@ public interface UserService  {
 
     LoginResult findByEmailAndPassword(String email, String password);
 
+    LoginResult findByEmailAndPasswordMapper(String email, String password);
+
+    UserResult findByEmailAndPasswordUserResult(String email, String password);
     boolean existsByPhoneOrEmail(String phone, String email);
 
     boolean existsByEmail(String email);
 
-    LoginResult findByEmail(String email);
+    UserResult findByEmail(String email);
 
+    String findUserPasswordById(Long id);
 
+    UserResult savePassword(UserUpdateParam userUpdateParam);
 
     User findByEmailUser(String email);
 
-    LoginResult save(LoginResult userResult);
+    UserResult save(UserUpdateParam userUpdateParam);
 
 
 
