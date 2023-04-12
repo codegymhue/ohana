@@ -91,21 +91,21 @@ public class LoginControllers extends BaseController {
 
     public Object loginGoogle(GGSignInParam ggSignInParam, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
         try {
-            LoginResult loginResult = null;
+            UserResult userResult = null;
             Cookie cookie;
             GooglePojo googlePojo = googleService.verifyToken(ggSignInParam.getCredential());
-            loginResult = userService.findByEmail(googlePojo.getEmail());
+            userResult = userService.findByEmail(googlePojo.getEmail());
 
-            if (loginResult != null) {
+            if (userResult != null) {
 //                thông báo vào trang index
             } else {
-                loginResult = userService.signUpByGoogle(googlePojo);
+                userResult = userService.signUpByGoogle(googlePojo);
             }
-            cookie = new Cookie("cookie", loginResult.getEmail());
+            cookie = new Cookie("cookie", userResult.getEmail());
             cookie.setMaxAge(24 * 60 * 60 * 30);
             response.addCookie(cookie);
 
-            cookie = new Cookie("cookieLogin", loginResult.getEmail());
+            cookie = new Cookie("cookieLogin", userResult.getEmail());
             cookie.setMaxAge(2);
             response.addCookie(cookie);
         } catch (Exception e) {
