@@ -1,10 +1,15 @@
 package vn.ohana.utility;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusUtility;
 import vn.ohana.entities.Utility;
+import vn.ohana.post.dto.PostResult;
 import vn.ohana.utility.dto.UpdateUtilityParam;
 import vn.ohana.utility.dto.UtilityResult;
 import vn.rananu.shared.exceptions.NotFoundException;
@@ -58,8 +63,14 @@ public class UtilityServiceImpl implements UtilityService {
         return null;
     }
 
+
     @Override
-    public List<UtilityResult> findAll() {
-        return utilityMapper.toDTOList(utilityRepository.findAll());
+    public Page<UtilityResult> findAll(Pageable pageable) {
+        Page<Utility> page = utilityRepository.findAll(pageable);
+        return toDtoPage(page);
+    }
+
+    private Page<UtilityResult> toDtoPage(Page<Utility> page) {
+        return page.map(entity -> utilityMapper.toDTO(entity));
     }
 }

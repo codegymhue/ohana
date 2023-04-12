@@ -164,6 +164,15 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+
+    public LoginResult findByEmailAndPasswordMapper(String email, String password) {
+        User user = userRepository.findByEmailAndPassword(email, password);
+        if (user != null) {
+            return userMapper.toLoginResult(user);
+        }
+        return null;
+    }
+
     @Override
     public UserResult findByEmailAndPasswordUserResult(String email, String password) {
         User user = userRepository.findByEmailAndPassword(email, password);
