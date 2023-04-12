@@ -135,11 +135,7 @@ public class OhanaControllers {
     }
 
 
-<<<<<<< HEAD
-        @GetMapping("/edit-room")
-=======
     @GetMapping("/edit-room")
->>>>>>> hoang_dev
     public ModelAndView editRoom() {
         ModelAndView modelAndView = new ModelAndView("/ohana/edit-room");
         return modelAndView;
