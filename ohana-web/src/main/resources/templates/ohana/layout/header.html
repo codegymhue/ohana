@@ -1,4 +1,4 @@
-<div th:fragment="header (userLogin)">
+<div th:fragment="header (userResult)">
     <div>
         <div class="_1akvT">
             <div class="_3bjUj">
@@ -6,8 +6,9 @@
                     <ul class="m-3">
                         <span class="_1vH0j">
                             <a href="/">
-                                <i class="fas fa-home" style="color: rgb(255, 255, 255); font-size: 21px;"></i>
-                                <span class="_3Uk1Q _1UWQe">Trang chủ</span>
+<!--                                <i class="fas fa-home" style="color: rgb(255, 255, 255); font-size: 21px;"></i>-->
+<!--                                <span class="_3Uk1Q _1UWQe">Trang chủ</span>-->
+                                <img class="logo" src="/resources/ohana/img/8541c2b17a0729942ed2a6f13b7b13e4.svg" alt="Ohana - Phòng cho thuê, ở ghép">
                             </a>
                         </span>
                     </ul>
@@ -37,7 +38,7 @@
                                 <span class="_3Uk1Q _1UWQe">Đăng tin</span>
                             </a>
                         </span>
-                        <th:block th:unless="${userLogin}!=null">
+                        <th:block th:unless="${userResult}!=null">
                             <span class="_1vH0j">
                                 <a href="/sign-in">
                                     <i class="far fa-user" style="color: rgb(255, 255, 255); font-size: 21px;"></i>
@@ -46,20 +47,20 @@
                             </span>
                         </th:block>
                     </ul>
-                    <th:block th:if="${userLogin}!=null">
+                    <th:block th:if="${userResult}!=null">
                         <span>
                             <a type="button" class="rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
-                                <th:block th:if="${userLogin.thumbnailUrl}!=null">
+                                <th:block th:if="${userResult.thumbnailId}!=null">
                                     <img style=" width: 30px; height: 30px;" class="rounded-circle"
-                                         th:src="${userLogin.thumbnailUrl}"
+                                         th:src="${userResult.thumbnailId}"
                                          alt="Image Description">
                                 </th:block>
-                                <th:block th:unless="${userLogin.thumbnailUrl}!=null">
+                                <th:block th:unless="${userResult.thumbnailId}!=null">
                                     <img style=" width: 30px; height: 30px;" class="rounded-circle"
-                                         src="/resources/image/22-223863_no-avatar-png-circle-transparent-png.png"
+                                         src="https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg"
                                          alt="Image Description">
                                 </th:block>
-                                <span style="color:white" th:text="${userLogin.fullName}"></span>
+                                <span style="color:white" th:text="${userResult.fullName}"></span>
                             </a>
 
                             <ul class="dropdown-menu">

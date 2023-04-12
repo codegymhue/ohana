@@ -10,6 +10,8 @@ import vn.ohana.entities.User;
 import vn.ohana.user.UserService;
 import vn.ohana.user.dto.LoginParam;
 import vn.ohana.user.dto.LoginResult;
+import vn.ohana.user.dto.UserResult;
+import vn.ohana.user.dto.UserUpdateParam;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -26,29 +28,31 @@ public class OhanaControllers {
     @Autowired
     UserService userService;
 
-    @ModelAttribute("userLogin")
-    public LoginResult getUserLoginFromCookie(@CookieValue(value = "cookie", defaultValue = "0") String loginUsername) {
-        LoginResult userLogin = null;
+    @ModelAttribute("userResult")
+    public UserResult getUserLoginFromCookie(@CookieValue(value = "cookie", defaultValue = "0") String loginUsername) {
+        UserResult userResult = null;
         if (!loginUsername.equals("0")) {
-            userLogin = userService.findByEmail(loginUsername);
+            userResult = userService.findByEmail(loginUsername);
         }
-        return userLogin;
+        return userResult;
     }
 
+
     @GetMapping("/")
-    public ModelAndView home(@ModelAttribute("userLogin") LoginResult userLogin, @CookieValue(value = "cookieLogin", defaultValue = "0") String loginUsername) {
+    public ModelAndView home(@ModelAttribute("userResult") UserResult userResult, @CookieValue(value = "cookieLogin", defaultValue = "0") String loginUsername) {
         ModelAndView modelAndView = new ModelAndView("/ohana/index");
         if (!loginUsername.equals("0")) {
             modelAndView.addObject("success", true);
         }
-        modelAndView.addObject("userLogin", userLogin);
+        modelAndView.addObject("userResult", userResult);
         return modelAndView;
     }
+
     @GetMapping("/myinfo")
-    public Object myInfo(@ModelAttribute("userLogin") LoginResult userUpdateParam) {
+    public Object myInfo(@ModelAttribute("userResult") UserResult userResult) {
         ModelAndView modelAndView = new ModelAndView("/ohana/my-info");
-        if (userUpdateParam != null) {
-            modelAndView.addObject("userUpdateParam", userUpdateParam);
+        if (userResult != null) {
+            modelAndView.addObject("userUpdateParam", userResult);
             return modelAndView;
         } else {
             return "/ohana/error";
@@ -56,30 +60,21 @@ public class OhanaControllers {
     }
 
     @PostMapping("/myinfo")
-    public Object doMyInfo(@ModelAttribute("userUpdateParam") LoginResult loginResult, BindingResult bindingResult) throws GeneralSecurityException, IOException {
+    public Object doMyInfo(@ModelAttribute("userUpdateParam") UserUpdateParam userUpdateParam, BindingResult bindingResult) throws GeneralSecurityException, IOException {
         ModelAndView modelAndView = new ModelAndView("/ohana/my-info");
-        new LoginResult().validate(loginResult, bindingResult);
+        new UserUpdateParam().validate(userUpdateParam, bindingResult);
         if (bindingResult.hasFieldErrors()) {
-            modelAndView.addObject("userUpdateParam", loginResult);
+            modelAndView.addObject("userUpdateParam", userUpdateParam);
             modelAndView.addObject("error", true);
             return modelAndView;
         }
 
-        if (loginResult != null) {
-            loginResult = userService.save(loginResult);
-            modelAndView.addObject("success", true);
-
-            modelAndView.addObject("userUpdateParam", loginResult);
-            return modelAndView;
-        } else {
-            return "/ohana/error";
-        }
-    }
-
-    @GetMapping("/password")
-    public Object password(@ModelAttribute("userLogin") LoginResult userUpdateParam ) {
-        ModelAndView modelAndView = new ModelAndView("/ohana/password");
         if (userUpdateParam != null) {
+            userService.save(userUpdateParam);
+            modelAndView.addObject("success", true);
+            UserResult userResult = userService.findByEmail(userUpdateParam.getEmail());
+
+            modelAndView.addObject("userResult", userResult);
             modelAndView.addObject("userUpdateParam", userUpdateParam);
             return modelAndView;
         } else {
@@ -87,30 +82,39 @@ public class OhanaControllers {
         }
     }
 
-    @PostMapping("/password")
-    public Object doPassword(@ModelAttribute LoginResult userUpdateParam, HttpServletRequest req) {
+    @GetMapping("/password")
+    public Object password(@ModelAttribute("userResult") UserResult userResult) {
         ModelAndView modelAndView = new ModelAndView("/ohana/password");
+        UserUpdateParam userUpdateParam = new UserUpdateParam();
+        modelAndView.addObject("userUpdateParam", userUpdateParam);
+        return modelAndView;
+    }
+
+    @PostMapping("/password")
+    public Object doPassword(@ModelAttribute("userResult") UserResult userResult, @ModelAttribute UserUpdateParam userUpdateParam, HttpServletRequest req) {
+        ModelAndView modelAndView = new ModelAndView("/ohana/password");
+        String oldPassword = userService.findUserPasswordById(userResult.getId());
+
+        String currentPassword = req.getParameter("currentPassword");
         String newpassword = req.getParameter("newpassword");
         System.out.println(newpassword);
 
-        LoginResult userUpdateParamNew = userService.findByEmailAndPassword(userUpdateParam.getEmail(),userUpdateParam.getPassword());
-        if (userUpdateParamNew != null) {
-
-            if (newpassword.equals(userUpdateParam.getPassword())) {
-                modelAndView.addObject("errorDuplicate", true);
-                modelAndView.addObject("userUpdateParam", userUpdateParam);
-                return modelAndView;
-            }
-            else {
-            userUpdateParamNew.setPassword(newpassword);
-            userService.save(userUpdateParamNew);
-            modelAndView.addObject("success", true);
-            modelAndView.addObject("userUpdateParam", userUpdateParamNew);
-            return modelAndView;
-            }
-        }
-        else {
+        if (!currentPassword.equals(oldPassword)) {
             modelAndView.addObject("error", true);
+            modelAndView.addObject("userUpdateParam", userUpdateParam);
+            return modelAndView;
+        }
+
+        if (newpassword.equals(oldPassword)) {
+            modelAndView.addObject("errorDuplicate", true);
+            modelAndView.addObject("userUpdateParam", userUpdateParam);
+            return modelAndView;
+        }
+        else{
+            userUpdateParam.setPassword(newpassword);
+            userUpdateParam.setId(userResult.getId());
+            userService.savePassword(userUpdateParam);
+            modelAndView.addObject("success", true);
             modelAndView.addObject("userUpdateParam", userUpdateParam);
             return modelAndView;
         }
@@ -124,7 +128,6 @@ public class OhanaControllers {
     }
 
 
-
     @GetMapping("/post-room")
     public ModelAndView postRoom() {
         ModelAndView modelAndView = new ModelAndView("/ohana/post-room");
@@ -132,9 +135,7 @@ public class OhanaControllers {
     }
 
 
-
-
-        @GetMapping("/edit-room")
+    @GetMapping("/edit-room")
     public ModelAndView editRoom() {
         ModelAndView modelAndView = new ModelAndView("/ohana/edit-room");
         return modelAndView;
