@@ -3,6 +3,7 @@ package vn.ohana.user.dto;
 import lombok.*;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import vn.ohana.entities.Role;
 
 //@ToString
 
@@ -19,6 +20,7 @@ public class LoginResult implements Validator {
     private String address;
     private String description;
     private String thumbnailUrl;
+    private Role role;
 
     @Override
     public boolean supports(Class<?> clazz) {

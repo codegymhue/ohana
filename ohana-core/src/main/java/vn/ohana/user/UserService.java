@@ -38,6 +38,8 @@ public interface UserService  {
 
     LoginResult findByEmailAndPassword(String email, String password);
 
+    LoginResult findByEmailAndPasswordMapper(String email, String password);
+
     boolean existsByPhoneOrEmail(String phone, String email);
 
     boolean existsByEmail(String email);
