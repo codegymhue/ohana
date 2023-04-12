@@ -132,8 +132,6 @@ public class OhanaControllers {
     }
 
 
-
-
         @GetMapping("/edit-room")
     public ModelAndView editRoom() {
         ModelAndView modelAndView = new ModelAndView("/ohana/edit-room");
@@ -146,5 +144,10 @@ public class OhanaControllers {
         return modelAndView;
     }
 
+    @GetMapping("/room/{pId}")
+    public ModelAndView room( @PathVariable String pId) {
+        ModelAndView modelAndView = new ModelAndView("/ohana/room");
+        return modelAndView;
+    }
 
 }

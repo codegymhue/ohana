@@ -18,4 +18,10 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long>{
     Page<Post> findByUser(User user, Pageable pageable);
 
+    @Query(value = "SELECT * \n" +
+            "FROM post p \n" +
+            "where p.status = \"PUBLISHED\"\n" +
+            "ORDER BY p.created_at DESC " +
+            "LIMIT 10;", nativeQuery = true)
+    List<Post> getPostsNew();
 }

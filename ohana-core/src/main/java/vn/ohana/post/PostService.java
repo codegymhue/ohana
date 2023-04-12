@@ -2,6 +2,7 @@ package vn.ohana.post;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import vn.ohana.entities.Post;
 import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
@@ -28,4 +29,6 @@ public interface PostService {
     PostResult getById(Long pId);
 
     PostResult updateStatusById(PostUpdateParam postUpdateParam);
+
+    List<PostResult>  getTop10PostsNew();
 }

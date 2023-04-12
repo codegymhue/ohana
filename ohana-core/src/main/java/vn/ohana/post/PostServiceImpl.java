@@ -118,6 +118,11 @@ public class PostServiceImpl implements PostService {
         return postMapper.toDTO(post);
     }
 
+    @Override
+    public List<PostResult> getTop10PostsNew() {
+        return postMapper.toDTOList(postRepository.getPostsNew());
+    }
+
 
     public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException("post.exception.notFound"));
@@ -146,6 +151,8 @@ public class PostServiceImpl implements PostService {
         dto.setUtilities(newUtilities);
         return dto;
     }
+
+
 
 }
 

@@ -1,3 +1,4 @@
+
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <html lang="vi">
 
@@ -214,8 +215,7 @@
 <!--footer-->
 <th:block th:replace="/ohana/layout/footer :: footer"/>
 <th:block th:replace="/ohana/layout/script :: script"/>
-</div>
-</div>
+
 <script src="/resources/paginationjs-master/paginationjs-master/src/pagination.js"></script>
 <script th:inline="javascript">
     let page = {
@@ -494,6 +494,7 @@
 
     function paging(data) {
         (function (name) {
+            console.log(name)
             var container = $('#pagination-' + name);
             var sources = function () {
                 var result = [];
@@ -546,7 +547,7 @@
                         }
 
                         str += `<li>
-                     <div class="nctjX"><a target="_blank" href="/room/${post.id}">
+                     <div class="nctjX"><a target="_blank" href="/${post.id}">
                             <div class="X8svI _2DJkz">
                                 <div class="pcGxo">
                                     <div class="_1Gm0b"><img
@@ -586,7 +587,9 @@
                                     </div>
                                 </div>
                             </div>
-                        </a></div></li>
+                            <hr>
+                        </a>
+                        </div></li>
                     `;
                         // $(container).append(str);
                     });
@@ -651,16 +654,16 @@
         }
     })
 
-    let specifiedElement = document.getElementById('search');
-    //   I'm using "click" but it works with any event
-    document.addEventListener('click', function (event) {
-        let isClickInside = specifiedElement.contains(event.target);
-
-        if (!isClickInside) {
-            $("#search").val("");
-            $("#location").html("");
-        }
-    });
+    // let specifiedElement = document.getElementById('search');
+    // //   I'm using "click" but it works with any event
+    // document.addEventListener('click', function (event) {
+    //     let isClickInside = specifiedElement.contains(event.target);
+    //
+    //     if (!isClickInside) {
+    //         $("#search").val("");
+    //         $("#location").html("");
+    //     }
+    // });
 
     function doSearchFilter(wardName) {
         let location = {
@@ -672,6 +675,7 @@
         doFilter(location);
         $("._1IdUV").hide(250);
     }
+
 
 
 </script>

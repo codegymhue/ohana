@@ -6,9 +6,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import vn.ohana.entities.Post;
 import vn.ohana.location.dto.DataSearchResult;
+import vn.ohana.post.PostRepository;
 import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostFilterParam;
+import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
 import vn.ohana.user.dto.LoginResult;
 import vn.ohana.user.dto.UserFilterParam;
@@ -64,6 +67,11 @@ public class PostAPI {
     @PatchMapping ("/{id}")
     public ResponseEntity<?> updateStatusById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
         return new ResponseEntity<>( postService.updateStatusById(postUpdateParam), HttpStatus.OK);
+    }
+
+    @GetMapping("/postsNew")
+    public ResponseEntity<?> getPostsNew() {
+        return new ResponseEntity<>( postService.getTop10PostsNew(), HttpStatus.OK);
     }
 
 }
