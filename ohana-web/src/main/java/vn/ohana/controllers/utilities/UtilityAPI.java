@@ -17,8 +17,11 @@ public class UtilityAPI {
     UtilityService utilityService;
 
     @GetMapping
-    public ResponseEntity<?> findAll(@RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
-        return new ResponseEntity<>( utilityService.findAll(PageRequest.of(page, size)), HttpStatus.OK);
+    public ResponseEntity<?> findAll(@RequestParam(name = "page") int page, @RequestParam(name = "size") int size, @RequestParam(name = "status") String status ) {
+        if (status.trim().length() == 0) {
+            return new ResponseEntity<>( utilityService.findAll(PageRequest.of(page, size)), HttpStatus.OK);
+        }
+        else return new ResponseEntity<>( utilityService.findAllByStatus(PageRequest.of(page, size),status), HttpStatus.OK);
     }
 
     @GetMapping("/{utilityId}")
@@ -37,11 +40,6 @@ public class UtilityAPI {
     @PatchMapping("/{utilityId}/status={status}")
     public ResponseEntity<?> updateStatus(@PathVariable Integer utilityId,@PathVariable String status) {
         return new ResponseEntity<>(utilityService.updateStatus(utilityId,status), HttpStatus.OK);
-    }
-
-    @GetMapping("/{postroom}")
-    public ResponseEntity<?> findAllPostroom() {
-        return new ResponseEntity<>(utilityService.getAll(), HttpStatus.OK);
     }
 
 }

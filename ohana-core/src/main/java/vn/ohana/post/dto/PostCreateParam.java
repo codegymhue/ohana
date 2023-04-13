@@ -22,7 +22,6 @@ public class PostCreateParam {
     private List<String> images;
     private LocationParam location;
     private RentHouseParam rentHouse;
-    private Long poster;
     private List<Long> utilities;
 
 }

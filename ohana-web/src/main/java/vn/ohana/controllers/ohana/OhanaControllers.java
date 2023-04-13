@@ -168,8 +168,8 @@ public class OhanaControllers {
         return modelAndView;
     }
 
-    @GetMapping("/room/{pId}")
-    public ModelAndView room( @PathVariable String pId) {
+    @GetMapping("/{pId}/room")
+    public ModelAndView room() {
         ModelAndView modelAndView = new ModelAndView("/ohana/room");
         return modelAndView;
     }

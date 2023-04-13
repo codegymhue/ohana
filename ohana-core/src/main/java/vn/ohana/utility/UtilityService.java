@@ -1,6 +1,7 @@
 package vn.ohana.utility;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import vn.ohana.entities.StatusUtility;
 import vn.ohana.entities.Utility;
@@ -30,5 +31,5 @@ public interface UtilityService {
 
     UtilityResult updateStatus(Integer utilityId, String status);
 
-    List<UtilityResult> getAll();
+    Page<UtilityResult> findAllByStatus(Pageable page, String status);
 }

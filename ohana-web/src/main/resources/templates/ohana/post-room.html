@@ -52,7 +52,8 @@
             height: 200px;
 
         }
-        .form-group input {
+
+        .input {
             margin-left: 10px;
         }
     </style>
@@ -75,106 +76,97 @@
         </div>
         <!--        <th:block th:if="${userUpdateParam}!=null">-->
         <form class="pt-6" method="post" th:action="@{/post-room}" th:object="${postCreateParam}">
-            <div class="row col-md-12">
-                <div class="form-group col-md-12">
+            <div class="">
+                <div class="px-2">
                     <label class="m-1">Tiêu đề</label>
-                    <input type="text" class="form-control" th:field="${postCreateParam.title}">
+                    <input type="text" class="form-control " th:field="${postCreateParam.title}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
             </div>
-            <div class="row col-md-12">
-                <div class="form-group col-md-12">
+            <div class=" col-md-12">
+                <div class="col-md-12 px-2">
                     <label class="m-1">Nội dung</label>
                     <textarea type="text" class="form-control" th:field="${postCreateParam.description}"></textarea>
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
             </div>
-            <div class="row col-md-12">
-                <div class="form-group col-md-4">
+            <div class="d-flex col-md-12">
+                <div class="col-md-4 px-2">
                     <label class="m-1">Loại phòng</label>
-                    <select type="text" class="form-select" id="categories">
+                    <select type="text" class="form-select" id="categories" th:field="${postCreateParam.categoryId}">
                     </select>
                 </div>
-                <div class="form-group col-md-4">
+                <div class="col-md-4 px-2">
                     <label class="m-1">Giá phòng</label>
                     <input type="text" class="form-control" th:field="${postCreateParam.rentHouse.price}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
-                <div class="form-group col-md-4">
+                <div class="col-md-4 px-2 ">
                     <label class="m-1">Diện tích</label>
                     <input type="text" class="form-control" th:field="${postCreateParam.rentHouse.area}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
-                <div class="form-group col-md-4">
+            </div>
+            <div class="d-flex col-md-12">
+                <div class="col-md-6 px-2">
                     <label class="m-1">Sức chứa</label>
                     <input type="text" class="form-control" th:field="${postCreateParam.rentHouse.capacity}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
-
-                <div class="form-group col-md-4">
+                <div class="col-md-6 px-2">
                     <label class="m-1">Giới Tính</label>
-                    <select type="text" class="form-select" id="genders">
+                    <select type="text" class="form-select" id="genders" th:field="${postCreateParam.rentHouse.genderId}">
                     </select>
                 </div>
             </div>
-            <div class="row col-md-12">
-                <div class="form-group col-md-12">
-                    <label class="m-1">Tiện ích: </label>
-                    <input type="checkbox"> I have a bike
-                    <input type="checkbox"> I have a car
-                    <input type="checkbox"> I have a boat
-                    <!--                    <label class="error">-->
-                    <!--                    </label>-->
+            <div class=" col-md-12">
+                <label class="m-1 form-label">Tiện ích: </label>
+                <div class="d-flex flex-wrap col-md-12 px-5" id="utilities" th:field="${postCreateParam.utilities}">
+
                 </div>
             </div>
-            <div class="row col-md-12">
-                <div class="form-group col-md-3">
+            <div class="d-flex col-md-12">
+                <div class="col-md-3 px-2">
                     <label class="m-1">Tỉnh</label>
-                    <select type="text" class="form-select">
-                        <option>1</option>
-                        <option>2</option>
+                    <select type="text" class="form-select" id="province" th:field="${postCreateParam.location.provinceId}">
                     </select>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="col-md-3 px-2">
                     <label class="m-1">Thành phố/Huyện</label>
-                    <select type="text" class="form-select">
-                        <option>1</option>
-                        <option>2</option>
+                    <select type="text" class="form-select" id="district" th:field="${postCreateParam.location.districtId}">
                     </select>
                 </div>
-                <div class="form-group col-md-3">
+                <div class="col-md-3 px-2">
                     <label class="m-1">Phường/Xã</label>
-                    <select type="text" class="form-select">
-                        <option>1</option>
-                        <option>2</option>
+                    <select type="text" class="form-select" id="ward" th:field="${postCreateParam.location.wardId}">
                     </select>
                 </div>
 
-                <div class="form-group col-md-3">
+                <div class="col-md-3 px-2">
                     <label class="m-1">Địa chỉ</label>
                     <input type="text" class="form-control" th:field="${postCreateParam.location.line1}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
             </div>
-<!--            <div class="row col-md-12 mt-3">-->
-<!--                <div class="col-md-3" style="position: relative">-->
-<!--                    <button type="button" id="upload_widget" class="col-md-3 w-100 h-100">Chọn ảnh-->
-<!--                        <input type="hidden" id="urlImage">-->
-<!--                        &lt;!&ndash;                        <img id="imgPreview" class="col-md-3 h-100"&ndash;&gt;-->
-<!--                        &lt;!&ndash;                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>&ndash;&gt;-->
-<!--                    </button>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <div id="showImage" class="row col-md-12 mt-3">-->
-<!--                <img id="imgPreview" class="postroom"/>-->
-<!--            </div>-->
-            <div class="row col-md-12">
+                        <div class="row col-md-12 mt-3">
+                            <div class="col-md-3" style="position: relative">
+                                <button type="button" id="upload_widget" class="col-md-3 w-100 h-100">Chọn ảnh
+                                    <input type="hidden" id="urlImage" th:field="${postCreateParam.images}">
+                                    <!--                        <img id="imgPreview" class="col-md-3 h-100"-->
+                                    <!--                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>-->
+                                </button>
+                            </div>
+                        </div>
+                        <div id="showImage" class="row col-md-12 mt-3">
+                            <img id="imgPreview" class="postroom"/>
+                        </div>
+            <div class="w-100 col-md-12 px-2">
                 <button type="submit" class="btn btn-primary mt-3">Đăng tin</button>
             </div>
         </form>
@@ -186,41 +178,42 @@
 
 <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
 <script src="/resources/paginationjs-master/paginationjs-master/src/pagination.js"></script>
-<!--<script>-->
-<!--    let listImageId = [];-->
-<!--    var cloudinaryWidget = cloudinary.createUploadWidget(-->
-<!--        {-->
-<!--            cloudName: "dh8nlcoul",-->
-<!--            uploadPreset: "cvrenzxm",-->
-<!--        },-->
-<!--        (error, result) => {-->
-<!--            if (!error && result && result.event === "success") {-->
-<!--                console.log("Done! Here is the image info: ", result.info);-->
-<!--                let {url} = result.info;-->
-<!--                let {public_id} = result.info;-->
-<!--                listImageId.push(public_id);-->
-<!--                console.log(url);-->
-<!--                let str = renderImage(url);-->
-<!--                $('#showImage').prepend(str);-->
-<!--            }-->
-<!--        }-->
-<!--    );-->
-<!--    console.log(listImageId);-->
+<script>
+    let listImageId = [];
+    var cloudinaryWidget = cloudinary.createUploadWidget(
+        {
+            cloudName: "dh8nlcoul",
+            uploadPreset: "cvrenzxm",
+        },
+        (error, result) => {
+            if (!error && result && result.event === "success") {
+                console.log("Done! Here is the image info: ", result.info);
+                let {url} = result.info;
+                let {public_id} = result.info;
+                listImageId.push(public_id);
+                console.log(url);
+                let str = renderImage(url);
+                $('#showImage').prepend(str);
+            }
+        }
+    );
 
-<!--    $("#upload_widget").on("click", function () {-->
-<!--        cloudinaryWidget.open();-->
-<!--    });-->
+    let postcrParams = {
+        images: listImageId,
+    }
+    JSON.stringify(postcrParams)
 
-<!--    let renderImage = (image) => {-->
-<!--        return `-->
-<!--            <img id="imgPreview" src="${image}" class="postroom"/>-->
-<!--        `-->
-<!--    }-->
-<!--</script>-->
-<script >
+    $("#upload_widget").on("click", function () {
+        cloudinaryWidget.open();
+    });
 
-
-
+    let renderImage = (image) => {
+        return `
+            <img id="imgPreview" src="${image}" class="postroom"/>
+        `
+    }
+</script>
+<script>
     let page = {
         url: {
             getAllCategories: App.BASE_URL_API + "/categories",
@@ -242,6 +235,10 @@
         initializeControlEvent: {},
         // let isClickInside = specifiedElement.contains(event.target)
     }
+    page.dialogs.elements.province = $('#province');
+    page.dialogs.elements.district = $('#district');
+    page.dialogs.elements.ward = $('#ward');
+    page.dialogs.elements.address = $('#address');
 
     let post = new Post();
     let filter = {};
@@ -269,6 +266,7 @@
             type: "GET",
             url: page.url.getAllGenders
         }).done(function (data) {
+            console.log(data)
             data.forEach((item) => {
                 let str = `<option value="${item.id}">${item.name}</option>`;
                 $("#genders").append(str);
@@ -281,13 +279,15 @@
     page.commands.getAllUtilities = () => {
         $.ajax({
             type: "GET",
-            url: page.url.getAllUtilities + "/postroom"
+            url: page.url.getAllUtilities + "?page=0&size=50&status=SHOW"
         }).done(function (data) {
             console.log(data)
-            data.forEach((item, index) => {
-                $('#utilities').append(`
-                        <input type="checkbox" value="${item.id}">${item.name}
-                `);
+            data.content.forEach((item) => {
+                let str = `<div class="col-md-2" style="font-size: 1.2rem;">
+                            <input type="checkbox" value="${item.id}">
+                            <span class="mx-2">${item.name}</span>
+                           </div>`;
+                $('#utilities').append(str);
             });
             // post.utilities.forEach(item => {
             //     $('#checkBox_' + item.id).prop('checked', true);
@@ -298,11 +298,114 @@
         })
     }
 
+    page.dialogs.loadData.getAllProvinces = () => {
+        return $.ajax({
+            type: 'GET',
+            url: 'https://vapi.vnappmob.com/api/province/'
+        })
+            .done((data) => {
+                $.each(data.results, (i, item) => {
+                    let str = `<option value="${item.province_id}">${item.province_name}</option>`;
+
+                    page.dialogs.elements.province.append(str);
+
+                })
+
+                addEventChangeProvince();
+                addEventChangeDistrict();
+
+            })
+            .fail((jqXHR) => {
+                AppBase.SweetAlert.showErrorAlert('Load Provinces fail');
+            })
+    }
+
+    page.dialogs.loadData.getAllDistrictsByProvince = (provinceId) => {
+        return $.ajax({
+            type: 'GET',
+            url: 'https://vapi.vnappmob.com/api/province/district/' + provinceId
+        })
+            .done((data) => {
+                page.dialogs.elements.district.empty();
+                $.each(data.results, (i, item) => {
+                    let str = `<option value="${item.district_id}">${item.district_name}</option>`;
+
+                    page.dialogs.elements.district.append(str);
+
+                })
+
+
+            })
+            .fail((jqXHR) => {
+                AppBase.SweetAlert.showErrorAlert('Load Districts fail');
+            })
+    }
+
+    page.dialogs.loadData.getAllWardsByDistrict = (districtId) => {
+        return $.ajax({
+            type: 'GET',
+            url: 'https://vapi.vnappmob.com/api/province/ward/' + districtId
+        })
+            .done((data) => {
+                page.dialogs.elements.ward.empty();
+                $.each(data.results, (i, item) => {
+                    let str = `<option value="${item.ward_id}">${item.ward_name}</option>`;
+
+                    page.dialogs.elements.ward.append(str);
+                })
+
+
+            })
+            .fail((jqXHR) => {
+                AppBase.SweetAlert.showErrorAlert('Load Wards fail');
+            })
+    }
+
+    function addEventChangeProvince() {
+        page.dialogs.elements.province.on("change", function () {
+            let provinceId = $(this).val();
+
+            if (provinceId !== 0) {
+                page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
+                    let districtId = page.dialogs.elements.district.val();
+                    page.dialogs.loadData.getAllWardsByDistrict(districtId);
+                })
+            }
+        })
+    }
+
+    function addEventChangeDistrict() {
+
+        page.dialogs.elements.district.on("change", function () {
+            let districtId = $(this).val();
+
+            if (districtId !== 0) {
+
+                page.dialogs.loadData.getAllWardsByDistrict(districtId);
+            }
+
+        })
+    }
+
+
+    function resetLocationRegion() {
+        page.dialogs.loadData.getAllProvinces().then(() => {
+            let provinceId = page.dialogs.elements.province.val();
+
+            page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
+                let districtId = page.dialogs.elements.district.val();
+
+                page.dialogs.loadData.getAllWardsByDistrict(districtId);
+            });
+        });
+    }
+
 
     $(() => {
         page.commands.getAllCategories();
         page.commands.getAllGenders();
         page.commands.getAllUtilities();
+        resetLocationRegion();
     })
 </script>
 </body>

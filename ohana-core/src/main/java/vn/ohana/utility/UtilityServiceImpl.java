@@ -84,6 +84,12 @@ public class UtilityServiceImpl implements UtilityService {
     }
 
     @Override
+    public Page<UtilityResult> findAllByStatus(Pageable page, String status) {
+        Page<Utility> utilityPage = utilityRepository.findByStatus(StatusUtility.parseStatusUtility(status), page);
+        return toDtoPage(utilityPage);
+    }
+
+    @Override
     @Transactional
     public UtilityResult updateStatus(Integer utilityId, String status) {
         StatusUtility statusUtility = StatusUtility.parseStatusUtility(status);
@@ -96,9 +102,4 @@ public class UtilityServiceImpl implements UtilityService {
         return page.map(entity -> utilityMapper.toDTO(entity));
     }
 
-    @Override
-    public List<UtilityResult> getAll() {
-        List<Utility> utilities = utilityRepository.findAll();
-        return utilityMapper.toDTOList(utilities);
-    }
 }

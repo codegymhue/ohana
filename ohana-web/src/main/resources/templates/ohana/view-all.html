@@ -36,7 +36,6 @@
         <div class="_3bjUj">
             <!--header-->
             <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
-            <
             <div class="QZg_h _18fKS">
                 <div class="_3oMi4">
                     <div class="_3OgY1"><a href="/"><img
@@ -385,10 +384,10 @@
     page.commands.getAllUtilities = () => {
         $.ajax({
             type: "GET",
-            url: page.url.getAllUtilities
+            url: page.url.getAllUtilities + "?page=0&size=50"
         }).done(function (data) {
             $("#utilities").html('');
-            data.forEach((item) => {
+            data.content.forEach((item) => {
                 $('#utilities').append(`
                     <label class="_22Yl9" id="utility_${item.id}">
                         <span class="_39t1S">
@@ -515,25 +514,39 @@
                     $.each(response, function (index, item) {
                         post = item;
                         let typeRoom;
-                        switch (post.category.id) {
-                            case 1:
-                            case 2:
-                                typeRoom = "tr/phòng"
-                                break;
-                            case 3:
-                                typeRoom = "tr/người"
-                                break;
-                            case 4:
-                            case 5:
-                                typeRoom = "tr/căn"
-                                break;
-                        }
+
 
                         function checkPrice(price) {
                             if (price >= 1000000) {
+                                switch (post.category.id) {
+                                    case 1:
+                                    case 2:
+                                        typeRoom = "tr/phòng"
+                                        break;
+                                    case 3:
+                                        typeRoom = "tr/người"
+                                        break;
+                                    case 4:
+                                    case 5:
+                                        typeRoom = "tr/căn"
+                                        break;
+                                }
                                 return price / 1000000;
                             } else {
-                                return "<1";
+                                switch (post.category.id) {
+                                    case 1:
+                                    case 2:
+                                        typeRoom = "k/phòng"
+                                        break;
+                                    case 3:
+                                        typeRoom = "k/người"
+                                        break;
+                                    case 4:
+                                    case 5:
+                                        typeRoom = "k/căn"
+                                        break;
+                                }
+                                return price / 1000;
                             }
                         }
 
