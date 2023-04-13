@@ -33,4 +33,9 @@ public class UtilityAPI {
     public ResponseEntity<?> update(@PathVariable int utilityId,@RequestBody UpdateUtilityParam params) {
         return new ResponseEntity<>(utilityService.update(params), HttpStatus.OK);
     }
+
+    @PatchMapping("/{utilityId}/status={status}")
+    public ResponseEntity<?> updateStatus(@PathVariable Integer utilityId,@PathVariable String status) {
+        return new ResponseEntity<>(utilityService.updateStatus(utilityId,status), HttpStatus.OK);
+    }
 }

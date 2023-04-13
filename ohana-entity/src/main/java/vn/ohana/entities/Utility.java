@@ -29,6 +29,7 @@ public class Utility {
     private int priority;
 
     @Column(name = "status")
+    @Enumerated(EnumType.STRING)
     private StatusUtility status;
 
 

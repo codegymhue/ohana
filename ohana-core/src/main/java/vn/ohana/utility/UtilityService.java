@@ -27,4 +27,6 @@ public interface UtilityService {
     UtilityResult update(UpdateUtilityParam param);
 
     Page<UtilityResult> findAll(Pageable pageable);
+
+    UtilityResult updateStatus(Integer utilityId, String status);
 }

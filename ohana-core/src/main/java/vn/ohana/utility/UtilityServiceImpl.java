@@ -83,6 +83,15 @@ public class UtilityServiceImpl implements UtilityService {
         return toDtoPage(page);
     }
 
+    @Override
+    @Transactional
+    public UtilityResult updateStatus(Integer utilityId, String status) {
+        StatusUtility statusUtility = StatusUtility.parseStatusUtility(status);
+        Utility utility = utilityRepository.findById(utilityId).orElseThrow(() -> new NotFoundException("utility.exception.notFound"));
+        utility.setStatus(statusUtility);
+        return utilityMapper.toDTO(utility);
+    }
+
     private Page<UtilityResult> toDtoPage(Page<Utility> page) {
         return page.map(entity -> utilityMapper.toDTO(entity));
     }
