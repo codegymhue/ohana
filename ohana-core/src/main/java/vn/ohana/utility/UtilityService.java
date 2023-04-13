@@ -29,4 +29,6 @@ public interface UtilityService {
     Page<UtilityResult> findAll(Pageable pageable);
 
     UtilityResult updateStatus(Integer utilityId, String status);
+
+    List<UtilityResult> getAll();
 }

@@ -95,4 +95,10 @@ public class UtilityServiceImpl implements UtilityService {
     private Page<UtilityResult> toDtoPage(Page<Utility> page) {
         return page.map(entity -> utilityMapper.toDTO(entity));
     }
+
+    @Override
+    public List<UtilityResult> getAll() {
+        List<Utility> utilities = utilityRepository.findAll();
+        return utilityMapper.toDTOList(utilities);
+    }
 }
