@@ -73,6 +73,12 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
 
             if (filter.getLocationFilter() != null) {
 
+                if (filter.getLocationFilter().getLine1() != null) {
+                    Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.line1"));
+                    Predicate line1Equal = criteriaBuilder.equal(expressionJSON, filter.getLocationFilter().getLine1());
+                    predicateList.add(line1Equal);
+
+                }
                 if (filter.getLocationFilter().getProvinceId() != null) {
                     Expression<String> expressionJSON = criteriaBuilder.function("JSON_EXTRACT", String.class, root.get("location"), criteriaBuilder.literal("$.provinceId"));
                     Predicate provinceIdEqual = criteriaBuilder.equal(expressionJSON, filter.getLocationFilter().getProvinceId());

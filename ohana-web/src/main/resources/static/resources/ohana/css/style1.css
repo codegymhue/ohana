@@ -282,7 +282,6 @@ h1 {
     padding-top: 32px;
     padding-bottom: 24px;
     border-radius: 20px;
-    margin-top: 32px;
 }
 
 ._3Nvxb ._1Tf_Z {
@@ -295,6 +294,8 @@ h1 {
     -ms-flex-align: center;
     /*align-items: center;*/
     padding-bottom: 32px;
+
+    min-width: 100%;
 }
 
 ._3Nvxb ._1Tf_Z ._3Lwxo {
@@ -1885,7 +1886,6 @@ h1 {
     justify-content: center;
     display: -ms-flexbox;
     display: flex;
-    margin-top: 112px;
     max-width: 1440px;
     margin-left: auto;
     margin-right: auto;
@@ -1923,6 +1923,9 @@ h1 {
     flex: 1 1;
 }
 
+ .aR5Eq{
+     flex: 1;
+ }
 ._2fxFG .aR5Eq .TJKfZ ._1WjTi .nctjX {
     border-bottom: 1px solid #CDCDCD;
 }
