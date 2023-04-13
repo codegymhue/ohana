@@ -98,8 +98,8 @@ public class UtilityServiceImpl implements UtilityService {
         return utilityMapper.toDTO(utility);
     }
 
-
     private Page<UtilityResult> toDtoPage(Page<Utility> page) {
         return page.map(entity -> utilityMapper.toDTO(entity));
     }
+
 }

@@ -18,4 +18,5 @@ public interface UtilityRepository extends JpaRepository<Utility, Integer> {
     List<Utility> findAllByStatus(StatusUtility status);
 
 
+
 }
