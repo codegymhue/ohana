@@ -383,10 +383,10 @@
     page.commands.getAllUtilities = () => {
         $.ajax({
             type: "GET",
-            url: page.url.getAllUtilities
+            url: page.url.getAllUtilities + "?page=0&size=50"
         }).done(function (data) {
             $("#utilities").html('');
-            data.forEach((item) => {
+            data.content.forEach((item) => {
                 $('#utilities').append(`
                     <label class="_22Yl9" id="utility_${item.id}">
                         <span class="_39t1S">
