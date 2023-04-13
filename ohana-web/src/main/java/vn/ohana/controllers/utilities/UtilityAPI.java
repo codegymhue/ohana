@@ -41,4 +41,5 @@ public class UtilityAPI {
     public ResponseEntity<?> updateStatus(@PathVariable Integer utilityId,@PathVariable String status) {
         return new ResponseEntity<>(utilityService.updateStatus(utilityId,status), HttpStatus.OK);
     }
+
 }

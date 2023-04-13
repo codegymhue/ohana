@@ -36,7 +36,6 @@
         <div class="_3bjUj">
             <!--header-->
             <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
-            <
             <div class="QZg_h _18fKS">
                 <div class="_3oMi4">
                     <div class="_3OgY1"><a href="/"><img
@@ -75,7 +74,21 @@
                 </div>
             </div>
         </div>
-        <div class="_2fxFG">
+        <th:block th:if="${param.wardName!=null}">
+            <div class="d-flex">
+                <span class="col-8 offset-4" style="margin-top: 112px;padding: 10px 0;color: rgb(102, 102, 102);">
+                    <i style="color: rgb(72, 119, 248);">Thành Phố Huế</i>
+                     <span class="icon-a-right"
+                           style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
+                    </span>
+                    <span style="color: rgb(102, 102, 102);" th:text="${param.wardName}"></span>
+                </span>
+                <!--                            <span style="color: rgb(102, 102, 102);" th:text="${trend.name}"></span>-->
+            </div>
+        </th:block>
+
+        <div th:classappend="${param.wardName==null?'no-breadcrums':''}" class="_2fxFG">
+
             <div class="FMSe2 _3Nvxb">
                 <div class="_1say4">
                     <div class="_1Tf_Z _3x9MP"><span class="_2TvH9">Bộ lọc</span>
@@ -143,6 +156,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="q49VD">
                             <div class="wzw4X d-flex flex-column">
                                 <div class="d-flex justify-content-between w-100">
@@ -163,37 +177,9 @@
                 </div>
             </div>
             <div class="aR5Eq">
+
+
                 <div class="TJKfZ _3Nvxb">
-                    <th:block th:if="${trend}!=null">
-                        <div>
-                                            <span style="color: rgb(102, 102, 102);"><a href="/view-all"
-                                                                                        style="color: rgb(72, 119, 248);">Huế</a>
-                                                 <span class="icon-a-right"
-                                                       style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
-                                                </span>
-                                                <span style="color: rgb(102, 102, 102);">Thành phố Huế</span>
-                                                <span class="icon-a-right"
-                                                      style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
-                                                </span>
-                                            </span>
-                            <span style="color: rgb(102, 102, 102);" th:text="${trend.name}"></span>
-                        </div>
-                    </th:block>
-                    <th:block th:if="${provinceName}!=null">
-                        <div>
-                                            <span style="color: rgb(102, 102, 102);"><a href="/view-all"
-                                                                                        style="color: rgb(72, 119, 248);">Huế</a>
-                                                <!--                                                 <span class="icon-a-right"-->
-                                                <!--                                                       style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">-->
-                                                <!--                                                </span>-->
-                                                <!--                                                <span style="color: rgb(102, 102, 102);">Thành phố Huế</span>-->
-                                                <span class="icon-a-right"
-                                                      style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
-                                                </span>
-                                            </span>
-                            <span style="color: rgb(102, 102, 102);" th:text="${locationName}"></span>
-                        </div>
-                    </th:block>
                     <div class="_1Tf_Z">
                         <span class="_3gUBz">
                             <span class="_2TvH9">Phòng mới nhất</span>
@@ -384,10 +370,10 @@
     page.commands.getAllUtilities = () => {
         $.ajax({
             type: "GET",
-            url: page.url.getAllUtilities
+            url: page.url.getAllUtilities + "?page=0&size=50&status=SHOW"
         }).done(function (data) {
             $("#utilities").html('');
-            data.forEach((item) => {
+            data.content.forEach((item) => {
                 $('#utilities').append(`
                     <label class="_22Yl9" id="utility_${item.id}">
                         <span class="_39t1S">
@@ -444,7 +430,17 @@
 
 
     $(function () {
-            let wardId = [[${wardId}]];
+        const urlParams = new URLSearchParams(window.location.search);
+
+            let wardId = urlParams.get("wardId");
+            let keyword = urlParams.get("keyword");
+            let line1 = urlParams.get("line1");
+            let wardName = urlParams.get("wardName");
+
+            if (wardName && wardName.length > 0 ){
+                $("#search").val(line1 +", "+ wardName)
+            }
+
             let provinceName = [[${provinceName}]];
             let locationName = [[${locationName}]];
             let mess = [[${mess}]];
@@ -468,13 +464,20 @@
                     location.href = App.DOMAIN;
                 }
             } else if (wardId != null) {
-                filter.wardId = wardId;
-                console.log("có warDid")
-            } else if (provinceName != null && locationName != null) {
-                console.log("có provinceName")
-                filter.provinceName = provinceName;
-                filter.locationName = locationName;
+                let location = {
+                    locationFilter: {
+                        line1 : line1,
+                        wardId: wardId
+                    }
+                }
+                doFilter(location);
+                return;
             }
+            // else if (provinceName != null && locationName != null) {
+            //     console.log("có provinceName")
+            //     filter.provinceName = provinceName;
+            //     filter.locationName = locationName;
+            // }
 
             filter.priceStarts = min;
             filter.priceEnds = max;
@@ -494,7 +497,6 @@
 
     function paging(data) {
         (function (name) {
-            console.log(name)
             var container = $('#pagination-' + name);
             var sources = function () {
                 var result = [];
@@ -514,25 +516,39 @@
                     $.each(response, function (index, item) {
                         post = item;
                         let typeRoom;
-                        switch (post.category.id) {
-                            case 1:
-                            case 2:
-                                typeRoom = "tr/phòng"
-                                break;
-                            case 3:
-                                typeRoom = "tr/người"
-                                break;
-                            case 4:
-                            case 5:
-                                typeRoom = "tr/căn"
-                                break;
-                        }
+
 
                         function checkPrice(price) {
                             if (price >= 1000000) {
+                                switch (post.category.id) {
+                                    case 1:
+                                    case 2:
+                                        typeRoom = "tr/phòng"
+                                        break;
+                                    case 3:
+                                        typeRoom = "tr/người"
+                                        break;
+                                    case 4:
+                                    case 5:
+                                        typeRoom = "tr/căn"
+                                        break;
+                                }
                                 return price / 1000000;
                             } else {
-                                return "<1";
+                                switch (post.category.id) {
+                                    case 1:
+                                    case 2:
+                                        typeRoom = "k/phòng"
+                                        break;
+                                    case 3:
+                                        typeRoom = "k/người"
+                                        break;
+                                    case 4:
+                                    case 5:
+                                        typeRoom = "k/căn"
+                                        break;
+                                }
+                                return price / 1000;
                             }
                         }
 
@@ -654,16 +670,6 @@
         }
     })
 
-    // let specifiedElement = document.getElementById('search');
-    // //   I'm using "click" but it works with any event
-    // document.addEventListener('click', function (event) {
-    //     let isClickInside = specifiedElement.contains(event.target);
-    //
-    //     if (!isClickInside) {
-    //         $("#search").val("");
-    //         $("#location").html("");
-    //     }
-    // });
 
     function doSearchFilter(wardName) {
         let location = {

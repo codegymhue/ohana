@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import vn.ohana.entities.PostMedia;
 import vn.ohana.entities.User;
+import vn.ohana.post.dto.PostCreateParam;
 import vn.ohana.user.UserService;
 import vn.ohana.user.dto.LoginParam;
 import vn.ohana.user.dto.LoginResult;
@@ -52,7 +53,7 @@ public class OhanaControllers {
     public Object myInfo(@ModelAttribute("userResult") UserResult userResult) {
         ModelAndView modelAndView = new ModelAndView("/ohana/my-info");
         if (userResult != null) {
-            modelAndView.addObject("userUpdateParam", userResult);
+            modelAndView.addObject("userResult", userResult);
             return modelAndView;
         } else {
             return "/ohana/error";
@@ -120,6 +121,30 @@ public class OhanaControllers {
         }
     }
 
+    @GetMapping("/post-room")
+    public Object postRoom(@ModelAttribute("userResult") UserResult userResult) {
+        ModelAndView modelAndView = new ModelAndView("/ohana/post-room");
+        if (userResult != null) {
+            PostCreateParam postCreateParam = new PostCreateParam();
+            modelAndView.addObject("userUpdateParam", userResult);
+            modelAndView.addObject("postCreateParam", postCreateParam);
+            return modelAndView;
+        } else {
+            return "/ohana/error";
+        }
+    }
+
+    @PostMapping("/post-room")
+    public Object doPostRoom(@ModelAttribute("postCreateParam") PostCreateParam postCreateParam) {
+        ModelAndView modelAndView = new ModelAndView("/ohana/post-room");
+        if (postCreateParam != null) {
+            modelAndView.addObject("userUpdateParam", postCreateParam);
+            return modelAndView;
+        } else {
+            return "/ohana/error";
+        }
+    }
+
 
     @GetMapping("/search")
     public ModelAndView search() {
@@ -128,11 +153,7 @@ public class OhanaControllers {
     }
 
 
-    @GetMapping("/post-room")
-    public ModelAndView postRoom() {
-        ModelAndView modelAndView = new ModelAndView("/ohana/post-room");
-        return modelAndView;
-    }
+
 
 
     @GetMapping("/edit-room")
@@ -147,8 +168,8 @@ public class OhanaControllers {
         return modelAndView;
     }
 
-    @GetMapping("/room/{pId}")
-    public ModelAndView room( @PathVariable String pId) {
+    @GetMapping("/{pId}/room")
+    public ModelAndView room() {
         ModelAndView modelAndView = new ModelAndView("/ohana/room");
         return modelAndView;
     }

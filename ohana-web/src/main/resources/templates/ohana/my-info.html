@@ -62,6 +62,7 @@
 
 <body data-new-gr-c-s-check-loaded="14.1057.0" data-gr-ext-installed="" cz-shortcut-listen="true">
 <th:block th:replace="/ohana/layout/modal/modal-loading :: modal-loading "/>
+
 <div class="container">
     <div class="_3bjUj">
         <!--header-->
@@ -75,14 +76,14 @@
             </h3>
         </div>
         <!--        <th:block th:if="${userUpdateParam}!=null">-->
-        <form class="pt-6" method="post" th:action="@{/myinfo}" th:object="${userUpdateParam}">
+        <form class="pt-6" method="post" th:action="@{/myinfo}" th:object="${userResult}">
             <div class="row col-md-12">
                 <div class="col-md-9">
                     <div class="row col-md-12">
-                        <input type="hidden" class="form-control" th:field="${userUpdateParam.id}">
+                        <input type="hidden" class="form-control" th:field="${userResult.id}">
                         <div class="form-group col-md-6">
                             <label class="m-1">Họ và tên</label>
-                            <input type="text" class="form-control" th:field="${userUpdateParam.fullName}">
+                            <input type="text" class="form-control" th:field="${userResult.fullName}">
                             <label class="error" id="message" th:each="err : ${#fields.errors('fullName')}"
                                    th:text="${err}">
                             </label>
@@ -90,7 +91,7 @@
                         <div class="form-group col-md-6">
                             <label class="m-1">Số điện thoại</label>
                             <input type="number" class="form-control" placeholder=""
-                                   th:field="${userUpdateParam.phone}">
+                                   th:field="${userResult.phone}">
                             <label class="error" th:each="err : ${#fields.errors('phone')}"
                                    th:text="${err}">
                             </label>
@@ -99,7 +100,7 @@
                     <div class="row col-md-12">
                         <div class="form-group col-md-6">
                             <label class="m-1">Email</label>
-                            <input type="email" class="form-control" placeholder="" th:field="${userUpdateParam.email}">
+                            <input type="email" class="form-control" placeholder="" th:field="${userResult.email}">
                             <label class="error" th:each="err : ${#fields.errors('email')}"
                                    th:text="${err}">
                             </label>
@@ -107,7 +108,7 @@
                         <div class="form-group col-md-6">
                             <label class="m-1">Mô tả</label>
                             <input type="text" class="form-control" placeholder=""
-                                   th:field="${userUpdateParam.description}">
+                                   th:field="${userResult.description}">
                             <label class="error" th:each="err : ${#fields.errors('address')}"
                                    th:text="${err}">
                             </label>
@@ -117,7 +118,7 @@
                     <div class="row col-md-12">
                         <div class="form-group col-md-12">
                             <label class="m-1">Địa chỉ</label>
-                            <input type="text" class="form-control" th:field="${userUpdateParam.address}">
+                            <input type="text" class="form-control" th:field="${userResult.address}">
                             <label class="error" th:each="err : ${#fields.errors('description')}"
                                    th:text="${err}">
                             </label>
@@ -127,7 +128,7 @@
                 </div>
                 <div class="col-md-3" style="position: relative">
                     <button type="button" id="upload_widget" class="col-md-3 w-100 h-100">Up anh
-                        <input type="hidden" id="urlImage" th:field="${userUpdateParam.thumbnailId}">
+                        <input type="hidden" id="urlImage" th:field="${userResult.thumbnailId}">
                         <img id="imgPreview" class="col-md-3 h-100"
                              src="https://content.hostgator.com/img/weebly_image_sample.png"/>
                     </button>
@@ -147,14 +148,8 @@
 <th:block th:replace="/ohana/layout/footer :: footer"/>
 
 <th:block th:replace="/ohana/layout/script :: script"/>
+
 <script>
-    $(".view-avatar").change(function () {
-        const src = URL.createObjectURL(this.files[0]);
-        this.parentElement.getElementsByClassName('img-preview')[0].src = src;
-    })
-</script>
-<script>
-    let imageId;
     var cloudinaryWidget = cloudinary.createUploadWidget(
         {
             cloudName: "dh8nlcoul",
