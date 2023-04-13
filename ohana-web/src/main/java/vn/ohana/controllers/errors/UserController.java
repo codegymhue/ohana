@@ -17,8 +17,6 @@ import java.util.ArrayList;
 @Controller
 public class UserController {
 
-
-
     @GetMapping("/add")
     public String showAddUserForm(@ModelAttribute("user") SignUpParam user) {
         return "/errors/addUser";

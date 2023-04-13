@@ -10,7 +10,6 @@ import vn.ohana.trend.TrendService;
 @RestController
 @RequestMapping("api/trends")
 public class TrendAPI {
-
     @Autowired
     TrendService trendService;
 
