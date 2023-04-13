@@ -17,8 +17,11 @@ public class UtilityAPI {
     UtilityService utilityService;
 
     @GetMapping
-    public ResponseEntity<?> findAll(@RequestParam(name = "page") int page, @RequestParam(name = "size") int size) {
-        return new ResponseEntity<>( utilityService.findAll(PageRequest.of(page, size)), HttpStatus.OK);
+    public ResponseEntity<?> findAll(@RequestParam(name = "page") int page, @RequestParam(name = "size") int size, @RequestParam(name = "status") String status ) {
+        if (status.trim().length() == 0) {
+            return new ResponseEntity<>( utilityService.findAll(PageRequest.of(page, size)), HttpStatus.OK);
+        }
+        else return new ResponseEntity<>( utilityService.findAllByStatus(PageRequest.of(page, size),status), HttpStatus.OK);
     }
 
     @GetMapping("/{utilityId}")
