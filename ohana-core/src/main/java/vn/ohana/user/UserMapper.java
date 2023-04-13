@@ -27,7 +27,7 @@ PostMediaService postMediaService;
         return page.map(this::toDTO);
     }
 
-
+//
 //    public LoginResult toLoginResultDTO(User user) {
 //        return modelMapper.map(user, LoginResult.class);
 //    }
@@ -56,6 +56,11 @@ PostMediaService postMediaService;
         return modelMapper.map(user,UserResult.class);
     }
 
+
+    public LoginResult toLoginResult(User user) {
+
+        return modelMapper.map(user, LoginResult.class);
+    }
 
     public User toGooglePojo(GooglePojo googlePojo) {
         return modelMapper.map(googlePojo,User.class);
