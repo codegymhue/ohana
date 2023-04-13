@@ -16,4 +16,6 @@ public interface CategoryService {
     CategoryResult update(CategoryUpdateParam param);
 
     void deleteById(Long id);
+
+    CategoryResult updateStatusCategory(Long categoryId, String status);
 }

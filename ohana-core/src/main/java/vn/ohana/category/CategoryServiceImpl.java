@@ -7,6 +7,7 @@ import vn.ohana.category.dto.CategoryCreationParam;
 import vn.ohana.category.dto.CategoryResult;
 import vn.ohana.category.dto.CategoryUpdateParam;
 import vn.ohana.entities.Category;
+import vn.ohana.entities.StatusCategory;
 import vn.rananu.shared.exceptions.NotFoundException;
 import vn.rananu.shared.exceptions.ValidationException;
 
@@ -66,6 +67,15 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public void deleteById(Long id) {
         categoryRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional
+    public CategoryResult updateStatusCategory(Long categoryId, String status) {
+        StatusCategory statusCategory = StatusCategory.parseStatusCategory(status);
+        Category category = categoryRepository.findById(categoryId).orElseThrow(() -> new NotFoundException("category.exception.notFound"));
+        category.setStatus(statusCategory);
+        return categoryMapper.toDTO(category);
     }
 
 }

@@ -27,4 +27,8 @@ public class Category {
     public Category(Long id) {
         this.id = id;
     }
+
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private StatusCategory status;
 }
