@@ -10,6 +10,7 @@ import vn.ohana.entities.Post;
 import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.PostRepository;
 import vn.ohana.post.PostService;
+import vn.ohana.post.dto.PostCreateParam;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
@@ -71,6 +72,11 @@ public class PostAPI {
 
     @GetMapping("/postsNew")
     public ResponseEntity<?> getPostsNew() {
+        return new ResponseEntity<>( postService.getTop10PostsNew(), HttpStatus.OK);
+    }
+
+    @PostMapping("/postsNew")
+    public ResponseEntity<?> doPostsNew(@RequestBody PostCreateParam postCreateParam) {
         return new ResponseEntity<>( postService.getTop10PostsNew(), HttpStatus.OK);
     }
 
