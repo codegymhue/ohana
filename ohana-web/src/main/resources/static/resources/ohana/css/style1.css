@@ -2193,7 +2193,7 @@ h1 {
     margin-left: auto;
     margin-right: auto;
     padding-top: 32px;
-    margin-top: 112px;
+    margin-top: 19px;
     max-width: 1440px;
 }
 
@@ -7130,14 +7130,14 @@ a {
     position: relative;
 }
 
-.slide {
-    position: absolute;
-    top: 0;
-    height: 4px;
-    background: #ccc;
-    left: 9px;
-    right: 9px;
-}
+/*.slide {*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    height: 4px;*/
+/*    background: #ccc;*/
+/*    left: 9px;*/
+/*    right: 9px;*/
+/*}*/
 
 .line {
     position: absolute;
@@ -7206,4 +7206,8 @@ a {
      transform: scale(1.5);
      padding: 10px;
  }
-
+ ._38pbu {
+     display: flex;
+     flex-direction: column;
+     gap: 20px;
+ }

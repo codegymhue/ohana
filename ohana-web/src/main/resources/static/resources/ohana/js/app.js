@@ -53,7 +53,7 @@ class RentHouse {
         this.price = price;
         this.capacity = capacity;
         this.area = area;
-        this.gender = gender;
+        this.genderId = gender;
     }
 }
 

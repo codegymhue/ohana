@@ -395,7 +395,7 @@
     page.commands.getAllCategories = () => {
         $.ajax({
             type: "GET",
-            url: page.url.getAllCategories
+            url: page.url.getAllCategories + "?status=SHOW"
         }).done(function (data) {
             $("#categories").html('');
             data.forEach((item) => {
@@ -438,7 +438,7 @@
             let wardName = urlParams.get("wardName");
 
             if (wardName && wardName.length > 0 ){
-                $("#search").val(line1 +", "+ wardName)
+                $("#search").val(line1 == null?wardName:line1+", "+ wardName)
             }
 
             let provinceName = [[${provinceName}]];
@@ -486,6 +486,7 @@
             $.each($("input[name='utilitiesCheckbox']:checked"), function () {
                 utilities.push(+$(this).val());
             });
+
             filter.utilities = utilities;
 
             filter.categories = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
@@ -563,7 +564,7 @@
                         }
 
                         str += `<li>
-                     <div class="nctjX"><a target="_blank" href="/${post.id}">
+                     <div class="nctjX"><a target="_blank" href="/${post.id}/room">
                             <div class="X8svI _2DJkz">
                                 <div class="pcGxo">
                                     <div class="_1Gm0b"><img
@@ -629,9 +630,17 @@
             });
             if (data.length == 0) {
                 $('#pagination-demo1').html("");
-                let str = `<ul><li><div class="nctjX"><div class="X8svI _2DJkz"> <div class="pcGxo"><div class="_228LH">
-                                Không có bài đăng nào phù hợp
-                            </div></div></div></div></li></ul>`;
+                let str = ` <ul>
+                                <li>
+                                    <div class="nctjX">
+                                        <div class="X8svI _2DJkz">
+                                            <div class="pcGxo">
+                                                <div class="_228LH">Không có bài đăng nào phù hợp</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>`;
                 $(container).append(str);
             }
         })('demo1');
@@ -650,7 +659,7 @@
                 },
                 data: JSON.stringify({keyword: valueSearch})
                 ,
-                url: App.BASE_URL_API + "/posts/filter?page=0&size=5"
+                url: App.BASE_URL_API + "/posts/filter?page=0&size=10"
             }).done(function (data) {
                 let locationDetail;
                 $("#location").empty()

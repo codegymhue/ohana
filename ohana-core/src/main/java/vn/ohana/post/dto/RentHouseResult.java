@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import vn.ohana.entities.Gender;
 
+import javax.persistence.Column;
 import java.math.BigDecimal;
 
 @NoArgsConstructor
@@ -16,6 +17,10 @@ public class RentHouseResult {
     private Long id;
     private String name;
     private BigDecimal price;
+    private BigDecimal deposit;
+    private BigDecimal electricityPrice;
+    private BigDecimal waterPrice;
+    private BigDecimal wifiPrice;
     private Long capacity;
     private Long area;
     private Gender gender;
