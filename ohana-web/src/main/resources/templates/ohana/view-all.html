@@ -486,6 +486,7 @@
             $.each($("input[name='utilitiesCheckbox']:checked"), function () {
                 utilities.push(+$(this).val());
             });
+
             filter.utilities = utilities;
 
             filter.categories = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();

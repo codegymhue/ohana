@@ -79,7 +79,7 @@
             <div class="">
                 <div class="px-2">
                     <label class="m-1">Tiêu đề</label>
-                    <input type="text" class="form-control " th:field="${postCreateParam.title}">
+                    <input id="title" type="text" class="form-control " th:field="${postCreateParam.title}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
@@ -87,7 +87,8 @@
             <div class=" col-md-12">
                 <div class="col-md-12 px-2">
                     <label class="m-1">Nội dung</label>
-                    <textarea type="text" class="form-control" th:field="${postCreateParam.description}"></textarea>
+                    <textarea id="description" type="text" class="form-control"
+                              th:field="${postCreateParam.description}"></textarea>
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
@@ -95,18 +96,18 @@
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2">
                     <label class="m-1">Loại phòng</label>
-                    <select type="text" class="form-select" id="categories" th:field="${postCreateParam.categoryId}">
+                    <select type="text" class="form-select" id="category" th:field="${postCreateParam.categoryId}">
                     </select>
                 </div>
                 <div class="col-md-4 px-2">
                     <label class="m-1">Giá phòng</label>
-                    <input type="text" class="form-control" th:field="${postCreateParam.rentHouse.price}">
+                    <input type="number" class="form-control" id="price" th:field="${postCreateParam.rentHouse.price}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
                 <div class="col-md-4 px-2 ">
                     <label class="m-1">Diện tích</label>
-                    <input type="text" class="form-control" th:field="${postCreateParam.rentHouse.area}">
+                    <input type="number" class="form-control" id="area" th:field="${postCreateParam.rentHouse.area}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
@@ -114,31 +115,35 @@
             <div class="d-flex col-md-12">
                 <div class="col-md-6 px-2">
                     <label class="m-1">Sức chứa</label>
-                    <input type="text" class="form-control" th:field="${postCreateParam.rentHouse.capacity}">
+                    <input type="number" class="form-control" id="capacity"
+                           th:field="${postCreateParam.rentHouse.capacity}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
                 <div class="col-md-6 px-2">
                     <label class="m-1">Giới Tính</label>
-                    <select type="text" class="form-select" id="genders" th:field="${postCreateParam.rentHouse.genderId}">
+                    <select type="text" class="form-select" id="gender"
+                            th:field="${postCreateParam.rentHouse.genderId}">
                     </select>
                 </div>
             </div>
             <div class=" col-md-12">
                 <label class="m-1 form-label">Tiện ích: </label>
                 <div class="d-flex flex-wrap col-md-12 px-5" id="utilities" th:field="${postCreateParam.utilities}">
-
                 </div>
+
             </div>
             <div class="d-flex col-md-12">
                 <div class="col-md-3 px-2">
                     <label class="m-1">Tỉnh</label>
-                    <select type="text" class="form-select" id="province" th:field="${postCreateParam.location.provinceId}">
+                    <select type="text" class="form-select" id="province"
+                            th:field="${postCreateParam.location.provinceId}">
                     </select>
                 </div>
                 <div class="col-md-3 px-2">
                     <label class="m-1">Thành phố/Huyện</label>
-                    <select type="text" class="form-select" id="district" th:field="${postCreateParam.location.districtId}">
+                    <select type="text" class="form-select" id="district"
+                            th:field="${postCreateParam.location.districtId}">
                     </select>
                 </div>
                 <div class="col-md-3 px-2">
@@ -149,25 +154,37 @@
 
                 <div class="col-md-3 px-2">
                     <label class="m-1">Địa chỉ</label>
-                    <input type="text" class="form-control" th:field="${postCreateParam.location.line1}">
+                    <input type="text" class="form-control" id="line1" th:field="${postCreateParam.location.line1}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
             </div>
-                        <div class="row col-md-12 mt-3">
-                            <div class="col-md-3" style="position: relative">
-                                <button type="button" id="upload_widget" class="col-md-3 w-100 h-100">Chọn ảnh
-                                    <input type="hidden" id="urlImage" th:field="${postCreateParam.images}">
-                                    <!--                        <img id="imgPreview" class="col-md-3 h-100"-->
-                                    <!--                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>-->
-                                </button>
-                            </div>
-                        </div>
-                        <div id="showImage" class="row col-md-12 mt-3">
-                            <img id="imgPreview" class="postroom"/>
-                        </div>
+            <div class="row col-md-12 mt-3">
+                <div class="col-md-3" style="position: relative">
+                    <button type="button" id="upload_widgetThumb" class="col-md-3 w-100 h-100">thumbnail
+                        <input type="hidden" id="urlImageThumb" th:field="${postCreateParam.getThumbnailId}">
+                        <!--                        <img id="imgPreview" class="col-md-3 h-100"-->
+                        <!--                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>-->
+                    </button>
+                </div>
+            </div>
+            <div id="showImageThumb" class="row col-md-12 mt-3">
+                <img id="imgPreviewThumb" class="postroom"/>
+            </div>
+            <div class="row col-md-12 mt-3">
+                <div class="col-md-3" style="position: relative">
+                    <button type="button" id="upload_widget" class="col-md-3 w-100 h-100">Chọn ảnh
+                        <input type="hidden" id="urlImage" th:field="${postCreateParam.images}">
+                        <!--                        <img id="imgPreview" class="col-md-3 h-100"-->
+                        <!--                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>-->
+                    </button>
+                </div>
+            </div>
+            <div id="showImage" class="row col-md-12 mt-3">
+                <img id="imgPreview" class="postroom"/>
+            </div>
             <div class="w-100 col-md-12 px-2">
-                <button type="submit" class="btn btn-primary mt-3">Đăng tin</button>
+                <button id="submit" type="submit" class="btn btn-primary mt-3">Đăng tin</button>
             </div>
         </form>
     </div>
@@ -191,6 +208,7 @@
                 let {url} = result.info;
                 let {public_id} = result.info;
                 listImageId.push(public_id);
+                console.log("url");
                 console.log(url);
                 let str = renderImage(url);
                 $('#showImage').prepend(str);
@@ -198,28 +216,49 @@
         }
     );
 
-    let postcrParams = {
-        images: listImageId,
-    }
-    JSON.stringify(postcrParams)
-
     $("#upload_widget").on("click", function () {
         cloudinaryWidget.open();
+        console.log("listImageId")
+        console.log(listImageId)
     });
+
+
+    let thumbnailId;
+    var cloudinaryWidgetThumb = cloudinary.createUploadWidget(
+        {
+            cloudName: "dh8nlcoul",
+            uploadPreset: "cvrenzxm",
+        },
+        (error, result) => {
+            if (!error && result && result.event === "success") {
+                console.log("Done! Here is the image info: ", result.info);
+                let {url} = result.info;
+                let {public_id} = result.info;
+                thumbNailId = public_id;
+                let str = renderImage(url);
+                $('#showImageThumb').prepend(str);
+            }
+        }
+    );
+    $("#upload_widgetThumb").on("click", function () {
+        cloudinaryWidgetThumb.open();
+        console.log("thumbNailId")
+        console.log(thumbNailId)
+    });
+
 
     let renderImage = (image) => {
         return `
             <img id="imgPreview" src="${image}" class="postroom"/>
         `
     }
-</script>
-<script>
+
     let page = {
         url: {
             getAllCategories: App.BASE_URL_API + "/categories",
             getAllUtilities: App.BASE_URL_API + "/utilities",
             getAllGenders: App.BASE_URL_API + "/genders",
-            doCreatePost: App.BASE_URL_API + "/posts/postNews",
+            doCreatePost: App.BASE_URL_API + "/posts/postsNew",
             doFilter: App.BASE_URL_API + "/posts/filter",
             getAllProvinces: App.BASE_URL_PROVINCE,
         },
@@ -245,6 +284,8 @@
     let listPost = [];
     let min = 0;
     let max = 15000000;
+    let postDTO = new PostDTO();
+    let utilities = new Set();
 
     page.commands.getAllCategories = () => {
         $.ajax({
@@ -254,7 +295,7 @@
             // $("#categories").html('');
             data.forEach((item) => {
                 let str = `<option value="${item.id}">${item.title}</option>`;
-                $("#categories").append(str);
+                $("#category").append(str);
             });
         }).fail(function () {
             showError('Error')
@@ -269,7 +310,7 @@
             console.log(data)
             data.forEach((item) => {
                 let str = `<option value="${item.id}">${item.name}</option>`;
-                $("#genders").append(str);
+                $("#gender").append(str);
             });
         }).fail(function () {
             showError('Error')
@@ -284,15 +325,22 @@
             console.log(data)
             data.content.forEach((item) => {
                 let str = `<div class="col-md-2" style="font-size: 1.2rem;">
-                            <input type="checkbox" value="${item.id}">
+                            <input type="checkbox" id="utility" name="utilitiesCheckbox" value="${item.id}">
                             <span class="mx-2">${item.name}</span>
                            </div>`;
                 $('#utilities').append(str);
             });
-            // post.utilities.forEach(item => {
-            //     $('#checkBox_' + item.id).prop('checked', true);
-            // })
-
+            $("input[type=checkbox]").off("change");
+            $("input[type=checkbox]").on("change", function() {
+                console.log($(this).is(":checked"))
+                if (!$(this).is(":checked")) {
+                    utilities.delete($(this).val());
+                    console.log(Array.from(utilities));
+                } else {
+                    utilities.add($(this).val());
+                    console.log(Array.from(utilities))
+                }
+            })
         }).fail(function () {
             // showError('Error')
         })
@@ -387,7 +435,6 @@
         })
     }
 
-
     function resetLocationRegion() {
         page.dialogs.loadData.getAllProvinces().then(() => {
             let provinceId = page.dialogs.elements.province.val();
@@ -399,6 +446,71 @@
             });
         });
     }
+
+    let doPostRoom = () => {
+        let rentHouse = new RentHouse();
+        let location = new LocationDTO();
+        let images = listImageId;
+
+        let title = $("#title").val();
+        let description = $("#description").val();
+        let categories = $("#category").val();
+
+        location.provinceId = $("#province").val();
+        location.provinceName = $("#province").find("option:selected").text();
+        location.districtId = $("#district").val();
+        location.districtName = $("#district").find("option:selected").text();
+        location.wardId = $("#ward").val();
+        location.wardName = $("#ward").find("option:selected").text();
+        location.line1 = $("#line1").val();
+
+        rentHouse.price = $("#price").val();
+        rentHouse.area = $("#area").val();
+        rentHouse.capacity = $("#capacity").val();
+        rentHouse.genderId = $("#gender").val();
+
+        postDTO.title = title;
+        postDTO.description = description;
+        postDTO.categoryId = categories;
+        postDTO.rentHouse = rentHouse;
+        postDTO.location = location;
+        postDTO.thumbnailId = thumbnailId;
+        postDTO.images = images;
+        console.log("submitttttttttttttttttttt")
+
+        postDTO.utilities = Array.from(utilities);
+
+
+        $.ajax({
+            headers: {
+                'accept': 'application/json',
+                'content-type': 'application/json'
+            },
+            type: "POST",
+            url: page.url.doCreatePost,
+            data: JSON.stringify(postDTO)
+        })
+            .done((data) => {
+                console.log("done")
+            })
+            .fail((jqXHR) => {
+                console.log("error")
+
+            })
+    }
+
+    $("#submit").on("click", function (e) {
+        e.preventDefault();
+        doPostRoom();
+    });
+
+
+    //     $.each($("input[name='utilitiesCheckbox']:checked"), function () {
+    //         utilities.push(+$(this).val());
+    //         console.log("abc");
+    //     });
+    // }
+
 
 
     $(() => {

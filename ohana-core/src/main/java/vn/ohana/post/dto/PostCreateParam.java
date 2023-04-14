@@ -3,7 +3,6 @@ package vn.ohana.post.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.web.multipart.MultipartFile;
 import vn.ohana.location.dto.LocationParam;
 
 import javax.validation.constraints.NotNull;
@@ -18,10 +17,9 @@ public class PostCreateParam {
     @NotNull(message = "The categoryId is required")
     private Long categoryId;
     private String description;
-    private String thumbnailUrl;
+    private String thumbnailId;
     private List<String> images;
     private LocationParam location;
     private RentHouseParam rentHouse;
     private List<Long> utilities;
-
 }
