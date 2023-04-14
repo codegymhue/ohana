@@ -115,7 +115,7 @@ public class PostServiceImpl implements PostService {
     public PostResult updateStatusById(PostUpdateParam postUpdateParam) {
         Post post = findById(postUpdateParam.getId());
         postMapper.transferFields(postUpdateParam,post,true);
-        return postMapper.toDTO(post);
+        return addPostResultUtilities(post,post.getUtilities());
     }
 
     @Override
