@@ -66,3 +66,28 @@ body {
 .no-breadcrums{
     margin-top: 150px;
 }
+.owl-nav {
+    z-index: 99;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    transform: translateY(-50%);
+    padding: 0 30px;
+    justify-content: space-between;
+    display: flex;
+}
+.owl-nav .owl-next span,
+.owl-nav .owl-prev span {
+    font-size: 120px;
+    color: white;
+    text-shadow: 0 0 10px black;
+}
+.item.active img{
+    vertical-align:bottom
+}
+
+.owl-carousel .owl-item img {
+    width: auto;
+    max-height: 90vh;
+}

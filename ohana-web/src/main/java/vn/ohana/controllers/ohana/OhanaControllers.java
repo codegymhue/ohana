@@ -5,21 +5,25 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import vn.ohana.entities.Post;
 import vn.ohana.entities.PostMedia;
 import vn.ohana.entities.User;
+import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostCreateParam;
+import vn.ohana.post.dto.PostResult;
 import vn.ohana.user.UserService;
 import vn.ohana.user.dto.LoginParam;
 import vn.ohana.user.dto.LoginResult;
 import vn.ohana.user.dto.UserResult;
 import vn.ohana.user.dto.UserUpdateParam;
+import vn.rananu.shared.exceptions.NotFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
-import java.util.Optional;
 
 
 @Controller
@@ -28,6 +32,9 @@ public class OhanaControllers {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    PostService postService;
 
     @ModelAttribute("userResult")
     public UserResult getUserLoginFromCookie(@CookieValue(value = "cookie", defaultValue = "0") String loginUsername) {
@@ -152,10 +159,6 @@ public class OhanaControllers {
         return modelAndView;
     }
 
-
-
-
-
     @GetMapping("/edit-room")
     public ModelAndView editRoom() {
         ModelAndView modelAndView = new ModelAndView("/ohana/edit-room");
@@ -169,9 +172,18 @@ public class OhanaControllers {
     }
 
     @GetMapping("/{pId}/room")
-    public ModelAndView room() {
-        ModelAndView modelAndView = new ModelAndView("/ohana/room");
-        return modelAndView;
+    public ModelAndView showRoom(@PathVariable Long pId, RedirectAttributes redirectAttributes) {
+        try {
+            PostResult post = postService.getById(pId);
+            ModelAndView modelAndView = new ModelAndView("/ohana/room");
+            modelAndView.addObject("post", post);
+            return modelAndView;
+        } catch (NotFoundException e) {
+            ModelAndView modelAndView = new ModelAndView("redirect:/");
+            redirectAttributes.addFlashAttribute("error", "ID không hợp lệ");
+            return modelAndView;
+        }
     }
+
 
 }

@@ -11,6 +11,7 @@ import vn.ohana.user.dto.UserUpdateParam;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 
@@ -31,4 +32,6 @@ public interface PostService {
     PostResult updateStatusById(PostUpdateParam postUpdateParam);
 
     List<PostResult>  getTop10PostsNew();
+
+    Post findById(Long id);
 }
