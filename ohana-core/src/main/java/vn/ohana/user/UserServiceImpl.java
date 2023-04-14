@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
     }
 
     public Page<UserResult> getAll(Pageable pageable) {
-        Page<User> page = findAll(pageable);
+        Page<User> page = userRepository.findByRoleNot(Role.ADMIN, pageable);
         return userMapper.toDtoPage(page);
     }
 
