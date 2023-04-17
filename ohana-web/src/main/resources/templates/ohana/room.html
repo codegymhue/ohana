@@ -1,26 +1,31 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <!-- saved from url=(0014)about:internet -->
-<html lang="vi">
+<!--<html lang="vi">-->
 
 <head>
     <link rel="stylesheet" type="text/css" href="/resources/bootstrap-5.0.2/css/bootstrap.min.css">
     <script src="/resources/bootstrap-5.0.2/js/bootstrap.bundle.min.js"></script>
     <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
+    <link rel="stylesheet" href="/resources/ohana/css/owl.carousel.min.css" />
+    <style>
+        body {
+            background-color: #F6F5F2;
+        }
+    </style>
 </head>
 
 <body>
-<th:block th:replace="/ohana/layout/header :: header(${u})"/>
+<th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
 
 <!-- Modal Share-->
 <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-     aria-hidden="true">
+     aria-hidden="true"  th:object="${post}">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Chia sẻ</h5>
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                    <span type="button" aria-label="Close" data-bs-dismiss="modal"
+                          aria-hidden="true" class="icon-close-fill FsoGs close" style="font-size: 25px "></span>
             </div>
             <div class="_1D3OM">
                 <div class="_3vJvL">
@@ -39,60 +44,22 @@
 <div class="modal fade" id="slider" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
      aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="_1D3OM">
-                <div class="_3vJvL">
-                    <div id="myCarousel" class="carousel slide" data-ride="carousel">
-                        <!-- Indicators -->
-                        <ol class="carousel-indicators">
-                            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-                            <li data-target="#myCarousel" data-slide-to="1"></li>
-                            <li data-target="#myCarousel" data-slide-to="2"></li>
-                        </ol>
-
-                        <!-- Wrapper for slides -->
-                        <div class="carousel-inner">
-                            <th:block th:each="item : ${post.imageUrls}">
-                                <div class="item active">
-                                    <img th:src="${item.fileUrl}"
-                                         alt="Los Angeles" style="width:100%;">
-                                    <!--                                <div class="carousel-caption">-->
-                                    <!--                                    <h3>Los Angeles</h3>-->
-                                    <!--                                    <p>LA is always so much fun!</p>-->
-                                    <!--                                </div>-->
-                                </div>
-                            </th:block>
-
-                        </div>
-
-                        <!-- Left and right controls -->
-                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
-                            <span class="glyphicon glyphicon-chevron-left"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
-                            <span class="glyphicon glyphicon-chevron-right"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
+        <div class="modal-content" style="height: fit-content !important;">
+            <div class="owl-carousel">
+                <th:block th:each="item : ${post.postMedia}">
+                    <div>
+                        <img th:src="${item.fileUrl}"
+                             alt="Los Angeles" style="width:100%;">
+                        <!--                                <div class="carousel-caption">-->
+                        <!--                                    <h3>Los Angeles</h3>-->
+                        <!--                                    <p>LA is always so much fun!</p>-->
+                        <!--                                </div>-->
                     </div>
-                    <!--                    <p class="_3ocjM" th:text="${post.title}"></p>-->
-                    <!--                    <div class="_1tjBy">-->
-                    <!--                        <div class="_3hLSV"><p>Liên Kết</p>-->
-                    <!--                            <p id="link">-->
-                    <!--                        </div>-->
-                    <!--                        <div class="_1LaPz _1vH0j "><span class="btn-share-link">Sao chép</span></div>-->
-                    <!--                    </div>-->
-                </div>
+                </th:block>
             </div>
         </div>
     </div>
 </div>
-
 <div id="root">
     <div class="app">
         <div class="_3bjUj">
@@ -149,32 +116,39 @@
             <div class="_1MtCg btn-slider">
                 <div class="_3NWd_">
                     <div class="_3tjsr">
-                        <img itemprop="photo" th:src="${post.thumbnailUrl.fileUrl}"
+                        <img itemprop="photo" th:src="${post.postMedia.get(0).fileUrl}"
                              alt="room-img"
-                             class="_2ZrSY"></div>
+                             class="_2ZrSY">
+                    </div>
                     <div class="_36Olq">
                         <div class="L_YVJ">
                             <div class="_3o_qG"><img itemprop="photo"
-                                                     th:src="${post.imageUrls.get(0).fileUrl}"
+                                                     th:src="${post.postMedia.get(1).fileUrl}"
                                                      alt="room-img"
-                                                     class="_2ZrSY"></div>
+                                                     class="_2ZrSY">
+                            </div>
                             <div class="_19nvF"><img itemprop="photo"
-                                                     th:src="${post.imageUrls.get(1).fileUrl}"
+                                                     th:src="${post.postMedia.get(2).fileUrl}"
                                                      alt="room-img"
-                                                     class="_2ZrSY"></div>
+                                                     class="_2ZrSY">
+                            </div>
                         </div>
                         <div class="_1D8xg">
-                            <div class="_3crzu"><img itemprop="photo"
-                                                     th:src="${post.imageUrls.get(2).fileUrl}"
-                                                     alt="room-img"
-                                                     class="_2ZrSY"></div>
+                            <div class="_3crzu">
+                                <img itemprop="photo"
+                                     th:src="${post.postMedia.get(3).fileUrl}"
+                                     alt="room-img"
+                                     class="_2ZrSY">
+                            </div>
                             <div class="lXRyG">
-                                <th:block th:if="${post.imageUrls.size}-4!=0">
-                                    <div class="s2s0e"><span th:text="${post.imageUrls.size}-4 +'+'"></span></div>
+                                <th:block th:if="${post.postMedia.size}-5!=0">
+                                    <div class="s2s0e">
+                                        <span th:text="${post.postMedia.size}-5 +'+'"></span>
+                                    </div>
                                 </th:block>
 
                                 <img itemprop="photo"
-                                     th:src="${post.imageUrls.get(3).fileUrl}"
+                                     th:src="${post.postMedia.get(4).fileUrl}"
                                      alt="room-img"
                                      class="_2ZrSY">
                             </div>
@@ -185,24 +159,26 @@
             <div class="RS_7D">
                 <h1 itemprop="name" class="Vg-MA" th:text="${post.title}"></h1>
                 <div>
-                    <button type="button" class="btn btn-primary btn-share-modal" data-toggle="modal"
-                            data-target="#shareModal">
-                        <div class="yCvnn _1vH0j" data-bs-popper="shareModal"><span class="icon-external"
-                                                                                    style="color: rgb(255, 255, 255); font-size: 24px;"></span><span
-                                class="L3u-1">Chia sẻ</span></div>
-                    </button>
+                    <div class="yCvnn _1vH0j  btn-share-modal" data-bs-popper="shareModal"  data-toggle="modal" data-target="#shareModal">
+                            <span class="icon-external" style="color: rgb(255, 255, 255); font-size: 24px;"></span>
+                            <span class="L3u-1">Chia sẻ</span>
+                    </div>
                 </div>
             </div>
-            <div><span style="color: rgb(102, 102, 102);"><a href="/view-all"
-                                                             style="color: rgb(72, 119, 248);">Huế</a><span
-                    class="icon-a-right"
-                    style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;"></span></span><span
-                    style="color: rgb(102, 102, 102);"><a
-                    th:href="@{'/view-all?provinceName='+${post.location.getProvinceName()}+'&locationName='+${post.location.getDistrictName()}}"
-                    style="color: rgb(72, 119, 248);" th:text="${post.location.getDistrictName()}"></a><span
-                    class="icon-a-right"
-                    style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;"></span></span><span
-                    style="color: rgb(102, 102, 102);" th:text="${post.location.getWardName()}"></span></div>
+            <div style="margin-bottom: 28px;">
+                <span style="color: rgb(102, 102, 102);">
+                    <a href="/view-all" style="color: rgb(72, 119, 248);">Huế</a>
+                    <span class="icon-a-right"
+                    style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;"></span>
+                </span>
+                <span style="color: rgb(102, 102, 102);">
+                    <a th:href="@{'/view-all?provinceName='+${post.location.getProvinceName()}+'&locationName='+${post.location.getDistrictName()}}"
+                    style="color: rgb(72, 119, 248);" th:text="${post.location.getDistrictName()}"></a>
+                    <span class="icon-a-right"
+                    style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;"></span>
+                </span>
+                <span style="color: rgb(102, 102, 102);" th:text="${post.location.getWardName()}"></span>
+            </div>
             <div class="pyM7z">
                 <div class="_38pbu">
                     <div class="_3Nvxb _29GLN">
@@ -220,14 +196,30 @@
                             </div>
                             <div class="_70zUr">
                                 <p>Diện tích</p>
-                                <p th:text="${post.rentHouse.area} +' m²'"></p>
+                                <p th:text="${post.rentHouse.area} +' mét vuông'"></p>
+                            </div>
+                            <div class="_70zUr">
+                                <p>Đặt cọc</p>
+                                <p th:text="${post.rentHouse.deposit} +' đồng'"></p>
                             </div>
                             <div class="_70zUr">
                                 <p>Sức chứa</p>
-                                <p th:text="${post.rentHouse.capacity} + '/người'"></p>
+                                <p th:text="${post.rentHouse.capacity} + ' người'"></p>
                             </div>
                         </div>
                         <div class="_2zScZ">
+                            <div class="_70zUr">
+                                <p>Điện</p>
+                                <p th:text="${post.rentHouse.electricityPrice} + ' đồng'"></p>
+                            </div>
+                            <div class="_70zUr">
+                                <p>Nước</p>
+                                <p th:text="${post.rentHouse.waterPrice} + ' đồng'"></p>
+                            </div>
+                            <div class="_70zUr">
+                                <p>WIFI</p>
+                                <p th:text="${post.rentHouse.wifiPrice}!=0?post.rentHouse.wifiPrice + ' đồng': 'Miễn Phí' "></p>
+                            </div>
                             <div class="_70zUr">
                                 <p>Trạng thái</p>
                                 <td th:if="${post.rentHouse.status}==true">
@@ -241,7 +233,7 @@
                         <div class="_3QS8q">
                             <p>Điạ chỉ</p>
                             <p itemprop="address"
-                               th:text="${post.location.locationDetail} + ', ' + ${post.location.wardName} + ', ' + ${post.location.districtName} + ', ' + ${post.location.provinceName}"></p>
+                               th:text="${post.location.line1} + ', ' + ${post.location.wardName} + ', ' + ${post.location.districtName} + ', ' + ${post.location.provinceName}"></p>
                         </div>
                     </div>
                     <div class="_3Nvxb _1FC_E">
@@ -252,7 +244,7 @@
                                     class="_1DwFz">Tiện ích</span>
                         </div>
                         <div class="_3gyjl">
-                            <th:block th:each="item : ${utilities}">
+                            <th:block th:each="item : ${post.utilities}">
                                 <div itemprop="amenityFeature" itemscope=""
                                      itemtype="http://schema.org/LocationFeatureSpecification" class="Ua47c"><span
                                         th:class="${item.icon}"
@@ -301,7 +293,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="_3Nvxb _13ucr">
+                <div class="_3Nvxb _13ucr my-4">
                     <div class="_3kHhJ">
                         <div class="_2-dFY"><span class="icon-profile-fill"
                                                   style="color: rgb(72, 119, 248); font-size: 32px;"></span></div>
@@ -310,12 +302,12 @@
                                 phòng</span>
                     </div>
                     <div class="_3YtkH">
-                        <td th:if="${post.user.thumbnailUrl}==null">
+                        <td th:if="${post.user.thumbnailId}==null">
                             <img src="/resources/image/22-223863_no-avatar-png-circle-transparent-png.png" alt="avatar"
                                  class="_1Ad8s">
                         </td>
-                        <td th:unless="${post.user.thumbnailUrl}==null">
-                            <img th:src="${post.user.thumbnailUrl}" alt="avatar" class="_1Ad8s">
+                        <td th:unless="${post.user.thumbnailId}==null">
+                            <img th:src="${post.user.thumbnailId}" alt="avatar" class="_1Ad8s">
                         </td>
                         <div class="_3OSo7"><span th:text="${post.user.fullName}"></span>
                             <div><span>SĐT:&nbsp;</span><span th:text="${post.user.phone}"></span></div>
@@ -337,6 +329,7 @@
         <th:block th:replace="/ohana/layout/script :: script"/>
     </div>
 </div>
+<script src="/resources/js/owl.carousel.min.js"></script>
 <script th:inline="javascript">
     let page = {
         url: {
@@ -345,6 +338,8 @@
             redirectAllListPost: App.DOMAIN + "/list-post",
         }
     }
+
+
 
     let idPreview = [[${post.id}]]
 
@@ -371,7 +366,7 @@
     //         showError("Error")
     //     })
     // })
-    // let images = [[${post.imageUrls}]]
+    // let images = [[${post.postMedia}]]
     $(".btn-slider").on("click", function () {
         $("#slider").modal("show");
         // $("#link").text(location.href);
@@ -404,22 +399,28 @@
         let valueSearch = $("#search").val();
         $("#location").html("");
         if (valueSearch.length > 2) {
+            $("._1IdUV").show(250);
             $.ajax({
-                type: "GET",
-                url: App.BASE_URL_API + "/posts/get-data-search/" + valueSearch
+                type: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify({keyword: valueSearch})
+                ,
+                url: App.BASE_URL_API + "/posts/filter?page=0&size=10"
             }).done(function (data) {
-                console.log(data);
                 let locationDetail;
-                data.forEach(item => {
+                $("#location").empty()
+                data.content.forEach(({location}) => {
+                    let item = location
                     if (item.wardName == null) {
                         locationDetail = item.districtName;
                     } else {
                         locationDetail = item.wardName;
                     }
-                    let str = `<a href="/view-all?provinceName=${item.provinceName}&locationName=${locationDetail}">
-                                    <li class="li-search" className="J_X1w">${item.locationDetail}</li>
-                                </a>
-                             `;
+                    let str = `<a href="/search?wardId=${item.wardId}&line1=${item.line1}&wardName=${item.wardName}"><li role="button" class="li-search" >
+
+                                    ${item.line1}, ${item.wardName}</li> </a>`;
                     $("#location").append(str);
                 })
             }).fail(function () {
@@ -438,7 +439,14 @@
         }
     });
 
-
+$(()=>{
+    $(".owl-carousel").owlCarousel({
+        items:1,
+        nav: true,
+        loop: true,
+        autoHeight: true,
+    });
+})
 </script>
 
 </body>

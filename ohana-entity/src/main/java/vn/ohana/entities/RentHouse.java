@@ -23,6 +23,18 @@ public class RentHouse {
     @Column(name = "price", precision = 14)
     private BigDecimal price;
 
+    @Column(name = "deposit", precision = 14)
+    private BigDecimal deposit;
+
+    @Column(name = "electricity_price", precision = 14)
+    private BigDecimal electricityPrice;
+
+    @Column(name = "water_price", precision = 14)
+    private BigDecimal waterPrice;
+
+    @Column(name = "wifi_price", precision = 14)
+    private BigDecimal wifiPrice;
+
     @Column(name = "capacity")
     private Long capacity;
 

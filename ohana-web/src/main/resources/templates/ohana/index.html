@@ -89,7 +89,7 @@
                 <p class="yGUOJ">Xu hướng tìm kiếm</p>
                 <div class="_3C4O2" id="trends">
                     <div>
-                        <a href="/search/1">
+                        <a href="/search?wardId=19801&wardName=Phường An Cựu">
                             <div class="_1vH0j FvthK"
                                  style="background-image: url(/resources/ohana/img/4d99b9c4047ed44e88d916c96a16462f.jpg); background-repeat: no-repeat; background-size: cover;">
                                 <div class="_2CKh0">
@@ -99,17 +99,17 @@
                         </a>
                     </div>
                     <div>
-                        <a href="/view-all/2">
+                        <a href="/search?wardId=19792&wardName=Xuân Phú">
                             <div class="_1vH0j FvthK"
                                  style="background-image: url(/resources/ohana/img/942f65c3633188ad20aef85af3cc6cb9.jpg); background-repeat: no-repeat; background-size: cover;">
                                 <div class="_2CKh0">
-                                    <span class="_3BLx6">Thành phố Huế</span>
+                                    <span class="_3BLx6">Xuân Phú</span>
                                 </div>
                             </div>
                         </a>
                     </div>
                     <div>
-                        <a href="/view-all/3">
+                        <a href="/search?wardId=19777&wardName=Vĩ Dạ">
                             <div class="_1vH0j FvthK"
                                  style="background-image: url(/resources/ohana/img/c24f2f4900e66ad42bc5819ef97687c3.jpg); background-repeat: no-repeat; background-size: cover;">
                                 <div class="_2CKh0">
@@ -119,7 +119,7 @@
                         </a>
                     </div>
                     <div>
-                        <a href="/view-all/4">
+                        <a href="/search?wardId=19816&wardName=An Tây">
                             <div class="_1vH0j FvthK"
                                  style="background-image: url(/resources/ohana/img/820479a65182bbe3c48ac1649d82aa8a.jpg); background-repeat: no-repeat; background-size: cover;">
                                 <div class="_2CKh0">
@@ -129,7 +129,7 @@
                         </a>
                     </div>
                     <div>
-                        <a href="/view-all/5">
+                        <a href="/search?wardId=19783&wardName=Vĩnh Ninh">
                             <div class="_1vH0j FvthK"
                                  style="background-image: url(/resources/ohana/img/56357e2482d5e085d5439d64308b8ccf.jpg); background-repeat: no-repeat; background-size: cover;">
                                 <div class="_2CKh0">
@@ -139,11 +139,11 @@
                         </a>
                     </div>
                     <div>
-                        <a href="/view-all/6">
+                        <a href="/search?wardId=19759&wardName=Phú Hậu">
                             <div class="_1vH0j FvthK"
                                  style="background-image: url(/resources/ohana/img/954a28da0e0c77e373bdfdc41c22c1c3.jpg); background-repeat: no-repeat; background-size: cover;">
                                 <div class="_2CKh0">
-                                    <span class="_3BLx6">Võ Văn Kiệt</span>
+                                    <span class="_3BLx6">Phú Hậu</span>
                                 </div>
                             </div>
                         </a>
@@ -518,44 +518,39 @@
     }
 
 
-    // $("#search").on('input', () => {
-    //     let valueSearch = $("#search").val();
-    //     $("#location").html("");
-    //     if (valueSearch.length > 2) {
-    //         $.ajax({
-    //             type: "GET",
-    //             url: App.BASE_URL_API + "/posts/get-data-search/" + valueSearch
-    //         }).done(function (data) {
-    //             console.log(data);
-    //             let locationDetail;
-    //             data.forEach(item => {
-    //                 if (item.wardName == null) {
-    //                     locationDetail = item.districtName;
-    //                 } else {
-    //                     locationDetail = item.wardName;
-    //                 }
-    //                 let str = `<a href="/view-all?provinceName=${item.provinceName}&locationName=${locationDetail}">
-    //                                 <li class="li-search" className="J_X1w">${item.locationDetail}</li>
-    //                             </a>
-    //                          `;
-    //                 $("#location").append(str);
-    //             })
-    //         }).fail(function () {
-    //             showError('Error')
-    //         })
-    //     }
-    // })
-    //
-    // let specifiedElement = document.getElementById('search');
-    // //I'm using "click" but it works with any event
-    // document.addEventListener('click', function (event) {
-    //     let isClickInside = specifiedElement.contains(event.target);
-    //
-    //     if (!isClickInside) {
-    //         $("#search").val("");
-    //         $("#location").html("");
-    //     }
-    // });
+    $("#search").on('input', () => {
+        let valueSearch = $("#search").val();
+        $("#location").html("");
+        if (valueSearch.length > 2) {
+            $("._1IdUV").show(250);
+            $.ajax({
+                type: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                data: JSON.stringify({keyword: valueSearch})
+                ,
+                url: App.BASE_URL_API + "/posts/filter?page=0&size=10"
+            }).done(function (data) {
+                let locationDetail;
+                $("#location").empty()
+                data.content.forEach(({location}) => {
+                    let item = location
+                    if (item.wardName == null) {
+                        locationDetail = item.districtName;
+                    } else {
+                        locationDetail = item.wardName;
+                    }
+                    let str = `<a href="/search?wardId=${item.wardId}&line1=${item.line1}&wardName=${item.wardName}"><li role="button" class="li-search" >
+
+                                    ${item.line1}, ${item.wardName}</li> </a>`;
+                    $("#location").append(str);
+                })
+            }).fail(function () {
+                showError('Error')
+            })
+        }
+    })
 
 
 </script>

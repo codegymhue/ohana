@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
+import vn.ohana.entities.Role;
 import vn.ohana.entities.User;
 import vn.ohana.user.dto.UserFilterParam;
 
@@ -17,6 +18,9 @@ public interface UserFilterRepository extends JpaRepository<User,Long>, JpaSpeci
     default Page<User> findAllByFilters(UserFilterParam filter, Pageable pageable){
         return  findAll((root,criteriaQuery,criteriaBuilder)->{
             List<Predicate> predicateList = new ArrayList<>();
+
+            Predicate notAdminPredicate = criteriaBuilder.not(criteriaBuilder.equal(root.get("role"), Role.ADMIN));
+            predicateList.add(notAdminPredicate);
 
             if (filter.getKeyword()!=null || filter.getKeyword().trim().length() != 0) {
                 Predicate fullNamePredicate = criteriaBuilder.like(root.get("fullName"),"%" + filter.getKeyword() + "%");

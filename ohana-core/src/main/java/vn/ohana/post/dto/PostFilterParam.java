@@ -28,7 +28,7 @@ public class PostFilterParam {
     private Gender gender;
     @Enumerated(EnumType.STRING)
     private StatusPost status;
-    private Long category;
+    private Long categories;
     private BigDecimal priceStarts;
     private BigDecimal priceEnds;
     private Location locationFilter;

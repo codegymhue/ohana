@@ -49,4 +49,9 @@ public class CategoryAPI {
         categoryService.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+    @PatchMapping("/{categoryId}/status={status}")
+    public ResponseEntity<?> updateStatusCategory(@PathVariable Long categoryId,@PathVariable String status) {
+        return new ResponseEntity<>(categoryService.updateStatusCategory(categoryId, status), HttpStatus.OK);
+    }
 }

@@ -18,5 +18,9 @@ public interface CategoryService {
 
     void deleteById(Long id);
 
+<<<<<<< HEAD
      Category findById(Long id);
+=======
+    CategoryResult updateStatusCategory(Long categoryId, String status);
+>>>>>>> main
 }
