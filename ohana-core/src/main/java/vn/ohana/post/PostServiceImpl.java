@@ -79,8 +79,35 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Map<Long, String> modifyStatusByIds(Set<Long> ids, String published) {
-        return null;
+    @Transactional
+    public Map<String, List<Long>> modifyStatusByIds(Set<Long> ids, String status) {
+
+        StatusPost statusPost = StatusPost.parseStatusPosts(status);
+
+        Map<String, List<Long>> result = new HashMap<>();
+
+        List<Long> successIds = new ArrayList<>();
+        List<Long> failIds = new ArrayList<>();
+
+        Iterable<Post> entities = postRepository.findAllById(ids);
+        entities.forEach(entity -> {
+            entity.setStatus(statusPost);
+            successIds.add(entity.getId());
+        });
+        result.put("succeed", successIds);
+
+        List<Long> entityIds = StreamSupport
+                .stream(entities.spliterator(), false)
+                .map(Post::getId)
+                .collect(Collectors.toList());
+
+        ids.forEach(id -> {
+            if (!entityIds.contains(id)) {
+                failIds.add((id));
+            }
+        });
+        result.put("failed", failIds);
+        return result;
     }
 
     public Page<PostResult> insertUtilityResultList(Page<Post> page) {

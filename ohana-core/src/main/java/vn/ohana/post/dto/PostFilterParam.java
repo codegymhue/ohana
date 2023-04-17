@@ -13,6 +13,7 @@ import vn.ohana.location.dto.LocationParam;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +32,8 @@ public class PostFilterParam {
     private Long categories;
     private BigDecimal priceStarts;
     private BigDecimal priceEnds;
+    private Instant createdAtStart;
+    private Instant createdAtEnd;
     private Location locationFilter;
     private List<Integer> utilities;
 }
