@@ -74,13 +74,13 @@ public class PostAPI {
 
     @GetMapping("/postsNew")
     public ResponseEntity<?> getPostsNew() {
-        return new ResponseEntity<>( postService.getTop10PostsNew(), HttpStatus.OK);
+        return new ResponseEntity<>(postService.getTop10PostsNew(),HttpStatus.OK);
     }
 
     @PostMapping("/postsNew")
     public ResponseEntity<?> doPostsNew(@RequestBody PostCreateParam postCreateParam) {
-        postService.save(postCreateParam);
-        return new ResponseEntity<>(HttpStatus.OK);
+        ;
+        return new ResponseEntity<>(postService.save(postCreateParam),HttpStatus.OK);
     }
 
     @GetMapping("/{uId}/user/{status}/status")

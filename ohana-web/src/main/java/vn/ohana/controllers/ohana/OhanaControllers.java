@@ -141,16 +141,16 @@ public class OhanaControllers {
         }
     }
 
-    @PostMapping("/post-room")
-    public Object doPostRoom(@ModelAttribute("postCreateParam") PostCreateParam postCreateParam) {
-        ModelAndView modelAndView = new ModelAndView("/ohana/post-room");
-        if (postCreateParam != null) {
-            modelAndView.addObject("userUpdateParam", postCreateParam);
-            return modelAndView;
-        } else {
-            return "/ohana/error";
-        }
-    }
+//    @PostMapping("/post-room")
+//    public Object doPostRoom(@ModelAttribute("postCreateParam") PostCreateParam postCreateParam) {
+//        ModelAndView modelAndView = new ModelAndView("/ohana/post-room");
+//        if (postCreateParam != null) {
+//            modelAndView.addObject("userUpdateParam", postCreateParam);
+//            return modelAndView;
+//        } else {
+//            return "/ohana/error";
+//        }
+//    }
 
 
     @GetMapping("/search")
