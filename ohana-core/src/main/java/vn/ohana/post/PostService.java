@@ -3,7 +3,7 @@ package vn.ohana.post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import vn.ohana.entities.Post;
-import vn.ohana.location.dto.DataSearchResult;
+import vn.ohana.entities.StatusPost;
 import vn.ohana.post.dto.PostCreateParam;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
@@ -12,7 +12,6 @@ import vn.ohana.user.dto.UserUpdateParam;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 
 
@@ -36,4 +35,7 @@ public interface PostService {
 
     PostCreateParam save(PostCreateParam postCreateParam);
     Post findById(Long id);
+
+    Page<PostResult> findAllByStatusAndUser(StatusPost status, Long id, Pageable pageable);
+
 }
