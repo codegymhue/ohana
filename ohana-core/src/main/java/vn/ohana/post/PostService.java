@@ -34,9 +34,6 @@ public interface PostService {
 
     List<PostResult>  getTop10PostsNew();
 
-<<<<<<< HEAD
     PostCreateParam save(PostCreateParam postCreateParam);
-=======
     Post findById(Long id);
->>>>>>> main
 }
