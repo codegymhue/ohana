@@ -4,12 +4,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import vn.ohana.entities.Post;
+import vn.ohana.entities.StatusPost;
 import vn.ohana.entities.User;
-import vn.ohana.post.dto.PostResult;
 
 import java.util.List;
 
@@ -20,8 +19,11 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 
     @Query(value = "SELECT * \n" +
             "FROM post p \n" +
-            "where p.status = \"PUBLISHED\"\n" +
-            "ORDER BY p.created_at " +
+            "WHERE p.status = \"PUBLISHED\"\n" +
+            "ORDER BY p.created_at DESC " +
             "LIMIT 10;", nativeQuery = true)
     List<Post> getPostsNew();
+
+
+    Page<Post> findAllByStatusAndUser(StatusPost statusPost, User user, Pageable pageable);
 }

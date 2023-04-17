@@ -8,8 +8,8 @@ public enum StatusPost {
     PUBLISHED("PUBLISHED"),
     REFUSED("REFUSED"),
     DRAFT("DRAFT"),
-    OVER_ROOM("OVER_ROOM"),
-    EMPTY_ROOM("EMPTY_ROOM");
+    DELETED("DELETED"),
+    OVER_ROOM("OVER_ROOM");
 
     private final String value;
 

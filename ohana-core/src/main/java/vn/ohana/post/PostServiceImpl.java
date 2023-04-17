@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
+import vn.ohana.entities.User;
 import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
 import vn.ohana.user.UserMapper;
+import vn.ohana.user.UserRepository;
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
@@ -34,6 +36,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Autowired
     private UtilityService utilityService;
@@ -62,7 +67,7 @@ public class PostServiceImpl implements PostService {
                 .flatMap(Set::stream).collect(Collectors.toSet());
 
 
-        return page.map(entity -> addPostResultUtilities(entity,utilityIds));
+        return page.map(entity -> addPostResultUtilities(entity, utilityIds));
     }
 
 
@@ -86,13 +91,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void postEdit(PostUpdateParam postUpdateParam) {
-        Post entity=  findById(postUpdateParam.getId());
+        Post entity = findById(postUpdateParam.getId());
     }
 
     @Override
     public Page<PostResult> findAllByUser(UserUpdateParam user, Pageable pageable) {
 
-        Page<Post> post = postRepository.findByUser(userMapper.toEntity(user),pageable);
+        Page<Post> post = postRepository.findByUser(userMapper.toEntity(user), pageable);
 
         return toDtoPage(post);
     }
@@ -100,7 +105,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostResult> filterPublishedPosts(PostFilterParam filter, Pageable pageable) {
         filter.setStatus(StatusPost.PUBLISHED);
-        return toDtoPage( postFilterRepository.findAllByFilters(filter,pageable));
+        return toDtoPage(postFilterRepository.findAllByFilters(filter, pageable));
     }
 
     @Override
@@ -114,8 +119,8 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResult updateStatusById(PostUpdateParam postUpdateParam) {
         Post post = findById(postUpdateParam.getId());
-        postMapper.transferFields(postUpdateParam,post,true);
-        return addPostResultUtilities(post,post.getUtilities());
+        postMapper.transferFields(postUpdateParam, post, true);
+        return addPostResultUtilities(post, post.getUtilities());
     }
 
     @Override
@@ -128,10 +133,17 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException("post.exception.notFound"));
     }
 
+
+    @Override
+    public Page<PostResult> findAllByStatusAndUser(StatusPost status, Long id, Pageable pageable) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user.exception.notFound"));
+        return toDtoPage(postRepository.findAllByStatusAndUser(status, user,pageable));
+    }
+
     @Override
     public Page<PostResult> filter(PostFilterParam filter, Pageable pageable) {
         Page<Post> page = postFilterRepository.findAllByFilters(filter, pageable);
-         return toDtoPage(page);
+        return toDtoPage(page);
     }
 
     private Page<PostResult> toDtoPage(Page<Post> page) {
@@ -140,7 +152,7 @@ public class PostServiceImpl implements PostService {
 
     private PostResult addPostResultUtilities(Post entity, Set<Integer> utilityIds) {
         List<UtilityResult> utilities = utilityService.findAllByIds(utilityIds);
-        PostResult dto= postMapper.toDTO(entity);
+        PostResult dto = postMapper.toDTO(entity);
         List<UtilityResult> newUtilities = utilities
                 .stream()
                 .filter(utility ->
@@ -151,7 +163,6 @@ public class PostServiceImpl implements PostService {
         dto.setUtilities(newUtilities);
         return dto;
     }
-
 
 
 }

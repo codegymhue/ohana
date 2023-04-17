@@ -1,12 +1,15 @@
 package vn.ohana.controllers.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.entities.Post;
+import vn.ohana.entities.StatusPost;
+import vn.ohana.entities.User;
 import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.PostRepository;
 import vn.ohana.post.PostService;
@@ -80,4 +83,10 @@ public class PostAPI {
         return new ResponseEntity<>( postService.getTop10PostsNew(), HttpStatus.OK);
     }
 
+    @GetMapping("/{uId}/user/{status}/status")
+    public ResponseEntity<?> listPublished(@PathVariable Long uId, @PathVariable String status, @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) throws IOException {
+        StatusPost statusPost = StatusPost.parseStatusPosts(status);
+        Page<PostResult> postResults = postService.findAllByStatusAndUser(statusPost, uId, PageRequest.of(page, size));
+        return new ResponseEntity<>(postResults, HttpStatus.OK);
+    }
 }

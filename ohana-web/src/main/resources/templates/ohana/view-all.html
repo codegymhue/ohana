@@ -35,7 +35,7 @@
     <div class="app">
         <div class="_3bjUj">
             <!--header-->
-            <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
+            <th:block th:replace="/ohana/layout/header :: header(${userResult})"/>
             <div class="QZg_h _18fKS">
                 <div class="_3oMi4">
                     <div class="_3OgY1"><a href="/"><img
@@ -440,9 +440,6 @@
             if (wardName && wardName.length > 0 ){
                 $("#search").val(line1 == null?wardName:line1+", "+ wardName)
             }
-
-            let provinceName = [[${provinceName}]];
-            let locationName = [[${locationName}]];
             let mess = [[${mess}]];
 
             $("#price").hide();
@@ -553,7 +550,7 @@
                             }
                         }
 
-                        let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
+                        let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 +"/" + "post_images/" + post.thumbnailId;
 
                         let price = checkPrice(post.rentHouse.price);
                         let gender;
