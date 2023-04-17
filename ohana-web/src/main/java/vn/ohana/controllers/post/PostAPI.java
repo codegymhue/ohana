@@ -72,7 +72,7 @@ public class PostAPI {
 
     @GetMapping("/postsNew")
     public ResponseEntity<?> getPostsNew() {
-        return new ResponseEntity<>( postService.getTop10PostsNew(), HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/postsNew")
