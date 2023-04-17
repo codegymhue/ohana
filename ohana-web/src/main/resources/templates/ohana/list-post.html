@@ -229,10 +229,11 @@
             $("#tbPost thead").html('');
             let tr = `<tr>
                             <th class= "col-2">Tên bài đăng</th>
-                            <th class= "col-5">Địa chỉ</th>
+                            <th class= "col-6">Địa chỉ</th>
                             <th class= "col-1">Giá</th>
                             <th class= "col-1">Ngày đăng</th>
                             <th class= "col-1">Đường dẫn</th>
+                            <th colspan="3" class= "col-1">Trạng thái</th>
                        </tr>`;
             $("#tbPost thead").prepend(tr);
             $("#tbPost tbody").html('');
@@ -265,7 +266,7 @@
                             </div>
                         </div>
                     </td>
-                    <td class= "col-5">
+                    <td class= "col-6">
                         <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                     <td class= "col-1">
@@ -320,10 +321,10 @@
             $("#tbPost thead").html('');
             let tr = `
                 <tr>
-                    <th class= "col-3">Tên bài đăng</th>
-                    <th class= "col-4">Địa chỉ</th>
+                    <th class= "col-2">Tên bài đăng</th>
+                    <th class= "col-6">Địa chỉ</th>
                     <th class= "col-2">Giá</th>
-                    <th class= "col-3">Ngày đăng</th>
+                    <th class= "col-2">Ngày đăng</th>
 
                 </tr>`;
             $("#tbPost thead").prepend(tr);
@@ -343,7 +344,7 @@
                 locationResult = post.location;
                 rentHouse = post.rentHouse;
                 let str = `     <tr>
-                    <td class= "col-3">
+                    <td class= "col-2">
                         <div class="d-flex align-items-center">
                             <img src="${image_thumbnail}" alt=""
                                  style="width: 45px; height: 45px" class="rounded-circle"/>
@@ -352,13 +353,13 @@
                             </div>
                         </div>
                     </td>
-                    <td class= "col-4">
+                    <td class= "col-6">
                                <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                      <td class= "col-2">
                         <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.price)} VNĐ</p>
                     </td>
-                    <td>
+                    <td class= "col-2">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
                     </td>
                 </tr>`;
