@@ -62,13 +62,11 @@ body {
 ._2QckJ{
     margin-right: 10px;
 }
-
-<<<<<<< HEAD
 label.error {
-    display: block;
-    margin-top: 5px;
-    color: #f80f25;
-=======
+            display: block;
+            margin-top: 5px;
+            color: #f80f25;
+        }
 .no-breadcrums{
     margin-top: 150px;
 }
@@ -96,5 +94,4 @@ label.error {
 .owl-carousel .owl-item img {
     width: auto;
     max-height: 90vh;
->>>>>>> main
 }

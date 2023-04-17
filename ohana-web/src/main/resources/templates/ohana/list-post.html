@@ -17,7 +17,7 @@
     </div>
 
     <div class="body ">
-        <div class="row align-items-start">
+        <div class="row align-items-start" style="flex: 1">
             <br>
             <th:block th:replace="/ohana/layout/list/status-post :: status-post"/>
 
@@ -233,7 +233,6 @@
                             <th class= "col-1">Giá</th>
                             <th class= "col-1">Ngày đăng</th>
                             <th class= "col-1">Đường dẫn</th>
-                            <th colspan="4" class= "col-1">Trạng thái</th>
                        </tr>`;
             $("#tbPost thead").prepend(tr);
             $("#tbPost tbody").html('');
@@ -382,9 +381,10 @@
             $("#tbPost thead").html('');
             let tr = `<tr>
                 <th class= "col-3">Tên bài đăng</th>
-                <th class= "col-4">Địa chỉ</th>
-                <th class= "col-2">Giá</th>
-                <th class= "col-3">Ngày đăng</th>
+                <th class= "col-6">Địa chỉ</th>
+                <th class= "col-1">Giá</th>
+                <th class= "col-1">Ngày đăng</th>
+                <th class= "col-1">Trạng thái</th>
 
            </tr>`;
             $("#tbPost thead").prepend(tr);
@@ -416,15 +416,21 @@
                     <td class= "col-6">
                                 <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
-                     <td class= "col-2">
+                     <td class= "col-1">
                         <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.price)} VNĐ</p>
                     </td>
                     <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
                     </td>
+                    <td class= "col-1">
+                        <a type="button" class="btn btn-outline-danger btn-delete" style="min-width: 120px" data-id="${post.id}" >
+                            Xóa
+                        </a>
+                    </td>
                 </tr>`;
                 $("#tbPost tbody").prepend(str);
             });
+            handlerDelete();
 
         }).fail(function () {
             showError('Error')
@@ -531,7 +537,11 @@
                 'Xoá bài viết thành công.',
                 'success'
             )
-            page.commands.getAllPostPublished();
+            if (post.status == "PUBLISHED"){
+                page.commands.getAllPostPublished();
+            }else if (post.status == "REFUSED"){
+                page.commands.getAllRefused();
+            }
             // showSuccess("hf")
         }).fail(function () {
             Swal.fire({
