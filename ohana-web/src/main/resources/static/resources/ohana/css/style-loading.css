@@ -60,3 +60,8 @@ body {
     75%      { clip: rect(0px, 220px, 220px, 218px); }
 }
 
+label.error {
+    display: block;
+    margin-top: 5px;
+    color: #f80f25;
+}

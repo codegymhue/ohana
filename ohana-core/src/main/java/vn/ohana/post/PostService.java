@@ -4,6 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import vn.ohana.entities.Post;
 import vn.ohana.location.dto.DataSearchResult;
+import vn.ohana.post.dto.PostCreateParam;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
@@ -31,4 +32,6 @@ public interface PostService {
     PostResult updateStatusById(PostUpdateParam postUpdateParam);
 
     List<PostResult>  getTop10PostsNew();
+
+    PostCreateParam save(PostCreateParam postCreateParam);
 }

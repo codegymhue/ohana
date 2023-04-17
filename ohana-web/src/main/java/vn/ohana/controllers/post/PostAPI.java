@@ -77,7 +77,8 @@ public class PostAPI {
 
     @PostMapping("/postsNew")
     public ResponseEntity<?> doPostsNew(@RequestBody PostCreateParam postCreateParam) {
-        return new ResponseEntity<>( postService.getTop10PostsNew(), HttpStatus.OK);
+        postService.save(postCreateParam);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

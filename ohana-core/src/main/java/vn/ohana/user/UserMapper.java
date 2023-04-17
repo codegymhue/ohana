@@ -58,7 +58,6 @@ PostMediaService postMediaService;
 
 
     public LoginResult toLoginResult(User user) {
-
         return modelMapper.map(user, LoginResult.class);
     }
 

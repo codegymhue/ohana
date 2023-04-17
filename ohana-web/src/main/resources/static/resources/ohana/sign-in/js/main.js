@@ -1,15 +1,14 @@
 (function ($) {
-    "use strict";
-    $('.validate-input .input100').each(function () {
-        $(this).on('blur', function () {
-            if (validate(this) == false) {
-                showValidate(this);
-            } else {
-                $(this).parent().addClass('true-validate');
-            }
-        })
-    })
-
+    // "use strict";
+    // $('.validate-input .input100').each(function () {
+    //     $(this).on('blur', function () {
+    //         if (validate(this) == false) {
+    //             showValidate(this);
+    //         } else {
+    //             $(this).parent().addClass('true-validate');
+    //         }
+    //     })
+    // })
 
     var input = $('.validate-input .input100');
 
@@ -23,7 +22,7 @@
         if (!regexEmail.test(phoneOrEmail) && !regexPhone.test(phoneOrEmail)) {
             // alert($("#phoneOrEmail").val());
             $("#checkPhoneOrEmail").html("");
-            let str = `<label id="title-error" class="error" for="title">Vui lòng nhập đúng định dạng</label>`;
+            let str = `<label id="title-error" class="error" for="title">Vui lòng nhập đúng định dạng Email</label>`;
             $("#checkPhoneOrEmail").append(str);
             check = false;
         }
@@ -68,12 +67,12 @@
         return check;
     });
 
-    $('.validate-form .input100').each(function () {
-        $(this).focus(function () {
-            hideValidate(this);
-            $(this).parent().removeClass('true-validate');
-        });
-    });
+    // $('.validate-form .input100').each(function () {
+    //     $(this).focus(function () {
+    //         hideValidate(this);
+    //         $(this).parent().removeClass('true-validate');
+    //     });
+    // });
 
     function validate(input) {
         if ($(input).attr('type') == 'email' || $(input).attr('name') == 'email') {
@@ -87,29 +86,24 @@
         }
     }
 
-    function showValidate(input) {
-        var thisAlert = $(input).parent();
-
-        $(thisAlert).addClass('alert-validate');
-
-        $(thisAlert).append('<span class="btn-hide-validate">&#xf135;</span>')
-        $('.btn-hide-validate').each(function () {
-            $(this).on('click', function () {
-                hideValidate(this);
-            });
-        });
-    }
-
-    function hideValidate(input) {
-        var thisAlert = $(input).parent();
-        $(thisAlert).removeClass('alert-validate');
-        $(thisAlert).find('.btn-hide-validate').remove();
-    }
-
-
-
-
-
+    // function showValidate(input) {
+    //     var thisAlert = $(input).parent();
+    //
+    //     $(thisAlert).addClass('alert-validate');
+    //
+    //     $(thisAlert).append('<span class="btn-hide-validate">&#xf135;</span>')
+    //     $('.btn-hide-validate').each(function () {
+    //         $(this).on('click', function () {
+    //             hideValidate(this);
+    //         });
+    //     });
+    // }
+    //
+    // function hideValidate(input) {
+    //     var thisAlert = $(input).parent();
+    //     $(thisAlert).removeClass('alert-validate');
+    //     $(thisAlert).find('.btn-hide-validate').remove();
+    // }
     $('.validate-formChangePass').on('submit', function () {
         var check = true;
         let regexPassword = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[-`!~({})|.,*_@#$%^&+=/])(?=\S+$).{6,}$/;
@@ -136,6 +130,11 @@
         }
         return check;
     });
+
+
+    $('.validate-form').on('submit', function () {
+
+    }
 
 
 })(jQuery);

@@ -16,10 +16,11 @@ public class PostCreateParam {
     private String title;
     @NotNull(message = "The categoryId is required")
     private Long categoryId;
-    private String description;
+    private String descriptionContent;
     private String thumbnailId;
     private List<String> images;
     private LocationParam location;
     private RentHouseParam rentHouse;
     private List<Long> utilities;
+    private Long idUser;
 }

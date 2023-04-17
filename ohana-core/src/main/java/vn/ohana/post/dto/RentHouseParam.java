@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.Accessors;
+import vn.ohana.entities.Gender;
 
 import java.math.BigDecimal;
 
@@ -16,7 +16,7 @@ public class RentHouseParam {
     private BigDecimal price;
     private Long capacity;
     private Long area;
-    private Long genderId;
+    private Gender gender;
 
     @Override
     public String toString() {
@@ -24,7 +24,7 @@ public class RentHouseParam {
                 ", price=" + price +
                 ", capacity=" + capacity +
                 ", area=" + area +
-                ", gender='" + genderId + '\'' +
+                ", gender='" + gender + '\'' +
                 '}';
     }
 }

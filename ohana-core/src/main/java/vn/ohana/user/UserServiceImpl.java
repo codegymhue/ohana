@@ -149,11 +149,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResultDTO(user);
     }
 
-    @Override
-    public User findByEmailUser(String email) {
-
-        return userRepository.findByEmail(email);
-    }
+//    @Override
+//    public User findByEmailUser(String email) {
+//
+//        return userRepository.findByEmail(email);
+//    }
 
     @Override
     public LoginResult findByEmailAndPassword(String email, String password) {

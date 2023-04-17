@@ -24,4 +24,6 @@ public interface PostRepository extends JpaRepository<Post, Long>{
             "ORDER BY p.created_at " +
             "LIMIT 10;", nativeQuery = true)
     List<Post> getPostsNew();
+
+
 }

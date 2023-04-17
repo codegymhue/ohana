@@ -51,7 +51,7 @@ public interface UserService  {
 
     UserResult savePassword(UserUpdateParam userUpdateParam);
 
-    User findByEmailUser(String email);
+    User findById(Long idUser);
 
     UserResult save(UserUpdateParam userUpdateParam);
 

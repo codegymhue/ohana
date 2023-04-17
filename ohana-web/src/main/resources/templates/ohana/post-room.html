@@ -75,94 +75,85 @@
             </h3>
         </div>
         <!--        <th:block th:if="${userUpdateParam}!=null">-->
-        <form class="pt-6" method="post" th:action="@{/post-room}" th:object="${postCreateParam}">
+        <form class="pt-6" id="frmPost" method="post" th:action="@{/post-room}" th:object="${postCreateParam}">
+            <input id="id" type="hidden" class="form-control " th:field="${userResult.id}">
             <div class="">
-                <div class="px-2">
+                <div class="px-2 errorTotal">
                     <label class="m-1">Tiêu đề</label>
-                    <input id="title" type="text" class="form-control " th:field="${postCreateParam.title}">
-                    <!--                    <label class="error">-->
-                    <!--                    </label>-->
+                    <input id="title" name="title" type="text" class="form-control" th:field="${postCreateParam.title}">
                 </div>
             </div>
             <div class=" col-md-12">
-                <div class="col-md-12 px-2">
+                <div class="col-md-12 px-2 errorTotal">
                     <label class="m-1">Nội dung</label>
-                    <textarea id="description" type="text" class="form-control"
-                              th:field="${postCreateParam.description}"></textarea>
-                    <!--                    <label class="error">-->
-                    <!--                    </label>-->
+                    <textarea id="descriptionContent" name="descriptionContent" type="text" class="form-control"
+                              th:field="${postCreateParam.descriptionContent}"></textarea>
                 </div>
             </div>
             <div class="d-flex col-md-12">
-                <div class="col-md-4 px-2">
+                <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Loại phòng</label>
-                    <select type="text" class="form-select" id="category" th:field="${postCreateParam.categoryId}">
+                    <select type="text" class="form-select" name="category" id="category" th:field="${postCreateParam.categoryId}">
                     </select>
                 </div>
-                <div class="col-md-4 px-2">
+                <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Giá phòng</label>
-                    <input type="number" class="form-control" id="price" th:field="${postCreateParam.rentHouse.price}">
-                    <!--                    <label class="error">-->
-                    <!--                    </label>-->
+                    <input type="text" class="form-control" id="price"  name="price" th:field="${postCreateParam.rentHouse.price}">
                 </div>
-                <div class="col-md-4 px-2 ">
+                <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Diện tích</label>
-                    <input type="number" class="form-control" id="area" th:field="${postCreateParam.rentHouse.area}">
-                    <!--                    <label class="error">-->
-                    <!--                    </label>-->
+                    <input type="number" class="form-control" id="area" name="area" th:field="${postCreateParam.rentHouse.area}">
                 </div>
             </div>
             <div class="d-flex col-md-12">
-                <div class="col-md-6 px-2">
+                <div class="col-md-6 px-2 errorTotal">
                     <label class="m-1">Sức chứa</label>
-                    <input type="number" class="form-control" id="capacity"
+                    <input type="number" class="form-control" id="capacity" name="capacity"
                            th:field="${postCreateParam.rentHouse.capacity}">
-                    <!--                    <label class="error">-->
-                    <!--                    </label>-->
                 </div>
                 <div class="col-md-6 px-2">
                     <label class="m-1">Giới Tính</label>
-                    <select type="text" class="form-select" id="gender"
-                            th:field="${postCreateParam.rentHouse.genderId}">
+                    <select type="text" class="form-select" id="gender" name="gender"
+                            th:field="${postCreateParam.rentHouse.gender}">
                     </select>
                 </div>
             </div>
             <div class=" col-md-12">
                 <label class="m-1 form-label">Tiện ích: </label>
-                <div class="d-flex flex-wrap col-md-12 px-5" id="utilities" th:field="${postCreateParam.utilities}">
+                <div class="d-flex flex-wrap col-md-12 px-5" id="utilities" name="utilities" th:field="${postCreateParam.utilities}">
                 </div>
 
             </div>
             <div class="d-flex col-md-12">
                 <div class="col-md-3 px-2">
                     <label class="m-1">Tỉnh</label>
-                    <select type="text" class="form-select" id="province"
+                    <select type="text" class="form-select" id="province" name="province"
                             th:field="${postCreateParam.location.provinceId}">
                     </select>
                 </div>
                 <div class="col-md-3 px-2">
                     <label class="m-1">Thành phố/Huyện</label>
-                    <select type="text" class="form-select" id="district"
+                    <select type="text" class="form-select" id="district" name="district"
                             th:field="${postCreateParam.location.districtId}">
                     </select>
                 </div>
                 <div class="col-md-3 px-2">
                     <label class="m-1">Phường/Xã</label>
-                    <select type="text" class="form-select" id="ward" th:field="${postCreateParam.location.wardId}">
+                    <select type="text" class="form-select" id="ward"  name="ward" th:field="${postCreateParam.location.wardId}">
                     </select>
                 </div>
 
-                <div class="col-md-3 px-2">
+                <div class="col-md-3 px-2 errorTotal">
                     <label class="m-1">Địa chỉ</label>
-                    <input type="text" class="form-control" id="line1" th:field="${postCreateParam.location.line1}">
+                    <input type="text" class="form-control" id="line1" name="line1" th:field="${postCreateParam.location.line1}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
             </div>
             <div class="row col-md-12 mt-3">
                 <div class="col-md-3" style="position: relative">
-                    <button type="button" id="upload_widgetThumb" class="col-md-3 w-100 h-100">thumbnail
-                        <input type="hidden" id="urlImageThumb" th:field="${postCreateParam.getThumbnailId}">
+                    <button type="button" id="upload_widgetThumb" name="upload_widgetThumb" class="col-md-3 w-100 h-100">thumbnail
+                        <input type="hidden" id="urlImageThumb" name="urlImageThumb" th:field="${postCreateParam.thumbnailId}">
                         <!--                        <img id="imgPreview" class="col-md-3 h-100"-->
                         <!--                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>-->
                     </button>
@@ -174,7 +165,7 @@
             <div class="row col-md-12 mt-3">
                 <div class="col-md-3" style="position: relative">
                     <button type="button" id="upload_widget" class="col-md-3 w-100 h-100">Chọn ảnh
-                        <input type="hidden" id="urlImage" th:field="${postCreateParam.images}">
+                        <input type="hidden" id="urlImage" name="urlImage"  th:field="${postCreateParam.images}">
                         <!--                        <img id="imgPreview" class="col-md-3 h-100"-->
                         <!--                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>-->
                     </button>
@@ -184,7 +175,7 @@
                 <img id="imgPreview" class="postroom"/>
             </div>
             <div class="w-100 col-md-12 px-2">
-                <button id="submit" type="submit" class="btn btn-primary mt-3">Đăng tin</button>
+                <button id="submitPost" name="submitPost" type="submit" class="btn btn-primary mt-3">Đăng tin</button>
             </div>
         </form>
     </div>
@@ -196,55 +187,55 @@
 <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
 <script src="/resources/paginationjs-master/paginationjs-master/src/pagination.js"></script>
 <script>
-    let listImageId = [];
-    var cloudinaryWidget = cloudinary.createUploadWidget(
-        {
-            cloudName: "dh8nlcoul",
-            uploadPreset: "cvrenzxm",
-        },
-        (error, result) => {
-            if (!error && result && result.event === "success") {
-                console.log("Done! Here is the image info: ", result.info);
-                let {url} = result.info;
-                let {public_id} = result.info;
-                listImageId.push(public_id);
-                console.log("url");
-                console.log(url);
-                let str = renderImage(url);
-                $('#showImage').prepend(str);
-            }
-        }
-    );
-
-    $("#upload_widget").on("click", function () {
-        cloudinaryWidget.open();
-        console.log("listImageId")
-        console.log(listImageId)
-    });
-
-
-    let thumbnailId;
-    var cloudinaryWidgetThumb = cloudinary.createUploadWidget(
-        {
-            cloudName: "dh8nlcoul",
-            uploadPreset: "cvrenzxm",
-        },
-        (error, result) => {
-            if (!error && result && result.event === "success") {
-                console.log("Done! Here is the image info: ", result.info);
-                let {url} = result.info;
-                let {public_id} = result.info;
-                thumbNailId = public_id;
-                let str = renderImage(url);
-                $('#showImageThumb').prepend(str);
-            }
-        }
-    );
-    $("#upload_widgetThumb").on("click", function () {
-        cloudinaryWidgetThumb.open();
-        console.log("thumbNailId")
-        console.log(thumbNailId)
-    });
+    // let listImageId = [];
+    // var cloudinaryWidget = cloudinary.createUploadWidget(
+    //     {
+    //         cloudName: "dh8nlcoul",
+    //         uploadPreset: "cvrenzxm",
+    //     },
+    //     (error, result) => {
+    //         if (!error && result && result.event === "success") {
+    //             console.log("Done! Here is the image info: ", result.info);
+    //             let {url} = result.info;
+    //             let {public_id} = result.info;
+    //             listImageId.push(public_id);
+    //             console.log("url");
+    //             console.log(url);
+    //             let str = renderImage(url);
+    //             $('#showImage').prepend(str);
+    //         }
+    //     }
+    // );
+    //
+    // $("#upload_widget").on("click", function () {
+    //     cloudinaryWidget.open();
+    //     console.log("listImageId")
+    //     console.log(listImageId)
+    // });
+    //
+    //
+    // let thumbnailId;
+    // var cloudinaryWidgetThumb = cloudinary.createUploadWidget(
+    //     {
+    //         cloudName: "dh8nlcoul",
+    //         uploadPreset: "cvrenzxm",
+    //     },
+    //     (error, result) => {
+    //         if (!error && result && result.event === "success") {
+    //             console.log("Done! Here is the image info: ", result.info);
+    //             let {url} = result.info;
+    //             let {public_id} = result.info;
+    //             thumbnailId = public_id;
+    //             let str = renderImage(url);
+    //             $('#showImageThumb').prepend(str);
+    //         }
+    //     }
+    // );
+    // $("#upload_widgetThumb").on("click", function () {
+    //     cloudinaryWidgetThumb.open();
+    //     console.log("thumbnailId")
+    //     console.log(thumbnailId)
+    // });
 
 
     let renderImage = (image) => {
@@ -274,10 +265,22 @@
         initializeControlEvent: {},
         // let isClickInside = specifiedElement.contains(event.target)
     }
+    page.dialogs.elements.title = $('#title');
+    page.dialogs.elements.descriptionContent = $('#descriptionContent');
+    page.dialogs.elements.category = $('#category');
+    page.dialogs.elements.price = $('#price');
+    page.dialogs.elements.capacity = $('#capacity');
+    page.dialogs.elements.gender = $('#gender');
+    page.dialogs.elements.utilities = $('#utilities');
+    page.dialogs.elements.area = $('#area');
+
     page.dialogs.elements.province = $('#province');
     page.dialogs.elements.district = $('#district');
     page.dialogs.elements.ward = $('#ward');
     page.dialogs.elements.address = $('#address');
+
+    page.dialogs.elements.urlImageThumb = $('#urlImageThumb');
+    page.dialogs.elements.urlImage = $('#urlImage');
 
     let post = new Post();
     let filter = {};
@@ -448,12 +451,14 @@
     }
 
     let doPostRoom = () => {
+        let idUser = $("#id").val();
+        console.log(idUser);
         let rentHouse = new RentHouse();
         let location = new LocationDTO();
         let images = listImageId;
 
         let title = $("#title").val();
-        let description = $("#description").val();
+        let descriptionContent = $("#descriptionContent").val();
         let categories = $("#category").val();
 
         location.provinceId = $("#province").val();
@@ -467,19 +472,18 @@
         rentHouse.price = $("#price").val();
         rentHouse.area = $("#area").val();
         rentHouse.capacity = $("#capacity").val();
-        rentHouse.genderId = $("#gender").val();
+        rentHouse.gender = $("#gender").val();
 
         postDTO.title = title;
-        postDTO.description = description;
+        postDTO.descriptionContent = descriptionContent;
         postDTO.categoryId = categories;
         postDTO.rentHouse = rentHouse;
         postDTO.location = location;
         postDTO.thumbnailId = thumbnailId;
         postDTO.images = images;
-        console.log("submitttttttttttttttttttt")
-
+        postDTO.idUser = idUser;
         postDTO.utilities = Array.from(utilities);
-
+        console.log("submitttttttttttttttttttt")
 
         $.ajax({
             headers: {
@@ -491,18 +495,110 @@
             data: JSON.stringify(postDTO)
         })
             .done((data) => {
-                console.log("done")
+                showSuccess("đăng bài thành công!!!")
             })
             .fail((jqXHR) => {
                 console.log("error")
-
             })
     }
 
-    $("#submit").on("click", function (e) {
-        e.preventDefault();
-        doPostRoom();
+
+    $("#frmPost").validate({
+        rules: {
+            title: {
+                required: true,
+                minlength: 20,
+                maxlength: 100
+            },
+            descriptionContent: {
+                required: true,
+                minlength: 20,
+                maxlength: 1000
+            },
+            price: {
+                required: true,
+                number: true,
+                min: 100000,
+                max: 100000000
+            },
+            area: {
+                required: true,
+                min: 10,
+                max: 1000
+            },
+            capacity: {
+                required: true,
+                min: 1,
+                max: 10
+            },
+            address: {
+                required: true,
+                minlength: 5,
+                maxlength: 255
+            },
+        },
+        messages: {
+            title: {
+                required: "Tiêu đề không được để trống",
+                minlength: "Tiêu đề không được dưới 20 kí tự",
+                maxlength: "Tiêu đề không được vượt quá 100 kí tự"
+            },
+            descriptionContent: {
+                required: "Mô tả không được để trống",
+                minlength: "Mô tả không được dưới 20 kí tự",
+                maxlength: "Mô tả không được vượt quá 1000 kí tự",
+            },
+            price: {
+                required: "Giá không được để trống",
+                number: "nhập số",
+                minlength: "Giá không được dưới 100.000 đồng",
+                maxlength: "Giá không được vượt quá 100.000.000 đồng"
+            },
+            area: {
+                required: "Diện tích không được để trống",
+                minlength: "Diện tích không được dưới 10 m2",
+                maxlength: "Diện tích không được vượt quá 1000 m2"
+            },
+            capacity: {
+                required: "Sức chứa không được để trống",
+                minlength: "Sức chứa không được dưới 1 người",
+                maxlength: "Sức chứa không vượt quá 10 người"
+            },
+            address: {
+                required: "Địa chỉ không được để trống",
+                minlength: "Địa chỉ không được dưới 1 kí tự",
+                maxlength: "Địa chỉ không được vượt quá 255 kí tự"
+            },
+        },
+        // errorPlacement: function (error, element) {
+        //     console.log(error)
+        //     error.appendTo(".errorTotal");
+        // },
+        // showErrors: function (errorMap, errorList) {
+        //     console.log(errorList.length)
+        //     if (errorList.length > 0) {
+        //         $("#title .errorTitle").removeClass("hide").addClass("show");
+        //     } else {
+        //         console.log(errorMap)
+        //         $("#title-error").removeClass("error").addClass("hide").empty();
+        //         // $("#frmTransfer input.error").removeClass("error");
+        //     }
+        //     this.defaultShowErrors();
+        // },
+        submitHandler: function (e) {
+            e.preventDefault();
+            doPostRoom();
+        }
     });
+
+    $("#submitPost").on('click', () => {
+        $("#frmPost").trigger('submit');
+    })
+
+    // $("#submitPost").on("click", function (e) {
+    //     e.preventDefault();
+    //     doPostRoom();
+    // });
 
 
     //     $.each($("input[name='utilitiesCheckbox']:checked"), function () {

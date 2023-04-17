@@ -3,6 +3,7 @@ package vn.ohana.category;
 import vn.ohana.category.dto.CategoryResult;
 import vn.ohana.category.dto.CategoryCreationParam;
 import vn.ohana.category.dto.CategoryUpdateParam;
+import vn.ohana.entities.Category;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface CategoryService {
     CategoryResult update(CategoryUpdateParam param);
 
     void deleteById(Long id);
+
+     Category findById(Long id);
 }

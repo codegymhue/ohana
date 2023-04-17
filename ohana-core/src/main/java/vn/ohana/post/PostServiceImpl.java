@@ -1,18 +1,20 @@
 package vn.ohana.post;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vn.ohana.entities.Post;
-import vn.ohana.entities.StatusPost;
+import vn.ohana.category.CategoryService;
+import vn.ohana.entities.*;
+import vn.ohana.location.LocationMapper;
 import vn.ohana.location.dto.DataSearchResult;
-import vn.ohana.post.dto.PostFilterParam;
-import vn.ohana.post.dto.PostResult;
-import vn.ohana.post.dto.PostUpdateParam;
+import vn.ohana.post.dto.*;
 import vn.ohana.user.UserMapper;
+import vn.ohana.user.UserService;
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
@@ -28,18 +30,36 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostMapper postMapper;
-
     @Autowired
     private UserMapper userMapper;
 
     @Autowired
-    private PostRepository postRepository;
+    private LocationMapper locationMapper;
 
+    @Autowired
+    private RentHouseMapper rentHouseMapper;
+
+    @Autowired
+    private UserService userService;
     @Autowired
     private UtilityService utilityService;
 
     @Autowired
+    private PostMediaService postMediaService;
+
+    @Autowired
+    private CategoryService categoryService;
+
+    @Autowired
+    private PostRepository postRepository;
+    @Autowired
     private PostFilterRepository postFilterRepository;
+
+    @Autowired
+    private RentHouseRepository rentHouseRepository;
+
+    @Autowired
+    private PostMediaRepository postMediaRepository;
 
 
     @Override
@@ -151,6 +171,38 @@ public class PostServiceImpl implements PostService {
         dto.setUtilities(newUtilities);
         return dto;
     }
+
+
+
+    @Override
+    @Transactional
+    public PostCreateParam save(PostCreateParam postCreateParam) {
+
+        User user = userService.findById(postCreateParam.getIdUser());
+        Post post = postMapper.toPost(postCreateParam);
+
+        RentHouse rentHouse = rentHouseMapper.toRentHouse(postCreateParam.getRentHouse());
+
+        post.setStatus(StatusPost.PENDING_REVIEW);
+        post.setUser(user);
+
+        rentHouseRepository.save(rentHouse);
+        post.setRentHouse(rentHouse);
+
+//
+       postRepository.save(post);
+//
+        for (String i : postCreateParam.getImages()) {
+            PostMedia postMedia = new PostMedia();
+            postMedia.setId(i);
+            postMedia.setPost(post);
+            postMediaRepository.save(postMedia);
+
+        }
+
+        return postCreateParam;
+    }
+
 
 
 

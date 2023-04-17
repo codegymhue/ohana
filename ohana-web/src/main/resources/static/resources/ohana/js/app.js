@@ -53,7 +53,7 @@ class RentHouse {
         this.price = price;
         this.capacity = capacity;
         this.area = area;
-        this.genderId = gender;
+        this.gender = gender;
     }
 }
 
@@ -83,17 +83,18 @@ class LocationRegion {
 }
 
 class PostDTO {
-    constructor(title, categoryId, description, images, location, rentHouse, poster, utilities, thumbnail, id) {
+    constructor(title, categoryId, descriptionContent, images, location, rentHouse, poster, utilities, thumbnailId, id,idUser) {
         this.id = id;
         this.title = title;
         this.categoryId = categoryId;
-        this.description = description;
-        this.thumbnail = thumbnail;
+        this.descriptionContent = descriptionContent;
+        this.thumbnailId = thumbnailId;
         this.images = images;
         this.location = location;
         this.rentHouse = rentHouse;
         this.poster = poster;
         this.utilities = utilities;
+        this.idUser = idUser;
 
     }
 }
