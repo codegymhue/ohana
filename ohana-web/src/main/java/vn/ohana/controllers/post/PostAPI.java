@@ -43,10 +43,9 @@ public class PostAPI {
     public ResponseEntity<?> findById(@PathVariable Long pId) {
         return new ResponseEntity<>(postService.getById(pId), HttpStatus.OK);
     }
-    @PatchMapping ("/{userId}/users")
-    public ResponseEntity<?> approveAll(@RequestBody Set<Long> ids) {
-        postService.modifyStatusByIds(ids, "PUBLISHED");
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PatchMapping ("/{status}/status")
+    public ResponseEntity<?> updateStatusAll(@PathVariable String status, @RequestBody Set<Long> ids) {
+        return new ResponseEntity<>(postService.modifyStatusByIds(ids, status),HttpStatus.OK);
     }
 
     @PostMapping("/filter")
@@ -66,7 +65,7 @@ public class PostAPI {
     }
 
     @PatchMapping ("/{id}")
-    public ResponseEntity<?> updateStatusById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
+    public ResponseEntity<?> updateById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
         return new ResponseEntity<>( postService.updateStatusById(postUpdateParam), HttpStatus.OK);
     }
 

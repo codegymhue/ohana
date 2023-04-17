@@ -8,6 +8,7 @@ public enum StatusPost {
     PUBLISHED("PUBLISHED"),
     REFUSED("REFUSED"),
     DRAFT("DRAFT"),
+    DELETED("DELETED"),
     OVER_ROOM("OVER_ROOM"),
     EMPTY_ROOM("EMPTY_ROOM");
 
