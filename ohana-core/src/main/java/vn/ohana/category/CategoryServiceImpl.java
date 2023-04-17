@@ -50,6 +50,7 @@ public class CategoryServiceImpl implements CategoryService {
     public CategoryResult create(CategoryCreationParam param) {
         validationByTitle(param.getTitle());
         Category category = categoryMapper.toEntity(param);
+        category.setStatus(StatusCategory.SHOW);
         category = categoryRepository.save(category);
         return categoryMapper.toDTO(category);
     }
