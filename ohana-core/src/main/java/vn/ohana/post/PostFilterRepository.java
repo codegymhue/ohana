@@ -12,6 +12,7 @@ import vn.ohana.entities.*;
 import vn.ohana.post.dto.PostFilterParam;
 
 import javax.persistence.criteria.*;
+import java.time.Instant;
 import java.util.*;
 
 
@@ -98,6 +99,15 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
 
                 }
             }
+
+            if (filter.getCreatedAtStart() != null) {
+                Predicate datePeriodPredicate = criteriaBuilder.between(root.get("createdAt"), filter.getCreatedAtStart(), Instant.now());
+                if (filter.getCreatedAtEnd() != null) {
+                    datePeriodPredicate = criteriaBuilder.between(root.get("createdAt"), filter.getCreatedAtStart(), filter.getCreatedAtEnd());
+                }
+                predicateList.add(datePeriodPredicate);
+            }
+
             return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
         }, pageable);
     }

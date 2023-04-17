@@ -28,7 +28,7 @@ public class Category {
         this.id = id;
     }
 
-    @Column(name = "status")
+    @Column(name = "status", columnDefinition = "VARCHAR(10) DEFAULT 'SHOW'")
     @Enumerated(EnumType.STRING)
     private StatusCategory status;
 }
