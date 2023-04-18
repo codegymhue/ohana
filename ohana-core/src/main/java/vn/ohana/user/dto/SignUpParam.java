@@ -9,10 +9,9 @@ import org.springframework.validation.Validator;
 public class SignUpParam implements Validator {
 
     private String fullName;
-
     private String email;
-
     private String passWord;
+    private String code;
 
     @Override
     public boolean supports(Class<?> clazz) {

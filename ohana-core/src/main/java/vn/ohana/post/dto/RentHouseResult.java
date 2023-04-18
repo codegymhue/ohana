@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class RentHouseResult {
     private Long id;
     private String name;
-    private BigDecimal price;
+    private BigDecimal roomPrice;
     private BigDecimal deposit;
     private BigDecimal electricityPrice;
     private BigDecimal waterPrice;
@@ -30,7 +30,7 @@ public class RentHouseResult {
     public String toString() {
         return "RentHouseParam{" +
                 "name='" + name + '\'' +
-                ", price=" + price +
+                ", roomPrice=" + roomPrice +
                 ", capacity=" + capacity +
                 ", area=" + area +
                 ", gender='" + gender + '\'' +

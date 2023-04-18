@@ -12,7 +12,7 @@ public class MailConfig {
 
     public static final String MY_EMAIL = "ohanaproject2023@gmail.com";
 
-    public static final String MY_PASSWORD = "wbrcyowqqyyatzkl";
+    public static final String MY_PASSWORD = "mikwvelgqujilcqu";
 
     public static final String FRIEND_EMAIL = "anhtrduong@gmail.com";
 

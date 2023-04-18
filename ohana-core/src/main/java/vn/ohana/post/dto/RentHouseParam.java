@@ -13,15 +13,23 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class RentHouseParam {
-    private BigDecimal price;
+    private BigDecimal roomPrice;
     private Long capacity;
     private Long area;
     private Gender gender;
 
+    private BigDecimal electricityPrice;
+
+    private BigDecimal waterPrice;
+
+    private BigDecimal wifiPrice;
+
+    private BigDecimal deposit;
+
     @Override
     public String toString() {
         return "RentHouseParam{" +
-                ", price=" + price +
+                ", roomPrice=" + roomPrice +
                 ", capacity=" + capacity +
                 ", area=" + area +
                 ", gender='" + gender + '\'' +

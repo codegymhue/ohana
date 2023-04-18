@@ -6,8 +6,10 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import vn.ohana.controllers.post.PostAPI;
+import vn.ohana.post.PostService;
 
-import static vn.ohana.config.MailConfig.FRIEND_EMAIL;
+//import static vn.ohana.config.MailConfig.FRIEND_EMAIL;
 
 @Controller
 public class SimpleEmailExampleController {
@@ -19,16 +21,14 @@ public class SimpleEmailExampleController {
     @RequestMapping("/sendSimpleEmail")
     public String sendSimpleEmail() {
 
-        // Create a Simple MailMessage.
         SimpleMailMessage message = new SimpleMailMessage();
 
-        message.setTo(FRIEND_EMAIL);
-        message.setSubject("Test Simple Email");
-        message.setText("Hello, Im testing Simple Email");
+        message.setTo("anhtrduong@gmail.com");
+        message.setSubject("Email thông báo kiểm duyệt bài đăng");
+        message.setText("Bài viết của bạn đã bị khóa!");
 
-        // Send Message!
         this.emailSender.send(message);
 
-        return "Email Sent!";
+        return "redirect:/";
     }
 }

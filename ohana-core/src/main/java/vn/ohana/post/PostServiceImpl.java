@@ -20,10 +20,12 @@ import vn.ohana.user.UserMapper;
 import vn.ohana.user.UserService;
 import vn.ohana.user.UserRepository;
 
+import vn.ohana.user.dto.UserResult;
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
 import vn.rananu.shared.exceptions.NotFoundException;
+import vn.rananu.shared.exceptions.ValidationException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -47,6 +49,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     UserRepository userRepository;
 
@@ -61,6 +64,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
     @Autowired
     private PostFilterRepository postFilterRepository;
 
@@ -161,7 +165,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResult getById(Long pId) {
-
         Post post = findById(pId);
         return addPostResultUtilities(post, post.getUtilities());
     }
@@ -179,7 +182,7 @@ public class PostServiceImpl implements PostService {
         return postMapper.toDTOList(postRepository.getPostsNew());
     }
 
-
+    @Override
     public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException("post.exception.notFound"));
     }
@@ -190,6 +193,7 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user.exception.notFound"));
         return toDtoPage(postRepository.findAllByStatusAndUser(status, user,pageable));
     }
+
 
     @Override
     public Page<PostResult> filter(PostFilterParam filter, Pageable pageable) {
@@ -219,6 +223,21 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostCreateParam save(PostCreateParam postCreateParam) {
 
+        long sizeUtilities = (postCreateParam.getUtilities()).size();
+        long sizeImages = (postCreateParam.getImages()).size();
+
+        if (sizeUtilities < 5) {
+            throw new ValidationException("Tiện ích không được dưới 5");
+        }
+
+        if (postCreateParam.getThumbnailId() == null) {
+            throw new ValidationException("Ảnh đại diện không được để trống");
+        }
+
+        if (sizeImages <5 || sizeImages >10) {
+            throw new ValidationException("Chỉ chấp nhận từ 5 đến 10 hình ảnh");
+        }
+
         User user = userService.findById(postCreateParam.getIdUser());
         Post post = postMapper.toPost(postCreateParam);
 
@@ -226,13 +245,11 @@ public class PostServiceImpl implements PostService {
 
         post.setStatus(StatusPost.PENDING_REVIEW);
         post.setUser(user);
-
         rentHouseRepository.save(rentHouse);
         post.setRentHouse(rentHouse);
 
-//
-       postRepository.save(post);
-//
+        postRepository.save(post);
+
         for (String i : postCreateParam.getImages()) {
             PostMedia postMedia = new PostMedia();
             postMedia.setId(i);

@@ -8,8 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.ResponseBody;
 import vn.ohana.entities.PostMedia;
 import vn.ohana.entities.Role;
 import vn.ohana.entities.User;
@@ -19,9 +23,19 @@ import vn.ohana.post.PostMediaService;
 import vn.ohana.user.dto.*;
 import vn.rananu.shared.exceptions.NotFoundException;
 
+import javax.mail.MessagingException;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+import javax.mail.internet.MimeMessage;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import static vn.ohana.config.MailConfig.MY_EMAIL;
+
+import static vn.ohana.config.MailConfig.FRIEND_EMAIL;
+import static vn.ohana.config.MailConfig.MY_EMAIL;
 
 @Service
 public class UserServiceImpl implements UserService, UserDetailsService {
@@ -42,6 +56,10 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     PostMediaService postMediaService;
+
+    @Autowired
+    public JavaMailSender emailSender;
+
 
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
@@ -225,13 +243,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserResult signUp(SignUpParam signUpParam) {
+    public UserResult signUp(String url,SignUpParam signUpParam) throws MessagingException, UnsupportedEncodingException {
 //        check email tồn tại hay chưa
 //        Lưu user
 //        set các trường mặc định
-//        chuyển DTO và trả về
-        String password = signUpParam.getPassWord();
-
+//        chuyển DTO,send mail và trả về
         boolean exists = existsByEmail(signUpParam.getEmail());
         if (exists) {
             throw new RuntimeException("Email da ton tai");
@@ -242,8 +258,14 @@ public class UserServiceImpl implements UserService, UserDetailsService {
             user.setPassword(signUpParam.getPassWord());
             user.setStatus(UserStatus.CONFIRM_EMAIL);
             user.setRole(Role.USER);
+            int code = (int) Math.floor(((Math.random() * 899999) + 100000));
+            user.setCode(String.valueOf(code));
             userRepository.save(user);
-            return userMapper.toUserDTO(user);
+            UserResult userResult = userMapper.toUserDTO(user);
+
+            sendMail(url,userResult);
+
+            return userResult;
         }
     }
 
@@ -251,4 +273,62 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return findUserPrincipleByEmail(username);
     }
+
+    @ResponseBody
+    public void sendMail(String url, UserResult UserResult) throws MessagingException, UnsupportedEncodingException {
+
+        String toAddress = UserResult.getEmail();
+        String subject = "XÁC THỰC TÀI KHOẢN OHANA";
+
+
+        String content = "Dear " + UserResult.getFullName() + "," + "<br>"
+                + "Vui lòng click vào đường link để xác thực tài khoản:  "
+                + url + "/verify?code=" + UserResult.getCode() + "<br>"
+                + "Xin chân thành cảm ơn, <br>"
+                + "Ohana team.";
+
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message);
+
+        helper.setFrom(MY_EMAIL, "Ohana");
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+
+//        content = content.replace("[name]", UserResult.getFullName());
+//        String verifyURL = url + "/verify?code=" + UserResult.getCode();
+//        content = content.replace("[URL]", verifyURL);
+        helper.setText(content, true);
+        emailSender.send(message);
+
+
+
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(FRIEND_EMAIL);
+//        message.setSubject("XÁC THỰC TÀI KHOẢN OHANA");
+//
+//        String content = "Dear " + UserResult.getFullName() + "</br>" +
+//                "Vui lòng click vào link để xác thực tài khoản: " + url + "/verify?code=" + UserResult.getCode() +
+//                " Xin chân thành cảm ơn!!!" +
+//                "Ohana Team";
+//        message.setText(content);
+//        this.emailSender.send(message);
+    }
+
+
+    @Override
+    public boolean findByCode(String code) {
+        User user = userRepository.findByCode(code);
+
+        if (user != null) {
+            user.setCode(null);
+            user.setStatus(UserStatus.ACTIVATED);
+            userRepository.save(user);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
 }

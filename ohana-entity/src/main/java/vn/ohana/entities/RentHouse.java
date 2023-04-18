@@ -20,8 +20,8 @@ public class RentHouse {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "price", precision = 14)
-    private BigDecimal price;
+        @Column(name = "room_price", precision = 14)
+    private BigDecimal roomPrice;
 
     @Column(name = "deposit", precision = 14)
     private BigDecimal deposit;
