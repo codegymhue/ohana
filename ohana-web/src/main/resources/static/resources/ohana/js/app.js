@@ -129,7 +129,7 @@ function showSuccess(msg) {
         icon: 'success',
         title: msg,
         showConfirmButton: false,
-        timer: 1500
+        timer: 3000
     });
 }
 

@@ -22,4 +22,6 @@ public class UserResult {
     private Instant lastLogin;
     private String thumbnailId;
     private UserStatus status;
+    private String code;
+
 }
