@@ -6,6 +6,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import vn.ohana.controllers.post.PostAPI;
+import vn.ohana.post.PostService;
 
 //import static vn.ohana.config.MailConfig.FRIEND_EMAIL;
 
