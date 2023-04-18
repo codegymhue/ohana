@@ -10,6 +10,7 @@ import vn.ohana.entities.User;
 import vn.ohana.user.dto.UserFilterParam;
 
 import javax.persistence.criteria.Predicate;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,7 +23,7 @@ public interface UserFilterRepository extends JpaRepository<User,Long>, JpaSpeci
             Predicate notAdminPredicate = criteriaBuilder.not(criteriaBuilder.equal(root.get("role"), Role.ADMIN));
             predicateList.add(notAdminPredicate);
 
-            if (filter.getKeyword()!=null || filter.getKeyword().trim().length() != 0) {
+            if (filter.getKeyword()!=null && filter.getKeyword().trim().length() != 0) {
                 Predicate fullNamePredicate = criteriaBuilder.like(root.get("fullName"),"%" + filter.getKeyword() + "%");
                 Predicate emailPredicate = criteriaBuilder.like(root.get("email"),"%" + filter.getKeyword() + "%");
                 Predicate addressPredicate = criteriaBuilder.like(root.get("address"),"%" + filter.getKeyword() + "%");
@@ -40,6 +41,14 @@ public interface UserFilterRepository extends JpaRepository<User,Long>, JpaSpeci
             if (filter.getStatus()!=null) {
                 Predicate statusListPredicate = criteriaBuilder.equal(root.get("status"),filter.getStatus());
                 predicateList.add(statusListPredicate);
+            }
+
+            if (filter.getCreatedAtStart() != null) {
+                Predicate datePeriodPredicate = criteriaBuilder.between(root.get("createdAt"), filter.getCreatedAtStart(), Instant.now());
+                if (filter.getCreatedAtEnd() != null) {
+                    datePeriodPredicate = criteriaBuilder.between(root.get("createdAt"), filter.getCreatedAtStart(), filter.getCreatedAtEnd());
+                }
+                predicateList.add(datePeriodPredicate);
             }
             return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
         },pageable);

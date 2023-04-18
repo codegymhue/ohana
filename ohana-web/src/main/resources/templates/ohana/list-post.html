@@ -13,11 +13,11 @@
     <div class="_3bjUj">
 
         <!--header-->
-        <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
+        <th:block th:replace="/ohana/layout/header :: header(${userResult})"/>
     </div>
 
     <div class="body ">
-        <div class="row align-items-start">
+        <div class="row align-items-start" style="flex: 1">
             <br>
             <th:block th:replace="/ohana/layout/list/status-post :: status-post"/>
 
@@ -41,7 +41,7 @@
                 </div>
             </div>
             <label id="notification"></label>
-            <table class="table align-middle mb-0 bg-white" id="tbPost" style="width: 1080px">
+            <table class="table align-middle mb-0 bg-white" id="tbPost" style="width: 100%">
                 <thead class="bg-light">
 
                 </thead>
@@ -55,19 +55,22 @@
 <th:block th:replace="/ohana/layout/footer :: footer"/>
 
 <th:block th:replace="/ohana/layout/script :: script"/>
-<script>
+<script th:inline="javascript">
+    let userId = Number([[${userResult.id}]]);
     let page = {
         url: {
-            getAllPostPublished: App.BASE_URL_API + "/posts/list-post-published",
-            getAllPendingReview: App.BASE_URL_API + "/posts/list-post-pending-review",
-            getAllRefused: App.BASE_URL_API + "/posts/list-post-refused",
+            getAllPostPublished: App.BASE_URL_API + "/posts/" + userId + "/user/PUBLISHED/status?page=0&size=10",
+            getAllPendingReview: App.BASE_URL_API + "/posts/" + userId + "/user/PENDING_REVIEW/status?page=0&size=10",
+            getAllRefused: App.BASE_URL_API + "/posts/" + userId + "/user/REFUSED/status?page=0&size=10",
+            getAllOverRoom: App.BASE_URL_API + "/posts/" + userId + "/user/OVER_ROOM/status?page=0&size=10",
             getPostById: App.BASE_URL_API + "/posts/",
             // getAllCategories: App.BASE_URL_API + "/categories",
             // getAllUtilities: App.BASE_URL_API + "/utilities",
             getAllProvinces: App.BASE_URL_PROVINCE,
             doCreatePost: App.BASE_URL_API + "/posts/postNews",
-            doUpdateStatus: App.BASE_URL_API + "/posts/edit-status-rent-house",
-            doDelete: App.BASE_URL_API + "/posts/delete",
+            doUpdateStatus: App.BASE_URL_API + "/posts/",
+            doDelete: App.BASE_URL_API + "/posts/",
+
 
         },
         element: {},
@@ -83,6 +86,10 @@
 
     $("#btnPostPublished").on('click', function () {
         page.commands.getAllPostPublished();
+    })
+
+    $("#btnPostOverRoom").on('click', function () {
+        page.commands.getAllPostOverRoom();
     })
 
     $("#btnPendingReview").on('click', function () {
@@ -125,17 +132,16 @@
             url: page.url.getAllPostPublished
         }).done(function (data) {
             $("#notification").html('');
-            let srt = ` <label id="notification">Tổng số :${data.length}</label>`
+            let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `<tr>
                             <th class= "col-2">Tên bài đăng</th>
-                            <th class= "col-3">Địa chỉ</th>
+                            <th class= "col-5">Địa chỉ</th>
                             <th class= "col-1">Giá</th>
-                            <th class= "col-2">Ngày đăng</th>
-                             <th class= "col-2">Đường dẫn</th>
-                            <th colspan="2" class= "col-2">Trạng thái</th>
-                             <th class= "col-2"></th>
+                            <th class= "col-1">Ngày đăng</th>
+                            <th class= "col-1">Đường dẫn</th>
+                            <th colspan="4" class= "col-1">Trạng thái</th>
                        </tr>`;
             $("#tbPost thead").prepend(tr);
             $("#tbPost tbody").html('');
@@ -146,7 +152,7 @@
                     $("#tbPost tbody").prepend(str);
                 }
             }
-            data.forEach((item) => {
+            data.content.forEach((item) => {
                 post = item;
                 user = post.user;
                 locationResult = post.location;
@@ -156,46 +162,142 @@
                 } else {
                     rentHouse.status = "Còn phòng"
                 }
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
+
                 let str = `  <tr id="tr_${post.id}">
                     <td class= "col-2">
                         <div class="d-flex align-items-center">
-                            <img src="${post.thumbnailUrl.fileUrl}" alt=""
+                            <img src="${image_thumbnail}" alt=""
                                  style="width: 45px; height: 45px" class="rounded-circle"/>
                             <div class="ms-3">
                                 <p class="fw-bold mb-1">${post.title}</p>
                             </div>
                         </div>
                     </td>
-                    <td class= "col-3">
-                        <p class="fw-normal mb-1">${locationResult.locationDetail}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
+                    <td class= "col-5">
+                        <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
-
                     <td class= "col-1">
-                        <p class="fw-normal mb-1">${rentHouse.price}</p>
+                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.price)} VNĐ</p>
                     </td>
-                    <td>
+                    <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
                     </td>
-                    <td class= "col-2">
-                    <a href="/room/${post.id}">
-                      <i style="text-decoration:none" class="far fa-arrow-alt-circle-right" ></i>
-                    </a>
-                    <td class= "col-2">
-                        <a type="button" class="btn btn-outline-success btn-status" data-id="${post.id}"
-                         >
-                            ${rentHouse.status}
+                    <td class= "col-1">
+                        <a href="/${post.id}/room">
+                          <i style="text-decoration:none" class="far fa-arrow-alt-circle-right" ></i>
                         </a>
                     </td>
-                    <td class= "col-2">
+
+                    <td >
+                        <a type="button" class="btn btn-outline-warning btn-status" style="min-width: 120px " data-id="${post.id}">
+                            Hết phòng
+                        </a>
+                    </td>
+                    <td >
                         <a href="/edit/${post.id}" type="button" class="btn btn-outline-primary btn-edit" >
                             Sửa
                         </a>
                     </td>
-                    <td class= "col-2">
+                    <td >
                         <a type="button" class="btn btn-outline-danger btn-delete" data-id="${post.id}" >
                             Xóa
                         </a>
                     </td>
+
+
+                </tr>`;
+                $("#tbPost tbody").prepend(str);
+            });
+
+            // editPost();
+            handlerShowConfirmRefused();
+            handlerDelete();
+        }).fail(function () {
+            showError('Error')
+        })
+    }
+
+    page.commands.getAllPostOverRoom = () => {
+        $.ajax({
+            type: "GET",
+            url: page.url.getAllOverRoom
+        }).done(function (data) {
+            $("#notification").html('');
+            let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
+            $("#notification").prepend(srt);
+            $("#tbPost thead").html('');
+            let tr = `<tr>
+                            <th class= "col-2">Tên bài đăng</th>
+                            <th class= "col-6">Địa chỉ</th>
+                            <th class= "col-1">Giá</th>
+                            <th class= "col-1">Ngày đăng</th>
+                            <th class= "col-1">Đường dẫn</th>
+                            <th colspan="3" class= "col-1">Trạng thái</th>
+                       </tr>`;
+            $("#tbPost thead").prepend(tr);
+            $("#tbPost tbody").html('');
+            let sizeDefault = 10;
+            if (data.length < sizeDefault) {
+                for (let i = 0; i < 10 - data.length; i++) {
+                    let str = `</br>`;
+                    $("#tbPost tbody").prepend(str);
+                }
+            }
+            data.content.forEach((item) => {
+                post = item;
+                user = post.user;
+                locationResult = post.location;
+                rentHouse = post.rentHouse;
+                if (rentHouse.status) {
+                    rentHouse.status = "Hết phòng"
+                } else {
+                    rentHouse.status = "Còn phòng"
+                }
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
+
+                let str = `  <tr id="tr_${post.id}">
+                    <td class= "col-2">
+                        <div class="d-flex align-items-center">
+                            <img src="${image_thumbnail}" alt=""
+                                 style="width: 45px; height: 45px" class="rounded-circle"/>
+                            <div class="ms-3">
+                                <p class="fw-bold mb-1">${post.title}</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class= "col-6">
+                        <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
+                    </td>
+                    <td class= "col-1">
+                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.price)} VNĐ</p>
+                    </td>
+                    <td class= "col-1">
+                        <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
+                    </td>
+                    <td class= "col-1">
+                        <a href="/${post.id}/room">
+                          <i style="text-decoration:none" class="far fa-arrow-alt-circle-right" ></i>
+                        </a>
+                    </td>
+
+                    <td >
+                        <a type="button" class="btn btn-outline-success btn-status" style="min-width: 120px " data-id="${post.id}">
+                            Còn phòng
+                        </a>
+                    </td>
+                    <td >
+                        <a href="/edit/${post.id}" type="button" class="btn btn-outline-primary btn-edit" >
+                            Sửa
+                        </a>
+                    </td>
+                    <td >
+                        <a type="button" class="btn btn-outline-danger btn-delete" data-id="${post.id}" >
+                            Xóa
+                        </a>
+                    </td>
+
+
                 </tr>`;
                 $("#tbPost tbody").prepend(str);
             });
@@ -214,15 +316,15 @@
             url: page.url.getAllPendingReview
         }).done(function (data) {
             $("#notification").html('');
-            let srt = ` <label id="notification">Tổng số :${data.length}</label>`
+            let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `
                 <tr>
-                    <th class= "col-3">Tên bài đăng</th>
-                    <th class= "col-4">Địa chỉ</th>
+                    <th class= "col-2">Tên bài đăng</th>
+                    <th class= "col-6">Địa chỉ</th>
                     <th class= "col-2">Giá</th>
-                    <th class= "col-3">Ngày đăng</th>
+                    <th class= "col-2">Ngày đăng</th>
 
                 </tr>`;
             $("#tbPost thead").prepend(tr);
@@ -234,28 +336,30 @@
                     $("#tbPost tbody").prepend(str);
                 }
             }
-            data.forEach((item) => {
+            let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
+
+            data.content.forEach((item) => {
                 post = item;
                 user = post.user;
                 locationResult = post.location;
                 rentHouse = post.rentHouse;
                 let str = `     <tr>
-                    <td class= "col-3">
+                    <td class= "col-2">
                         <div class="d-flex align-items-center">
-                            <img src="${post.thumbnailUrl.fileUrl}" alt=""
+                            <img src="${image_thumbnail}" alt=""
                                  style="width: 45px; height: 45px" class="rounded-circle"/>
                             <div class="ms-3">
                                 <p class="fw-bold mb-1">${post.title}</p>
                             </div>
                         </div>
                     </td>
-                    <td class= "col-4">
-                               <p class="fw-normal mb-1">${locationResult.locationDetail}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
+                    <td class= "col-6">
+                               <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                      <td class= "col-2">
-                        <p class="fw-normal mb-1">${rentHouse.price}</p>
+                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.price)} VNĐ</p>
                     </td>
-                    <td>
+                    <td class= "col-2">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
                     </td>
                 </tr>`;
@@ -273,14 +377,15 @@
             url: page.url.getAllRefused
         }).done(function (data) {
             $("#notification").html('');
-            let srt = ` <label id="notification">Tổng số :${data.length}</label>`
+            let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `<tr>
                 <th class= "col-3">Tên bài đăng</th>
-                <th class= "col-4">Địa chỉ</th>
-                <th class= "col-2">Giá</th>
-                <th class= "col-3">Ngày đăng</th>
+                <th class= "col-6">Địa chỉ</th>
+                <th class= "col-1">Giá</th>
+                <th class= "col-1">Ngày đăng</th>
+                <th class= "col-1">Trạng thái</th>
 
            </tr>`;
             $("#tbPost thead").prepend(tr);
@@ -292,33 +397,41 @@
                     $("#tbPost tbody").append(str);
                 }
             }
-            data.forEach((item) => {
+            let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
+
+            data.content.forEach((item) => {
                 post = item;
                 user = post.user;
                 locationResult = post.location;
                 rentHouse = post.rentHouse;
-                let str = `     <tr>
+                let str = `<tr class="col-12">
                     <td class= "col-3">
                         <div class="d-flex align-items-center">
-                            <img src="${post.thumbnailUrl.fileUrl}" alt=""
+                            <img src="${image_thumbnail}" alt=""
                                  style="width: 45px; height: 45px" class="rounded-circle"/>
                             <div class="ms-3">
                                 <p class="fw-bold mb-1">${post.title}</p>
                             </div>
                         </div>
                     </td>
-                    <td class= "col-4">
-                                <p class="fw-normal mb-1">${locationResult.locationDetail}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
+                    <td class= "col-6">
+                                <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
-                     <td class= "col-2">
-                        <p class="fw-normal mb-1">${rentHouse.price}</p>
+                     <td class= "col-1">
+                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.price)} VNĐ</p>
                     </td>
-                    <td>
+                    <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
+                    </td>
+                    <td class= "col-1">
+                        <a type="button" class="btn btn-outline-danger btn-delete" style="min-width: 120px" data-id="${post.id}" >
+                            Xóa
+                        </a>
                     </td>
                 </tr>`;
                 $("#tbPost tbody").prepend(str);
             });
+            handlerDelete();
 
         }).fail(function () {
             showError('Error')
@@ -350,7 +463,7 @@
     }
 
     function handlerDelete() {
-        $("a.btn-delete").on('click', function () {
+        $(".btn-delete").on('click', function () {
             let postId = +$(this).data("id");
             Swal.fire({
                 title: 'Xóa bài viết',
@@ -373,14 +486,35 @@
 
 
     function doUpdateStatus(postId, element) {
+        let fomrData;
+        if (post.status == "PUBLISHED"){
+            fomrData ={
+                status: "OVER_ROOM",
+                id: postId
+            }
+        }else if (post.status == "OVER_ROOM"){
+            fomrData ={
+                status: "PUBLISHED",
+                id: postId
+            }
+        }
         $.ajax({
-            type: "PUT",
-            url: page.url.doUpdateStatus + "/" + postId
+            type: "PATCH",
+            url: page.url.doUpdateStatus + postId,
+            data:JSON.stringify(fomrData),
+            headers: {
+                "Content-Type": "application/json"
+            },
         }).done(function (data) {
-            if (data.rentHouse.status) {
-                element.innerText = "Hết phòng"
-            } else {
-                element.innerText = "Còn phòng"
+            Swal.fire(
+                'Cập nhật!',
+                'Cập nhật trạng thái bài viết thành công.',
+                'success'
+            )
+            if (post.status == "PUBLISHED"){
+                page.commands.getAllPostPublished();
+            }else if (post.status == "OVER_ROOM"){
+                page.commands.getAllPostOverRoom();
             }
         }).fail(function () {
             showErrors("Không thể cập nhật trạng thái lúc này")
@@ -389,15 +523,26 @@
 
     function doDelete(postId) {
         $.ajax({
-            type: "DELETE",
-            url: page.url.doDelete + "/" + postId,
+            type: "PATCH",
+            url: page.url.doDelete + postId,
+            data:JSON.stringify({
+                status: "DELETED",
+                id: postId
+            }),
+            headers: {
+                "Content-Type": "application/json"
+            },
         }).done(function () {
-            $("#tr_" + postId).remove();
             Swal.fire(
                 'Xóa!',
                 'Xoá bài viết thành công.',
                 'success'
             )
+            if (post.status == "PUBLISHED"){
+                page.commands.getAllPostPublished();
+            }else if (post.status == "REFUSED"){
+                page.commands.getAllRefused();
+            }
             // showSuccess("hf")
         }).fail(function () {
             Swal.fire({

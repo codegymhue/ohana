@@ -8,6 +8,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import vn.ohana.entities.Post;
+import vn.ohana.entities.StatusPost;
 import vn.ohana.entities.User;
 import vn.ohana.post.dto.PostResult;
 
@@ -26,4 +27,5 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     List<Post> getPostsNew();
 
 
+    Page<Post> findAllByStatusAndUser(StatusPost statusPost, User user, Pageable pageable);
 }

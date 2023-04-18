@@ -1,12 +1,15 @@
 package vn.ohana.controllers.post;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.entities.Post;
+import vn.ohana.entities.StatusPost;
+import vn.ohana.entities.User;
 import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.PostRepository;
 import vn.ohana.post.PostService;
@@ -43,10 +46,9 @@ public class PostAPI {
     public ResponseEntity<?> findById(@PathVariable Long pId) {
         return new ResponseEntity<>(postService.getById(pId), HttpStatus.OK);
     }
-    @PatchMapping ("/{userId}/users")
-    public ResponseEntity<?> approveAll(@RequestBody Set<Long> ids) {
-        postService.modifyStatusByIds(ids, "PUBLISHED");
-        return new ResponseEntity<>(HttpStatus.OK);
+    @PatchMapping ("/{status}/status")
+    public ResponseEntity<?> updateStatusAll(@PathVariable String status, @RequestBody Set<Long> ids) {
+        return new ResponseEntity<>(postService.modifyStatusByIds(ids, status),HttpStatus.OK);
     }
 
     @PostMapping("/filter")
@@ -66,19 +68,25 @@ public class PostAPI {
     }
 
     @PatchMapping ("/{id}")
-    public ResponseEntity<?> updateStatusById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
+    public ResponseEntity<?> updateById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
         return new ResponseEntity<>( postService.updateStatusById(postUpdateParam), HttpStatus.OK);
     }
 
     @GetMapping("/postsNew")
     public ResponseEntity<?> getPostsNew() {
-        return new ResponseEntity<>(HttpStatus.OK);
+        return new ResponseEntity<>(postService.getTop10PostsNew(),HttpStatus.OK);
     }
 
     @PostMapping("/postsNew")
     public ResponseEntity<?> doPostsNew(@RequestBody PostCreateParam postCreateParam) {
-        postService.save(postCreateParam);
-        return new ResponseEntity<>(HttpStatus.OK);
+        ;
+        return new ResponseEntity<>(postService.save(postCreateParam),HttpStatus.OK);
     }
 
+    @GetMapping("/{uId}/user/{status}/status")
+    public ResponseEntity<?> listPublished(@PathVariable Long uId, @PathVariable String status, @RequestParam(name = "page") int page, @RequestParam(name = "size") int size) throws IOException {
+        StatusPost statusPost = StatusPost.parseStatusPosts(status);
+        Page<PostResult> postResults = postService.findAllByStatusAndUser(statusPost, uId, PageRequest.of(page, size));
+        return new ResponseEntity<>(postResults, HttpStatus.OK);
+    }
 }

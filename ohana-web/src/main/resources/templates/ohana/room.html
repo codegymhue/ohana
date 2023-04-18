@@ -15,7 +15,7 @@
 </head>
 
 <body>
-<th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
+<th:block th:replace="/ohana/layout/header :: header(${userResult})"/>
 
 <!-- Modal Share-->
 <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -192,7 +192,8 @@
                         <div class="_2zScZ">
                             <div class="_70zUr">
                                 <p>Giá phòng</p>
-                                <p th:text="${post.rentHouse.price} + ' đồng'"></p>
+
+                                <p th:text="${#numbers.formatCurrency(post.rentHouse.price)}"></p>
                             </div>
                             <div class="_70zUr">
                                 <p>Diện tích</p>
@@ -200,7 +201,7 @@
                             </div>
                             <div class="_70zUr">
                                 <p>Đặt cọc</p>
-                                <p th:text="${post.rentHouse.deposit} +' đồng'"></p>
+                                <p th:text="${#numbers.formatCurrency(post.rentHouse.deposit)}"></p>
                             </div>
                             <div class="_70zUr">
                                 <p>Sức chứa</p>
@@ -210,15 +211,15 @@
                         <div class="_2zScZ">
                             <div class="_70zUr">
                                 <p>Điện</p>
-                                <p th:text="${post.rentHouse.electricityPrice} + ' đồng'"></p>
+                                <p th:text="${#numbers.formatCurrency(post.rentHouse.electricityPrice)}"></p>
                             </div>
                             <div class="_70zUr">
                                 <p>Nước</p>
-                                <p th:text="${post.rentHouse.waterPrice} + ' đồng'"></p>
+                                <p th:text="${#numbers.formatCurrency(post.rentHouse.waterPrice)}"></p>
                             </div>
                             <div class="_70zUr">
                                 <p>WIFI</p>
-                                <p th:text="${post.rentHouse.wifiPrice}!=0?post.rentHouse.wifiPrice + ' đồng': 'Miễn Phí' "></p>
+                                <p th:text="${post.rentHouse.wifiPrice}!=0?${#numbers.formatCurrency(post.rentHouse.wifiPrice)}: 'Miễn Phí' "></p>
                             </div>
                             <div class="_70zUr">
                                 <p>Trạng thái</p>

@@ -15,6 +15,7 @@ import java.time.Instant;
 @Setter
 @Entity
 @Table(name = "users")
+
 @Accessors(chain = true)
 public class User extends BaseEntity {
     @Id
@@ -53,6 +54,9 @@ public class User extends BaseEntity {
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private UserStatus status;
+
+//    @Column(name = "verification_code")
+//    private String code;
 
     public User(Long poster) {
         this.id = poster;

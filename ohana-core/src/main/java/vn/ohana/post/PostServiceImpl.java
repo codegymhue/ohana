@@ -11,10 +11,15 @@ import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.category.CategoryService;
 import vn.ohana.entities.*;
 import vn.ohana.location.LocationMapper;
+import vn.ohana.entities.Post;
+import vn.ohana.entities.StatusPost;
+import vn.ohana.entities.User;
 import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.post.dto.*;
 import vn.ohana.user.UserMapper;
 import vn.ohana.user.UserService;
+import vn.ohana.user.UserRepository;
+
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
@@ -38,10 +43,14 @@ public class PostServiceImpl implements PostService {
     private LocationMapper locationMapper;
 
     @Autowired
+
     private RentHouseMapper rentHouseMapper;
 
     @Autowired
     private UserService userService;
+    @Autowired
+    UserRepository userRepository;
+
     @Autowired
     private UtilityService utilityService;
 
@@ -71,8 +80,35 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Map<Long, String> modifyStatusByIds(Set<Long> ids, String published) {
-        return null;
+    @Transactional
+    public Map<String, List<Long>> modifyStatusByIds(Set<Long> ids, String status) {
+
+        StatusPost statusPost = StatusPost.parseStatusPosts(status);
+
+        Map<String, List<Long>> result = new HashMap<>();
+
+        List<Long> successIds = new ArrayList<>();
+        List<Long> failIds = new ArrayList<>();
+
+        Iterable<Post> entities = postRepository.findAllById(ids);
+        entities.forEach(entity -> {
+            entity.setStatus(statusPost);
+            successIds.add(entity.getId());
+        });
+        result.put("succeed", successIds);
+
+        List<Long> entityIds = StreamSupport
+                .stream(entities.spliterator(), false)
+                .map(Post::getId)
+                .collect(Collectors.toList());
+
+        ids.forEach(id -> {
+            if (!entityIds.contains(id)) {
+                failIds.add((id));
+            }
+        });
+        result.put("failed", failIds);
+        return result;
     }
 
     public Page<PostResult> insertUtilityResultList(Page<Post> page) {
@@ -149,6 +185,13 @@ public class PostServiceImpl implements PostService {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException("post.exception.notFound"));
     }
 
+
+    @Override
+    public Page<PostResult> findAllByStatusAndUser(StatusPost status, Long id, Pageable pageable) {
+        User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user.exception.notFound"));
+        return toDtoPage(postRepository.findAllByStatusAndUser(status, user,pageable));
+    }
+
     @Override
     public Page<PostResult> filter(PostFilterParam filter, Pageable pageable) {
         Page<Post> page = postFilterRepository.findAllByFilters(filter, pageable);
@@ -214,7 +257,6 @@ public class PostServiceImpl implements PostService {
 
         return postCreateParam;
     }
-
 
 }
 

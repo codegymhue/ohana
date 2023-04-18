@@ -22,6 +22,7 @@ import vn.rananu.shared.controllers.BaseController;
 import vn.rananu.shared.exceptions.ValidationException;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.IOException;
@@ -116,7 +117,8 @@ public class LoginControllers extends BaseController {
     }
 
     @PostMapping("/sign-up")
-    public Object doSignUp(@ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute SignUpParam signUpParam, Model model, HttpServletResponse response) throws GeneralSecurityException, IOException {
+    public Object doSignUp(HttpServletRequest request, @ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute SignUpParam signUpParam, Model model, HttpServletResponse response) throws GeneralSecurityException, IOException {
+        System.out.println(request.getRequestURL().toString());
         ModelAndView modelAndView = new ModelAndView("/ohana/sign-up");
         Cookie cookie;
 

@@ -5,6 +5,8 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.PostMedia;
@@ -39,6 +41,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     PostMediaService postMediaService;
+
+    @Autowired
+    public JavaMailSender emailSender;
 
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
@@ -220,6 +225,18 @@ public class UserServiceImpl implements UserService {
 //        Lưu user
 //        set các trường mặc định
 //        chuyển DTO và trả về
+//        SimpleMailMessage message = new SimpleMailMessage();
+//        message.setTo(signUpParam.getEmail());
+//        message.setSubject("PLEASE VERIFY YOUR OHANA EMAIL");
+//        message.setText("Hello, Im testing Simple Email");
+//        String content = "Dear [[name]],<br>"
+//                + "Please click the link below to verify your registration:<br>"
+//                + "<h3><a href=\"[[URL]]\" target=\"_self\">VERIFY</a></h3>"
+//                + "Thank you,<br>"
+//                + "Your company name.";
+//        content = content.replace("[[name]]", signUpParam.getFullName());
+//        String verifyURL = siteURL + "/verify?code=" + signUpParam.getVerificationCode();
+
         String password = signUpParam.getPassWord();
 
         boolean exists = existsByEmail(signUpParam.getEmail());
