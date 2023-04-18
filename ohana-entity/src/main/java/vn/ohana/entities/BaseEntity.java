@@ -32,4 +32,5 @@ public abstract class BaseEntity implements Serializable {
     public void preUpdate() {
         updatedAt = Instant.now();
     }
+
 }

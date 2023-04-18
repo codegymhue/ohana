@@ -20,6 +20,7 @@ import vn.ohana.user.UserMapper;
 import vn.ohana.user.UserService;
 import vn.ohana.user.UserRepository;
 
+import vn.ohana.user.dto.UserResult;
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
@@ -48,6 +49,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     UserRepository userRepository;
 
@@ -62,6 +64,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
     @Autowired
     private PostFilterRepository postFilterRepository;
 
@@ -162,7 +165,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResult getById(Long pId) {
-
         Post post = findById(pId);
         return addPostResultUtilities(post, post.getUtilities());
     }
@@ -180,7 +182,7 @@ public class PostServiceImpl implements PostService {
         return postMapper.toDTOList(postRepository.getPostsNew());
     }
 
-
+    @Override
     public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException("post.exception.notFound"));
     }
@@ -191,6 +193,7 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user.exception.notFound"));
         return toDtoPage(postRepository.findAllByStatusAndUser(status, user,pageable));
     }
+
 
     @Override
     public Page<PostResult> filter(PostFilterParam filter, Pageable pageable) {
