@@ -8,6 +8,7 @@ import vn.ohana.post.dto.PostCreateParam;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
+import vn.ohana.user.dto.UserResult;
 import vn.ohana.user.dto.UserUpdateParam;
 
 import java.util.List;
@@ -22,9 +23,11 @@ public interface PostService {
     Map<String, List<Long>> modifyStatusByIds(Set<Long> ids, String published);
 
     Page<PostResult> filter(PostFilterParam filter, Pageable pageable);
+
     void postEdit(PostUpdateParam postUpdateParam);
 
     Page<PostResult> findAllByUser(UserUpdateParam user, Pageable pageable);
+
     Page<PostResult> filterPublishedPosts(PostFilterParam filter, Pageable pageable);
 
     PostResult getById(Long pId);
@@ -34,6 +37,7 @@ public interface PostService {
     List<PostResult>  getTop10PostsNew();
 
     PostCreateParam save(PostCreateParam postCreateParam);
+
     Post findById(Long id);
 
     Page<PostResult> findAllByStatusAndUser(StatusPost status, Long id, Pageable pageable);
