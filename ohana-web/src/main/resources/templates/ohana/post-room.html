@@ -90,28 +90,31 @@
                 </div>
             </div>
             <div class="d-flex col-md-12">
-                <div class="col-md-6 px-2 errorTotal">
+                <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Loại phòng</label>
                     <select type="text" class="form-select" name="category" id="category" th:field="${postCreateParam.categoryId}">
                     </select>
                 </div>
-                <div class="col-md-6 px-2 errorTotal">
+                <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Giới Tính</label>
                     <select type="text" class="form-select" id="gender" name="gender"
                             th:field="${postCreateParam.rentHouse.gender}">
                     </select>
                 </div>
-            </div>
-            <div class="d-flex col-md-12">
-
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Sức chứa</label>
                     <input type="number" class="form-control" id="capacity" name="capacity"
                            th:field="${postCreateParam.rentHouse.capacity}">
                 </div>
+            </div>
+            <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Giá phòng (Đơn vị: VNĐ/Tháng)</label>
                     <input type="number" class="form-control" id="roomPrice"  name="roomPrice" th:field="${postCreateParam.rentHouse.roomPrice}">
+                </div>
+                <div class="col-md-4 px-2 errorTotal">
+                    <label class="m-1">Tiền cọc (Đơn vị: VNĐ/Tháng)</label>
+                    <input type="number" class="form-control" id="deposit" name="deposit" th:field="${postCreateParam.rentHouse.deposit}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Diện tích (m2)</label>
@@ -292,6 +295,7 @@
     page.dialogs.elements.electricityPrice = $('#electricityPrice');
     page.dialogs.elements.waterPrice = $('#waterPrice');
     page.dialogs.elements.wifiPrice = $('#wifiPrice');
+    page.dialogs.elements.deposit = $('#deposit');
 
     page.dialogs.elements.utilities = $('#utilities');
 
@@ -476,6 +480,7 @@
         $("#title").val("");
         $("#descriptionContent").val("");
         $("#roomPrice").val("");
+        $("#deposit").val("");
         $("#area").val("");
         $("#capacity").val("");
         $("#gender").val("");
@@ -514,6 +519,7 @@
         location.line1 = $("#line1").val();
 
         rentHouse.roomPrice = $("#roomPrice").val();
+        rentHouse.deposit = $("#deposit").val();
         rentHouse.area = $("#area").val();
         rentHouse.capacity = $("#capacity").val();
         rentHouse.gender = $("#gender").val();
@@ -575,6 +581,12 @@
                 required: true,
             },
             "rentHouse.roomPrice": {
+                required: true,
+                number: true,
+                min: 100000,
+                max: 100000000
+            },
+            "rentHouse.deposit": {
                 required: true,
                 number: true,
                 min: 100000,
@@ -643,6 +655,12 @@
                 required: "Vui lòng chọn giới tính",
             },
             "rentHouse.roomPrice": {
+                required: "Giá không được để trống",
+                number: "nhập số",
+                min: "Giá không được dưới 100.000 đồng",
+                max: "Giá không được vượt quá 100.000.000 đồng"
+            },
+            "rentHouse.deposit": {
                 required: "Giá không được để trống",
                 number: "nhập số",
                 min: "Giá không được dưới 100.000 đồng",

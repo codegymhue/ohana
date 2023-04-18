@@ -547,7 +547,7 @@
         $.each(response, function (index, item) {
             post = item;
 
-            let typeRoom = checkPrice(item.price);
+            let typeRoom = checkPrice(item.roomPrice);
             let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
             let gender;
             if (post.rentHouse.gender.id === 1) {
@@ -555,7 +555,7 @@
             } else {
                 gender = post.rentHouse.gender.name;
             }
-            let price = item.rentHouse.price
+            let price = item.rentHouse.roomPrice
             str += `<li>
                          <div class="nctjX"><a target="_blank" href="/${post.id}/room">
                                 <div class="X8svI _2DJkz">

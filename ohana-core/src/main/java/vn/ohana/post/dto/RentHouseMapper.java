@@ -12,7 +12,7 @@ public class RentHouseMapper extends BaseMapper<PostResult, Post, PostUpdatePara
         result.setId(rentHouse.getId());
         result.setCapacity(rentHouse.getCapacity());
         result.setGender(rentHouse.getGender());
-        result.setPrice(rentHouse.getRoomPrice());
+        result.setRoomPrice(rentHouse.getRoomPrice());
         result.setArea(rentHouse.getArea());
         result.setStatus(rentHouse.isStatus());
         return result;
