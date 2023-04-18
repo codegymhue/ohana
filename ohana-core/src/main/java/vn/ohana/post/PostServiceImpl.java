@@ -19,6 +19,7 @@ import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
 import vn.rananu.shared.exceptions.NotFoundException;
+import vn.rananu.shared.exceptions.ValidationException;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -82,7 +83,7 @@ public class PostServiceImpl implements PostService {
                 .flatMap(Set::stream).collect(Collectors.toSet());
 
 
-        return page.map(entity -> addPostResultUtilities(entity,utilityIds));
+        return page.map(entity -> addPostResultUtilities(entity, utilityIds));
     }
 
 
@@ -106,13 +107,13 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public void postEdit(PostUpdateParam postUpdateParam) {
-        Post entity=  findById(postUpdateParam.getId());
+        Post entity = findById(postUpdateParam.getId());
     }
 
     @Override
     public Page<PostResult> findAllByUser(UserUpdateParam user, Pageable pageable) {
 
-        Page<Post> post = postRepository.findByUser(userMapper.toEntity(user),pageable);
+        Page<Post> post = postRepository.findByUser(userMapper.toEntity(user), pageable);
 
         return toDtoPage(post);
     }
@@ -120,7 +121,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostResult> filterPublishedPosts(PostFilterParam filter, Pageable pageable) {
         filter.setStatus(StatusPost.PUBLISHED);
-        return toDtoPage( postFilterRepository.findAllByFilters(filter,pageable));
+        return toDtoPage(postFilterRepository.findAllByFilters(filter, pageable));
     }
 
     @Override
@@ -134,8 +135,8 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResult updateStatusById(PostUpdateParam postUpdateParam) {
         Post post = findById(postUpdateParam.getId());
-        postMapper.transferFields(postUpdateParam,post,true);
-        return addPostResultUtilities(post,post.getUtilities());
+        postMapper.transferFields(postUpdateParam, post, true);
+        return addPostResultUtilities(post, post.getUtilities());
     }
 
     @Override
@@ -151,7 +152,7 @@ public class PostServiceImpl implements PostService {
     @Override
     public Page<PostResult> filter(PostFilterParam filter, Pageable pageable) {
         Page<Post> page = postFilterRepository.findAllByFilters(filter, pageable);
-         return toDtoPage(page);
+        return toDtoPage(page);
     }
 
     private Page<PostResult> toDtoPage(Page<Post> page) {
@@ -160,7 +161,7 @@ public class PostServiceImpl implements PostService {
 
     private PostResult addPostResultUtilities(Post entity, Set<Integer> utilityIds) {
         List<UtilityResult> utilities = utilityService.findAllByIds(utilityIds);
-        PostResult dto= postMapper.toDTO(entity);
+        PostResult dto = postMapper.toDTO(entity);
         List<UtilityResult> newUtilities = utilities
                 .stream()
                 .filter(utility ->
@@ -172,11 +173,24 @@ public class PostServiceImpl implements PostService {
         return dto;
     }
 
-
-
     @Override
     @Transactional
     public PostCreateParam save(PostCreateParam postCreateParam) {
+
+        long sizeUtilities = (postCreateParam.getUtilities()).size();
+        long sizeImages = (postCreateParam.getImages()).size();
+
+        if (sizeUtilities < 5) {
+            throw new ValidationException("Tiện ích không được dưới 5");
+        }
+
+        if (postCreateParam.getThumbnailId() == null) {
+            throw new ValidationException("Ảnh đại diện không được để trống");
+        }
+
+        if (sizeImages <5 || sizeImages >10) {
+            throw new ValidationException("Chỉ chấp nhận từ 5 đến 10 hình ảnh");
+        }
 
         User user = userService.findById(postCreateParam.getIdUser());
         Post post = postMapper.toPost(postCreateParam);
@@ -185,13 +199,11 @@ public class PostServiceImpl implements PostService {
 
         post.setStatus(StatusPost.PENDING_REVIEW);
         post.setUser(user);
-
         rentHouseRepository.save(rentHouse);
         post.setRentHouse(rentHouse);
 
-//
-       postRepository.save(post);
-//
+        postRepository.save(post);
+
         for (String i : postCreateParam.getImages()) {
             PostMedia postMedia = new PostMedia();
             postMedia.setId(i);
@@ -202,8 +214,6 @@ public class PostServiceImpl implements PostService {
 
         return postCreateParam;
     }
-
-
 
 
 }

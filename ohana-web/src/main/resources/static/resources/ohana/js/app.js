@@ -49,11 +49,14 @@ class RentHouseDTO {
 }
 
 class RentHouse {
-    constructor(price, capacity, area, gender) {
+    constructor(price, capacity, area, gender, electricityPrice, waterPrice, wifiPrice) {
         this.price = price;
         this.capacity = capacity;
         this.area = area;
         this.gender = gender;
+        this.electricityPrice =  electricityPrice;
+        this.waterPrice = waterPrice;
+        this.wifiPrice = wifiPrice;
     }
 }
 

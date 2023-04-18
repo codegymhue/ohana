@@ -27,7 +27,7 @@ public class LoginParam implements Validator {
         String email = loginParam.getEmail();
 
         if (email.length() == 0) {
-            errors.rejectValue("email", "user.validation.email.notBlank");
+                    errors.rejectValue("email", "user.validation.email.notBlank");
         } else {
             if (!email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$")) {
                 errors.rejectValue("email", "user.validation.email.notFormat");

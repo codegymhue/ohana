@@ -1,7 +1,6 @@
 package vn.ohana.post.dto;
 
 import org.springframework.stereotype.Component;
-import vn.ohana.entities.Gender;
 import vn.ohana.entities.Post;
 import vn.ohana.entities.RentHouse;
 import vn.rananu.shared.mappers.BaseMapper;
@@ -21,7 +20,7 @@ public class RentHouseMapper extends BaseMapper<PostResult, Post, PostUpdatePara
 
     public RentHouse toRentHouseDTO(RentHouseParam rentHouseParam) {
         RentHouse rentHouse = new RentHouse();
-        rentHouse.setPrice(rentHouseParam.getPrice());
+        rentHouse.setPrice(rentHouseParam.getRoomPrice());
         rentHouse.setCapacity(rentHouseParam.getCapacity());
         rentHouse.setArea(rentHouseParam.getArea());
         rentHouse.setGender(rentHouse.getGender());

@@ -74,7 +74,6 @@
                 ĐĂNG TIN
             </h3>
         </div>
-        <!--        <th:block th:if="${userUpdateParam}!=null">-->
         <form class="pt-6" id="frmPost" method="post" th:action="@{/post-room}" th:object="${postCreateParam}">
             <input id="id" type="hidden" class="form-control " th:field="${userResult.id}">
             <div class="">
@@ -91,33 +90,50 @@
                 </div>
             </div>
             <div class="d-flex col-md-12">
-                <div class="col-md-4 px-2 errorTotal">
+                <div class="col-md-6 px-2 errorTotal">
                     <label class="m-1">Loại phòng</label>
                     <select type="text" class="form-select" name="category" id="category" th:field="${postCreateParam.categoryId}">
                     </select>
                 </div>
-                <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Giá phòng</label>
-                    <input type="number" class="form-control" id="price"  name="price" th:field="${postCreateParam.rentHouse.price}">
-                </div>
-                <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Diện tích</label>
-                    <input type="number" class="form-control" id="area" name="area" th:field="${postCreateParam.rentHouse.area}">
-                </div>
-            </div>
-            <div class="d-flex col-md-12">
                 <div class="col-md-6 px-2 errorTotal">
-                    <label class="m-1">Sức chứa</label>
-                    <input type="number" class="form-control" id="capacity" name="capacity"
-                           th:field="${postCreateParam.rentHouse.capacity}">
-                </div>
-                <div class="col-md-6 px-2">
                     <label class="m-1">Giới Tính</label>
                     <select type="text" class="form-select" id="gender" name="gender"
                             th:field="${postCreateParam.rentHouse.gender}">
                     </select>
                 </div>
             </div>
+            <div class="d-flex col-md-12">
+
+                <div class="col-md-4 px-2 errorTotal">
+                    <label class="m-1">Sức chứa</label>
+                    <input type="number" class="form-control" id="capacity" name="capacity"
+                           th:field="${postCreateParam.rentHouse.capacity}">
+                </div>
+                <div class="col-md-4 px-2 errorTotal">
+                    <label class="m-1">Giá phòng (Đơn vị: VNĐ/Tháng)</label>
+                    <input type="number" class="form-control" id="roomPrice"  name="roomPrice" th:field="${postCreateParam.rentHouse.roomPrice}">
+                </div>
+                <div class="col-md-4 px-2 errorTotal">
+                    <label class="m-1">Diện tích (m2)</label>
+                    <input type="number" class="form-control" id="area" name="area" th:field="${postCreateParam.rentHouse.area}">
+                </div>
+            </div>
+            <div class="d-flex col-md-12">
+                <div class="col-md-4 px-2 errorTotal">
+                    <label class="m-1">Tiền điện (Đơn vị: VNĐ/kWh)</label>
+                    <input type="text" class="form-select" name="electricityPrice" id="electricityPrice" th:field="${postCreateParam.rentHouse.electricityPrice}">
+                    </input>
+                </div>
+                <div class="col-md-4 px-2 errorTotal">
+                    <label class="m-1">Tiền nước (Đơn vị: VNĐ/m³)</label>
+                    <input type="number" class="form-control" id="waterPrice"  name="waterPrice" th:field="${postCreateParam.rentHouse.waterPrice}">
+                </div>
+                <div class="col-md-4 px-2 errorTotal">
+                    <label class="m-1">Tiền wifi (Đơn vị: VNĐ/Tháng)</label>
+                    <input type="number" class="form-control" id="wifiPrice" name="wifiPrice" th:field="${postCreateParam.rentHouse.wifiPrice}">
+                </div>
+            </div>
+
             <div class=" col-md-12 errorTotal">
                 <label class="m-1 form-label">Tiện ích: </label>
                 <div class="d-flex flex-wrap col-md-12 px-5" id="utilities" name="utilities" th:field="${postCreateParam.utilities}">
@@ -125,19 +141,19 @@
 
             </div>
             <div class="d-flex col-md-12">
-                <div class="col-md-3 px-2">
-                    <label class="m-1">Tỉnh</label>
+                <div class="col-md-3 px-2 errorTotal">
+                    <label class="m-1">Tỉnh/Thành phố</label>
                     <select type="text" class="form-select" id="province" name="province"
                             th:field="${postCreateParam.location.provinceId}">
                     </select>
                 </div>
-                <div class="col-md-3 px-2">
-                    <label class="m-1">Thành phố/Huyện</label>
+                <div class="col-md-3 px-2 errorTotal">
+                    <label class="m-1">Quận/Huyện/Thị Xã</label>
                     <select type="text" class="form-select" id="district" name="district"
                             th:field="${postCreateParam.location.districtId}">
                     </select>
                 </div>
-                <div class="col-md-3 px-2">
+                <div class="col-md-3 px-2 errorTotal">
                     <label class="m-1">Phường/Xã</label>
                     <select type="text" class="form-select" id="ward"  name="ward" th:field="${postCreateParam.location.wardId}">
                     </select>
@@ -269,11 +285,15 @@
     page.dialogs.elements.title = $('#title');
     page.dialogs.elements.descriptionContent = $('#descriptionContent');
     page.dialogs.elements.category = $('#category');
-    page.dialogs.elements.price = $('#price');
-    page.dialogs.elements.capacity = $('#capacity');
     page.dialogs.elements.gender = $('#gender');
-    page.dialogs.elements.utilities = $('#utilities');
+    page.dialogs.elements.capacity = $('#capacity');
+    page.dialogs.elements.roomPrice = $('#roomPrice');
     page.dialogs.elements.area = $('#area');
+    page.dialogs.elements.electricityPrice = $('#electricityPrice');
+    page.dialogs.elements.waterPrice = $('#waterPrice');
+    page.dialogs.elements.wifiPrice = $('#wifiPrice');
+
+    page.dialogs.elements.utilities = $('#utilities');
 
     page.dialogs.elements.province = $('#province');
     page.dialogs.elements.district = $('#district');
@@ -455,15 +475,18 @@
 
         $("#title").val("");
         $("#descriptionContent").val("");
-        $("#price").val("");
+        $("#roomPrice").val("");
         $("#area").val("");
         $("#capacity").val("");
         $("#gender").val("");
+        $("#wifiPrice").val("");
+        $("#electricityPrice").val("");
+        $("#waterPrice").val("");
         $("#line1").val("");
         $("#province").val("");
         $("#district").val("");
-        $("#ward").val("")
-        $("#showImage").empty()
+        $("#ward").val("");
+        $("#showImage").empty();
         $('#showImageThumb').empty();
         $('#showImage').empty();
         $("input[type=checkbox]").prop("checked",false);
@@ -490,10 +513,13 @@
         location.wardName = $("#ward").find("option:selected").text();
         location.line1 = $("#line1").val();
 
-        rentHouse.price = $("#price").val();
+        rentHouse.roomPrice = $("#roomPrice").val();
         rentHouse.area = $("#area").val();
         rentHouse.capacity = $("#capacity").val();
         rentHouse.gender = $("#gender").val();
+        rentHouse.electricityPrice = $("#electricityPrice").val();
+        rentHouse.waterPrice = $("#waterPrice").val();
+        rentHouse.wifiPrice = $("#wifiPrice").val();
 
         postDTO.title = title;
         postDTO.descriptionContent = descriptionContent;
@@ -521,7 +547,11 @@
 
             })
             .fail((jqXHR) => {
-                console.log("error")
+                console.log(jqXHR)
+                let errors = jqXHR.responseJSON;
+                let message = errors.message;
+                console.log(message)
+                showError(message);
             })
     }
 
@@ -538,7 +568,13 @@
                 minlength: 20,
                 maxlength: 1000
             },
-            "rentHouse.price": {
+            categoryId: {
+                required: true,
+            },
+            "rentHouse.gender": {
+                required: true,
+            },
+            "rentHouse.roomPrice": {
                 required: true,
                 number: true,
                 min: 100000,
@@ -546,13 +582,42 @@
             },
             "rentHouse.area": {
                 required: true,
+                number: true,
                 min: 10,
                 max: 1000
             },
             "rentHouse.capacity": {
                 required: true,
+                number: true,
                 min: 1,
                 max: 10
+            },
+            "rentHouse.electricityPrice": {
+                required: true,
+                number: true,
+                min: 1000,
+                max: 20000
+            },
+            "rentHouse.waterPrice": {
+                required: true,
+                number: true,
+                min: 1000,
+                max: 30000
+            },
+            "rentHouse.wifiPrice": {
+                required: true,
+                number: true,
+                min: 10000,
+                max: 3000000
+            },
+            "location.province": {
+                required: true,
+            },
+            "location.district": {
+                required: true,
+            },
+            "location.ward": {
+                required: true,
             },
             "location.line1": {
                 required: true,
@@ -571,21 +636,56 @@
                 minlength: "Mô tả không được dưới 20 kí tự",
                 maxlength: "Mô tả không được vượt quá 1000 kí tự",
             },
-            "rentHouse.price": {
+            categoryId: {
+                required: "Vui lòng chọn loại phòng",
+            },
+            "rentHouse.gender": {
+                required: "Vui lòng chọn giới tính",
+            },
+            "rentHouse.roomPrice": {
                 required: "Giá không được để trống",
                 number: "nhập số",
-                minlength: "Giá không được dưới 100.000 đồng",
-                maxlength: "Giá không được vượt quá 100.000.000 đồng"
+                min: "Giá không được dưới 100.000 đồng",
+                max: "Giá không được vượt quá 100.000.000 đồng"
             },
             "rentHouse.area": {
                 required: "Diện tích không được để trống",
-                minlength: "Diện tích không được dưới 10 m2",
-                maxlength: "Diện tích không được vượt quá 1000 m2"
+                number: "Chỉ nhập số",
+                min: "Diện tích không được dưới 10 m2",
+                max: "Diện tích không được vượt quá 1000 m2"
             },
             "rentHouse.capacity": {
                 required: "Sức chứa không được để trống",
-                minlength: "Sức chứa không được dưới 1 người",
-                maxlength: "Sức chứa không vượt quá 10 người"
+                number: "Chỉ nhập số",
+                min: "Sức chứa không được dưới 1 người",
+                max: "Sức chứa không vượt quá 10 người"
+            },
+            "rentHouse.electricityPrice": {
+                required: "Tiền điện không được để trống",
+                number: "Chỉ nhập số",
+                min: "Tiền điện dưới 1000 đồng",
+                max: "Tiền điện vượt quá 20.000 đồng"
+            },
+            "rentHouse.waterPrice": {
+                required: "Tiền nước không được để trống",
+                number: "Chỉ nhập số",
+                min: "Tiền nước không dưới 1000 đồng",
+                max: "Tiền nước không vượt quá 30.000 đồng"
+            },
+            "rentHouse.wifiPrice": {
+                required: "Tiền wifi không được để trống",
+                number: "Chỉ nhập số",
+                min: "Tiền wifi không dưới 10.000 đồng",
+                max: "Tiền wifi không vượt quá 3.000.000 đồng"
+            },
+            "location.province": {
+                required: "Vui lòng chọn Tỉnh/Thành Phố",
+            },
+            "location.district": {
+                required: "Vui lòng chọn Quận/Huyện/Thị Xã",
+            },
+            "location.ward": {
+                required: "Vui lòng chọn Phường/Xã",
             },
             "location.line1": {
                 required: "Địa chỉ không được để trống",
