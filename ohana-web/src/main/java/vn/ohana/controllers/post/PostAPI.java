@@ -46,6 +46,12 @@ public class PostAPI {
     public ResponseEntity<?> findById(@PathVariable Long pId) {
         return new ResponseEntity<>(postService.getById(pId), HttpStatus.OK);
     }
+
+    @GetMapping("/{pId}/email")
+    public ResponseEntity<?> findEmailById(@PathVariable Long pId) {
+        return new ResponseEntity<>(postService.getById(pId).getUser().getEmail(), HttpStatus.OK);
+    }
+
     @PatchMapping ("/{status}/status")
     public ResponseEntity<?> updateStatusAll(@PathVariable String status, @RequestBody Set<Long> ids) {
         return new ResponseEntity<>(postService.modifyStatusByIds(ids, status),HttpStatus.OK);
