@@ -7,6 +7,8 @@ import vn.ohana.entities.User;
 import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.user.dto.*;
 
+import javax.mail.MessagingException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -30,7 +32,7 @@ public interface UserService  {
 
     UserResult signUpByGoogle(GooglePojo googlePojo);
 
-    UserResult signUp(SignUpParam signUpParam);
+    UserResult signUp(String url,SignUpParam signUpParam) throws MessagingException, UnsupportedEncodingException;
 
     boolean existsByPhoneOrEmail(String phoneOrEmail);
 
@@ -54,6 +56,8 @@ public interface UserService  {
     User findById(Long idUser);
 
     UserResult save(UserUpdateParam userUpdateParam);
+
+    boolean findByCode(String code);
 
 
 

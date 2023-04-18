@@ -1,7 +1,7 @@
 package vn.ohana.controllers.ohana;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import vn.ohana.entities.User;
 import vn.ohana.google.GoogleService;
 import vn.ohana.google.dto.GGSignInParam;
 import vn.ohana.google.dto.GooglePojo;
@@ -19,12 +20,10 @@ import vn.ohana.user.dto.LoginResult;
 import vn.ohana.user.dto.SignUpParam;
 import vn.ohana.user.dto.UserResult;
 import vn.rananu.shared.controllers.BaseController;
-import vn.rananu.shared.exceptions.ValidationException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
@@ -55,7 +54,7 @@ public class LoginControllers extends BaseController {
     }
 
     @PostMapping("/sign-in")
-    public Object doLogin( @ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute LoginParam loginParam, BindingResult bindingResult, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
+    public Object doLogin(@ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute LoginParam loginParam, BindingResult bindingResult, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
         ModelAndView modelAndView = new ModelAndView("/ohana/sign-in");
         LoginResult loginResult = null;
         Cookie cookie;
@@ -77,14 +76,12 @@ public class LoginControllers extends BaseController {
                 cookie.setMaxAge(2);
                 response.addCookie(cookie);
                 return "redirect:/";
-            }
-            else {
+            } else {
                 model.addAttribute("error", true);
                 model.addAttribute("messages", "Sai email hoặc mật khẩu");
                 return modelAndView;
             }
-        }
-        else {
+        } else {
             loginGoogle(ggSignInParam, response, model);
             return "redirect:/";
         }
@@ -119,12 +116,13 @@ public class LoginControllers extends BaseController {
     @PostMapping("/sign-up")
     public Object doSignUp(HttpServletRequest request, @ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute SignUpParam signUpParam, Model model, HttpServletResponse response) throws GeneralSecurityException, IOException {
         System.out.println(request.getRequestURL().toString());
+        String url = request.getRequestURL().toString();
         ModelAndView modelAndView = new ModelAndView("/ohana/sign-up");
         Cookie cookie;
 
         if (ggSignInParam.getCredential() == null) {
             try {
-                UserResult userResult = userService.signUp(signUpParam);
+                UserResult userResult = userService.signUp(url, signUpParam);
 
                 cookie = new Cookie("cookie", userResult.getEmail());
                 cookie.setMaxAge(24 * 60 * 60 * 30);
@@ -148,6 +146,29 @@ public class LoginControllers extends BaseController {
 
     }
 
+    @GetMapping("/verify-success")
+    public ModelAndView verifySuccess() {
+        ModelAndView modelAndView = new ModelAndView("/ohana/verify-success");
+        return modelAndView;
+    }
+    @GetMapping("/verify-fail")
+    public ModelAndView verifyFail() {
+        ModelAndView modelAndView = new ModelAndView("/ohana/verify-fail");
+        return modelAndView;
+    }
+
+
+    @GetMapping("/sign-up/verify")
+    public Object doVerify(@Param("code") String code, @ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute SignUpParam signUpParam) {
+        boolean user = userService.findByCode(code);
+        if (user == true) {
+            return "redirect:/verify-success";
+        } else {
+            return "redirect:/verify-fail";
+        }
+    }
+
+
     @GetMapping("/sign-out")
     public String logout(HttpServletResponse response) {
         Cookie cookie = new Cookie("cookie", "");
@@ -157,8 +178,6 @@ public class LoginControllers extends BaseController {
         response.addCookie(cookie);
         return "redirect:/";
     }
-
-
 
 
 }
