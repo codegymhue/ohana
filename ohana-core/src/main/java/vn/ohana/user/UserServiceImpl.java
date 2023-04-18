@@ -5,6 +5,9 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.PostMedia;
@@ -21,7 +24,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Autowired
     UserRepository userRepository;
@@ -142,6 +145,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return userMapper.toUserResultDTO(user);
     }
+
+    @Override
+    public UserPrinciple findUserPrincipleByEmail(String username) {
+        User user = userRepository.findByEmail(username);
+        return userMapper.toUserPrinciple(user);
+    }
+
     public UserResult savePassword(UserUpdateParam userUpdateParam) {
         User user = findById(userUpdateParam.getId());
         user.setPassword(userUpdateParam.getPassword());
@@ -235,5 +245,10 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             return userMapper.toUserDTO(user);
         }
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return findUserPrincipleByEmail(username);
     }
 }

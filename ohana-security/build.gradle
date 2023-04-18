@@ -1,0 +1,15 @@
+group 'vn.ohana'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    implementation project(':ohana-core')
+    implementation project(':ohana-entity')
+}
+task prepareKotlinBuildScriptModel {
+
+}

@@ -2,6 +2,8 @@ package vn.ohana.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.User;
 import vn.ohana.google.dto.GooglePojo;
@@ -12,7 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public interface UserService  {
+public interface UserService {
     Page<UserResult> getAll(Pageable pageable);
 
     UserResult update(UserUpdateParam updateParam);
@@ -56,5 +58,5 @@ public interface UserService  {
     UserResult save(UserUpdateParam userUpdateParam);
 
 
-
+    UserPrinciple findUserPrincipleByEmail(String username);
 }

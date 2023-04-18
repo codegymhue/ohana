@@ -9,6 +9,7 @@ import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.post.PostMediaService;
 import vn.ohana.user.dto.BaseUser;
 import vn.ohana.user.dto.LoginResult;
+import vn.ohana.user.dto.UserPrinciple;
 import vn.ohana.user.dto.UserResult;
 import vn.rananu.shared.mappers.BaseMapper;
 
@@ -70,4 +71,7 @@ PostMediaService postMediaService;
     }
 
 
+    public UserPrinciple toUserPrinciple(User user) {
+        return modelMapper.map(user, UserPrinciple.class);
+    }
 }

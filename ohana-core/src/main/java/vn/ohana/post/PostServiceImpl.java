@@ -75,7 +75,7 @@ public class PostServiceImpl implements PostService {
     @Transactional(readOnly = true)
     public Page<PostResult> findAll(Pageable pageable) {
         Page<Post> page = postRepository.findAll(pageable);
-        return insertUtilityResultList(page);
+        return toDtoPage(page);
     }
 
     @Override

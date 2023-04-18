@@ -6,13 +6,21 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.entities.Role;
+import vn.ohana.jwt.JwtResponse;
+import vn.ohana.jwt.JwtService;
 import vn.ohana.user.UserService;
 import vn.ohana.user.dto.LoginParam;
 import vn.ohana.user.dto.LoginResult;
+import vn.ohana.user.dto.UserPrinciple;
 import vn.ohana.utils.AppUtils;
+import vn.rananu.shared.exceptions.ValidationException;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -27,6 +35,12 @@ public class LoginAPI {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    JwtService jwtService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     AppUtils appUtils;
@@ -51,24 +65,39 @@ public class LoginAPI {
     @PostMapping("/admin")
     public ResponseEntity<?> doLogin(@RequestBody LoginParam loginParam, BindingResult bindingResult,HttpServletResponse response) {
 
+
         new LoginParam().validate(loginParam, bindingResult);
         if (bindingResult.hasFieldErrors()) {
             return  appUtils.mapErrorToResponse(bindingResult);
         }
-        LoginResult loginResult = userService.findByEmailAndPasswordMapper(loginParam.getEmail(), loginParam.getPassword());
+        String username = loginParam.getEmail();
+        UserPrinciple userDetails = userService.findUserPrincipleByEmail(username);
 
-        if (!loginResult.getRole().equals(Role.ADMIN)) {
+        if (!userDetails.getRole().equals(Role.ADMIN)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+        String password = loginParam.getPassword();
 
-        Cookie adminCookie = new Cookie("admin", loginParam.getEmail());
-        Cookie pwdCookie = new Cookie("pwd", loginParam.getPassword());
-        adminCookie.setMaxAge(24 * 60 * 60 * 30);
-        pwdCookie.setMaxAge(24 * 60 * 60 * 30);
-        response.addCookie(adminCookie);
-        response.addCookie(pwdCookie);
+        String jwt = jwtService.generateToken(userDetails);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
+        Authentication authenticate;
+        try {
+            authenticate = authenticationManager.authenticate(authentication);
+        } catch (AuthenticationException e) {
+            throw new ValidationException("login.exception.emailOrPwd");
+        }
+        JwtResponse jwtResponse = new JwtResponse (jwt,userDetails.getId(),username,authenticate.getAuthorities());
+
+        ResponseCookie springCookie = ResponseCookie.from("jwtToken", jwt)
+                .httpOnly(false)
+                .secure(false)
+                .path("/")
+                .maxAge(60 * 1000)
+                .domain("localhost")
+                .build();
         return ResponseEntity.ok()
-                .header(HttpHeaders.SET_COOKIE, adminCookie.toString() + pwdCookie.toString()).body("Đăng nhập thành công!");
+                .header(HttpHeaders.SET_COOKIE, springCookie.toString())
+                .body(jwtResponse);
     }
 
     @GetMapping("/sign-out")
