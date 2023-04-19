@@ -7,6 +7,7 @@ import lombok.Setter;
 import vn.ohana.entities.StatusPost;
 import vn.ohana.location.dto.LocationParam;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Setter
@@ -15,14 +16,15 @@ import java.util.List;
 @NoArgsConstructor
 public class PostUpdateParam {
     private Long id;
+    @NotNull(message = "The title is required")
     private String title;
+    @NotNull(message = "The categoryId is required")
     private Long categoryId;
-    private String description;
-    private PostMediaParam postMediaThumbnail;
-    private List<PostMediaParam> postMediaImages;
+    private String descriptionContent;
+    private String thumbnailId;
+    private List<String> images;
     private LocationParam location;
     private RentHouseParam rentHouse;
-    private Long poster;
     private List<Long> utilities;
-    private StatusPost status;
+    private Long idUser;
 }
