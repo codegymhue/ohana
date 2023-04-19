@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 public class PostUpdateParam {
     private Long id;
+    private Long userId;
     private String title;
     private Long categoryId;
     private String description;

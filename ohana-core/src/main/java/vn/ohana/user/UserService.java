@@ -53,7 +53,7 @@ public interface UserService  {
 
     UserResult savePassword(UserUpdateParam userUpdateParam);
 
-    User findById(Long idUser);
+    User findById(Long userId);
 
     UserResult save(UserUpdateParam userUpdateParam);
 

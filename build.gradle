@@ -67,7 +67,6 @@ allprojects { proj ->
         implementation group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.32.1'
         implementation group: 'com.cloudinary', name: 'cloudinary-taglib', version: '1.32.1'
 
-        // https://mvnrepository.com/artifact/javax.mail/javax.mail-api
         implementation group: 'javax.mail', name: 'javax.mail-api', version: '1.6.2'
 
     }

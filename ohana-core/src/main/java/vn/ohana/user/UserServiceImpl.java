@@ -28,7 +28,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static vn.ohana.config.MailConfig.FRIEND_EMAIL;
 import static vn.ohana.config.MailConfig.MY_EMAIL;
 
 @Service
