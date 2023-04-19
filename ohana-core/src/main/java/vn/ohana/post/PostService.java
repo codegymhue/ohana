@@ -20,7 +20,7 @@ public interface PostService {
 
     Page<PostResult> findAll(Pageable pageable);
 
-    Map<String, List<Long>> modifyStatusByIds(Set<Long> ids, String published);
+    Map<String,Object> modifyStatusByIds(Set<Long> ids, String published);
 
     Page<PostResult> filter(PostFilterParam filter, Pageable pageable);
 

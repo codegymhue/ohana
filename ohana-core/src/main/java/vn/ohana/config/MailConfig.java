@@ -22,7 +22,6 @@ public class MailConfig {
 //    public static final String FRIEND_EMAIL = "anhtrduong@gmail.com";
 
     @Bean
-    @Async
     @Scheduled(fixedRate = 100)
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();

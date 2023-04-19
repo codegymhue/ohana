@@ -3,6 +3,7 @@ package vn.ohana.user;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,6 +52,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     PostMediaService postMediaService;
 
     @Autowired
+    @Qualifier("getJavaMailSender")
     public JavaMailSender emailSender;
 
 

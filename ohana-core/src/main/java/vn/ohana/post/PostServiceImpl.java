@@ -2,6 +2,7 @@ package vn.ohana.post;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.mail.smtp.SMTPSendFailedException;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
 import vn.ohana.entities.User;
 import vn.ohana.location.dto.DataSearchResult;
+import vn.ohana.mail.MailService;
 import vn.ohana.post.dto.*;
 import vn.ohana.user.UserMapper;
 import vn.ohana.user.UserService;
@@ -28,9 +30,12 @@ import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
 import vn.rananu.shared.exceptions.NotFoundException;
+import vn.rananu.shared.exceptions.OperationException;
 import vn.rananu.shared.exceptions.ValidationException;
 
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -61,10 +66,7 @@ public class PostServiceImpl implements PostService {
     private UtilityService utilityService;
 
     @Autowired
-    private PostMediaService postMediaService;
-
-    @Autowired
-    private CategoryService categoryService;
+    MailService mailService;
 
     @Autowired
     private PostRepository postRepository;
@@ -91,19 +93,45 @@ public class PostServiceImpl implements PostService {
 
     @Override
     @Transactional
-    public Map<String, List<Long>> modifyStatusByIds(Set<Long> ids, String status) {
+    public Map<String,Object> modifyStatusByIds(Set<Long> ids, String status) {
 
         StatusPost statusPost = StatusPost.parseStatusPosts(status);
 
-        Map<String, List<Long>> result = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
 
         List<Long> successIds = new ArrayList<>();
+        Map<String,Boolean> emailStatus = new HashMap<>();
         List<Long> failIds = new ArrayList<>();
 
         Iterable<Post> entities = postRepository.findAllById(ids);
         entities.forEach(entity -> {
-            entity.setStatus(statusPost);
-            successIds.add(entity.getId());
+            switch (status) {
+                case "PUBLISHED": {
+                    try {
+                        entity.setStatus(statusPost);
+                        mailService.sendPostApprovedMail(entity.getUser().getEmail());
+                        emailStatus.put(entity.getUser().getEmail(), Boolean.TRUE);
+                        successIds.add(entity.getId());
+                    } catch (InterruptedException e) {
+                        emailStatus.put(entity.getUser().getEmail(), Boolean.FALSE);
+                    }
+                    break;
+                }
+                case "REFUSED": {
+                    try {
+                        entity.setStatus(statusPost);
+                        mailService.sendPostRefusedMail(entity.getUser().getEmail());
+                        emailStatus.put(entity.getUser().getEmail(), Boolean.TRUE);
+                        successIds.add(entity.getId());
+                    } catch (InterruptedException e) {
+                        emailStatus.put(entity.getUser().getEmail(), Boolean.FALSE);
+                    }
+                    break;
+                }
+                default:
+                    throw new ValidationException("post.status.invalidStatus");
+            }
+
         });
         result.put("succeed", successIds);
 
@@ -117,6 +145,7 @@ public class PostServiceImpl implements PostService {
                 failIds.add((id));
             }
         });
+        result.put("emailStatus", emailStatus);
         result.put("failed", failIds);
         return result;
     }
@@ -177,24 +206,24 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResult updateStatusById(PostUpdateParam postUpdateParam) {
         Post post = findById(postUpdateParam.getId());
-//        User user = userService.findById(postUpdateParam.getUserId());
-//
-//        SimpleMailMessage message = new SimpleMailMessage();
-//
-//        String email = user.getEmail();
-//
-//        message.setFrom(MailConfig.MY_EMAIL);
-//        message.setTo(email);
-//        message.setSubject("Email thông báo kiểm duyệt bài đăng");
-//
-//        if (postUpdateParam.getStatus() == StatusPost.PUBLISHED) {
-//            message.setText("Bài viết của bạn đã được đăng!");
-//
-//        } else if (postUpdateParam.getStatus() == StatusPost.REFUSED) {
-//            message.setText("Bài viết của bạn đã bị thu hồi!");
-//        }
-//
-//        this.emailSender.send(message);
+        User user = userService.findById(postUpdateParam.getIdUser());
+
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        String email = user.getEmail();
+
+        message.setFrom(MailConfig.MY_EMAIL);
+        message.setTo(email);
+        message.setSubject("Email thông báo kiểm duyệt bài đăng");
+
+        if (postUpdateParam.getStatus() == StatusPost.PUBLISHED) {
+            message.setText("Bài viết của bạn đã được đăng!");
+
+        } else if (postUpdateParam.getStatus() == StatusPost.REFUSED) {
+            message.setText("Bài viết của bạn đã bị thu hồi!");
+        }
+
+        this.emailSender.send(message);
 
         postMapper.transferFields(postUpdateParam, post, true);
 
