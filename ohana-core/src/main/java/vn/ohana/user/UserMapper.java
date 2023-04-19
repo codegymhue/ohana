@@ -11,6 +11,7 @@ import vn.ohana.user.dto.BaseUser;
 import vn.ohana.user.dto.LoginResult;
 import vn.ohana.user.dto.UserPrinciple;
 import vn.ohana.user.dto.UserResult;
+import vn.ohana.user.dto.UserUpdateParam;
 import vn.rananu.shared.mappers.BaseMapper;
 
 import java.util.Optional;
@@ -55,6 +56,10 @@ PostMediaService postMediaService;
 
     public UserResult toUserResultDTO(User user){
         return modelMapper.map(user,UserResult.class);
+    }
+
+    public UserUpdateParam toUserUpdateParamDTO(User user){
+        return modelMapper.map(user,UserUpdateParam.class);
     }
 
 

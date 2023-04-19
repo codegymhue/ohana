@@ -21,10 +21,12 @@ import vn.ohana.user.dto.SignUpParam;
 import vn.ohana.user.dto.UserResult;
 import vn.rananu.shared.controllers.BaseController;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.GeneralSecurityException;
 
 @Controller
@@ -155,6 +157,34 @@ public class LoginControllers extends BaseController {
     public ModelAndView verifyFail() {
         ModelAndView modelAndView = new ModelAndView("/ohana/verify-fail");
         return modelAndView;
+    }
+
+
+
+    @GetMapping("/info-forget-password")
+    public ModelAndView infoFogetPassword() {
+        ModelAndView modelAndView = new ModelAndView("/ohana/info-forget-password");
+        return modelAndView;
+    }
+    @GetMapping("/forget-password")
+    public ModelAndView forgetPassword() {
+        ModelAndView modelAndView = new ModelAndView("/ohana/forget-password");
+        return modelAndView;
+    }
+    @PostMapping("/forget-password")
+    public Object forgetPassword(HttpServletRequest req) throws MessagingException, UnsupportedEncodingException {
+        ModelAndView modelAndView = new ModelAndView("/ohana/forget-password");
+        String email = req.getParameter("email");
+        UserResult userResult = userService.findByEmail(email);
+
+        if (userResult != null) {
+            userService.forgetPassword(userResult);
+            return "redirect:/info-forget-password";
+        } else {
+            modelAndView.addObject("error", true);
+            return modelAndView;
+        }
+
     }
 
 

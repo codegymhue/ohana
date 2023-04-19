@@ -108,23 +108,6 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .cors().and()
-//                .authorizeHttpRequests((requests) -> requests
-//                        .antMatchers("/",
-//                                "/index",
-//                                "/resource/**",
-//                                "/api/**",
-//                                "/error/**")
-//                        .permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin((form) -> form
-//                        .loginPage("/login")
-//                        .permitAll())
-//                .logout((logout) -> logout
-//                        .permitAll()
-//                        .logoutUrl("/logout")
-//                        .clearAuthentication(true)
-//                        .deleteCookies("jwtToken"))
                 .authorizeRequests()
                 .antMatchers("/","/resources/**","/api/login/**").permitAll()
 //                .antMatchers("/api/utilities/**").hasAuthority("ADMIN")

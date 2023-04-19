@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
@@ -59,20 +61,30 @@ public class PostAPI {
         return new ResponseEntity<>(postService.getById(pId).getUser().getEmail(), HttpStatus.OK);
     }
 
-//    @PostMapping("/{pId}/email")
-//    public ResponseEntity<?> doSendEmailById(@PathVariable Long pId) {
-//        SimpleMailMessage message = new SimpleMailMessage();
-//
-//        String email = postService.getById(pId).getUser().getEmail();
-//
-//        message.setFrom(MY_EMAIL);
-//        message.setTo(email);
-//        message.setSubject("Email thông báo kiểm duyệt bài đăng");
-//        message.setText("Bài viết của bạn đã bị khóa!");
-//
-//        this.emailSender.send(message);
-//        return new ResponseEntity<>(HttpStatus.OK);
-//    }
+
+    @PatchMapping("/{pId}/email")
+    public ResponseEntity<?> doSendEmailById(@PathVariable Long pId, @RequestBody PostUpdateParam postUpdateParam) {
+
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        String email = postService.getById(pId).getUser().getEmail();
+
+        message.setFrom(MY_EMAIL);
+        message.setTo(email);
+        message.setSubject("THÔNG BÁO KIỂM DUYỆT BÀI ĐĂNG");
+        if (postService.updateStatusById(postUpdateParam).getStatus() == StatusPost.PUBLISHED) {
+
+            message.setText("Ohana xin thông báo: Bài viết của bạn đã được đăng trên hệ thống website Ohana! Xin cảm ơn Quý Khách hàng luôn tin tưởng ủng hộ!\n\nTrân trọng!\nOhana team!");
+        }
+        if (postService.updateStatusById(postUpdateParam).getStatus() == StatusPost.REFUSED) {
+
+            message.setText("Ohana xin thông báo: Bài viết của bạn đã bị thu hồi do vi phạm một số điều khoản và không được đăng trên website Ohana! Rất mong Quý Khách hàng điều chỉnh nọi dung bài đăng để được xét duyệt đăng tải trong bài viết tiếp theo! \n\nTrân trọng!\nOhana team!");
+        }
+
+        this.emailSender.send(message);
+
+        return new ResponseEntity<>(postService.updateStatusById(postUpdateParam), HttpStatus.OK);
+    }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping ("/{status}/status")
@@ -94,23 +106,6 @@ public class PostAPI {
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     @PatchMapping ("/{id}")
     public ResponseEntity<?> updateById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        String email = postService.getById(id).getUser().getEmail();
-
-        message.setFrom(MY_EMAIL);
-        message.setTo(email);
-        message.setSubject("Email thông báo kiểm duyệt bài đăng");
-        if (postService.updateStatusById(postUpdateParam).getStatus() == StatusPost.PUBLISHED) {
-
-            message.setText("Bài viết của bạn đã được đăng!");
-        }
-        if (postService.updateStatusById(postUpdateParam).getStatus() == StatusPost.REFUSED) {
-
-            message.setText("Bài viết của bạn đã bị thu hồi!");
-        }
-
-        this.emailSender.send(message);
         return new ResponseEntity<>( postService.updateStatusById(postUpdateParam), HttpStatus.OK);
     }
 

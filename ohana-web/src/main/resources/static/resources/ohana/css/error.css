@@ -1,0 +1,52 @@
+#notfound {
+    position: relative;
+    height: 100vh;
+}
+
+#notfound .notfound {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+}
+
+.notfound {
+    max-width: 710px;
+    width: 100%;
+    text-align: center;
+    padding: 0 15px;
+    line-height: 1.4;
+}
+
+h1 {
+    font-size: 122px;
+    font-family: fredoka one,cursive;
+    font-size: 168px;
+    margin: 0;
+    color: #f7346f;
+    text-transform: uppercase;
+}
+
+
+.notfound .notfound-404 {
+    line-height: 122px;
+}
+
+.notfound h2 {
+    font-family: raleway,sans-serif;
+    font-size: 30px;
+    font-weight: 400;
+    text-transform: uppercase;
+    color: #222;
+}
+
+.notfound a {
+    font-family: raleway,sans-serif;
+    display: inline-block;
+    font-weight: 700;
+    border-radius: 15px;
+    text-decoration: none;
+    color: #f7346f;
+}
