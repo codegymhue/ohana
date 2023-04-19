@@ -12,6 +12,7 @@ import vn.ohana.entities.User;
 import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostCreateParam;
 import vn.ohana.post.dto.PostResult;
+import vn.ohana.post.dto.PostUpdateParam;
 import vn.ohana.user.UserService;
 import vn.ohana.user.dto.LoginParam;
 import vn.ohana.user.dto.LoginResult;
@@ -160,10 +161,25 @@ public class OhanaControllers {
         return modelAndView;
     }
 
-    @GetMapping("/edit-room")
-    public ModelAndView editRoom() {
+//    @GetMapping("/edit-room")
+//    public ModelAndView editRoom() {
+//        ModelAndView modelAndView = new ModelAndView("/ohana/edit-room");
+//        return modelAndView;
+//    }
+
+    @GetMapping("/{pId}/edit-room")
+    public Object editRoom(@ModelAttribute("userResult") UserResult userResult, @PathVariable Long pId) {
         ModelAndView modelAndView = new ModelAndView("/ohana/edit-room");
-        return modelAndView;
+        PostResult post = postService.getById(pId);
+        if (userResult != null) {
+            PostUpdateParam postUpdateParam = new PostUpdateParam();
+            modelAndView.addObject("userUpdateParam", userResult);
+            modelAndView.addObject("postUpdateParam", postUpdateParam);
+            modelAndView.addObject("post", post);
+            return modelAndView;
+        } else {
+            return "/ohana/error";
+        }
     }
 
     @GetMapping("/list-post")

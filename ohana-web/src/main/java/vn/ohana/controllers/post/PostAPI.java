@@ -97,23 +97,6 @@ public class PostAPI {
 
     @PatchMapping ("/{id}")
     public ResponseEntity<?> updateById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        String email = postService.getById(id).getUser().getEmail();
-
-        message.setFrom(MY_EMAIL);
-        message.setTo(email);
-        message.setSubject("Email thông báo kiểm duyệt bài đăng");
-        if (postService.updateStatusById(postUpdateParam).getStatus() == StatusPost.PUBLISHED) {
-
-            message.setText("Bài viết của bạn đã được đăng!");
-        }
-        if (postService.updateStatusById(postUpdateParam).getStatus() == StatusPost.REFUSED) {
-
-            message.setText("Bài viết của bạn đã bị thu hồi!");
-        }
-
-        this.emailSender.send(message);
         return new ResponseEntity<>( postService.updateStatusById(postUpdateParam), HttpStatus.OK);
     }
 
