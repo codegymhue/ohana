@@ -6,11 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import vn.ohana.entities.Role;
 import vn.ohana.entities.User;
-import vn.ohana.entities.UserStatus;
-import vn.ohana.user.dto.LoginParam;
-import vn.ohana.user.dto.LoginResult;
-
-import java.util.List;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -24,8 +19,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByPhoneOrEmail(String phone, String email);
 
     boolean existsByEmail(String Email);
+    boolean existsByPhoneAndIdNot(String phone, Long id);
 
+    boolean existsByEmailAndIdNot(String email, Long id);
     User findByEmailAndPassword(String email, String password);
 
     User findByCode(String code);
+
 }

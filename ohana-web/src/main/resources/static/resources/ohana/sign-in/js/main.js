@@ -1,14 +1,14 @@
 (function ($) {
-    // "use strict";
-    // $('.validate-input .input100').each(function () {
-    //     $(this).on('blur', function () {
-    //         if (validate(this) == false) {
-    //             showValidate(this);
-    //         } else {
-    //             $(this).parent().addClass('true-validate');
-    //         }
-    //     })
-    // })
+    "use strict";
+    $('.validate-input .input100').each(function () {
+        $(this).on('blur', function () {
+            if (validate(this) == false) {
+                showValidate(this);
+            } else {
+                $(this).parent().addClass('true-validate');
+            }
+        })
+    })
 
     var input = $('.validate-input .input100');
 
@@ -117,8 +117,10 @@
             $("#checkPassword").append(str);
             check = false;
         }
+
         let confirmPassword = $("#confirmPassword").val();
         console.log("confirmPassword:" + confirmPassword)
+
         if (aapassword != confirmPassword) {
             check = false;
             $("#checkConfirmPassword").html("");
@@ -131,10 +133,10 @@
         return check;
     });
 
-
-    $('.validate-form').on('submit', function () {
-
-    }
+    //
+    // $('.validate-form').on('submit', function () {
+    //
+    // }
 
 
 })(jQuery);

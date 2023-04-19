@@ -1,13 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/resources/bootstrap-5.0.2/css/bootstrap.min.css">
+    <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
+    <link rel="stylesheet" href="/resources/ohana/css/error.css">
 </head>
-<body>
+
+<body data-new-gr-c-s-check-loaded="14.1057.0" data-gr-ext-installed="" cz-shortcut-listen="true">
+
 <div class="container text-center">
-    <h3>Chúc mừng, tài khoản của bạn đã xác thực thành công.</h3>
-    <h4><a href="/sign-in">Click để quay trở lại trang đăng nhập</a></h4>
+    <div class="_3bjUj">
+        <th:block th:replace="/ohana/layout/header :: header(${userResult})"/>
+    </div>
+
 </div>
+<div class="mt-5" style="text-align: center">
+    <h3>Chúc mừng, tài khoản của bạn đã xác thực thành công.</h3>
+    <h4 ><a href="/sign-in" style="color: blue">Click để quay trở lại trang đăng nhập</a></h4>
+</div>
+
+<th:block th:replace="/ohana/layout/script :: script"/>
 </body>
+
+<footer id="footer">
+    <th:block th:replace="/ohana/layout/footer :: footer"/>
+</footer>
+
 </html>

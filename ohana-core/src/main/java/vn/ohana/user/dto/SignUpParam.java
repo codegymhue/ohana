@@ -45,7 +45,7 @@ public class SignUpParam implements Validator {
 
         if (password.length() == 0) {
             errors.rejectValue("passWord", "user.validation.passWord.notBlank");
-        } else if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[-`!~({})|.,*_@#$%^&+=/])(?=\\S+$).{6,}$")) {
+        } else if (!password.matches("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[-`!~({})|.,*_@#$%^&+=/])(?=\\S+$).{6,50}$")) {
             errors.rejectValue("passWord", "user.validation.passWord.notFormat");
         }
 

@@ -5,12 +5,10 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.ResponseBody;
 import vn.ohana.entities.PostMedia;
 import vn.ohana.entities.Role;
 import vn.ohana.entities.User;
@@ -22,13 +20,11 @@ import vn.rananu.shared.exceptions.NotFoundException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
-import javax.servlet.http.HttpServletRequest;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static vn.ohana.config.MailConfig.FRIEND_EMAIL;
 import static vn.ohana.config.MailConfig.MY_EMAIL;
 
 @Service
@@ -37,10 +33,6 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
 
-    @Override
-    public boolean existsByPhoneOrEmail(String phone, String email) {
-        return false;
-    }
 
     @Autowired
     UserFilterRepository userFilterRepository;
@@ -59,7 +51,10 @@ public class UserServiceImpl implements UserService {
         return userRepository.findAll(pageable);
     }
 
-
+    @Override
+    public boolean existsByPhoneOrEmail(String phone, String email) {
+        return false;
+    }
     @Transactional(readOnly = true)
     public User findById(Long id) {
         return userRepository.findById(id)
@@ -141,6 +136,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserUpdateParam findByEmailUpdate(String email){
+        User user = userRepository.findByEmail(email);
+        if (user != null) {
+            return userMapper.toUserUpdateParamDTO(user);
+        }
+        return null;
+
+    }
+
+
+    @Override
     public UserResult save(UserUpdateParam userUpdateParam) {
         User user = findById(userUpdateParam.getId());
 
@@ -157,6 +163,7 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
         return userMapper.toUserResultDTO(user);
     }
+
     public UserResult savePassword(UserUpdateParam userUpdateParam) {
         User user = findById(userUpdateParam.getId());
         user.setPassword(userUpdateParam.getPassword());
@@ -203,6 +210,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean existsByPhoneAndIdNot(String phone,Long id) {
+        return userRepository.existsByPhoneAndIdNot(phone,id);
+    }
+
+    public boolean existsByEmailAndIdNot(String phone,Long id) {
+        return userRepository.existsByEmailAndIdNot(phone,id);
+    }
+
+    @Override
     public boolean existsByEmail(String Email) {
         return userRepository.existsByEmail(Email);
     }
@@ -220,17 +236,14 @@ public class UserServiceImpl implements UserService {
             user.setStatus(UserStatus.ACTIVATED);
             user.setRole(Role.USER);
             user.setPassword(pwd);
-            PostMedia postMedia = new PostMedia();
-            postMedia.setFileUrl(googlePojo.getThumbnailId());
-            postMediaService.save(postMedia);
-            user.setThumbnailId(postMedia.getId());
+            user.setThumbnailId(googlePojo.getThumbnailId());
             User entity = userRepository.save(user);
             return userMapper.toUserResultDTO(entity);
         }
     }
 
     @Override
-    public UserResult signUp(String url,SignUpParam signUpParam) throws MessagingException, UnsupportedEncodingException {
+    public UserResult signUp(String url, SignUpParam signUpParam) throws MessagingException, UnsupportedEncodingException {
 //        check email tồn tại hay chưa
 //        Lưu user
 //        set các trường mặc định
@@ -250,18 +263,17 @@ public class UserServiceImpl implements UserService {
             userRepository.save(user);
             UserResult userResult = userMapper.toUserDTO(user);
 
-            sendMail(url,userResult);
+            sendMailSignUp(url, userResult);
 
             return userResult;
         }
     }
 
-    @ResponseBody
-    public void sendMail(String url, UserResult UserResult) throws MessagingException, UnsupportedEncodingException {
+    //    @ResponseBody
+    public void sendMailSignUp(String url, UserResult UserResult) throws MessagingException, UnsupportedEncodingException {
 
         String toAddress = UserResult.getEmail();
         String subject = "XÁC THỰC TÀI KHOẢN OHANA";
-
 
         String content = "Dear " + UserResult.getFullName() + "," + "<br>"
                 + "Vui lòng click vào đường link để xác thực tài khoản:  "
@@ -270,20 +282,13 @@ public class UserServiceImpl implements UserService {
                 + "Ohana team.";
 
         MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message);
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
         helper.setFrom(MY_EMAIL, "Ohana");
         helper.setTo(toAddress);
         helper.setSubject(subject);
-
-//        content = content.replace("[name]", UserResult.getFullName());
-//        String verifyURL = url + "/verify?code=" + UserResult.getCode();
-//        content = content.replace("[URL]", verifyURL);
         helper.setText(content, true);
         emailSender.send(message);
-
-
-
 //        SimpleMailMessage message = new SimpleMailMessage();
 //        message.setTo(FRIEND_EMAIL);
 //        message.setSubject("XÁC THỰC TÀI KHOẢN OHANA");
@@ -295,7 +300,6 @@ public class UserServiceImpl implements UserService {
 //        message.setText(content);
 //        this.emailSender.send(message);
     }
-
 
     @Override
     public boolean findByCode(String code) {
@@ -311,6 +315,39 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    public void forgetPassword(UserResult userResult) throws MessagingException, UnsupportedEncodingException {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
+        String pwd = RandomStringUtils.random(15, characters);
 
+        User user = userRepository.findByEmail(userResult.getEmail());
+        user.setPassword(pwd);
+        userRepository.save(user);
+
+        sendMailForgetPassword(user);
+
+        userResult = userMapper.toUserDTO(user);
+
+    }
+
+    public void sendMailForgetPassword(User user) throws MessagingException, UnsupportedEncodingException {
+        String toAddress = user.getEmail();
+        String subject = "QUÊN MẬT KHẨU";
+
+        String content = "Dear " + user.getFullName() + "," + "<br>"
+                + "Mật khẩu mới của bạn là:  "
+                + "<b>" + user.getPassword() + "</b> <br>"
+                + "Vui lòng quay trở lại trang " + "<a href=http://localhost:8080/sign-in>đăng nhập</a> <br><br>"
+                + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi,<br> "
+                + "Ohana team.";
+
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+
+        helper.setFrom(MY_EMAIL, "Ohana");
+        helper.setTo(toAddress);
+        helper.setSubject(subject);
+        helper.setText(content, true);
+        emailSender.send(message);
+    }
 
 }

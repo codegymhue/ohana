@@ -151,7 +151,7 @@ function showError(msg) {
         icon: 'error',
         title: msg,
         showConfirmButton: false,
-        timer: 2500
+        timer: 3000
     });
 }
 

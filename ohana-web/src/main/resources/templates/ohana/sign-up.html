@@ -43,7 +43,7 @@
                 <div class="container-login100">
                     <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
                         <form class="login100-form validate-form" th:action="@{/sign-up}"  method="post" id="register-form" th:object="${signUpParam}">
-                                <span class="login100-form-title p-b-37">
+                                <span class="login100-form-title m-b-20">
                                     Đăng ký
                                 </span>
                             <label  class="error"  th:each="err : ${#fields.errors('fullName')}"
@@ -71,7 +71,7 @@
                             </label>
 
                             <label id="checkPassword"></label>
-                            <div class="wrap-input100 validate-input m-b-25" data-validate="Nhập mật khẩu">
+                            <div class="wrap-input100 validate-input m-b-20" data-validate="Nhập mật khẩu">
                                     <span class="btn-show-pass">
                                         <i class="zmdi zmdi-eye"></i>
                                     </span>
@@ -81,7 +81,7 @@
                             </div>
 
                             <label id="checkConfirmPassword"></label>
-                            <div class="wrap-input100 validate-input m-b-25" data-validate="Nhập lại mật khẩu">
+                            <div class="wrap-input100 validate-input m-b-20" data-validate="Nhập lại mật khẩu">
                                     <span class="btn-show-pass">
                                         <i class="zmdi zmdi-eye"></i>
                                     </span>
@@ -92,7 +92,7 @@
                             <!-- Checkbox -->
                             <label id="checkD"></label>
                             <div class="form-group">
-                                <div class="custom-control custom-checkbox">
+                                <div class="custom-control custom-checkbox m-b-20">
                                     <input type="checkbox" class="custom-control-input" id="termsCheckbox"
                                            name="termsCheckbox">
                                     <label class="custom-control-label text-muted" for="termsCheckbox">Tôi đồng ý
@@ -101,19 +101,19 @@
                                 </div>
                             </div>
                             <!-- End Checkbox -->
-                            <div class="container-login100-form-btn">
+                            <div class="container-login100-form-btn m-b-20">
                                 <button type="submit" class="login100-form-btn">
                                     Đăng ký
                                 </button>
                             </div>
 
-                            <div class="text-center p-t-57 p-b-20">
+                            <div class="text-center m-b-20">
                                     <span class="txt1">
                                         Hoặc đăng nhập với
                                     </span>
                             </div>
 
-                            <div class="flex-c p-b-50">
+                            <div class="flex-c m-b-20">
                                 <div id="g_id_onload"
                                      data-client_id="809100511304-qcmbmqj4m2njft9vs8deo2791s6miodm.apps.googleusercontent.com"
                                      data-login_uri="http://localhost:8080/sign-in" data-auto_prompt="false">

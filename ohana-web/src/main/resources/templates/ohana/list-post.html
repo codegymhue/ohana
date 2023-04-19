@@ -42,20 +42,19 @@
                 </div>
             </div>
             <label id="notification"></label>
-            <div id="container-tbPost">
-<!--                <table class="table align-middle mb-0 bg-white" id="tbPost" style="width: 100%">-->
-<!--                    <thead class="bg-light">-->
+            <table class="table align-middle mb-0 bg-white" id="tbPost" style="width: 100%">
+                <thead class="bg-light">
 
-<!--                    </thead>-->
-<!--                    <tbody>-->
+                </thead>
+                <tbody>
 
-<!--                    </tbody>-->
-<!--                </table>-->
-            </div>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 <th:block th:replace="/ohana/layout/footer :: footer"/>
+
 <th:block th:replace="/ohana/layout/script :: script"/>
 <script src="/resources/ohana/js/dataTable.js"></script>
 <script th:inline="javascript">
@@ -414,7 +413,6 @@
     }
 
     page.commands.getAllRefused = () => {
-        removeDataTable()
         $.ajax({
             type: "GET",
             url: page.url.getAllRefused
