@@ -23,6 +23,7 @@ public class PostUpdateParam {
     private String descriptionContent;
     private String thumbnailId;
     private List<String> images;
+    private StatusPost status;
     private LocationParam location;
     private RentHouseParam rentHouse;
     private List<Long> utilities;
