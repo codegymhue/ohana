@@ -144,10 +144,7 @@ public class PostServiceImpl implements PostService {
     }
 
 
-    @Override
-    public void postEdit(PostUpdateParam postUpdateParam) {
-        Post entity = findById(postUpdateParam.getId());
-    }
+
 
     @Override
     public Page<PostResult> findAllByUser(UserUpdateParam user, Pageable pageable) {

@@ -22,6 +22,7 @@ import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.post.PostMediaService;
 import vn.ohana.user.dto.*;
 import vn.rananu.shared.exceptions.NotFoundException;
+import vn.rananu.shared.exceptions.ValidationException;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
@@ -139,7 +140,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserResult findByEmail(String email) {
-        User user = userRepository.findByEmail(email);
+        User user = userRepository.findByEmail(email).orElseThrow(()->new ValidationException("user.exception.notFound"));
         if (user != null) {
             return userMapper.toUserResultDTO(user);
         }
@@ -166,7 +167,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserPrinciple findUserPrincipleByEmail(String username) {
-        User user = userRepository.findByEmail(username);
+        User user =  userRepository.findByEmail(username).orElseThrow(()->new ValidationException("user.exception.notFound"));
         return userMapper.toUserPrinciple(user);
     }
 
@@ -225,7 +226,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     public UserResult signUpByGoogle(GooglePojo googlePojo) {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
         String pwd = RandomStringUtils.random(15, characters);
-        User userCheck = userRepository.findByEmail(googlePojo.getEmail());
+        User userCheck =  userRepository.findByEmail(googlePojo.getEmail()).orElseThrow(()->new ValidationException("user.exception.notFound"));
         if (userCheck != null) {
             return userMapper.toUserResultDTO(userCheck);
         } else {

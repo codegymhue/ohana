@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -20,6 +21,7 @@ import vn.ohana.user.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
     @Autowired
@@ -105,6 +107,7 @@ public class SecurityConfig {
 //        ;
         http
                 .csrf().disable()
+                .cors().and()
 //                .authorizeHttpRequests((requests) -> requests
 //                        .antMatchers("/",
 //                                "/index",
@@ -123,22 +126,13 @@ public class SecurityConfig {
 //                        .clearAuthentication(true)
 //                        .deleteCookies("jwtToken"))
                 .authorizeRequests()
-                .antMatchers("/","/resources/**","/api/login/**")
-                .permitAll()
-                .antMatchers("/myInfo")
-                .hasAnyRole("USER","ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .loginPage("/sign-in")
-                .permitAll()
-                .and()
-                .logout()
-                .logoutUrl("/logout")
-                .permitAll()
-                .clearAuthentication(true)
-                .deleteCookies("jwtToken")
-                .and()
+                .antMatchers("/","/resources/**","/api/login/**").permitAll()
+//                .antMatchers("/api/utilities/**").hasAuthority("ADMIN")
+                .antMatchers("/api/**").permitAll()
+                .anyRequest().authenticated().and()
+                .formLogin().loginPage("/sign-in").permitAll().and()
+                .logout().logoutUrl("/logout").permitAll().clearAuthentication(true)
+                .deleteCookies("jwtToken").and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()

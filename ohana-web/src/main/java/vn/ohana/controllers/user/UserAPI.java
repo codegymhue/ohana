@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.user.UserService;
 import vn.ohana.user.dto.SignUpParam;
@@ -15,7 +16,6 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin("*")
 public class UserAPI {
     @Autowired
     UserService userService;
@@ -43,18 +43,24 @@ public class UserAPI {
         return new ResponseEntity<>(userService.update(updateParam), HttpStatus.OK);
     }
 
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/deactivate")
     public ResponseEntity<?> deactivateAll(@RequestBody Set<Long> ids) {
 
         return new ResponseEntity<>(userService.modifyStatusByIds(ids, "DEACTIVATED"), HttpStatus.OK);
     }
 
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/activate")
     public ResponseEntity<?> activateAll(@RequestBody Set<Long> ids) {
 
         return new ResponseEntity<>(userService.modifyStatusByIds(ids, "ACTIVATED"), HttpStatus.OK);
     }
 
+
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/{id}/status")
     public ResponseEntity<?> modifyStatusById(@PathVariable Long id, @RequestParam(name = "status") String status) {
         userService.modifyStatusById(id, status);

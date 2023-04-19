@@ -26,11 +26,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.net.URI;
-import java.util.Arrays;
-
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("/api/auth/")
 public class LoginAPI {
 
     @Autowired
@@ -50,22 +47,8 @@ public class LoginAPI {
     }
 
 
-    @GetMapping("/admin")
-    public ResponseEntity<?> doLogin(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getValue().equals("admin@gmail.com")) {
-                    return new ResponseEntity<>(HttpStatus.ACCEPTED);
-                }
-            }
-        }
-        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
-    }
-    @PostMapping("/admin")
-    public ResponseEntity<?> doLogin(@RequestBody LoginParam loginParam, BindingResult bindingResult,HttpServletResponse response) {
-
-
+    @PostMapping("/sign-in")
+    public ResponseEntity<?> doLogin(@RequestBody LoginParam loginParam, BindingResult bindingResult) {
         new LoginParam().validate(loginParam, bindingResult);
         if (bindingResult.hasFieldErrors()) {
             return  appUtils.mapErrorToResponse(bindingResult);
@@ -102,7 +85,13 @@ public class LoginAPI {
 
     @GetMapping("/sign-out")
     public ResponseEntity<?> logout(HttpServletResponse response) {
-        return null;
+        Cookie cookie = new Cookie("jwtToken", null); // Not necessary, but saves bandwidth.
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0); // Don't set to -1 or it will become a session cookie!
+        response.addCookie(cookie);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
     }
 
 }

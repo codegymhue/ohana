@@ -11,6 +11,7 @@ import vn.ohana.user.dto.LoginParam;
 import vn.ohana.user.dto.LoginResult;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -18,7 +19,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Override
     Page<User> findAll(Pageable pageable);
 
-    User findByEmail(String email);
+    Optional<User> findByEmail(String email);
 
 
     boolean existsByPhoneOrEmail(String phone, String email);

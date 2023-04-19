@@ -24,7 +24,6 @@ public interface PostService {
 
     Page<PostResult> filter(PostFilterParam filter, Pageable pageable);
 
-    void postEdit(PostUpdateParam postUpdateParam);
 
     Page<PostResult> findAllByUser(UserUpdateParam user, Pageable pageable);
 

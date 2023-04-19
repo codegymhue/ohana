@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
@@ -31,7 +32,6 @@ import static vn.ohana.config.MailConfig.MY_EMAIL;
 
 @RestController
 @RequestMapping("api/posts")
-@CrossOrigin("*")
 public class PostAPI {
     @Autowired
     PostService postService;
@@ -74,6 +74,7 @@ public class PostAPI {
 //        return new ResponseEntity<>(HttpStatus.OK);
 //    }
 
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping ("/{status}/status")
     public ResponseEntity<?> updateStatusAll(@PathVariable String status, @RequestBody Set<Long> ids) {
         return new ResponseEntity<>(postService.modifyStatusByIds(ids, status),HttpStatus.OK);
@@ -89,12 +90,8 @@ public class PostAPI {
         return new ResponseEntity<>(postService.filterPublishedPosts(filter, PageRequest.of(page, size)), HttpStatus.OK);
     }
 
-    @PatchMapping ("/edit")
-    public ResponseEntity<?> edit(@ModelAttribute PostUpdateParam postUpdateParam) {
-        postService.postEdit(postUpdateParam);
-        return new ResponseEntity<>("Cập nhật bài viết thành công", HttpStatus.OK);
-    }
 
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     @PatchMapping ("/{id}")
     public ResponseEntity<?> updateById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
         SimpleMailMessage message = new SimpleMailMessage();
