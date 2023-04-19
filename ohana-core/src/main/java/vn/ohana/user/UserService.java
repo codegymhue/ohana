@@ -37,7 +37,6 @@ public interface UserService  {
     boolean existsByPhoneOrEmail(String phoneOrEmail);
 
 
-
     LoginResult findByEmailAndPassword(String email, String password);
 
     LoginResult findByEmailAndPasswordMapper(String email, String password);
@@ -47,7 +46,13 @@ public interface UserService  {
 
     boolean existsByEmail(String email);
 
+
+     boolean existsByPhoneAndIdNot(String phone, Long id);
+    boolean existsByEmailAndIdNot(String email, Long id);
+
     UserResult findByEmail(String email);
+
+    UserUpdateParam findByEmailUpdate(String email);
 
     String findUserPasswordById(Long id);
 
@@ -60,5 +65,9 @@ public interface UserService  {
     boolean findByCode(String code);
 
 
+    void sendMailSignUp(String url, UserResult UserResult) throws MessagingException, UnsupportedEncodingException;
 
+    void forgetPassword(UserResult UserResult) throws MessagingException, UnsupportedEncodingException;
+
+     void sendMailForgetPassword(User user) throws MessagingException, UnsupportedEncodingException;
 }

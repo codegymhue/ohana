@@ -3,29 +3,20 @@
         <div class="_1akvT">
             <div class="_3bjUj">
                 <div class="_3Ob4b">
-                    <ul class="m-3">
+                    <ul class="m-1">
                         <span class="_1vH0j">
                             <a href="/">
-<!--                                <i class="fas fa-home" style="color: rgb(255, 255, 255); font-size: 21px;"></i>-->
-<!--                                <span class="_3Uk1Q _1UWQe">Trang chủ</span>-->
-                                <img class="logo" src="/resources/ohana/img/8541c2b17a0729942ed2a6f13b7b13e4.svg" alt="Ohana - Phòng cho thuê, ở ghép">
+                                <img class="logo" src="/resources/ohana/img/8541c2b17a0729942ed2a6f13b7b13e4.svg"
+                                     alt="Ohana - Phòng cho thuê, ở ghép">
                             </a>
                         </span>
                     </ul>
                 </div>
-                <!-- distance -->
                 <div class="_2k8vl">
-
                 </div>
-
                 <div class="_3Ob4b">
-                    <ul class="m-3">
-                        <!--                    <span class="_1vH0j">-->
-                        <!--                         <a href="/notification">-->
-                        <!--                            <i class="far fa-bell" style="color: rgb(255, 255, 255); font-size: 21px;"></i>-->
-                        <!--                            <span class="_3Uk1Q _1UWQe">Thông báo</span>-->
-                        <!--                         </a>-->
-                        <!--                    </span>-->
+                    <ul class="m-1">
+                        <th:block th:if="${userResult}!=null">
                         <span class="_1vH0j">
                             <a href="/list-post">
                                 <i class="fas fa-tasks" style="color: rgb(255, 255, 255); font-size: 21px;"></i>
@@ -38,11 +29,18 @@
                                 <span class="_3Uk1Q _1UWQe">Đăng tin</span>
                             </a>
                         </span>
+                        </th:block>
                         <th:block th:unless="${userResult}!=null">
                             <span class="_1vH0j">
                                 <a href="/sign-in">
                                     <i class="far fa-user" style="color: rgb(255, 255, 255); font-size: 21px;"></i>
                                     <span class="_3Uk1Q _1UWQe">Đăng nhập</span>
+                                </a>
+                            </span>
+                            <span class="_1vH0j">
+                                <a href="/sign-up">
+                                    <i class="fas fa-feather-alt" style="color: rgb(255, 255, 255); font-size: 21px;"></i>
+                                    <span class="_3Uk1Q _1UWQe">Đăng Ký</span>
                                 </a>
                             </span>
                         </th:block>

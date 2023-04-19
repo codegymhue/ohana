@@ -52,7 +52,6 @@
         </div>
     </div>
 </div>
-<th:block th:replace="/ohana/layout/footer :: footer"/>
 
 <th:block th:replace="/ohana/layout/script :: script"/>
 <script th:inline="javascript">
@@ -566,5 +565,10 @@
     })
 </script>
 </body>
+
+
+<footer id="footer">
+    <th:block th:replace="/ohana/layout/footer :: footer"/>
+</footer>
 
 </html>
