@@ -207,14 +207,16 @@ public class OhanaControllers {
     }
 
     @GetMapping("/{pId}/room")
-    public ModelAndView showRoom(@PathVariable Long pId, RedirectAttributes redirectAttributes) {
+    public ModelAndView showRoom(@PathVariable Long pId,@ModelAttribute("userResult") UserResult userResult, RedirectAttributes redirectAttributes) {
         try {
             PostResult post = postService.getById(pId);
             ModelAndView modelAndView = new ModelAndView("/ohana/room");
             modelAndView.addObject("post", post);
+            modelAndView.addObject("userResult", userResult);
             return modelAndView;
         } catch (NotFoundException e) {
             ModelAndView modelAndView = new ModelAndView("redirect:/");
+            modelAndView.addObject("userResult", userResult);
             redirectAttributes.addFlashAttribute("error", "ID không hợp lệ");
             return modelAndView;
         }
