@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="/resources/bootstrap-5.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/ohana/css/owl.carousel.min.css">ink
     <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
     <style>
         .col-md-3 {
@@ -138,7 +139,7 @@
             </div>
 
             <div class=" col-md-12 errorTotal">
-                <label class="m-1 form-label">Tiện ích: </label><div name="utilitiesCheckbox"></div>
+                <label class="m-1 form-label">Tiện ích: </label>
                 <div class="d-flex flex-wrap col-md-12 px-5" id="utilities" name="utilities" th:field="${postUpdateParam.utilities}">
                 </div>
 
@@ -169,18 +170,29 @@
                     <!--                    </label>-->
                 </div>
             </div>
-            <div class="row justify-content-center pd-25">
-                <p for="avatarCreate" class="fs-5">Ảnh bìa</p>
-                <div class="col-12 ">
-                    <input type="file" class="form-control view-avatar" onchange="image_select_cover(this)"
-                           name="coverImage"
-                           id="coverImage">
-                    <img id="img-preview" class="img-preview img_avatar"
-                         src="/resources/ohana/img/imagedefault.jpg"/>
+            <div class="d-flex col-md-12  mt-3 ">
+                <div class="col-md-3 px-2 errorTotal">
+                    <div  id="showImageThumb" class="col-md-12errorTotal">
+                        <div id="upload_widgetThumb" class="d-flex">
+                            <input type="hidden" id="urlImageThumb" name="urlImageThumb" th:field="${postUpdateParam.thumbnailId}">
+                            <div style="position: relative">
+                                <img id="imgPreviewThumb"
+                                     src="/resources/image/thumbpost.png"/>
+                                <button type="button" disabled id="btnUploadThumb" class="btn btn-primary">Upload ảnh bìa</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 errorTotal">
+                    <div id="showImage"  class="col-12 position-relative w-100">
+                        <div id="imagesUpload" class="owl-carousel">
+                        </div>
+                        <button type="button" onclick="cloudinaryWidget.open()" disabled id="btnUploadImages" class="btn btn-primary">Upload bài viết</button>
+                    </div>
                 </div>
             </div>
             <div class="w-100 col-md-12 px-2">
-                <button id="btnUpdate" name="btnUpdate" type="submit" class="btn btn-primary mt-3">Đăng tin</button>
+                <button id="btnUpdate" name="btnUpdate" type="submit" class="btn btn-primary mt-3">Cập nhật tin</button>
             </div>
         </form>
     </div>
@@ -190,6 +202,7 @@
 <th:block th:replace="/ohana/layout/script :: script"/>
 
 <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
+<script src="/resources/js/owl.carousel.min.js"></script>
 <script src="/resources/paginationjs-master/paginationjs-master/src/pagination.js"></script>
 <script>
     $(".view-avatar").change(function () {
@@ -199,8 +212,18 @@
 </script>
 <script th:inline="javascript">
 
+    let post = new Post();
+    let filter = {};
+    let listPost = [];
+    let min = 0;
+    let max = 15000000;
+    let postDTO = new PostDTO();
+    let utilities = new Set();
+
+    let listImageId = [];
     let page = {
         url: {
+            getDomain: App.GETDOMAIN,
             doUpdatePost: App.BASE_URL_API + "/posts/" ,
             getPostById: App.BASE_URL_API + "/posts/",
             getAllCategories: App.BASE_URL_API + "/categories",
@@ -248,13 +271,81 @@
     page.dialogs.elements.urlImageThumb = $('#urlImageThumb');
     page.dialogs.elements.urlImage = $('#urlImage');
 
-    let post = new Post();
-    let filter = {};
-    let listPost = [];
-    let min = 0;
-    let max = 15000000;
-    let postDTO = new PostDTO();
-    let utilities = new Set();
+    var cloudinaryWidget = cloudinary.createUploadWidget(
+        {
+            cloudName: "dh8nlcoul",
+            uploadPreset: "cvrenzxm"
+        },
+        (error, result) => {
+            if (!error && result && result.event === "success") {
+                let {url} = result.info;
+                let {public_id} = result.info;
+                listImageId.push(public_id);
+            }
+            if (result.event === "queues-end"){
+                $("#btnUploadImages").attr("disabled",false).css("z-index", 999).text("Tải thêm ảnh")
+                renderCarousel();
+            }
+        }
+    );
+    const renderCarousel  = ()=>{
+        $("#imagesUpload").trigger('destroy.owl.carousel').removeClass('owl-loaded');
+        $("#imagesUpload").find('.owl-stage-outer').children().unwrap();
+        let imgElements = [...listImageId].map(id => renderUploadImage(id));
+        $("#imagesUpload").html(imgElements.join(""))
+        $("#imagesUpload").owlCarousel({items: 4,nav: true,dots: false})
+    }
+    const handleDeleteUploadImage = (imgId)=>{
+        listImageId = listImageId.filter(id => id !== imgId);
+        renderCarousel();
+    }
+    const renderUploadImage = (id) =>{
+        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/v1681975206/${id}.jpg`
+        return `<div class="position-relative">
+                    <button data-imgid="${id}" id="imgDeleteBtn" onclick="handleDeleteUploadImage(this.dataset.imgid)" class="btn-outline-danger btn-sm btn"><i class="fas fa-times-circle"></i></button>
+                    <img class="post_img_preview" src="${url}" alt="Uploaded images"/>
+                </div>`;
+    }
+
+    $("#showImage").on("click", function (e) {
+        if (e.target.getAttribute("id") === "showImage") {
+            cloudinaryWidget.open();
+        }
+    });
+
+
+    let thumbnailId;
+    var cloudinaryWidgetThumb = cloudinary.createUploadWidget(
+        {
+            cloudName: "dh8nlcoul",
+            uploadPreset: "cvrenzxm",
+            multiple: false
+        },
+        (error, result) => {
+            if (!error && result && result.event === "success") {
+                let {url} = result.info;
+                let {public_id} = result.info;
+                thumbnailId = public_id;
+                $("#imgPreviewThumb").attr("src", url);
+                $("#btnUploadThumb")
+                    .text("Thay đổi")
+                    .attr("disabled",false)
+                    .addClass("btn-sm btn-outline-secondary text-white")
+                    .removeClass("btn-primary")
+                    .css("text-shadow","0 0 5px black")
+            }
+        }
+    );
+    $("#upload_widgetThumb").on("click", function () {
+        cloudinaryWidgetThumb.open();
+    });
+
+
+    let renderImage = (image) => {
+        return `
+            <img style="object-fit: cover" id="imgPreview" src="${image}" class="postroom"/>
+        `
+    }
 
 
 
@@ -263,9 +354,15 @@
             type: "GET",
             url: "http://localhost:8080/api/posts/" + postId
         }).done((data)=>{
+
+            let thumbnail = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_250/v1681980805/${data.thumbnailId}.jpg`;
+            $("#imgPreviewThumb").attr("src",thumbnail);
+
             post = data;
             let location = post.location
             let utilitiesByIdUser = post.utilities;
+            listImageId = data.postMedia.map(img => img.id);
+            renderCarousel();
             page.dialogs.elements.title.val(post.title);
             page.dialogs.elements.descriptionContent.val(post.descriptionContent);
             page.dialogs.elements.category.val(post.category.id);
@@ -290,7 +387,6 @@
             })
         })
             .fail((jqXHR) => {
-                alert("hahaha")
                 let errors = jqXHR.responseJSON;
                 let strError = "";
                 if (errors) {
@@ -325,9 +421,6 @@
             type: "GET",
             url: page.url.getAllUtilities + "?page=0&size=50&status=SHOW"
         }).done(function (data) {
-            console.log(data.content)
-
-            console.log(utilitiesByIdUser)
 
             data.content.forEach((item) => {
                 let checkutilities = false;
@@ -484,9 +577,6 @@
             categoryId: {
                 required: true,
             },
-            utilitiesCheckbox:{
-                required: true,
-            },
             "rentHouse.gender": {
                 required: true,
             },
@@ -557,9 +647,6 @@
                 required: "Mô tả không được để trống",
                 minlength: "Mô tả không được dưới 20 kí tự",
                 maxlength: "Mô tả không được vượt quá 1000 kí tự",
-            },
-            utilitiesCheckbox:{
-                required: "Vui lòng chọn ít nhất 1 tiện ích",
             },
             categoryId: {
                 required: "Vui lòng chọn loại phòng",
@@ -634,6 +721,7 @@
         let rentHouse = new RentHouse();
         let location = new LocationDTO();
         // let images = listImageId;
+        let postId = Number([[${post.id}]]);
 
         let title = $("#title").val();
         let descriptionContent = $("#descriptionContent").val();
@@ -662,11 +750,10 @@
         postDTO.rentHouse = rentHouse;
         postDTO.location = location;
         postDTO.thumbnailId = thumbnailId;
-        postDTO.images = images;
+        postDTO.images = listImageId;
         postDTO.idUser = idUser;
         postDTO.utilities = Array.from(utilities);
-
-        let postId = Number([[${post.id}]]);
+        postDTO.id = postId;
 
         $.ajax({
             headers: {
@@ -678,9 +765,10 @@
             data: JSON.stringify(postDTO)
         })
             .done((data) => {
-                clearForm();
-                showSuccess("đăng bài thành công!!!")
-
+                showSuccess("Cập nhật thành công!!!")
+                setTimeout(()=>{
+                    window.location.href = page.url.getDomain + "/list-post";
+                },1000)
             })
             .fail((jqXHR) => {
                 console.log(jqXHR)
@@ -704,102 +792,6 @@
         })
             page.commands.handleUpdate();
     }
-
-    //img
-    var imageCover = new PostMedia();
-    var postMediaOrl = [];
-    var images = [];
-    var imageAdds = [];
-    imageCover = post.thumbnailUrl;
-    // postMediaOrl = post.imageUrls;
-
-    // function image_select_cover(el) {
-    //     imageCover = $(el).prop('files')[0];
-    // }
-    //
-    // function image_select(el) {
-    //     // let form =new FormData();
-    //     // let imageAdd = $(el).prop('files')[0];
-    //     // form.append('images',imageAdd);
-    //     // form.append('images',imageAdd);
-    //     // console.log(imageAdd);
-    //     // doCreatePost(form);
-    //     let image = document.getElementById('image').files;
-    //     for (i = 0; i < image.length; i++) {
-    //         if (check_duplicate(image[i].name)) {
-    //             images.push({
-    //                 "name": image[i].name,
-    //                 "url": URL.createObjectURL(image[i]),
-    //                 "file": image[i],
-    //             })
-    //             let imageAdd = $(el).prop('files')[i];
-    //             imageAdds.push(imageAdd);
-    //         } else {
-    //             alert(image[i].name + " ảnh này đã được chọn");
-    //         }
-    //     }
-    //     document.getElementById('form').reset();
-    //     document.getElementById('container').innerHTML = image_show();
-    // }
-    //
-    // function image_show() {
-    //     var image = "";
-    //     postMediaOrl.forEach((i, index) => {
-    //         image += `<div class="image_container d-flex justify-content-center position-relative">
-   	//   	  	  	  <img class="list-img" src="${i.fileUrl}" alt="Image">
-   	//   	  	  	  <span  onclick="delete_image_Orl(` + postMediaOrl.indexOf(i) + `)">&times;</span>
-   	//   	  	  </div>`;
-    //     })
-    //     images.forEach((i, index) => {
-    //         image += `<div class="image_container d-flex justify-content-center position-relative">
-   	//   	  	  	  <img class="list-img" src="` + i.url + `" alt="Image">
-   	//   	  	  	  <span  onclick="delete_image(` + images.indexOf(i) + `)">&times;</span>
-   	//   	  	  </div>`;
-    //     })
-    //     return image;
-    // }
-    //
-    //
-    // function delete_image(e) {
-    //
-    //     images.splice(e, 1);
-    //     imageAdds.splice(e, 1);
-    //     document.getElementById('container').innerHTML = image_show();
-    // }
-    //
-    // function delete_image_Orl(e) {
-    //     postMediaOrl.splice(e, 1);
-    //
-    //     // post.imageUrls.splice(e,1);
-    //
-    //     document.getElementById('container').innerHTML = image_show();
-    // }
-    //
-    // function check_duplicate(name) {
-    //     var image = true;
-    //     if (images.length > 0) {
-    //         for (e = 0; e < images.length; e++) {
-    //             if (images[e].name == name) {
-    //                 image = false;
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     return image;
-    // }
-    //
-    // function get_image_data() {
-    //     var form = new FormData()
-    //     let fileReader = new FileReader();
-    //     for (let index = 0; index < images.length; index++) {
-    //         form.append('images', images[index]['file']);
-    //         // fileReader.readAsDataURL(images[index]);
-    //         // form.append("file[" + index + "]", images[index]['file']);
-    //     }
-    //
-    //     return form;
-    // }
-
 
     $(function () {
         page.loadData();

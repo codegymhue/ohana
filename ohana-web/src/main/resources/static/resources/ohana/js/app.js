@@ -1,5 +1,6 @@
 class App {
     static DOMAIN = location.origin;
+    static GETDOMAIN = this.DOMAIN;
     static BASE_URL_API = this.DOMAIN + "/api";
     static BASE_URL_POST = this.DOMAIN + "/api/dashboard";
     static BASE_URL_PROVINCE = "https://vapi.vnappmob.com/api/province";
