@@ -90,7 +90,7 @@
                     <div class="ySUHy">
                         <div class="q49VD">
                             <div class="wzw4X d-flex flex-column">
-                                <div class="d-flex justify-content-between w-100">
+                                <div class="d-flex justify-content-between w-100" id="btn_price">
                                     <span class="_2dNxP">Giá</span>
                                     <span
                                             class="icon-a-down float-end _11wO8 _2enHb" id="btnPrice"
@@ -122,7 +122,7 @@
                         </div>
                         <div class="q49VD">
                             <div class="wzw4X d-flex flex-column">
-                                <div class="d-flex justify-content-between w-100">
+                                <div class="d-flex justify-content-between w-100" id="btn_categories">
                                     <span class="_2dNxP">Loại phòng</span>
                                     <span
                                             class="icon-a-down float-end _11wO8 _2enHb" id="btnCategory"
@@ -136,7 +136,7 @@
                         </div>
                         <div class="q49VD">
                             <div class="wzw4X d-flex flex-column">
-                                <div class="d-flex justify-content-between w-100">
+                                <div class="d-flex justify-content-between w-100" id="btn_utitys">
                                     <span class="_2dNxP">Tiện ích</span>
                                     <span
                                             class="icon-a-down float-end _11wO8 _2enHb" id="btnUtilities"
@@ -150,7 +150,7 @@
 
                         <div class="q49VD">
                             <div class="wzw4X d-flex flex-column">
-                                <div class="d-flex justify-content-between w-100">
+                                <div class="d-flex justify-content-between w-100" id="btn_gender">
                                     <span class="_2dNxP">Giới tính</span>
                                     <span
                                             class="icon-a-down float-end _11wO8 _2enHb" id="btnGenders"
@@ -277,7 +277,7 @@
 
     let isCategoryClick = false
 
-    $("#btnCategory").on('click', function () {
+    $("#btn_categories").on('click', function () {
         page.commands.handleCategoryClick(isCategoryClick = !isCategoryClick)
     });
 
@@ -293,7 +293,7 @@
 
     let isUtilitieClick = false
 
-    $("#btnUtilities").on('click', function () {
+    $("#btn_utitys").on('click', function () {
         page.commands.handleUtilitieClick(isUtilitieClick = !isUtilitieClick)
     })
 
@@ -309,7 +309,7 @@
 
     let isGenderClick = false
 
-    $("#btnGenders").on('click', function () {
+    $("#btn_gender").on('click', function () {
         page.commands.handleGenderClick(isGenderClick = !isGenderClick)
     })
 
@@ -325,7 +325,7 @@
 
     let isPiceClick = false
 
-    $("#btnPrice").on('click', function () {
+    $("#btn_price").on('click', function () {
         page.commands.handlePriceClick(isPiceClick = !isPiceClick)
     })
 
