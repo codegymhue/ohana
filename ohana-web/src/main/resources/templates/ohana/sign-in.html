@@ -134,6 +134,11 @@
         showSuccess('Bạn đã đăng kí thành công, xin mời xác thực tài khoản trong email')
     </script>
 </th:block>
+<th:block th:if="${confirmMail == true}">
+    <script>
+        showWarning('Bạn cần xác thực email trước khi đăng nhập.')
+    </script>
+</th:block>
 <script>
 
 

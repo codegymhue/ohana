@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import vn.ohana.entities.Role;
+import vn.ohana.entities.UserStatus;
 
 //@ToString
 
@@ -21,6 +22,7 @@ public class LoginResult {
     private String description;
     private String thumbnailId;
     private Role role;
+    private UserStatus status;
 
 
 }

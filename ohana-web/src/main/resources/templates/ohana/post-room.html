@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="/resources/bootstrap-5.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/ohana/css/owl.carousel.min.css">
     <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
     <style>
         .col-md-3 {
@@ -45,12 +46,6 @@
         .img_avatar {
             height: 120px;
             width: 200px;
-        }
-
-        .postroom {
-            width: 200px;
-            height: 200px;
-
         }
 
         .input {
@@ -169,30 +164,29 @@
                     <!--                    </label>-->
                 </div>
             </div>
-            <div class="row col-md-12 mt-3">
-                <div class="col-md-3 errorTotal" style="position: relative">
-                    <button type="button" id="upload_widgetThumb" name="upload_widgetThumb" class="col-md-3 w-100 h-100">thumbnail
-                        <input type="hidden" id="urlImageThumb" name="urlImageThumb" th:field="${postCreateParam.thumbnailId}">
-                        <!--                        <img id="imgPreview" class="col-md-3 h-100"-->
-                        <!--                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>-->
-                    </button>
+            <div class="d-flex col-md-12  mt-3 ">
+                <div class="col-md-3 px-2 errorTotal">
+                    <div  id="showImageThumb" class="col-md-12errorTotal">
+                        <div id="upload_widgetThumb" class="d-flex">
+                            <input type="hidden" id="urlImageThumb" name="urlImageThumb" th:field="${postCreateParam.thumbnailId}">
+                           <div style="position: relative">
+                               <img id="imgPreviewThumb"
+                                    src="/resources/image/thumbpost.png"/>
+                               <button type="button" disabled id="btnUploadThumb" class="btn btn-primary">Upload ảnh bìa</button>
+                           </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9 errorTotal">
+                    <div id="showImage"  class="col-12 position-relative w-100">
+                      <div id="imagesUpload" class="owl-carousel">
+                      </div>
+                        <button type="button" onclick="cloudinaryWidget.open()" disabled id="btnUploadImages" class="btn btn-primary">Upload bài viết</button>
+                    </div>
                 </div>
             </div>
-            <div id="showImageThumb" name="showImageThumb" class="row col-md-12 mt-3 errorTotal">
-                <img id="imgPreviewThumb" name="imgPreviewThumb" class="postroom"/>
-            </div>
-            <div class="row col-md-12 mt-3">
-                <div class="col-md-3 errorTotal"  style="position: relative">
-                    <button type="button" id="upload_widget" class="col-md-3 w-100 h-100">Chọn ảnh
-                        <input type="hidden" id="urlImage" name="urlImage"  th:field="${postCreateParam.images}">
-                        <!--                        <img id="imgPreview" class="col-md-3 h-100"-->
-                        <!--                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>-->
-                    </button>
-                </div>
-            </div>
-            <div id="showImage" class="row col-md-12 mt-3">
-                <img id="imgPreview" class="postroom"/>
-            </div>
+
+
             <div class="w-100 col-md-12 px-2">
                 <button id="submitPost" name="submitPost" type="submit" class="btn btn-primary mt-3">Đăng tin</button>
             </div>
@@ -202,34 +196,53 @@
 
 <th:block th:replace="/ohana/layout/footer :: footer"/>
 <th:block th:replace="/ohana/layout/script :: script"/>
-
+<script src="/resources/js/owl.carousel.min.js"></script>
 <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
 <script src="/resources/paginationjs-master/paginationjs-master/src/pagination.js"></script>
 <script>
     let listImageId = [];
+    let imagesUrls = [];
     var cloudinaryWidget = cloudinary.createUploadWidget(
         {
             cloudName: "dh8nlcoul",
-            uploadPreset: "cvrenzxm",
+            uploadPreset: "cvrenzxm"
         },
         (error, result) => {
             if (!error && result && result.event === "success") {
-                console.log("Done! Here is the image info: ", result.info);
                 let {url} = result.info;
                 let {public_id} = result.info;
                 listImageId.push(public_id);
-                console.log("url");
-                console.log(url);
-                let str = renderImage(url);
-                $('#showImage').prepend(str);
             }
+           if (result.event === "queues-end"){
+               $("#btnUploadImages").attr("disabled",false).css("z-index", 999).text("Tải thêm ảnh")
+               renderCarousel();
+           }
+            console.log(result)
         }
     );
+    const renderCarousel  = ()=>{
+        $("#imagesUpload").trigger('destroy.owl.carousel').removeClass('owl-loaded');
+        $("#imagesUpload").find('.owl-stage-outer').children().unwrap();
+        let imgElements = [...listImageId].map(id => renderUploadImage(id));
+        $("#imagesUpload").html(imgElements.join(""))
+        $("#imagesUpload").owlCarousel({items: 4,nav: true,dots: false})
+    }
+    const handleDeleteUploadImage = (imgId)=>{
+        listImageId = listImageId.filter(id => id !== imgId);
+        renderCarousel();
+    }
+    const renderUploadImage = (id) =>{
+        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/v1681975206/${id}.jpg`
+        return `<div class="position-relative">
+                    <button data-imgid="${id}" id="imgDeleteBtn" onclick="handleDeleteUploadImage(this.dataset.imgid)" class="btn-outline-danger btn-sm btn"><i class="fas fa-times-circle"></i></button>
+                    <img class="post_img_preview" src="${url}" alt="Uploaded images"/>
+                </div>`;
+    }
 
-    $("#upload_widget").on("click", function () {
-        cloudinaryWidget.open();
-        console.log("listImageId")
-        console.log(listImageId)
+    $("#showImage").on("click", function (e) {
+        if (e.target.getAttribute("id") === "showImage") {
+            cloudinaryWidget.open();
+        }
     });
 
 
@@ -238,23 +251,25 @@
         {
             cloudName: "dh8nlcoul",
             uploadPreset: "cvrenzxm",
+            multiple: false
         },
         (error, result) => {
             if (!error && result && result.event === "success") {
-                console.log("Done! Here is the image info: ", result.info);
                 let {url} = result.info;
                 let {public_id} = result.info;
                 thumbnailId = public_id;
-                let str = renderImage(url);
-                $('#showImageThumb').prepend(str);
-
+                $("#imgPreviewThumb").attr("src", url);
+                $("#btnUploadThumb")
+                    .text("Thay đổi")
+                    .attr("disabled",false)
+                    .addClass("btn-sm btn-outline-secondary text-white")
+                    .removeClass("btn-primary")
+                    .css("text-shadow","0 0 5px black")
             }
         }
     );
     $("#upload_widgetThumb").on("click", function () {
         cloudinaryWidgetThumb.open();
-        console.log("thumbnailId")
-        console.log(thumbnailId)
     });
 
 
@@ -335,7 +350,6 @@
             type: "GET",
             url: page.url.getAllGenders
         }).done(function (data) {
-            console.log(data)
             data.forEach((item) => {
                 let str = `<option value="${item.id}">${item.name}</option>`;
                 $("#gender").append(str);
@@ -350,7 +364,6 @@
             type: "GET",
             url: page.url.getAllUtilities + "?page=0&size=50&status=SHOW"
         }).done(function (data) {
-            console.log(data)
             data.content.forEach((item) => {
                 let str = `<div class="col-md-2" style="font-size: 1.2rem;">
                             <input type="checkbox" id="utility" name="utilitiesCheckbox" value="${item.id}">
@@ -360,13 +373,10 @@
             });
             $("input[type=checkbox]").off("change");
             $("input[type=checkbox]").on("change", function() {
-                console.log($(this).is(":checked"))
                 if (!$(this).is(":checked")) {
                     utilities.delete($(this).val());
-                    console.log(Array.from(utilities));
                 } else {
                     utilities.add($(this).val());
-                    console.log(Array.from(utilities))
                 }
             })
         }).fail(function () {
@@ -501,7 +511,6 @@
 
     let doPostRoom = () => {
         let idUser = $("#id").val();
-        console.log(idUser);
         let rentHouse = new RentHouse();
         let location = new LocationDTO();
         let images = listImageId;
@@ -536,7 +545,6 @@
         postDTO.images = images;
         postDTO.idUser = idUser;
         postDTO.utilities = Array.from(utilities);
-        console.log("submitttttttttttttttttttt")
 
         $.ajax({
             headers: {
@@ -553,7 +561,6 @@
 
             })
             .fail((jqXHR) => {
-                console.log(jqXHR)
                 let errors = jqXHR.responseJSON;
                 let message = errors.message;
                 console.log(message)
@@ -670,7 +677,7 @@
                 required: "Diện tích không được để trống",
                 number: "Chỉ nhập số",
                 min: "Diện tích không được dưới 10 m2",
-                max: "Diện tích không được vượt quá 1000 m2"
+                max: "Diện tích không được vượt quá 1.000 m2"
             },
             "rentHouse.capacity": {
                 required: "Sức chứa không được để trống",
@@ -681,13 +688,13 @@
             "rentHouse.electricityPrice": {
                 required: "Tiền điện không được để trống",
                 number: "Chỉ nhập số",
-                min: "Tiền điện dưới 1000 đồng",
+                min: "Tiền điện không được dưới 1.000 đồng",
                 max: "Tiền điện vượt quá 20.000 đồng"
             },
             "rentHouse.waterPrice": {
                 required: "Tiền nước không được để trống",
                 number: "Chỉ nhập số",
-                min: "Tiền nước không dưới 1000 đồng",
+                min: "Tiền nước không dưới 1.000 đồng",
                 max: "Tiền nước không vượt quá 30.000 đồng"
             },
             "rentHouse.wifiPrice": {

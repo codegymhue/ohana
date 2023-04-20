@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 import vn.ohana.entities.User;
+import vn.ohana.entities.UserStatus;
 import vn.ohana.google.GoogleService;
 import vn.ohana.google.dto.GGSignInParam;
 import vn.ohana.google.dto.GooglePojo;
@@ -69,6 +70,11 @@ public class LoginControllers extends BaseController {
             }
 
             loginResult = userService.findByEmailAndPassword(loginParam.getEmail(), loginParam.getPassword());
+            if (loginResult.getStatus().equals(UserStatus.CONFIRM_EMAIL)) {
+                model.addAttribute("confirmMail", true);
+                return modelAndView;
+            }
+
             if (loginResult != null) {
                 cookie = new Cookie("cookie", loginParam.getEmail());
                 cookie.setMaxAge(24 * 60 * 60 * 30);

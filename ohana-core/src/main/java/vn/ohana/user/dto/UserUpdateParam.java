@@ -35,7 +35,7 @@ public class UserUpdateParam extends BaseUser implements Validator {
             errors.rejectValue("fullName", "userupdate.validation.fullName.notBlank");
         } else {
             if (fullName.length() < 4 || fullName.length() > 25) {
-                errors.rejectValue("fullName", "userupdate.validation.fullName.notBlank");
+                errors.rejectValue("fullName", "userupdate.validation.fullName.notFormat");
             }
         }
 
