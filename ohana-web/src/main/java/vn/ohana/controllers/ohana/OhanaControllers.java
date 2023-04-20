@@ -97,7 +97,6 @@ public class OhanaControllers {
             userService.save(userUpdateParam);
             modelAndView.addObject("success", true);
             UserResult userResult = userService.findByEmail(userUpdateParam.getEmail());
-
             modelAndView.addObject("userResult", userResult);
             modelAndView.addObject("userUpdateParam", userUpdateParam);
             return modelAndView;
