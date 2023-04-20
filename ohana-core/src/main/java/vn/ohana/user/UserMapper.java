@@ -3,18 +3,15 @@ package vn.ohana.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
-import vn.ohana.entities.PostMedia;
 import vn.ohana.entities.User;
 import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.post.PostMediaService;
 import vn.ohana.user.dto.BaseUser;
 import vn.ohana.user.dto.LoginResult;
-import vn.ohana.user.dto.UserPrinciple;
+import vn.ohana.user.dto.UserPrincipal;
 import vn.ohana.user.dto.UserResult;
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.rananu.shared.mappers.BaseMapper;
-
-import java.util.Optional;
 
 
 @Component
@@ -76,7 +73,7 @@ PostMediaService postMediaService;
     }
 
 
-    public UserPrinciple toUserPrinciple(User user) {
-        return modelMapper.map(user, UserPrinciple.class);
+    public UserPrincipal toUserPrinciple(User user) {
+        return modelMapper.map(user, UserPrincipal.class);
     }
 }

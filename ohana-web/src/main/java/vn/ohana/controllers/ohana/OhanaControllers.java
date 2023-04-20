@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
+import vn.ohana.jwt.JwtService;
 import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostCreateParam;
 import vn.ohana.post.dto.PostResult;
@@ -29,13 +30,17 @@ public class OhanaControllers {
     UserService userService;
 
     @Autowired
+    JwtService jwtService;
+
+    @Autowired
     PostService postService;
 
     @ModelAttribute("userResult")
-    public UserResult getUserLoginFromCookie(@CookieValue(value = "cookie", defaultValue = "0") String loginUsername) {
+    public UserResult getUserLoginFromCookie(@CookieValue(value = "jwtToken", defaultValue = "0") String token) {
         UserResult userResult = null;
-        if (!loginUsername.equals("0")) {
-            userResult = userService.findByEmail(loginUsername);
+        String email = jwtService.extractUserName(token);
+        if (!token.equals("0")) {
+            userResult = userService.findByEmail(email);
         }
         return userResult;
     }

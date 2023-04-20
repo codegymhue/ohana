@@ -2,8 +2,6 @@ package vn.ohana.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.User;
 import vn.ohana.google.dto.GooglePojo;
@@ -72,5 +70,5 @@ public interface UserService {
     void forgetPassword(UserResult UserResult) throws MessagingException, UnsupportedEncodingException;
 
     void sendMailForgetPassword(User user) throws MessagingException, UnsupportedEncodingException;
-    UserPrinciple findUserPrincipleByEmail(String username);
+    UserPrincipal findUserPrincipleByEmail(String username);
 }

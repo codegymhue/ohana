@@ -2,6 +2,13 @@ package vn.ohana.controllers.ohana;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -10,17 +17,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import vn.ohana.entities.Role;
 import vn.ohana.entities.User;
 import vn.ohana.entities.UserStatus;
 import vn.ohana.google.GoogleService;
 import vn.ohana.google.dto.GGSignInParam;
 import vn.ohana.google.dto.GooglePojo;
+import vn.ohana.jwt.JwtResponse;
+import vn.ohana.jwt.JwtService;
 import vn.ohana.user.UserService;
-import vn.ohana.user.dto.LoginParam;
-import vn.ohana.user.dto.LoginResult;
-import vn.ohana.user.dto.SignUpParam;
-import vn.ohana.user.dto.UserResult;
+import vn.ohana.user.dto.*;
 import vn.rananu.shared.controllers.BaseController;
+import vn.rananu.shared.exceptions.ValidationException;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
@@ -34,6 +42,12 @@ import java.security.GeneralSecurityException;
 public class LoginControllers extends BaseController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    JwtService jwtService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
     @Autowired
     GoogleService googleService;
 
@@ -70,18 +84,65 @@ public class LoginControllers extends BaseController {
             }
 
             loginResult = userService.findByEmailAndPassword(loginParam.getEmail(), loginParam.getPassword());
-            if (loginResult.getStatus().equals(UserStatus.CONFIRM_EMAIL)) {
-                model.addAttribute("confirmMail", true);
-                return modelAndView;
-            }
-
             if (loginResult != null) {
+                if (loginResult.getStatus().equals(UserStatus.CONFIRM_EMAIL)) {
+                    model.addAttribute("confirmMail", true);
+                    return modelAndView;
+                }
                 cookie = new Cookie("cookie", loginParam.getEmail());
                 cookie.setMaxAge(24 * 60 * 60 * 30);
                 response.addCookie(cookie);
 
                 cookie = new Cookie("cookieLogin", loginParam.getEmail());
                 cookie.setMaxAge(2);
+                response.addCookie(cookie);
+                return "redirect:/";
+            } else {
+                model.addAttribute("error", true);
+                model.addAttribute("messages", "Sai email hoặc mật khẩu");
+                return modelAndView;
+            }
+        } else {
+            loginGoogle(ggSignInParam, response, model);
+            return "redirect:/";
+        }
+    }
+    @PostMapping("/log-in")
+    public Object doLoginWithCredential(@ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute LoginParam loginParam, BindingResult bindingResult, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
+        ModelAndView modelAndView = new ModelAndView("/ohana/sign-in");
+        LoginResult loginResult = null;
+        Cookie cookie;
+
+        if (ggSignInParam.getCredential() == null) {
+
+            new LoginParam().validate(loginParam, bindingResult);
+            if (bindingResult.hasFieldErrors()) {
+                return modelAndView;
+            }
+
+
+            String username = loginParam.getEmail();
+            UserPrincipal userDetails = userService.findUserPrincipleByEmail(username);
+            if (userDetails != null) {
+
+                if (!userDetails.getRole().equals(Role.ADMIN)) {
+                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+                }
+                String password = loginParam.getPassword();
+
+                UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
+                try {
+                    authenticationManager.authenticate(authentication);
+                } catch (AuthenticationException e) {
+                    throw new ValidationException("login.exception.emailOrPwd");
+                }
+                String jwt = jwtService.generateToken(userDetails);
+                cookie = new Cookie("jwtToken", jwt);
+                cookie.setMaxAge(60 * 1000);
+                cookie.setPath("/");
+                cookie.setHttpOnly(true);
+                cookie.setDomain("localhost");
+                cookie.setSecure(false);
                 response.addCookie(cookie);
                 return "redirect:/";
             } else {

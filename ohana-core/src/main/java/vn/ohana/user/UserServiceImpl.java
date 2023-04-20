@@ -9,13 +9,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseBody;
-import vn.ohana.entities.PostMedia;
 import vn.ohana.entities.Role;
 import vn.ohana.entities.User;
 import vn.ohana.entities.UserStatus;
@@ -28,7 +26,6 @@ import vn.rananu.shared.exceptions.ValidationException;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
-import javax.mail.internet.MimeMessage;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -174,7 +171,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     @Override
-    public UserPrinciple findUserPrincipleByEmail(String username) {
+    public UserPrincipal findUserPrincipleByEmail(String username) {
         User user =  userRepository.findByEmail(username).orElseThrow(()->new ValidationException("user.exception.notFound"));
         return userMapper.toUserPrinciple(user);
     }

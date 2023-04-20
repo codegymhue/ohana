@@ -17,13 +17,11 @@ import vn.ohana.jwt.JwtResponse;
 import vn.ohana.jwt.JwtService;
 import vn.ohana.user.UserService;
 import vn.ohana.user.dto.LoginParam;
-import vn.ohana.user.dto.LoginResult;
-import vn.ohana.user.dto.UserPrinciple;
+import vn.ohana.user.dto.UserPrincipal;
 import vn.ohana.utils.AppUtils;
 import vn.rananu.shared.exceptions.ValidationException;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 @RestController
@@ -54,14 +52,13 @@ public class LoginAPI {
             return  appUtils.mapErrorToResponse(bindingResult);
         }
         String username = loginParam.getEmail();
-        UserPrinciple userDetails = userService.findUserPrincipleByEmail(username);
+        UserPrincipal userDetails = userService.findUserPrincipleByEmail(username);
 
         if (!userDetails.getRole().equals(Role.ADMIN)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         String password = loginParam.getPassword();
 
-        String jwt = jwtService.generateToken(userDetails);
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authenticate;
         try {
@@ -69,6 +66,7 @@ public class LoginAPI {
         } catch (AuthenticationException e) {
             throw new ValidationException("login.exception.emailOrPwd");
         }
+        String jwt = jwtService.generateToken(userDetails);
         JwtResponse jwtResponse = new JwtResponse (jwt,userDetails.getId(),username,authenticate.getAuthorities());
 
         ResponseCookie springCookie = ResponseCookie.from("jwtToken", jwt)

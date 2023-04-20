@@ -1,9 +1,11 @@
 package vn.ohana.config;
 
 
+import com.cloudinary.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -15,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import vn.ohana.jwt.JwtAuthenticationFilter;
 import vn.ohana.user.UserServiceImpl;
@@ -43,6 +46,11 @@ public class SecurityConfig {
     @Bean
     public CustomAccessDeniedHandler customAccessDeniedHandler() {
         return new CustomAccessDeniedHandler();
+    }
+
+    @Bean
+    AuthenticationSuccessHandler authenticationSuccessHandler() {
+        return new UserSuccessHandler();
     }
 
     @Bean
@@ -106,22 +114,36 @@ public class SecurityConfig {
 //                .accessDeniedHandler(customAccessDeniedHandler())
 //        ;
         http
-                .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/","/resources/**","/api/login/**","/sign-up","/**/room","/search/**").permitAll()
+                .antMatchers(
+                        "/",
+                        "/resources/**",
+                        "/api/login/**",
+                        "/sign-up",
+                        "/log-in",
+                        "/sign-in",
+                        "/**/room",
+                        "/search/**",
+                        "/view-all", 
+                        "/api/auth/**"
+                ).permitAll()
 //                .antMatchers("/api/utilities/**").hasAuthority("ADMIN")
                 .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated().and()
-                .formLogin().loginPage("/sign-in").permitAll().and()
-                .logout().logoutUrl("/logout").permitAll().clearAuthentication(true)
+                .formLogin().loginPage("/sign-in")
+                .successHandler(authenticationSuccessHandler())
+                .usernameParameter("email").and()
+                .logout().logoutUrl("/sign-out").permitAll().clearAuthentication(true)
                 .deleteCookies("jwtToken").and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()
                 .accessDeniedHandler(customAccessDeniedHandler())
                 .authenticationEntryPoint(restServicesEntryPoint())
-                .and().httpBasic();
+                .and()
+                .csrf().disable()
+                .httpBasic();
 //
         return http.build();
     }
