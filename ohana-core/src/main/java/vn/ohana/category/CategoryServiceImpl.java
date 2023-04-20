@@ -49,8 +49,8 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public CategoryResult create(CategoryCreationParam param) {
         validationByTitle(param.getTitle());
-        Category category = categoryMapper.toEntity(param);
-        category.setStatus(StatusCategory.SHOW);
+        Category category = categoryMapper.toEntity(param)
+                .setStatus(StatusCategory.SHOW);
         category = categoryRepository.save(category);
         return categoryMapper.toDTO(category);
     }

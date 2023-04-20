@@ -15,7 +15,6 @@
 </head>
 
 <body>
-<th:block th:replace="/ohana/layout/header :: header(${userResult})"/>
 
 <!-- Modal Share-->
 <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
@@ -64,7 +63,7 @@
     <div class="app">
         <div class="_3bjUj">
             <!--header-->
-            <th:block th:replace="/ohana/layout/header :: header(${userLogin})"/>
+            <th:block th:replace="/ohana/layout/header :: header(${userResult})"/>
             <div class="QZg_h _18fKS">
                 <div class="_3oMi4">
                     <div class="_3OgY1">
@@ -448,7 +447,6 @@ $(()=>{
     });
 })
 </script>
-
 </body>
 
 </html>

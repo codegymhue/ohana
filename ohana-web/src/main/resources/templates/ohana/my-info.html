@@ -64,10 +64,8 @@
 <th:block th:replace="/ohana/layout/modal/modal-loading :: modal-loading "/>
 <div class="container">
     <div class="_3bjUj">
-        <!--header-->
         <th:block th:replace="/ohana/layout/header :: header(${userResult})"/>
     </div>
-
     <div class="container mt-xl-5">
         <div class="text-center">
             <h3>
@@ -178,7 +176,6 @@
         cloudinaryWidget.open();
     });
 </script>
-
 
 <th:block th:if="${success == true}">
     <script>

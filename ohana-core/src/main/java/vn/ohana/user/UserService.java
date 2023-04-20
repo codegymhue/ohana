@@ -65,7 +65,6 @@ public interface UserService {
 
     boolean findByCode(String code);
 
-
     void sendMailSignUp(String url, UserResult UserResult) throws MessagingException, UnsupportedEncodingException;
 
     void forgetPassword(UserResult UserResult) throws MessagingException, UnsupportedEncodingException;

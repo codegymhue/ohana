@@ -171,12 +171,6 @@ public class UserServiceImpl implements UserService {
         return userMapper.toUserResultDTO(user);
     }
 
-//    @Override
-//    public User findByEmailUser(String email) {
-//
-//        return userRepository.findByEmail(email);
-//    }
-
     @Override
     public LoginResult findByEmailAndPassword(String email, String password) {
         User user = userRepository.findByEmailAndPassword(email, password);
@@ -269,7 +263,6 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    //    @ResponseBody
     public void sendMailSignUp(String url, UserResult UserResult) throws MessagingException, UnsupportedEncodingException {
 
         String toAddress = UserResult.getEmail();
@@ -289,16 +282,6 @@ public class UserServiceImpl implements UserService {
         helper.setSubject(subject);
         helper.setText(content, true);
         emailSender.send(message);
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(FRIEND_EMAIL);
-//        message.setSubject("XÁC THỰC TÀI KHOẢN OHANA");
-//
-//        String content = "Dear " + UserResult.getFullName() + "</br>" +
-//                "Vui lòng click vào link để xác thực tài khoản: " + url + "/verify?code=" + UserResult.getCode() +
-//                " Xin chân thành cảm ơn!!!" +
-//                "Ohana Team";
-//        message.setText(content);
-//        this.emailSender.send(message);
     }
 
     @Override
