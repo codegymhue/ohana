@@ -271,16 +271,15 @@ public class PostServiceImpl implements PostService {
         long sizeUtilities = (postCreateParam.getUtilities()).size();
         long sizeImages = (postCreateParam.getImages()).size();
 
-        if (sizeUtilities < 5) {
-            throw new ValidationException("Tiện ích không được dưới 5");
+        if (sizeUtilities < 2) {
+            throw new ValidationException("Tiện ích không được dưới 2");
         }
 
         if (postCreateParam.getThumbnailId() == null) {
             throw new ValidationException("Ảnh đại diện không được để trống");
         }
-
-        if (sizeImages <5 || sizeImages >10) {
-            throw new ValidationException("Chỉ chấp nhận từ 5 đến 10 hình ảnh");
+        if (sizeImages <5 || sizeImages >15) {
+            throw new ValidationException("Chỉ chấp nhận từ 5 đến 15 hình ảnh");
         }
 
         User user = userService.findById(postCreateParam.getIdUser());

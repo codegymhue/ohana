@@ -187,12 +187,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         return userMapper.toUserResultDTO(user);
     }
 
-//    @Override
-//    public User findByEmailUser(String email) {
-//
-//        return userRepository.findByEmail(email);
-//    }
-
     @Override
     public LoginResult findByEmailAndPassword(String email, String password) {
         User user = userRepository.findByEmailAndPassword(email, password);
@@ -296,7 +290,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String toAddress = UserResult.getEmail();
         String subject = "XÁC THỰC TÀI KHOẢN OHANA";
 
-        String content = "Dear " + UserResult.getFullName() + "," + "<br>"
+        String content = "Kính chào " + UserResult.getFullName() + "," + "<br>"
                 + "Vui lòng click vào đường link để xác thực tài khoản:  "
                 + url + "/verify?code=" + UserResult.getCode() + "<br>"
                 + "Xin chân thành cảm ơn, <br>"
@@ -310,16 +304,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         helper.setSubject(subject);
         helper.setText(content, true);
         emailSender.send(message);
-//        SimpleMailMessage message = new SimpleMailMessage();
-//        message.setTo(FRIEND_EMAIL);
-//        message.setSubject("XÁC THỰC TÀI KHOẢN OHANA");
-//
-//        String content = "Dear " + UserResult.getFullName() + "</br>" +
-//                "Vui lòng click vào link để xác thực tài khoản: " + url + "/verify?code=" + UserResult.getCode() +
-//                " Xin chân thành cảm ơn!!!" +
-//                "Ohana Team";
-//        message.setText(content);
-//        this.emailSender.send(message);
     }
 
     @Override
@@ -337,7 +321,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     }
 
     public void forgetPassword(UserResult userResult) throws MessagingException, UnsupportedEncodingException {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()";
         String pwd = RandomStringUtils.random(15, characters);
 
         User user = userRepository.findByEmail(userResult.getEmail()).orElseThrow(()->new ValidationException("user.exception.notFound"));
@@ -354,7 +338,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String toAddress = user.getEmail();
         String subject = "QUÊN MẬT KHẨU";
 
-        String content = "Dear " + user.getFullName() + "," + "<br>"
+        String content = "Kính chào " + user.getFullName() + "," + "<br>"
                 + "Mật khẩu mới của bạn là:  "
                 + "<b>" + user.getPassword() + "</b> <br>"
                 + "Vui lòng quay trở lại trang " + "<a href=http://localhost:8080/sign-in>đăng nhập</a> <br><br>"

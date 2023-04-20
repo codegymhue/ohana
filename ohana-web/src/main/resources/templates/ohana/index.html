@@ -11,7 +11,8 @@
         body {
             background-color: #F6F5F2;
         }
-        .icon-search{
+
+        .icon-search {
             color: rgb(247, 52, 134);
             font-size: 16px;
             margin-right: 13px;
@@ -26,32 +27,21 @@
         <div class="_3bjUj">
             <!--header-->
             <th:block th:replace="/ohana/layout/header :: header(${userResult})"/>
-            <div class="QZg_h">
-                <div class="_3oMi4">
-                    <div class="_3OgY1">
-                        <a href="/">
-                            <img src="/resources/ohana/img/8cc95480cbd2708db10ad4b8de56306a.svg">
-                        </a>
-                    </div>
-                    <div>
-                    </div>
-                </div>
-            </div>
             <div class="JBrYJ">
                 <div class="_2dy7l">
-<!--                    <div class="_3a2WU">-->
-<!--                        <img src="/resources/ohana/img/8541c2b17a0729942ed2a6f13b7b13e4.svg">-->
-<!--                        <div class="_2Ba_5">-->
-<!--                            <span class="_2YbWr">Trang chủ</span>-->
-<!--                            &lt;!&ndash;                            <a target="_blank" href="https://blog.ohanaliving.vn/">&ndash;&gt;-->
-<!--                            &lt;!&ndash;                                <span class="_2_b-t _1vH0j">Blog</span>&ndash;&gt;-->
-<!--                            &lt;!&ndash;                            </a>&ndash;&gt;-->
-<!--                            <a href="/post-room">-->
-<!--                                <span class="_2_b-t _1vH0j">Đăng phòng</span>-->
-<!--                            </a>-->
+                    <!--                    <div class="_3a2WU">-->
+                    <!--                        <img src="/resources/ohana/img/8541c2b17a0729942ed2a6f13b7b13e4.svg">-->
+                    <!--                        <div class="_2Ba_5">-->
+                    <!--                            <span class="_2YbWr">Trang chủ</span>-->
+                    <!--                            &lt;!&ndash;                            <a target="_blank" href="https://blog.ohanaliving.vn/">&ndash;&gt;-->
+                    <!--                            &lt;!&ndash;                                <span class="_2_b-t _1vH0j">Blog</span>&ndash;&gt;-->
+                    <!--                            &lt;!&ndash;                            </a>&ndash;&gt;-->
+                    <!--                            <a href="/post-room">-->
+                    <!--                                <span class="_2_b-t _1vH0j">Đăng phòng</span>-->
+                    <!--                            </a>-->
 
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
                     <p class="_1hc9n">Ứng dụng tìm kiếm phòng trọ miễn phí cho người đi thuê hàng đầu Việt Nam</p>
                     <div class="_1_U71">
                         <div class="_2lKdR">
@@ -426,6 +416,7 @@
 
     function paging(data) {
         let typeRoom;
+
         function checkPrice(price) {
             if (price >= 1000000) {
                 switch (post.category.id) {
@@ -459,6 +450,7 @@
                 return price / 1000;
             }
         }
+
         let price = checkPrice(post.rentHouse.roomPrice);
 
         let gender;

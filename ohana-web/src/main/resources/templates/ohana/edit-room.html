@@ -3,6 +3,7 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="/resources/bootstrap-5.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/ohana/css/owl.carousel.min.css">ink
     <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
     <style>
         .col-md-3 {
@@ -71,7 +72,7 @@
     <div class="container mt-xl-5">
         <div class="text-center">
             <h3>
-                ĐĂNG TIN
+                CHỈNH SỬA TIN
             </h3>
         </div>
         <form class="pt-6" id="frmPost" method="post" th:action="@{/post-room}" th:object="${postUpdateParam}">
@@ -169,32 +170,29 @@
                     <!--                    </label>-->
                 </div>
             </div>
-            <div class="row col-md-12 mt-3">
-                <div class="col-md-3 errorTotal" style="position: relative">
-                    <button type="button" id="upload_widgetThumb" name="upload_widgetThumb" class="col-md-3 w-100 h-100">thumbnail
-                        <input type="hidden" id="urlImageThumb" name="urlImageThumb" th:field="${postUpdateParam.thumbnailId}">
-                        <!--                        <img id="imgPreview" class="col-md-3 h-100"-->
-                        <!--                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>-->
-                    </button>
+            <div class="d-flex col-md-12  mt-3 ">
+                <div class="col-md-3 px-2 errorTotal">
+                    <div  id="showImageThumb" class="col-md-12errorTotal">
+                        <div id="upload_widgetThumb" class="d-flex">
+                            <input type="hidden" id="urlImageThumb" name="urlImageThumb" th:field="${postUpdateParam.thumbnailId}">
+                            <div style="position: relative">
+                                <img id="imgPreviewThumb"
+                                     src="/resources/image/thumbpost.png"/>
+                                <button type="button" disabled id="btnUploadThumb" class="btn btn-primary">Upload ảnh bìa</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div id="showImageThumb" name="showImageThumb" class="row col-md-12 mt-3 errorTotal">
-                <img id="imgPreviewThumb" name="imgPreviewThumb" class="postroom"/>
-            </div>
-            <div class="row col-md-12 mt-3">
-                <div class="col-md-3 errorTotal"  style="position: relative">
-                    <button type="button" id="upload_widget" class="col-md-3 w-100 h-100">Chọn ảnh
-                        <input type="hidden" id="urlImage" name="urlImage"  th:field="${postUpdateParam.images}">
-                        <!--                        <img id="imgPreview" class="col-md-3 h-100"-->
-                        <!--                             src="https://content.hostgator.com/img/weebly_image_sample.png"/>-->
-                    </button>
+                <div class="col-md-9 errorTotal">
+                    <div id="showImage"  class="col-12 position-relative w-100">
+                        <div id="imagesUpload" class="owl-carousel">
+                        </div>
+                        <button type="button" onclick="cloudinaryWidget.open()" disabled id="btnUploadImages" class="btn btn-primary">Upload bài viết</button>
+                    </div>
                 </div>
-            </div>
-            <div id="showImage" class="row col-md-12 mt-3">
-                <img id="imgPreview" class="postroom"/>
             </div>
             <div class="w-100 col-md-12 px-2">
-                <button id="btnUpdate" name="btnUpdate" type="submit" class="btn btn-primary mt-3">Đăng tin</button>
+                <button id="btnUpdate" name="btnUpdate" type="submit" class="btn btn-primary mt-3">Cập nhật tin</button>
             </div>
         </form>
     </div>
@@ -204,6 +202,7 @@
 <th:block th:replace="/ohana/layout/script :: script"/>
 
 <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
+<script src="/resources/js/owl.carousel.min.js"></script>
 <script src="/resources/paginationjs-master/paginationjs-master/src/pagination.js"></script>
 <script>
     $(".view-avatar").change(function () {
@@ -213,17 +212,27 @@
 </script>
 <script th:inline="javascript">
 
+    let post = new Post();
+    let filter = {};
+    let listPost = [];
+    let min = 0;
+    let max = 15000000;
+    let postDTO = new PostDTO();
+    let utilities = new Set();
+
+    let listImageId = [];
     let page = {
         url: {
+            getDomain: App.GETDOMAIN,
             doUpdatePost: App.BASE_URL_API + "/posts/" ,
             getPostById: App.BASE_URL_API + "/posts/",
             getAllCategories: App.BASE_URL_API + "/categories",
             getAllUtilities: App.BASE_URL_API + "/utilities",
             getAllGenders: App.BASE_URL_API + "/genders",
             doFilter: App.BASE_URL_API + "/posts/filter",
-            getAllProvinces: App.BASE_URL_PROVINCE,
-            getAllDistrictsByProvinceId: App.BASE_URL_PROVINCE + "district/",
-            getAllWardsByDistrictId: App.BASE_URL_PROVINCE + "ward/",
+            getAllProvinces: App.BASE_URL_PROVINCE + "/",
+            getAllDistrictsByProvinceId: App.BASE_URL_PROVINCE + "/district/",
+            getAllWardsByDistrictId: App.BASE_URL_PROVINCE + "/ward/",
         },
         element: {},
         loadData: {},
@@ -262,13 +271,81 @@
     page.dialogs.elements.urlImageThumb = $('#urlImageThumb');
     page.dialogs.elements.urlImage = $('#urlImage');
 
-    let post = new Post();
-    let filter = {};
-    let listPost = [];
-    let min = 0;
-    let max = 15000000;
-    let postDTO = new PostDTO();
-    let utilities = new Set();
+    var cloudinaryWidget = cloudinary.createUploadWidget(
+        {
+            cloudName: "dh8nlcoul",
+            uploadPreset: "cvrenzxm"
+        },
+        (error, result) => {
+            if (!error && result && result.event === "success") {
+                let {url} = result.info;
+                let {public_id} = result.info;
+                listImageId.push(public_id);
+            }
+            if (result.event === "queues-end"){
+                $("#btnUploadImages").attr("disabled",false).css("z-index", 999).text("Tải thêm ảnh")
+                renderCarousel();
+            }
+        }
+    );
+    const renderCarousel  = ()=>{
+        $("#imagesUpload").trigger('destroy.owl.carousel').removeClass('owl-loaded');
+        $("#imagesUpload").find('.owl-stage-outer').children().unwrap();
+        let imgElements = [...listImageId].map(id => renderUploadImage(id));
+        $("#imagesUpload").html(imgElements.join(""))
+        $("#imagesUpload").owlCarousel({items: 4,nav: true,dots: false})
+    }
+    const handleDeleteUploadImage = (imgId)=>{
+        listImageId = listImageId.filter(id => id !== imgId);
+        renderCarousel();
+    }
+    const renderUploadImage = (id) =>{
+        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/v1681975206/${id}.jpg`
+        return `<div class="position-relative">
+                    <button data-imgid="${id}" id="imgDeleteBtn" onclick="handleDeleteUploadImage(this.dataset.imgid)" class="btn-outline-danger btn-sm btn"><i class="fas fa-times-circle"></i></button>
+                    <img class="post_img_preview" src="${url}" alt="Uploaded images"/>
+                </div>`;
+    }
+
+    $("#showImage").on("click", function (e) {
+        if (e.target.getAttribute("id") === "showImage") {
+            cloudinaryWidget.open();
+        }
+    });
+
+
+    let thumbnailId;
+    var cloudinaryWidgetThumb = cloudinary.createUploadWidget(
+        {
+            cloudName: "dh8nlcoul",
+            uploadPreset: "cvrenzxm",
+            multiple: false
+        },
+        (error, result) => {
+            if (!error && result && result.event === "success") {
+                let {url} = result.info;
+                let {public_id} = result.info;
+                thumbnailId = public_id;
+                $("#imgPreviewThumb").attr("src", url);
+                $("#btnUploadThumb")
+                    .text("Thay đổi")
+                    .attr("disabled",false)
+                    .addClass("btn-sm btn-outline-secondary text-white")
+                    .removeClass("btn-primary")
+                    .css("text-shadow","0 0 5px black")
+            }
+        }
+    );
+    $("#upload_widgetThumb").on("click", function () {
+        cloudinaryWidgetThumb.open();
+    });
+
+
+    let renderImage = (image) => {
+        return `
+            <img style="object-fit: cover" id="imgPreview" src="${image}" class="postroom"/>
+        `
+    }
 
 
 
@@ -277,14 +354,21 @@
             type: "GET",
             url: "http://localhost:8080/api/posts/" + postId
         }).done((data)=>{
-            post = data;
-            // location = post.location
 
+            let thumbnail = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_250/v1681980805/${data.thumbnailId}.jpg`;
+            $("#imgPreviewThumb").attr("src",thumbnail);
+
+            post = data;
+            let location = post.location
+            let utilitiesByIdUser = post.utilities;
+            listImageId = data.postMedia.map(img => img.id);
+            renderCarousel();
             page.dialogs.elements.title.val(post.title);
             page.dialogs.elements.descriptionContent.val(post.descriptionContent);
-            page.dialogs.elements.category.val(post.category);
-            page.dialogs.elements.gender.val(post.rentHouse.gender);
-            page.dialogs.elements.capacity.val(post.rentHouse.content);
+            page.dialogs.elements.category.val(post.category.id);
+            page.commands.getAllUtilities(utilitiesByIdUser)
+            page.dialogs.elements.gender.val(post.rentHouse.gender.id);
+            page.dialogs.elements.capacity.val(post.rentHouse.capacity);
             page.dialogs.elements.roomPrice.val(post.rentHouse.roomPrice);
             page.dialogs.elements.area.val(post.rentHouse.area);
             page.dialogs.elements.electricityPrice.val(post.rentHouse.electricityPrice);
@@ -298,12 +382,11 @@
                 page.dialogs.elements.district.val(location.districtId)
                 page.commands.getAllWardsByDistrictId(location.districtId).then(() => {
                     page.dialogs.elements.ward.val(location.wardId);
-                    page.dialogs.elements.line1.val(location.address);
+                    page.dialogs.elements.line1.val(location.line1);
                 })
             })
         })
             .fail((jqXHR) => {
-                alert("hahaha")
                 let errors = jqXHR.responseJSON;
                 let strError = "";
                 if (errors) {
@@ -319,86 +402,6 @@
             })
     }
 
-
-    // $("#provinceUp").on("change", function () {
-    //     let provinceId = $("#provinceUp").val();
-    //     page.commands.getAllDistrict(provinceId).then(() => {
-    //         let districtId = $("#districtUp").val();
-    //         page.commands.getAllWard(districtId);
-    //     });
-    // })
-    // $("#districtUp").on("change", function () {
-    //     let districtId = $("#districtUp").val();
-    //     page.commands.getAllWard(districtId);
-    // })
-
-    $(".btn-edit, #btnPreview").on("click", (e) => {
-
-        rentHouseDTO.capacity = +$("#capacityUp").val();
-        rentHouseDTO.gender = +$('input[type="radio"][name="genderUp"]:checked').val();
-        rentHouseDTO.area = $("#areaUp").val();
-        rentHouseDTO.price = +$("#priceUp").val();
-
-        locationDTO.provinceId = $("#provinceUp").val();
-        locationDTO.provinceName = $("#provinceUp").find('option:selected').text();
-        locationDTO.districtId = $("#districtUp").val();
-        locationDTO.districtName = $("#districtUp").find('option:selected').text();
-        locationDTO.wardId = $("#wardUp").val();
-        locationDTO.wardName = $("#wardUp").find('option:selected').text();
-        locationDTO.locationDetail = $("#locationDetailUp").val();
-
-        postDTO.id = post.id;
-        postDTO.title = $("#titleUp").val();
-        postDTO.categoryId = +$('input[type="radio"][name="kindOfRoomUp"]:checked').val();
-        postDTO.description = $("#descriptionUp").val();
-        postDTO.location = locationDTO;
-        postDTO.rentHouse = rentHouseDTO;
-        //poster
-        postDTO.images = imageAdds;
-        let favorite = [];
-        $.each($("input[name='utilitiesCheckbox']:checked"), function () {
-            favorite.push(+$(this).val());
-        });
-        postDTO.utilities = favorite;
-
-        thisOnclick = $(e.target);
-        $("#frmEdit").submit();
-
-    })
-
-
-    // function doEditPost(post) {
-    //     $("#loadingModal").modal("show");
-    //     $.ajax({
-    //         type: "PUT",
-    //         url: page.url.doEditPost,
-    //         cache: false,
-    //         contentType: false,
-    //         processData: false,
-    //         data: post
-    //     }).done(function (mess) {
-    //         $("#loadingModal").modal("hide");
-    //         location.href = page.url.redirectAllListPost;
-    //         showSuccess(mess)
-    //     }).fail(function (x) {
-    //         showError("Cập nhật bài viết không thành công")
-    //         // let str = ``;
-    //         // if (jqXHR.responseJSON) {
-    //         //     if (jqXHR.responseJSON.message) {
-    //         //         str += `<label id="message-error" class="error" for="message">${jqXHR.responseJSON.message}</lable><br>`;
-    //         //     } else {
-    //         //         $.each(jqXHR.responseJSON, function (key, value) {
-    //         //             str += `<label id="${key}-error" class="error" for="${key}">${value}</lable><br>`;
-    //         //             $("#" + key).addClass("error");
-    //         //         });
-    //         //     }
-    //         // } else {
-    //         //     str += `<label id= "message-error" class= "error" for= "message">${App.ERROR_400}</label>`;
-    //         // }
-    //         // $("#createModal .modal-alert-danger").removeClass('hide').addClass('show').html(str);
-    //     })
-    // }
-
     page.commands.getAllCategories = () => {
         $.ajax({
             type: "GET",
@@ -413,28 +416,33 @@
             showError('Error')
         })
     }
-    page.commands.getAllUtilities = () => {
+    page.commands.getAllUtilities = (utilitiesByIdUser) => {
         $.ajax({
             type: "GET",
             url: page.url.getAllUtilities + "?page=0&size=50&status=SHOW"
         }).done(function (data) {
-            console.log(data)
+
             data.content.forEach((item) => {
+                let checkutilities = false;
+                utilitiesByIdUser.forEach((items) => {
+                    if (item.id == items.id) {
+                        checkutilities = true;
+                        utilities.add(items.id);
+                    }
+                })
                 let str = `<div class="col-md-2" style="font-size: 1.2rem;">
-                            <input type="checkbox" id="utility" name="utilitiesCheckbox" value="${item.id}">
+                            <input type="checkbox" id="utility" name="utilitiesCheckbox" value=${item.id} ${checkutilities?"checked":""}>
                             <span class="mx-2">${item.name}</span>
                            </div>`;
                 $('#utilities').append(str);
             });
+            // utilities = utilitiesByIdUser;
             $("input[type=checkbox]").off("change");
             $("input[type=checkbox]").on("change", function() {
-                console.log($(this).is(":checked"))
                 if (!$(this).is(":checked")) {
-                    utilities.delete($(this).val());
-                    console.log(Array.from(utilities));
+                    utilities.delete(Number($(this).val()));
                 } else {
-                    utilities.add($(this).val());
-                    console.log(Array.from(utilities))
+                    utilities.add(Number($(this).val()));
                 }
             })
         }).fail(function () {
@@ -446,7 +454,6 @@
             type: "GET",
             url: page.url.getAllGenders
         }).done(function (data) {
-            console.log(data)
             data.forEach((item) => {
                 let str = `<option value="${item.id}">${item.name}</option>`;
                 $("#gender").append(str);
@@ -455,111 +462,103 @@
             showError('Error')
         })
     }
-    page.dialogs.loadData.getAllProvinces = () => {
+    page.commands.getAllProvinces = () => {
         return $.ajax({
-            type: 'GET',
-            url: 'https://vapi.vnappmob.com/api/province/'
+            headers: {
+                "accept": "application/json",
+                "content-type": "application/json"
+            },
+            type: "GET",
+            url: page.url.getAllProvinces
         })
             .done((data) => {
-                $.each(data.results, (i, item) => {
-                    let str = `<option value="${item.province_id}">${item.province_name}</option>`;
+                let results = data.results;
 
-                    page.dialogs.elements.province.append(str);
-
+                results.map(item => {
+                    if (item.province_id == 48 || item.province_id == 46){
+                        let str = `<option value="${item.province_id}">${item.province_name}</option>`;
+                        page.dialogs.elements.province.append(str);
+                    }
                 })
 
-                addEventChangeProvince();
-                addEventChangeDistrict();
-
             })
-            .fail((jqXHR) => {
-                AppBase.SweetAlert.showErrorAlert('Load Provinces fail');
+            .fail((error) => {
+                console.log(error);
+                console.log("Không thể tải dữ liệu Tỉnh/Thành phố");
             })
     }
 
-    page.dialogs.loadData.getAllDistrictsByProvince = (provinceId) => {
+    page.commands.getAllDistrictsByProvinceId = (provinceId) => {
         return $.ajax({
-            type: 'GET',
-            url: 'https://vapi.vnappmob.com/api/province/district/' + provinceId
+            headers: {
+                "accept": "application/json",
+                "content-type": "application/json"
+            },
+            type: "GET",
+            url: page.url.getAllDistrictsByProvinceId + provinceId
         })
             .done((data) => {
+
                 page.dialogs.elements.district.empty();
-                $.each(data.results, (i, item) => {
-                    let str = `<option value="${item.district_id}">${item.district_name}</option>`;
 
-                    page.dialogs.elements.district.append(str);
+                let results = data.results;
+                let str;
 
+
+                results.map(item => {
+                    if ((provinceId == 46 && item.district_id == 474) || provinceId == 48){
+                        str = `<option value="${item.district_id}">${item.district_name}</option>`;
+                        page.dialogs.elements.district.append(str);
+                    }
                 })
-
-
             })
-            .fail((jqXHR) => {
-                AppBase.SweetAlert.showErrorAlert('Load Districts fail');
+            .fail((error) => {
+                console.log(error);
+                console.log("Không thể tải dữ liệu Thành phố/Quận/Huyện");
             })
     }
 
-    page.dialogs.loadData.getAllWardsByDistrict = (districtId) => {
+    page.commands.getAllWardsByDistrictId = (districtId) => {
         return $.ajax({
-            type: 'GET',
-            url: 'https://vapi.vnappmob.com/api/province/ward/' + districtId
+            headers: {
+                "accept": "application/json",
+                "content-type": "application/json"
+            },
+            type: "GET",
+            url: page.url.getAllWardsByDistrictId + districtId
         })
             .done((data) => {
                 page.dialogs.elements.ward.empty();
-                $.each(data.results, (i, item) => {
-                    let str = `<option value="${item.ward_id}">${item.ward_name}</option>`;
 
+                let results = data.results;
+
+                results.map(item => {
+                    let str = `<option value="${item.ward_id}">${item.ward_name}</option>`;
                     page.dialogs.elements.ward.append(str);
                 })
-
-
             })
-            .fail((jqXHR) => {
-                AppBase.SweetAlert.showErrorAlert('Load Wards fail');
+            .fail((error) => {
+                console.log(error);
+                console.log("Không thể tải dữ liệu Phường/Xã/Thị trấn");
             })
     }
 
-    function addEventChangeProvince() {
-        page.dialogs.elements.province.on("change", function () {
-            let provinceId = $(this).val();
+    page.dialogs.elements.province.on("change", function () {
+        let provinceId = $(this).val();
 
-            if (provinceId !== 0) {
-                page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
-                    let districtId = page.dialogs.elements.district.val();
-                    page.dialogs.loadData.getAllWardsByDistrict(districtId);
-                })
-            }
-        })
-    }
-
-    function addEventChangeDistrict() {
-
-        page.dialogs.elements.district.on("change", function () {
-            let districtId = $(this).val();
-
-            if (districtId !== 0) {
-
-                page.dialogs.loadData.getAllWardsByDistrict(districtId);
-            }
-
-        })
-    }
-
-    function resetLocationRegion() {
-        page.dialogs.loadData.getAllProvinces().then(() => {
-            let provinceId = page.dialogs.elements.province.val();
-
-            page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
-                let districtId = page.dialogs.elements.district.val();
-
-                page.dialogs.loadData.getAllWardsByDistrict(districtId);
-            });
+        page.commands.getAllDistrictsByProvinceId(provinceId).then(() => {
+            let districtId = page.dialogs.elements.district.val();
+            page.commands.getAllWardsByDistrictId(districtId);
         });
-    }
+    });
+
+    page.dialogs.elements.district.on("change", function () {
+        let districtId = $(this).val();
+        page.commands.getAllWardsByDistrictId(districtId);
+    })
 
     page.commands.handleUpdate = () => {
         let id = Number([[${post.id}]]);
-        // let avatarFileFolder = $(this).data("avatar-file-folder");
-        // let avatarFileName = $(this).data("avatar-file-name");
         page.commands.getPostById(id);
     }
 
@@ -567,7 +566,7 @@
         rules: {
             title: {
                 required: true,
-                minlength: 20,
+                minlength: 15,
                 maxlength: 100
             },
             descriptionContent: {
@@ -722,6 +721,7 @@
         let rentHouse = new RentHouse();
         let location = new LocationDTO();
         // let images = listImageId;
+        let postId = Number([[${post.id}]]);
 
         let title = $("#title").val();
         let descriptionContent = $("#descriptionContent").val();
@@ -750,11 +750,10 @@
         postDTO.rentHouse = rentHouse;
         postDTO.location = location;
         postDTO.thumbnailId = thumbnailId;
-        postDTO.images = images;
+        postDTO.images = listImageId;
         postDTO.idUser = idUser;
         postDTO.utilities = Array.from(utilities);
-
-        let postId = Number([[${post.id}]]);
+        postDTO.id = postId;
 
         $.ajax({
             headers: {
@@ -766,9 +765,10 @@
             data: JSON.stringify(postDTO)
         })
             .done((data) => {
-                clearForm();
-                showSuccess("đăng bài thành công!!!")
-
+                showSuccess("Cập nhật thành công!!!")
+                setTimeout(()=>{
+                    window.location.href = page.url.getDomain + "/list-post";
+                },1000)
             })
             .fail((jqXHR) => {
                 console.log(jqXHR)
@@ -778,395 +778,23 @@
                 showError(message);
             })
     }
-
-
-
-
-    // page.commands.handleUpdate = () => {
-    //     let id = Number([[${post.id}]]);
-    //     let avatarFileFolder = $(this).data("avatar-file-folder");
-    //     let avatarFileName = $(this).data("avatar-file-name");
-    //     page.commands().done((data) => {
-    //
-    //         // let avatarUrl = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + avatarFileFolder + "/" + avatarFileName;
-    //         // page.dialogs.commands.loadImageToCanvasUp(null, "", avatarUrl);
-    //
-    //         post = data;
-    //         location = post.location;
-    //         // page.dialogs.elements.post.val(id);
-    //         page.dialogs.elements.title.val(post.title);
-    //         page.dialogs.elements.descriptionContent.val(post.descriptionContent);
-    //         page.dialogs.elements.category.val(post.category);
-    //         page.dialogs.elements.gender.val(post.rentHouse.gender);
-    //         page.dialogs.elements.capacity.val(post.rentHouse.content);
-    //         page.dialogs.elements.roomPrice.val(post.rentHouse.roomPrice);
-    //         page.dialogs.elements.area.val(post.rentHouse.area);
-    //         page.dialogs.elements.electricityPrice.val(post.rentHouse.electricityPrice);
-    //         page.dialogs.elements.waterPrice.val(post.rentHouse.waterPrice);
-    //         page.dialogs.elements.wifiPrice.val(post.rentHouse.wifiPrice);
-    //         page.dialogs.elements.deposit.val(post.rentHouse.deposit);
-    //
-    //         page.dialogs.elements.locationRegionId.val(location.id);
-    //         page.dialogs.elements.province.val(location.provinceId);
-    //         page.commands.getAllDistrictsByProvinceId(location.provinceId).then(() => {
-    //             page.dialogs.elements.district.val(location.districtId)
-    //             page.commands.getAllWardsByDistrictId(location.districtId).then(() => {
-    //                 page.dialogs.elements.ward.val(location.wardId);
-    //                 page.dialogs.elements.line1.val(location.address);
-    //             })
-    //         })
-    //     }).fail((err)=>console.log(err));
-    //     console.log(data)
-    // }
-
-    // page.dialogs.elements.btnUpdate.on("click", () => {
-    //     page.dialogs.elements.frmUpdateCustomer.submit();
-    // })
-
-    // page.dialogs.elements.frmUpdateCustomer.validate({
-    //     rules: {
-    //         fullNameUp: {
-    //             required: true,
-    //             minlength: 5,
-    //             maxlength: 50
-    //         },
-    //         emailUp: {
-    //             required: true,
-    //             minlength: 5,
-    //             maxlength: 50,
-    //             email: true
-    //         },
-    //         phoneUp: {
-    //             // phone_valid: true,
-    //             required: true,
-    //         }
-    //     },
-    //     messages: {
-    //         fullNameUp: {
-    //             required: "Vui lòng nhập tên đầy đủ",
-    //             minlength: "Độ dài tối thiểu là 5 ký tự",
-    //             maxlength: "Độ dài tối đa là 100 ký tự"
-    //         },
-    //         emailUp: {
-    //             required: "Vui lòng nhập email đầy đủ",
-    //             minlength: "Độ dài tối thiểu là 5 ký tự",
-    //             maxlength: "Độ dài tối đa là 100 ký tự",
-    //             email: "Định dạng email không đúng"
-    //         },
-    //         phoneUp: {
-    //             // phone_valid: "Định dạng số điện thoại không đúng",
-    //             required: "Vui lòng nhập số điện thoại đầy đủ"
-    //         }
-    //     },
-    //     errorLabelContainer: "#modalUpdateCustomer .modal-body .modal-alert-danger",
-    //     errorPlacement: function (error) {
-    //         error.appendTo("#modalUpdateCustomer .modal-body .modal-alert-danger");
-    //     },
-    //     showErrors: function () {
-    //         if (this.numberOfInvalids() > 0) {
-    //             page.dialogs.alertDanger.modalUpdateCustomer.removeClass("hide").addClass("show");
-    //         } else {
-    //             page.dialogs.alertDanger.modalUpdateCustomer.removeClass("show").addClass("hide").empty();
-    //             $("#modalUpdateCustomer input.error").removeClass("error");
-    //         }
-    //         this.defaultShowErrors();
-    //     },
-    //     submitHandler: function () {
-    //         customer.id = page.dialogs.elements.customerIdUp.val();
-    //         customer.fullName = page.dialogs.elements.fullNameUp.val();
-    //         customer.email = page.dialogs.elements.emailUp.val();
-    //         customer.phone = page.dialogs.elements.phoneUp.val();
-    //
-    //
-    //         locationRegion.id = page.dialogs.elements.locationRegionIdUp.val();
-    //         locationRegion.provinceId = page.dialogs.elements.provinceUp.val();
-    //         locationRegion.provinceName = page.dialogs.elements.provinceUp.find("option:selected").text();
-    //         locationRegion.districtId = page.dialogs.elements.districtUp.val();
-    //         locationRegion.districtName = page.dialogs.elements.districtUp.find("option:selected").text();
-    //         locationRegion.wardId = page.dialogs.elements.wardUp.val();
-    //         locationRegion.wardName = page.dialogs.elements.wardUp.find("option:selected").text();
-    //         locationRegion.address = page.dialogs.elements.addressUp.val();
-    //
-    //         let formData = new FormData();
-    //         formData.append("id", customer.id);
-    //         formData.append("fullName", customer.fullName);
-    //         formData.append("email", customer.email);
-    //         formData.append("phone", customer.phone);
-    //         formData.append("balance", customer.balance);
-    //
-    //         formData.append("locationId", locationRegion.id);
-    //         formData.append("provinceId", locationRegion.provinceId);
-    //         formData.append("provinceName", locationRegion.provinceName);
-    //         formData.append("districtId", locationRegion.districtId);
-    //         formData.append("districtName", locationRegion.districtName);
-    //         formData.append("wardId", locationRegion.wardId);
-    //         formData.append("wardName", locationRegion.wardName);
-    //         formData.append("address", locationRegion.address);
-    //
-    //         formData.append("file", page.dialogs.elements.imageFileUp[0].files[0]);
-    //         console.log("formData:", 1)
-    //         page.commands.doUpdateCustomer(formData);
-    //     }
-    // })
-
-
-    // $("#frmEdit").validate({
-    //     rules: {
-    //         kindOfRoomUp: {
-    //             required: true
-    //         },
-    //         capacityUp: {
-    //             required: true,
-    //             min: 1
-    //         },
-    //         genderUp: {
-    //             required: true,
-    //         },
-    //         areaUp: {
-    //             required: true,
-    //             min: 10
-    //         },
-    //         priceUp: {
-    //             required: true,
-    //             maxlength: 9,
-    //             min: 0
-    //         },
-    //         locationDetailUp: {
-    //             required: true,
-    //         },
-    //         titleUp: {
-    //             required: true,
-    //             maxlength: 50,
-    //         },
-    //         descriptionUp: {
-    //             required: true,
-    //             maxlength: 1500,
-    //             minlength: 10,
-    //         }
-    //     },
-    //     messages: {
-    //
-    //         kindOfRoomUp: {
-    //             required: "Vui lòng chọn loại phòng</br>"
-    //         },
-    //         capacityUp: {
-    //             required: "Vui lòng nhập sức chứa",
-    //             min: "Số người phải lớn hơn 0"
-    //         },
-    //         genderUp: {
-    //             required: "Vui chọn giới tính</br>",
-    //         },
-    //         areaUp: {
-    //             required: "Vui lòng nhập diện tích",
-    //             min: "Diện tích phải lớn hơn 10 m2"
-    //         },
-    //         priceUp: {
-    //             required: "Vui lòng nhập giá",
-    //             maxlength: "Vui lòng nhập giá ít hơn 999.999.999",
-    //             min: "Giá phải từ 0 trở đi",
-    //         },
-    //         locationDetailUp: {
-    //             required: "Vui lòng nhập địa chỉ cụ thể"
-    //         },
-    //         titleUp: {
-    //             required: "Vui lòng nhập tiêu đề",
-    //             maxlength: "Vui lòng nhập ít hơn 50 kí tự",
-    //         },
-    //         descriptionUp: {
-    //             required: "Vui lòng nhập mô tả",
-    //             maxlength: "Vui lòng nhập ít hơn 1500 kí tự",
-    //             minlength: "Vui lòng nhập nhiều hơn 10 kí tự",
-    //         }
-    //     }, errorPlacement: function (error, element) {
-    //         if (element.is(":radio") && $(element).attr('id') === "kindOfRoomUp_1") {
-    //             error.appendTo(element.parents('#kindOfRoomUp'));
-    //         } else if (element.is(":radio") && $(element).attr('id') === "genderUp_1") {
-    //             error.appendTo(element.parents('#genderUp'));
-    //         } else { // This is the default behavior
-    //             error.insertAfter(element);
-    //         }
-    //     },
-    //     submitHandler: function () {
-    //         $("#checkQuantityImage").html('');
-    //         if (postDTO.images.length + postMediaOrl.length < 5) {
-    //             let str = `<label id="title-error" class="error" for="title">Vui lòng chọn trên 5 ảnh</label>`;
-    //             $("#checkQuantityImage").append(str);
-    //         } else if (postDTO.images.length + postMediaOrl.length > 10) {
-    //             let str = `<label id="title-error" class="error" for="title">Vui lòng chọn ít hơn 10 ảnh</label>`;
-    //             $("#checkQuantityImage").append(str);
-    //         } else {
-    //             form.append('location.provinceId', postDTO.location.provinceId);
-    //             form.append('location.provinceName', postDTO.location.provinceName);
-    //             form.append('location.districtId', postDTO.location.districtId);
-    //             form.append('location.districtName', postDTO.location.districtName);
-    //             form.append('location.wardId', postDTO.location.wardId);
-    //             form.append('location.wardName', postDTO.location.wardName);
-    //             form.append('location.locationDetail', postDTO.location.locationDetail);
-    //             form.append('rentHouse.price', postDTO.rentHouse.price);
-    //             form.append('rentHouse.capacity', postDTO.rentHouse.capacity);
-    //             form.append('rentHouse.area', postDTO.rentHouse.area);
-    //             form.append('rentHouse.genderId', postDTO.rentHouse.gender);
-    //             // form.append('poster', postDTO.poster);
-    //             form.append('utilities', postDTO.utilities);
-    //             form.append('id', postDTO.id);
-    //             form.append('title', postDTO.title);
-    //             form.append('categoryId', postDTO.categoryId);
-    //             form.append('description', postDTO.description);
-    //             console.log('imageCover', imageCover)
-    //             if ($("#coverImage").val() === '') {
-    //                 form.append('postMediaThumbnail.id', imageCover.id);
-    //                 form.append('postMediaThumbnail.file', new File([null], null, {
-    //                     type: null,
-    //                 }));
-    //             } else {
-    //                 form.append('postMediaThumbnail.id', null);
-    //                 form.append('postMediaThumbnail.file', imageCover);
-    //             }
-    //             console.log('images', images)
-    //             for (let i = 0; i < postDTO.images.length; i++) {
-    //                 form.append(`postMediaImages[${i}].id`, null);
-    //                 form.append(`postMediaImages[${i}].file`, postDTO.images[i]);
-    //             }
-    //             for (let i = 0; i < postMediaOrl.length; i++) {
-    //                 form.append(`postMediaImages[${i + postDTO.images.length}].id`, postMediaOrl[i].id);
-    //                 form.append(`postMediaImages[${i}].file`, new File([null], null, {
-    //                     type: null,
-    //                 }));
-    //             }
-    //             doEditPost(form);
-    //
-    //         }
-    //     }
-    // })
-
     page.loadData = () => {
         page.commands.getAllCategories();
-        page.commands.getAllUtilities();
         page.commands.getAllGenders();
-        resetLocationRegion();
+        page.commands.getAllProvinces().then(() => {
+            let provinceId = page.dialogs.elements.province.val();
+
+            page.commands.getAllDistrictsByProvinceId(provinceId).then(() => {
+                let districtId = page.dialogs.elements.district.val();
+
+                page.commands.getAllWardsByDistrictId(districtId);
+            });
+        })
             page.commands.handleUpdate();
     }
 
-    //img
-    var imageCover = new PostMedia();
-    var postMediaOrl = [];
-    var images = [];
-    var imageAdds = [];
-    imageCover = post.thumbnailUrl;
-    // postMediaOrl = post.imageUrls;
-
-    // function image_select_cover(el) {
-    //     imageCover = $(el).prop('files')[0];
-    // }
-    //
-    // function image_select(el) {
-    //     // let form =new FormData();
-    //     // let imageAdd = $(el).prop('files')[0];
-    //     // form.append('images',imageAdd);
-    //     // form.append('images',imageAdd);
-    //     // console.log(imageAdd);
-    //     // doCreatePost(form);
-    //     let image = document.getElementById('image').files;
-    //     for (i = 0; i < image.length; i++) {
-    //         if (check_duplicate(image[i].name)) {
-    //             images.push({
-    //                 "name": image[i].name,
-    //                 "url": URL.createObjectURL(image[i]),
-    //                 "file": image[i],
-    //             })
-    //             let imageAdd = $(el).prop('files')[i];
-    //             imageAdds.push(imageAdd);
-    //         } else {
-    //             alert(image[i].name + " ảnh này đã được chọn");
-    //         }
-    //     }
-    //     document.getElementById('form').reset();
-    //     document.getElementById('container').innerHTML = image_show();
-    // }
-    //
-    // function image_show() {
-    //     var image = "";
-    //     postMediaOrl.forEach((i, index) => {
-    //         image += `<div class="image_container d-flex justify-content-center position-relative">
-   	//   	  	  	  <img class="list-img" src="${i.fileUrl}" alt="Image">
-   	//   	  	  	  <span  onclick="delete_image_Orl(` + postMediaOrl.indexOf(i) + `)">&times;</span>
-   	//   	  	  </div>`;
-    //     })
-    //     images.forEach((i, index) => {
-    //         image += `<div class="image_container d-flex justify-content-center position-relative">
-   	//   	  	  	  <img class="list-img" src="` + i.url + `" alt="Image">
-   	//   	  	  	  <span  onclick="delete_image(` + images.indexOf(i) + `)">&times;</span>
-   	//   	  	  </div>`;
-    //     })
-    //     return image;
-    // }
-    //
-    //
-    // function delete_image(e) {
-    //
-    //     images.splice(e, 1);
-    //     imageAdds.splice(e, 1);
-    //     document.getElementById('container').innerHTML = image_show();
-    // }
-    //
-    // function delete_image_Orl(e) {
-    //     postMediaOrl.splice(e, 1);
-    //
-    //     // post.imageUrls.splice(e,1);
-    //
-    //     document.getElementById('container').innerHTML = image_show();
-    // }
-    //
-    // function check_duplicate(name) {
-    //     var image = true;
-    //     if (images.length > 0) {
-    //         for (e = 0; e < images.length; e++) {
-    //             if (images[e].name == name) {
-    //                 image = false;
-    //                 break;
-    //             }
-    //         }
-    //     }
-    //     return image;
-    // }
-    //
-    // function get_image_data() {
-    //     var form = new FormData()
-    //     let fileReader = new FileReader();
-    //     for (let index = 0; index < images.length; index++) {
-    //         form.append('images', images[index]['file']);
-    //         // fileReader.readAsDataURL(images[index]);
-    //         // form.append("file[" + index + "]", images[index]['file']);
-    //     }
-    //
-    //     return form;
-    // }
-
-
     $(function () {
         page.loadData();
-
-        // $("#capacity").val(post.category);
-        // $("#area").val(post.rentHouse.area);
-        // $("#roomPrice").val(post.rentHouse.roomPrice);
-        //
-        // $("#line1").val(post.location.line1);
-        //
-        // $("#title").val(post.title);
-        // $("#description").val(post.descriptionContent);
-        // $("#img-preview").attr("src", imageCover.fileUrl);
-
-        // page.commands.getAllProvince().then(function () {
-        //     $("#province").val(post.location.provinceId);
-        // })
-        // page.commands.getAllDistrict(post.location.provinceId).then(function () {
-        //     $("#district").val(post.location.districtId);
-        //
-        // });
-        // page.commands.getAllWard(post.location.districtId).then(function () {
-        //     $("#ward").val(post.location.wardId);
-        // });
-        // document.getElementById('container').innerHTML = image_show();
     })
 
 </script>

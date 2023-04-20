@@ -34,7 +34,7 @@ public interface UserService {
 
     UserResult signUpByGoogle(GooglePojo googlePojo);
 
-    UserResult signUp(String url,SignUpParam signUpParam) throws MessagingException, UnsupportedEncodingException;
+    UserResult signUp(String url, SignUpParam signUpParam) throws MessagingException, UnsupportedEncodingException;
 
     boolean existsByPhoneOrEmail(String phoneOrEmail);
 
@@ -44,12 +44,13 @@ public interface UserService {
     LoginResult findByEmailAndPasswordMapper(String email, String password);
 
     UserResult findByEmailAndPasswordUserResult(String email, String password);
+
     boolean existsByPhoneOrEmail(String phone, String email);
 
     boolean existsByEmail(String email);
 
+    boolean existsByPhoneAndIdNot(String phone, Long id);
 
-     boolean existsByPhoneAndIdNot(String phone, Long id);
     boolean existsByEmailAndIdNot(String email, Long id);
 
     UserResult findByEmail(String email);
@@ -66,11 +67,10 @@ public interface UserService {
 
     boolean findByCode(String code);
 
-
     void sendMailSignUp(String url, UserResult UserResult) throws MessagingException, UnsupportedEncodingException;
 
     void forgetPassword(UserResult UserResult) throws MessagingException, UnsupportedEncodingException;
 
-     void sendMailForgetPassword(User user) throws MessagingException, UnsupportedEncodingException;
+    void sendMailForgetPassword(User user) throws MessagingException, UnsupportedEncodingException;
     UserPrinciple findUserPrincipleByEmail(String username);
 }

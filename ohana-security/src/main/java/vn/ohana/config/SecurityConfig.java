@@ -109,7 +109,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .cors().and()
                 .authorizeRequests()
-                .antMatchers("/","/resources/**","/api/login/**").permitAll()
+                .antMatchers("/","/resources/**","/api/login/**","/sign-up","/**/room","/search/**").permitAll()
 //                .antMatchers("/api/utilities/**").hasAuthority("ADMIN")
                 .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated().and()

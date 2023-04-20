@@ -93,12 +93,10 @@ public class OhanaControllers {
             return modelAndView;
         }
 
-
         if (userUpdateParam != null) {
             userService.save(userUpdateParam);
             modelAndView.addObject("success", true);
             UserResult userResult = userService.findByEmail(userUpdateParam.getEmail());
-
             modelAndView.addObject("userResult", userResult);
             modelAndView.addObject("userUpdateParam", userUpdateParam);
             return modelAndView;
@@ -111,9 +109,9 @@ public class OhanaControllers {
     public Object password(@ModelAttribute("userResult") UserResult userResult) {
         ModelAndView modelAndView = new ModelAndView("/ohana/password");
         if (userResult != null) {
-        UserUpdateParam userUpdateParam = new UserUpdateParam();
-        modelAndView.addObject("userUpdateParam", userUpdateParam);
-        return modelAndView;
+            UserUpdateParam userUpdateParam = new UserUpdateParam();
+            modelAndView.addObject("userUpdateParam", userUpdateParam);
+            return modelAndView;
         } else {
             return "/ohana/error";
         }
@@ -138,8 +136,7 @@ public class OhanaControllers {
             modelAndView.addObject("errorDuplicate", true);
             modelAndView.addObject("userUpdateParam", userUpdateParam);
             return modelAndView;
-        }
-        else{
+        } else {
             userUpdateParam.setPassword(newpassword);
             userUpdateParam.setId(userResult.getId());
             userService.savePassword(userUpdateParam);
@@ -152,6 +149,16 @@ public class OhanaControllers {
     @GetMapping("/post-room")
     public Object postRoom(@ModelAttribute("userResult") UserResult userResult) {
         ModelAndView modelAndView = new ModelAndView("/ohana/post-room");
+
+        if (userResult.getPhone() == null || userResult.getAddress() == null) {
+            modelAndView = new ModelAndView("/ohana/my-info");
+            UserUpdateParam userUpdateParam = userService.findByEmailUpdate(userResult.getEmail());
+            modelAndView.addObject("userResult", userResult);
+            modelAndView.addObject("userUpdateParam", userUpdateParam);
+            modelAndView.addObject("updateInfo", true);
+            return modelAndView;
+        }
+
         if (userResult != null) {
             PostCreateParam postCreateParam = new PostCreateParam();
             modelAndView.addObject("userUpdateParam", userResult);
@@ -200,14 +207,16 @@ public class OhanaControllers {
     }
 
     @GetMapping("/{pId}/room")
-    public ModelAndView showRoom(@PathVariable Long pId, RedirectAttributes redirectAttributes) {
+    public ModelAndView showRoom(@PathVariable Long pId,@ModelAttribute("userResult") UserResult userResult, RedirectAttributes redirectAttributes) {
         try {
             PostResult post = postService.getById(pId);
             ModelAndView modelAndView = new ModelAndView("/ohana/room");
             modelAndView.addObject("post", post);
+            modelAndView.addObject("userResult", userResult);
             return modelAndView;
         } catch (NotFoundException e) {
             ModelAndView modelAndView = new ModelAndView("redirect:/");
+            modelAndView.addObject("userResult", userResult);
             redirectAttributes.addFlashAttribute("error", "ID không hợp lệ");
             return modelAndView;
         }

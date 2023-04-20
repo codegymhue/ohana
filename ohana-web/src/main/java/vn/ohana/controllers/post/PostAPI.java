@@ -6,31 +6,18 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.web.bind.annotation.*;
-import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
-import vn.ohana.entities.User;
-import vn.ohana.location.dto.DataSearchResult;
-import vn.ohana.post.PostRepository;
 import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostCreateParam;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
-import vn.ohana.user.dto.LoginResult;
-import vn.ohana.user.dto.UserFilterParam;
 import vn.ohana.user.dto.UserUpdateParam;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
-
-import static vn.ohana.config.MailConfig.MY_EMAIL;
 
 @RestController
 @RequestMapping("api/posts")
@@ -52,6 +39,7 @@ public class PostAPI {
     public ResponseEntity<?> findById(@PathVariable Long pId) {
         return new ResponseEntity<>(postService.getById(pId), HttpStatus.OK);
     }
+
 
 
     @PreAuthorize("hasAuthority('ADMIN')")
