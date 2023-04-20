@@ -6,9 +6,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.category.CategoryService;
+import vn.ohana.config.MailConfig;
 import vn.ohana.entities.*;
 import vn.ohana.location.LocationMapper;
 import vn.ohana.entities.Post;
@@ -20,6 +23,7 @@ import vn.ohana.user.UserMapper;
 import vn.ohana.user.UserService;
 import vn.ohana.user.UserRepository;
 
+import vn.ohana.user.dto.UserResult;
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
@@ -29,6 +33,7 @@ import vn.rananu.shared.exceptions.ValidationException;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
 
 
 @Service
@@ -48,6 +53,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     UserRepository userRepository;
 
@@ -62,6 +68,7 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostRepository postRepository;
+
     @Autowired
     private PostFilterRepository postFilterRepository;
 
@@ -70,6 +77,9 @@ public class PostServiceImpl implements PostService {
 
     @Autowired
     private PostMediaRepository postMediaRepository;
+
+    @Autowired
+    public JavaMailSender emailSender;
 
 
     @Override
@@ -162,7 +172,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostResult getById(Long pId) {
-
         Post post = findById(pId);
         return addPostResultUtilities(post, post.getUtilities());
     }
@@ -171,7 +180,27 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResult updateStatusById(PostUpdateParam postUpdateParam) {
         Post post = findById(postUpdateParam.getId());
+//        User user = userService.findById(postUpdateParam.getUserId());
+//
+//        SimpleMailMessage message = new SimpleMailMessage();
+//
+//        String email = user.getEmail();
+//
+//        message.setFrom(MailConfig.MY_EMAIL);
+//        message.setTo(email);
+//        message.setSubject("Email thông báo kiểm duyệt bài đăng");
+//
+//        if (postUpdateParam.getStatus() == StatusPost.PUBLISHED) {
+//            message.setText("Bài viết của bạn đã được đăng!");
+//
+//        } else if (postUpdateParam.getStatus() == StatusPost.REFUSED) {
+//            message.setText("Bài viết của bạn đã bị thu hồi!");
+//        }
+//
+//        this.emailSender.send(message);
+
         postMapper.transferFields(postUpdateParam, post, true);
+
         return addPostResultUtilities(post, post.getUtilities());
     }
 
@@ -180,7 +209,7 @@ public class PostServiceImpl implements PostService {
         return postMapper.toDTOList(postRepository.getPostsNew());
     }
 
-
+    @Override
     public Post findById(Long id) {
         return postRepository.findById(id).orElseThrow(() -> new NotFoundException("post.exception.notFound"));
     }
@@ -191,6 +220,7 @@ public class PostServiceImpl implements PostService {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user.exception.notFound"));
         return toDtoPage(postRepository.findAllByStatusAndUser(status, user,pageable));
     }
+
 
     @Override
     public Page<PostResult> filter(PostFilterParam filter, Pageable pageable) {

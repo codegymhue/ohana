@@ -33,8 +33,8 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
             }
 
             if (filter.getPriceStarts() != null && filter.getPriceEnds() != null) {
-                Predicate priceStartsPredicate = criteriaBuilder.greaterThan(rentHouse.get("price"), filter.getPriceStarts());
-                Predicate priceEndsPredicate = criteriaBuilder.lessThan(rentHouse.get("price"), filter.getPriceEnds());
+                Predicate priceStartsPredicate = criteriaBuilder.greaterThan(rentHouse.get("roomPrice"), filter.getPriceStarts());
+                Predicate priceEndsPredicate = criteriaBuilder.lessThan(rentHouse.get("roomPrice"), filter.getPriceEnds());
                 Predicate pricePredicate = criteriaBuilder.and(priceStartsPredicate, priceEndsPredicate);
                 predicateList.add(pricePredicate);
             }

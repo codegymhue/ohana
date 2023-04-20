@@ -88,4 +88,5 @@ public class Post extends BaseEntity {
         this.rentHouse = new RentHouse(this.rentHouseId = rentHouseId);
         return this;
     }
+
 }

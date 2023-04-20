@@ -24,10 +24,12 @@ public class RentHouseParam {
 
     private BigDecimal wifiPrice;
 
+    private BigDecimal deposit;
+
     @Override
     public String toString() {
         return "RentHouseParam{" +
-                ", price=" + roomPrice +
+                ", roomPrice=" + roomPrice +
                 ", capacity=" + capacity +
                 ", area=" + area +
                 ", gender='" + gender + '\'' +

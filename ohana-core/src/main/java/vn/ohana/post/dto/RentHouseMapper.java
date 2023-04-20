@@ -12,7 +12,7 @@ public class RentHouseMapper extends BaseMapper<PostResult, Post, PostUpdatePara
         result.setId(rentHouse.getId());
         result.setCapacity(rentHouse.getCapacity());
         result.setGender(rentHouse.getGender());
-        result.setPrice(rentHouse.getPrice());
+        result.setRoomPrice(rentHouse.getRoomPrice());
         result.setArea(rentHouse.getArea());
         result.setStatus(rentHouse.isStatus());
         return result;
@@ -20,7 +20,7 @@ public class RentHouseMapper extends BaseMapper<PostResult, Post, PostUpdatePara
 
     public RentHouse toRentHouseDTO(RentHouseParam rentHouseParam) {
         RentHouse rentHouse = new RentHouse();
-        rentHouse.setPrice(rentHouseParam.getRoomPrice());
+        rentHouse.setRoomPrice(rentHouseParam.getRoomPrice());
         rentHouse.setCapacity(rentHouseParam.getCapacity());
         rentHouse.setArea(rentHouseParam.getArea());
         rentHouse.setGender(rentHouse.getGender());
