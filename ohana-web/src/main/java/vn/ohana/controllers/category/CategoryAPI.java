@@ -32,6 +32,7 @@ public class CategoryAPI {
         return new ResponseEntity<>(categoryService.getById(id), HttpStatus.OK);
     }
 
+
     @PostMapping("/add-category")
     public ResponseEntity<?> addNewCategory(@Valid @RequestBody CategoryCreationParam param) {
 

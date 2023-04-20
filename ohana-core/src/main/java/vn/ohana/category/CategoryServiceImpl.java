@@ -28,6 +28,12 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryMapper.toDTOList(entities);
 
     }
+
+    @Override
+    public Long count() {
+        return categoryRepository.count();
+    }
+
     @Transactional(readOnly = true)
     public Category findById(Long id) {
         return categoryRepository.findById(id)
@@ -70,6 +76,7 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.deleteById(id);
     }
 
+
     @Override
     @Transactional
     public CategoryResult updateStatusCategory(Long categoryId, String status) {
@@ -78,5 +85,8 @@ public class CategoryServiceImpl implements CategoryService {
         category.setStatus(statusCategory);
         return categoryMapper.toDTO(category);
     }
+
+
+
 
 }

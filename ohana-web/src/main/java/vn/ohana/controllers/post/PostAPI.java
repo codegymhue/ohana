@@ -74,11 +74,11 @@ public class PostAPI extends Thread {
         message.setSubject("THÔNG BÁO KIỂM DUYỆT BÀI ĐĂNG");
         if (postService.updateStatusById(postUpdateParam).getStatus() == StatusPost.PUBLISHED) {
 
-            message.setText("Ohana xin thông báo: Bài viết của bạn đã được đăng trên hệ thống website Ohana! Xin cảm ơn Quý Khách hàng luôn tin tưởng ủng hộ!\n\nTrân trọng!\nOhana team!");
+            message.setText("Ohana xin thông báo:\n Bài viết" + "của bạn đã được đăng trên hệ thống website Ohana! Xin cảm ơn Quý Khách hàng luôn tin tưởng ủng hộ!\n\nTrân trọng!\nOhana team!");
         }
         if (postService.updateStatusById(postUpdateParam).getStatus() == StatusPost.REFUSED) {
 
-            message.setText("Ohana xin thông báo: Bài viết của bạn đã bị thu hồi do vi phạm một số điều khoản và không được đăng trên website Ohana! Rất mong Quý Khách hàng điều chỉnh nọi dung bài đăng để được xét duyệt đăng tải trong bài viết tiếp theo! \n\nTrân trọng!\nOhana team!");
+            message.setText("Ohana xin thông báo:\n Bài viết" + " của bạn đã bị thu hồi do vi phạm một số điều khoản và không được đăng trên website Ohana!\n Rất mong Quý Khách hàng điều chỉnh nội dung bài đăng để được xét duyệt đăng tải trong bài viết tiếp theo! \n\nTrân trọng!\nOhana team!");
         }
 
         this.emailSender.send(message);
