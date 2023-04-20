@@ -180,24 +180,6 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResult updateStatusById(PostUpdateParam postUpdateParam) {
         Post post = findById(postUpdateParam.getId());
-//        User user = userService.findById(postUpdateParam.getUserId());
-//
-//        SimpleMailMessage message = new SimpleMailMessage();
-//
-//        String email = user.getEmail();
-//
-//        message.setFrom(MailConfig.MY_EMAIL);
-//        message.setTo(email);
-//        message.setSubject("Email thông báo kiểm duyệt bài đăng");
-//
-//        if (postUpdateParam.getStatus() == StatusPost.PUBLISHED) {
-//            message.setText("Bài viết của bạn đã được đăng!");
-//
-//        } else if (postUpdateParam.getStatus() == StatusPost.REFUSED) {
-//            message.setText("Bài viết của bạn đã bị thu hồi!");
-//        }
-//
-//        this.emailSender.send(message);
 
         postMapper.transferFields(postUpdateParam, post, true);
 
