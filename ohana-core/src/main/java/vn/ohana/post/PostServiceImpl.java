@@ -7,6 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -109,7 +111,7 @@ public class PostServiceImpl implements PostService {
                 case "PUBLISHED": {
                     try {
                         entity.setStatus(statusPost);
-                        mailService.sendPostApprovedMail(entity.getUser().getEmail());
+                        mailService.sendPostApprovedMail(entity.getUser().getEmail(),entity.getTitle());
                         emailStatus.put(entity.getUser().getEmail(), Boolean.TRUE);
                         successIds.add(entity.getId());
                     } catch (InterruptedException e) {
@@ -120,7 +122,7 @@ public class PostServiceImpl implements PostService {
                 case "REFUSED": {
                     try {
                         entity.setStatus(statusPost);
-                        mailService.sendPostRefusedMail(entity.getUser().getEmail());
+                        mailService.sendPostRefusedMail(entity.getUser().getEmail(),entity.getTitle());
                         emailStatus.put(entity.getUser().getEmail(), Boolean.TRUE);
                         successIds.add(entity.getId());
                     } catch (InterruptedException e) {
@@ -206,27 +208,17 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResult updateStatusById(PostUpdateParam postUpdateParam) {
         Post post = findById(postUpdateParam.getId());
-        User user = userService.findById(postUpdateParam.getIdUser());
-
-        SimpleMailMessage message = new SimpleMailMessage();
-
-        String email = user.getEmail();
-
-        message.setFrom(MailConfig.MY_EMAIL);
-        message.setTo(email);
-        message.setSubject("Email thông báo kiểm duyệt bài đăng");
-
-        if (postUpdateParam.getStatus() == StatusPost.PUBLISHED) {
-            message.setText("Bài viết của bạn đã được đăng!");
-
-        } else if (postUpdateParam.getStatus() == StatusPost.REFUSED) {
-            message.setText("Bài viết của bạn đã bị thu hồi!");
-        }
-
-        this.emailSender.send(message);
-
         postMapper.transferFields(postUpdateParam, post, true);
-
+        try {
+            if (postUpdateParam.getStatus().equals(StatusPost.PUBLISHED)) {
+                mailService.sendPostApprovedMail(post.getUser().getEmail(), post.getTitle());
+            }
+            if (postUpdateParam.getStatus().equals(StatusPost.REFUSED)) {
+                mailService.sendPostRefusedMail(post.getUser().getEmail(), post.getTitle());
+            }
+        } catch (InterruptedException e) {
+            throw new OperationException("mai.exception.sendError");
+        }
         return addPostResultUtilities(post, post.getUtilities());
     }
 
