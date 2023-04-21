@@ -548,7 +548,7 @@
             post = item;
 
             let typeRoom = checkPrice(item.roomPrice);
-            let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
+            let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + post.thumbnailId;
             let gender;
             if (post.rentHouse.gender.id === 1) {
                 gender = "Nam/Nữ";
