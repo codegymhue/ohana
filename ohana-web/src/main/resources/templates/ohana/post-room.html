@@ -226,12 +226,12 @@
     const renderCarousel  = ()=>{
         $("#imagesUpload").trigger('destroy.owl.carousel').removeClass('owl-loaded');
         $("#imagesUpload").find('.owl-stage-outer').children().unwrap();
-        let imgElements = [...listImageId].map(id => renderUploadImage(id));
+        let imgElements = [...listImageId].map(img => renderUploadImage(img));
         $("#imagesUpload").html(imgElements.join(""))
         $("#imagesUpload").owlCarousel({items: 4,nav: true,dots: false})
     }
     const handleDeleteUploadImage = (imgId)=>{
-        listImageId = listImageId.filter(id => id !== imgId);
+        listImageId = listImageId.filter(({publicId}) => publicId !== imgId);
         renderCarousel();
     }
     const renderUploadImage = ({publicId}) =>{
