@@ -46,7 +46,6 @@ public class LoginControllers extends BaseController {
     @Autowired
     UserService userService;
 
-
     @Autowired
     JwtService jwtService;
 

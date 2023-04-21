@@ -58,7 +58,7 @@ public interface UserService  {
 
     UserUpdateParam findByEmailUpdate(String email);
 
-    String findUserPasswordById(Long id);
+//    String findUserPasswordById(Long id);
 
     UserResult savePassword(UserUpdateParam userUpdateParam);
 

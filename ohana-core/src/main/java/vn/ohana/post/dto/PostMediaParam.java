@@ -7,13 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class PostMediaParam {
     private String id;
-    private MultipartFile file;
+    private String publicId;
+    private String fileUrl;
 
-    @Override
-    public String toString() {
-        return "PostMediaParam{" +
-                "id='" + id + '\'' +
-                ", file=" + file +
-                '}';
-    }
 }

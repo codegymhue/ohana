@@ -4,7 +4,7 @@ class App {
     static BASE_URL_API = this.DOMAIN + "/api";
     static BASE_URL_POST = this.DOMAIN + "/api/dashboard";
     static BASE_URL_PROVINCE = "https://vapi.vnappmob.com/api/province";
-    static BASE_URL_CLOUD_IMAGE = "https://res.cloudinary.com/ohana123/image/upload";
+    static BASE_URL_CLOUD_IMAGE = "https://res.cloudinary.com/dh8nlcoul/image/upload";
     // static SCALE_IMAGE_W100_H80_Q100 = "c_limit,w_100,h_80,q_100";
     static SCALE_IMAGE_W600_H650_Q100 = "c_limit,w_600,h_650,q_100";
 

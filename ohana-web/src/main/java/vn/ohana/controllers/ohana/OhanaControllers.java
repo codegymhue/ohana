@@ -1,6 +1,8 @@
 package vn.ohana.controllers.ohana;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +18,9 @@ import vn.ohana.user.UserService;
 import vn.ohana.user.dto.UserResult;
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.rananu.shared.exceptions.NotFoundException;
+import vn.rananu.shared.exceptions.ValidationException;
 
+import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -28,6 +32,9 @@ public class OhanaControllers {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     JwtService jwtService;
@@ -124,27 +131,27 @@ public class OhanaControllers {
     @PostMapping("/password")
     public Object doPassword(@ModelAttribute("userResult") UserResult userResult, @ModelAttribute UserUpdateParam userUpdateParam, HttpServletRequest req) {
         ModelAndView modelAndView = new ModelAndView("/ohana/password");
-        String oldPassword = userService.findUserPasswordById(userResult.getId());
-
         String currentPassword = req.getParameter("currentPassword");
-        String newpassword = req.getParameter("newpassword");
-        System.out.println(newpassword);
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userResult.getEmail(), currentPassword);
 
-        if (!currentPassword.equals(oldPassword)) {
+        try {
+            authenticationManager.authenticate(authentication);
+            String newpassword = req.getParameter("newpassword");
+            if (newpassword.equals(currentPassword)) {
+                modelAndView.addObject("errorDuplicate", true);
+                modelAndView.addObject("userUpdateParam", userUpdateParam);
+                return modelAndView;
+            } else {
+                userUpdateParam.setPassword(newpassword);
+                userUpdateParam.setId(userResult.getId());
+                userService.savePassword(userUpdateParam);
+                modelAndView.addObject("success", true);
+                modelAndView.addObject("userUpdateParam", userUpdateParam);
+                return modelAndView;
+            }
+
+        } catch (Exception e) {
             modelAndView.addObject("error", true);
-            modelAndView.addObject("userUpdateParam", userUpdateParam);
-            return modelAndView;
-        }
-
-        if (newpassword.equals(oldPassword)) {
-            modelAndView.addObject("errorDuplicate", true);
-            modelAndView.addObject("userUpdateParam", userUpdateParam);
-            return modelAndView;
-        } else {
-            userUpdateParam.setPassword(newpassword);
-            userUpdateParam.setId(userResult.getId());
-            userService.savePassword(userUpdateParam);
-            modelAndView.addObject("success", true);
             modelAndView.addObject("userUpdateParam", userUpdateParam);
             return modelAndView;
         }
@@ -211,7 +218,7 @@ public class OhanaControllers {
     }
 
     @GetMapping("/{pId}/room")
-    public ModelAndView showRoom(@PathVariable Long pId,@ModelAttribute("userResult") UserResult userResult, RedirectAttributes redirectAttributes) {
+    public ModelAndView showRoom(@PathVariable Long pId, @ModelAttribute("userResult") UserResult userResult, RedirectAttributes redirectAttributes) {
         try {
             PostResult post = postService.getById(pId);
             ModelAndView modelAndView = new ModelAndView("/ohana/room");

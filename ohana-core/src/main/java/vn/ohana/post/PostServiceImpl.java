@@ -294,9 +294,10 @@ public class PostServiceImpl implements PostService {
 
         postRepository.save(post);
 
-        for (String i : postCreateParam.getImages()) {
+        for (PostMediaParam img : postCreateParam.getImages()) {
             PostMedia postMedia = new PostMedia();
-            postMedia.setId(i);
+            postMedia.setPublicId(img.getPublicId());
+            postMedia.setFileUrl(img.getFileUrl());
             postMedia.setPost(post);
             postMediaRepository.save(postMedia);
 

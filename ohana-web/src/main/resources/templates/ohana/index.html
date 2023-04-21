@@ -460,7 +460,7 @@
             gender = post.rentHouse.gender.name;
         }
 
-        let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
+        let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + post.thumbnailId + ".jpg";
         return `
             <div class="nctjX">
                 <a target="_blank" href="/${post.id}/room">

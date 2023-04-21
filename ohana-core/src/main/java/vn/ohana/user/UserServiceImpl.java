@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -79,10 +81,16 @@ public class UserServiceImpl implements UserService {
         return userMapper.toDtoPage(page);
     }
 
-    @Override
-    public String findUserPasswordById(Long id) {
-        return findById(id).getPassword();
-    }
+//    @Override
+//    public String findUserPasswordById(Long id) {
+//        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
+//        try {
+//            authenticationManager.authenticate(authentication);
+//        } catch (AuthenticationException e) {
+//            throw new ValidationException("login.exception.emailOrPwd");
+//        }
+//        return findById(id).getPassword();
+//    }
 
     @Override
     @Transactional
@@ -186,11 +194,10 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-
+    @Transactional
     public UserResult savePassword(UserUpdateParam userUpdateParam) {
         User user = findById(userUpdateParam.getId());
-        user.setPassword(userUpdateParam.getPassword());
-        userRepository.save(user);
+        user.setPassword(passwordEncoder.encode(userUpdateParam.getPassword()));
         return userMapper.toUserResultDTO(user);
     }
 
@@ -271,8 +278,8 @@ public class UserServiceImpl implements UserService {
         } else {
             User user = new User();
             user.setEmail(signUpParam.getEmail());
-            user.setFullName(passwordEncoder.encode(signUpParam.getPassWord()));
-            user.setPassword(signUpParam.getPassWord());
+            user.setFullName(signUpParam.getFullName());
+            user.setPassword(passwordEncoder.encode(signUpParam.getPassWord()));
             user.setStatus(UserStatus.CONFIRM_EMAIL);
             user.setRole(Role.USER);
             int code = (int) Math.floor(((Math.random() * 899999) + 100000));
