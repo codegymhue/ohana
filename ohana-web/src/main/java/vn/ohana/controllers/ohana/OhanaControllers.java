@@ -36,8 +36,11 @@ public class OhanaControllers {
     PostService postService;
 
     @ModelAttribute("userResult")
-    public UserResult getUserLoginFromCookie(@CookieValue(value = "jwtToken", defaultValue = "0") String token) {
+    public UserResult getUserLoginFromCookie(@CookieValue(value = "jwtToken", defaultValue = "null") String token) {
         UserResult userResult = null;
+        if (token.equals("null")) {
+            return userResult;
+        }
         String email = jwtService.extractUserName(token);
         if (!token.equals("0")) {
             userResult = userService.findByEmail(email);
