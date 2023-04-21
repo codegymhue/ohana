@@ -42,6 +42,7 @@
                 </div>
             </div>
             <label id="notification"></label>
+            <div id="noLength"></div>
             <table class="table align-middle mb-0 bg-white" id="tbPost" style="width: 100%">
                 <thead class="bg-light">
 
@@ -149,17 +150,23 @@
     }
 
 
-    page.commands.getAllPostPublished = () => {
+    page.commands.getAllPostPublished = () =>  {
         removeDataTable()
         $.ajax({
             type: "GET",
             url: page.url.getAllPostPublished
         }).done(function (data) {
+            if (data.content.length == 0){
+                showNoLengthPost()
+                return;
+            }
+            $("#noLength").empty();
             $("#notification").html('');
             let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `<tr>
+                            <th class= "col-1" style="min-width: 100px">Ảnh</th>
                             <th class= "col-2">Tên bài đăng</th>
                             <th class= "col-4">Địa chỉ</th>
                             <th class= "col-1">Giá</th>
@@ -187,19 +194,21 @@
                 } else {
                     rentHouse.status = "Còn phòng"
                 }
-                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + post.thumbnailId + ".jpg";
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/"  + item.thumbnailId + ".jpg";
 
                 let str = `  <tr id="tr_${post.id}">
-                    <td class= "col-2">
+                    <td class= "col-1">
                         <div class="d-flex align-items-center">
                             <img src="${image_thumbnail}" alt=""
-                                 style="width: 45px; height: 45px" class="rounded-circle"/>
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">${post.title}</p>
-                            </div>
+                                 style="width: 100px; height: 100px" class="rounded-1"/>
                         </div>
                     </td>
-                    <td class= "col-5">
+                    <td class= "col-2">
+                        <div class="ms-3">
+                            <p class="fw-bold mb-1">${post.title}</p>
+                        </div>
+                    </td>
+                    <td class= "col-4">
                         <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                     <td class= "col-1">
@@ -248,13 +257,19 @@
             type: "GET",
             url: page.url.getAllOverRoom
         }).done(function (data) {
+            if (data.content.length == 0){
+                showNoLengthPost()
+                return;
+            }
+            $("#noLength").empty();
             $("#notification").html('');
             let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `<tr>
+                            <th class= "col-1" style="min-width: 100px">Ảnh</th>
                             <th class= "col-2">Tên bài đăng</th>
-                            <th class= "col-5">Địa chỉ</th>
+                            <th class= "col-4">Địa chỉ</th>
                             <th class= "col-1">Giá</th>
                             <th class= "col-1">Ngày đăng</th>
                             <th class= "col-1">Đường dẫn</th>
@@ -280,19 +295,21 @@
                 } else {
                     rentHouse.status = "Còn phòng"
                 }
-                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/"  + item.thumbnailId + ".jpg";
 
                 let str = `  <tr id="tr_${post.id}">
-                    <td class= "col-2">
+                    <td class= "col-1">
                         <div class="d-flex align-items-center">
                             <img src="${image_thumbnail}" alt=""
-                                 style="width: 45px; height: 45px" class="rounded-circle"/>
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">${post.title}</p>
-                            </div>
+                                 style="width: 100px; height: 100px" class="rounded-1"/>
                         </div>
                     </td>
-                    <td class= "col-5">
+                    <td class= "col-2">
+                        <div class="ms-3">
+                            <p class="fw-bold mb-1">${post.title}</p>
+                        </div>
+                    </td>
+                    <td class= "col-4">
                         <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                     <td class= "col-1">
@@ -342,16 +359,22 @@
             type: "GET",
             url: page.url.getAllPendingReview
         }).done(function (data) {
+            if (data.content.length == 0){
+                showNoLengthPost()
+                return;
+            }
+            $("#noLength").empty();
             $("#notification").html('');
             let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `
                 <tr>
-                    <th class= "col-2">Tên bài đăng</th>
-                    <th class= "col-6">Địa chỉ</th>
-                    <th class= "col-2">Giá</th>
-                    <th class= "col-2">Ngày đăng</th>
+                    <th class= "col-2" style="min-width: 100px">Ảnh</th>
+                    <th class= "col-3">Tên bài đăng</th>
+                    <th class= "col-5">Địa chỉ</th>
+                    <th class= "col-1">Giá</th>
+                    <th class= "col-1">Ngày đăng</th>
 
                 </tr>`;
             $("#tbPost thead").prepend(tr);
@@ -370,22 +393,24 @@
                 locationResult = post.location;
                 rentHouse = post.rentHouse;
                 let str = `     <tr>
-                    <td class= "col-2">
+                    <td class= "col-1">
                         <div class="d-flex align-items-center">
                             <img src="${image_thumbnail}" alt=""
-                                 style="width: 45px; height: 45px" class="rounded-circle"/>
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">${post.title}</p>
-                            </div>
+                                 style="width: 100px; height: 100px" class="rounded-3"/>
+                        </div>
+                    </td>
+                    <td class= "col-3">
+                        <div class="ms-3">
+                            <p class="fw-bold mb-1">${post.title}</p>
                         </div>
                     </td>
                     <td class= "col-6">
                                <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
-                     <td class= "col-2">
+                     <td class= "col-1">
                         <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} VNĐ</p>
                     </td>
-                    <td class= "col-2">
+                    <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
                     </td>
                 </tr>`;
@@ -399,7 +424,8 @@
     }
 
     function removeDataTable(){
-        $("#container-tbPost").empty();
+        $("#notification").empty()
+        $("#tbPost_wrapper").empty();
         let tablee = `<table class="table align-middle mb-0 bg-white" id="tbPost" style="width: 100%">
                             <thead class="bg-light">
 
@@ -408,19 +434,27 @@
 
                             </tbody>
                        </table>`;
-        $("#container-tbPost").append(tablee);
+        $("#tbPost_wrapper").append(tablee);
     }
 
     page.commands.getAllRefused = () => {
+        removeDataTable();
         $.ajax({
             type: "GET",
             url: page.url.getAllRefused
         }).done(function (data) {
+            if (data.content.length == 0){
+                showNoLengthPost()
+                return;
+            }
+            $("#noLength").empty();
+
             $("#notification").html('');
             let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `<tr>
+                <th class= "col-1" style="min-width: 100px">Ảnh</th>
                 <th class= "col-3">Tên bài đăng</th>
                 <th class= "col-6">Địa chỉ</th>
                 <th class= "col-1">Giá</th>
@@ -437,21 +471,22 @@
                     $("#tbPost tbody").append(str);
                 }
             }
-            let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
-
             data.content.forEach((item) => {
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/"  + item.thumbnailId + ".jpg";
                 post = item;
                 user = post.user;
                 locationResult = post.location;
                 rentHouse = post.rentHouse;
                 let str = `<tr class="col-12">
-                    <td class= "col-3">
+                    <td class= "col-1">
                         <div class="d-flex align-items-center">
                             <img src="${image_thumbnail}" alt=""
-                                 style="width: 45px; height: 45px" class="rounded-circle"/>
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">${post.title}</p>
-                            </div>
+                                 style="width: 100px; height: 100px" class="rounded-3"/>
+                        </div>
+                    </td>
+                    <td class= "col-3">
+                        <div class="ms-3">
+                            <p class="fw-bold mb-1">${post.title}</p>
                         </div>
                     </td>
                     <td class= "col-6">
@@ -477,6 +512,20 @@
         }).fail(function () {
             showError('Error')
         })
+    }
+
+    function showNoLengthPost(){
+        removeDataTable()
+        $("#noLength").html(renderNoLength())
+    }
+
+    function renderNoLength(){
+        return `
+             <div class="nctjX">
+                 <div class="X8svI _2DJkz" style="display: flex; justify-content: center">
+                         <div class="_228LH display-6">Bạn không có bài đăng nào phù hợp</div>
+                 </div>
+             </div>`
     }
 
 
