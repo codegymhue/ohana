@@ -107,7 +107,6 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
                 }
                 predicateList.add(datePeriodPredicate);
             }
-
             return criteriaBuilder.and(predicateList.toArray(new Predicate[0]));
         }, pageable);
     }

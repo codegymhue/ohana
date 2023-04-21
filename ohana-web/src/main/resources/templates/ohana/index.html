@@ -17,6 +17,12 @@
             font-size: 16px;
             margin-right: 13px;
         }
+        #searchHome{
+            border-radius: 25px;
+            text-align: center;
+            inset: 15px auto auto -21px !important;
+            overflow: hidden;
+        }
     </style>
 </head>
 
@@ -45,12 +51,15 @@
                     <p class="_1hc9n">Ứng dụng tìm kiếm phòng trọ miễn phí cho người đi thuê hàng đầu Việt Nam</p>
                     <div class="_1_U71">
                         <div class="_2lKdR">
-
                             <div class="_3p4ES _1vH0j" id="floating-city-dropdown">
                                 <div class="wj6oE">
-                                            <span class="icon-location-fill"
-                                                  style="color: rgb(247, 52, 134); font-size: 16px;"></span>
-                                    <span class="_1qNTb">Huế</span>
+                                    <a type="button" class="rounded-circle" id="renderSe" data-bs-toggle="dropdown" aria-expanded="false">
+                                       
+                                    </a>
+                                    <ul class="dropdown-menu" id="searchHome">
+                                        <li style=" border-bottom: 1px solid #333"><a class="dropdown-item" id="searchHue">Huế</a></li>
+                                        <li ><a class="dropdown-item" id="searchDn">Đà Nẵng</a></li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="_1pVEQ"><input id="search" class="bX6zE"
@@ -78,66 +87,7 @@
             <div class="_27LWy">
                 <p class="yGUOJ">Xu hướng tìm kiếm</p>
                 <div class="_3C4O2" id="trends">
-                    <div>
-                        <a href="/search?wardId=19801&wardName=Phường An Cựu">
-                            <div class="_1vH0j FvthK"
-                                 style="background-image: url(/resources/ohana/img/4d99b9c4047ed44e88d916c96a16462f.jpg); background-repeat: no-repeat; background-size: cover;">
-                                <div class="_2CKh0">
-                                    <span class="_3BLx6">An Cựu</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/search?wardId=19792&wardName=Xuân Phú">
-                            <div class="_1vH0j FvthK"
-                                 style="background-image: url(/resources/ohana/img/942f65c3633188ad20aef85af3cc6cb9.jpg); background-repeat: no-repeat; background-size: cover;">
-                                <div class="_2CKh0">
-                                    <span class="_3BLx6">Xuân Phú</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/search?wardId=19777&wardName=Vĩ Dạ">
-                            <div class="_1vH0j FvthK"
-                                 style="background-image: url(/resources/ohana/img/c24f2f4900e66ad42bc5819ef97687c3.jpg); background-repeat: no-repeat; background-size: cover;">
-                                <div class="_2CKh0">
-                                    <span class="_3BLx6">Vĩ Dạ</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/search?wardId=19816&wardName=An Tây">
-                            <div class="_1vH0j FvthK"
-                                 style="background-image: url(/resources/ohana/img/820479a65182bbe3c48ac1649d82aa8a.jpg); background-repeat: no-repeat; background-size: cover;">
-                                <div class="_2CKh0">
-                                    <span class="_3BLx6">An Tây</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/search?wardId=19783&wardName=Vĩnh Ninh">
-                            <div class="_1vH0j FvthK"
-                                 style="background-image: url(/resources/ohana/img/56357e2482d5e085d5439d64308b8ccf.jpg); background-repeat: no-repeat; background-size: cover;">
-                                <div class="_2CKh0">
-                                    <span class="_3BLx6">VĨnh Ninh</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div>
-                        <a href="/search?wardId=19759&wardName=Phú Hậu">
-                            <div class="_1vH0j FvthK"
-                                 style="background-image: url(/resources/ohana/img/954a28da0e0c77e373bdfdc41c22c1c3.jpg); background-repeat: no-repeat; background-size: cover;">
-                                <div class="_2CKh0">
-                                    <span class="_3BLx6">Phú Hậu</span>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
+
                 </div>
             </div>
             <div class="_3jxzh">
@@ -158,121 +108,13 @@
                                 <div class="data-container">
 
                                 </div>
+                                <a href="/search">
+                                    <div class="_3X6_U">
+                                        <span>Xem tất cả</span>
+                                    </div>
+                                </a>
                             </section>
                         </div>
-                        <!--                        <div class="_3wkWz">-->
-                        <!--                            <th:block th:each="item : ${posts}">-->
-                        <!--                                <div class="_2Kedc">-->
-                        <!--                                    <a target="_blank" th:href="@{/room/__${item.id}__}">-->
-                        <!--                                        <div class="X8svI _2DJkz">-->
-                        <!--                                            <div class="pcGxo">-->
-                        <!--                                                <div class="_1Gm0b">-->
-                        <!--                                                    <img src="/resources/ohana/img/20c8373d39e30d04cde885686abc2987.png"-->
-                        <!--                                                         alt="verified-img"-->
-                        <!--                                                         class="_1TPDO">-->
-                        <!--                                                </div>-->
-                        <!--                                                &lt;!&ndash;                                                <img th:src="${item.thumbnailUrl.fileUrl}"&ndash;&gt;-->
-                        <!--                                                alt="room-img" class="_1IOeB">-->
-                        <!--                                            </div>-->
-                        <!--                                            <div class="_228LH">-->
-                        <!--                                                <p class="_3xXyQ" th:text="${item.title}"></p>-->
-                        <!--                                                <div class="_27rcQ">-->
-                        <!--                                                    <div class="_3piN7">-->
-                        <!--                                                        <div class="wpwoK">-->
-                        <!--                                                            <span class="icon-nav-home"-->
-                        <!--                                                                  style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span>-->
-                        <!--                                                            <span th:text="${item.category.name}"></span>-->
-                        <!--                                                            <span-->
-                        <!--                                                                    style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span>-->
-                        <!--                                                            <span th:text="'Sức chứa:'+ ${item.rentHouse.capacity}"></span>-->
-                        <!--                                                        </div>-->
-                        <!--                                                        <div class="_3TYbx">-->
-                        <!--                                                            <span>-->
-                        <!--                                                                <th:block th:if="${item.rentHouse.gender.id}==1">-->
-                        <!--                                                                     <span class="icon-nav-roomate"-->
-                        <!--                                                                           style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"-->
-                        <!--                                                                     >Nam/Nữ-->
-                        <!--                                                                </span>-->
-                        <!--                                                                </th:block>-->
-                        <!--                                                                <th:block th:unless="${item.rentHouse.gender.id}==1">-->
-                        <!--                                                                     <span class="icon-nav-roomate"-->
-                        <!--                                                                           style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"-->
-                        <!--                                                                           th:text="${item.rentHouse.gender.name}">-->
-                        <!--                                                                </span>-->
-                        <!--                                                                </th:block>-->
-                        <!--                                                              </span>-->
-                        <!--                                                            <span>-->
-                        <!--                                                                <span class="icon-squaremeter"-->
-                        <!--                                                                      style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"-->
-                        <!--                                                                      th:text="${item.rentHouse.area}+'m²'">-->
-                        <!--                                                                </span>-->
-                        <!--                                                            </span>-->
-                        <!--                                                            &lt;!&ndash;                                                            <span>&ndash;&gt;-->
-                        <!--                                                            &lt;!&ndash;                                                                <span class="icon-nav-home"&ndash;&gt;-->
-                        <!--                                                            &lt;!&ndash;                                                                      style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"&ndash;&gt;-->
-                        <!--                                                            &lt;!&ndash;                                                                      th:text="'Sức chứa:'+${item.rentHouse.capacity}">&ndash;&gt;-->
-                        <!--                                                            &lt;!&ndash;                                                                </span>&ndash;&gt;-->
-                        <!--                                                            &lt;!&ndash;                                                            </span>&ndash;&gt;-->
-                        <!--                                                        </div>-->
-                        <!--                                                        <div class="_1jHdY">-->
-                        <!--                                                            <span class="icon-location"-->
-                        <!--                                                                  style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span-->
-                        <!--                                                                class="uKi2L"-->
-                        <!--                                                                th:text="${item.location.locationDetail} + ', ' + ${item.location.wardName} + ', ' + ${item.location.districtName} + ', ' + ${item.location.provinceName}"></span>-->
-                        <!--                                                        </div>-->
-                        <!--                                                    </div>-->
-                        <!--                                                    <div class="_1ezn1">-->
-                        <!--                                                        <th:block-->
-                        <!--                                                                th:if="${(item.category.id==1 or item.category.id==2)}">-->
-                        <!--                                                            <th:block th:if="${item.rentHouse.price}>=1000000">-->
-                        <!--                                                            <span class="_36r7N"-->
-                        <!--                                                                  th:text="${item.rentHouse.price}/1000000"></span>-->
-                        <!--                                                                <span class="_11LqE">tr/phòng</span>-->
-                        <!--                                                            </th:block>-->
-                        <!--                                                            <th:block th:if="${item.rentHouse.price}<1000000">-->
-                        <!--                                                            <span class="_36r7N"-->
-                        <!--                                                            ><1</span>-->
-                        <!--                                                                <span class="_11LqE">tr/phòng</span>-->
-                        <!--                                                            </th:block>-->
-                        <!--                                                        </th:block>-->
-                        <!--                                                        <th:block th:if="${item.category.id==3}">-->
-                        <!--                                                            <th:block th:if="${item.rentHouse.price}>1000000">-->
-                        <!--                                                            <span class="_36r7N"-->
-                        <!--                                                                  th:text="${item.rentHouse.price}/1000000"></span>-->
-                        <!--                                                                <span class="_11LqE">tr/phòng</span>-->
-                        <!--                                                            </th:block>-->
-                        <!--                                                            <th:block th:if="${item.rentHouse.price}<1000000">-->
-                        <!--                                                            <span class="_36r7N"-->
-                        <!--                                                            ><1</span>-->
-                        <!--                                                                <span class="_11LqE">tr/phòng</span>-->
-                        <!--                                                            </th:block>-->
-                        <!--                                                        </th:block>-->
-                        <!--                                                        <th:block th:if="${item.category.id==4 or item.category.id==5}">-->
-                        <!--                                                            <th:block th:if="${item.rentHouse.price}>1000000">-->
-                        <!--                                                            <span class="_36r7N"-->
-                        <!--                                                                  th:text="${item.rentHouse.price}/1000000"></span>-->
-                        <!--                                                                <span class="_11LqE">tr/phòng</span>-->
-                        <!--                                                            </th:block>-->
-                        <!--                                                            <th:block th:if="${item.rentHouse.price}<1000000">-->
-                        <!--                                                            <span class="_36r7N"-->
-                        <!--                                                            ><1</span>-->
-                        <!--                                                                <span class="_11LqE">tr/phòng</span>-->
-                        <!--                                                            </th:block>-->
-                        <!--                                                        </th:block>-->
-
-                        <!--                                                    </div>-->
-                        <!--                                                </div>-->
-                        <!--                                            </div>-->
-                        <!--                                        </div>-->
-                        <!--                                    </a>-->
-                        <!--                                </div>-->
-
-                        <!--                            </th:block>-->
-
-                        <!--                            <a href="/search">-->
-                        <!--                                <div class="_3X6_U"><span>Xem tất cả</span></div>-->
-                        <!--                            </a>-->
-                        <!--                        </div>-->
                     </div>
                 </div>
                 <div class="_3eGuJ">
@@ -373,48 +215,193 @@
 </th:block>
 <script src="/resources/paginationjs-master/paginationjs-master/src/pagination.js"></script>
 <script>
-    // let messLogin = [[${messLogin}]]
-    // if(messLogin!=null){
-    //   showSuccess(messLogin);
-    // }
-
-    // $.ajax({
-    //     type: "GET",
-    //     url: App.BASE_URL_API + "/trends"
-    // }).done(function (data) {
-    //     data.forEach((item) => {
-    //         let str = `<div>
-    //                     <a href="/view-all/${item.id}">
-    //                         <div class="_1vH0j FvthK"
-    //                              style="background-image: url(${'/resources/ohana/img/' + item.thumbnailUrl}); background-repeat: no-repeat; background-size: cover;">
-    //                             <div class="_2CKh0">
-    //                                 <span class="_3BLx6">${item.name}</span>
-    //                             </div>
-    //                         </div>
-    //                     </a>
-    //                 </div>`
-    //         $("#trends").append(str);
-    //     });
-    // }).fail(function () {
-    //     showError('Error')
-    // });
-
     $(function () {
+        let provin = 46;
+        $("#renderSe").html(renderSearch(provin))
+        apiProvince(provin)
+        $("#trends").html(renderTrenHue())
+    })
+    $("#searchDn").on("click", () =>{
+        let provin = 48;
+        $("#renderSe").html(renderSearch(provin))
+        apiProvince(provin);
+        $("#trends").html(renderTrenDn())
+    })
+    $("#searchHue").on("click", () =>{
+        let provin = 46;
+        $("#renderSe").html(renderSearch(provin))
+        apiProvince(provin);
+        $("#trends").html(renderTrenHue())
+    })
+    function renderSearch(provin){
+        if (provin == 48) {
+            return `<span class="icon-location-fill" style="color: rgb(247, 52, 134); font-size: 16px;"></span>
+                    <span class="_1qNTb">Đà Nẵng</span>
+                    <span class="icon-a-down" style="color: rgb(102, 102, 102); font-size: 24px;"></span>`
+        }else{
+            return `<span class="icon-location-fill" style="color: rgb(247, 52, 134); font-size: 16px;"></span>
+                    <span class="_1qNTb">Huế</span>
+                    <span class="icon-a-down" style="color: rgb(102, 102, 102); font-size: 24px;"></span>`
+        }
+    }
+
+    function renderTrenHue(){
+        return`
+        <div>
+            <a href="/search?wardId=19801&wardName=Phường An Cựu">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/phuong-an-cuu.jpg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">An Cựu</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="/search?wardId=19792&wardName=Xuân Phú">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/phuong-xuan-phu.jpeg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">Xuân Phú</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="/search?wardId=19777&wardName=Vĩ Dạ">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/phuong-vy-da.jpeg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">Vĩ Dạ</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="/search?wardId=19816&wardName=An Tây">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/phuong-an-tay.jpeg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">An Tây</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="/search?wardId=19783&wardName=Vĩnh Ninh">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/phuong-vinh-ninh.jpeg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">VĨnh Ninh</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="/search?wardId=19759&wardName=Phú Hậu">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/phuong-phu-hau.jpeg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">Phú Hậu</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        `
+    }
+
+    function renderTrenDn(){
+        return`
+        <div>
+            <a href="/search?districtId=493&districtName=Quận Sơn Trà">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/Trung_tâm_Hành_chính_quận_Sơn_Trà_2.jpeg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">Quận Sơn Trà</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="/search?districtId=494&districtName=Quận Ngũ Hành Sơn">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/ngu-hanh-son-da-nang-1.jpeg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">Quận Ngũ Hành Sơn</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="/search?districtId=492&districtName=Quận Hải Châu">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/van-phong-cong-chung-quan-hai-chau.jpg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">Quận Hải Châu</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="/search?districtId=490&districtName=Quận Liên Chiểu">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/2166085.png); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">Quận Liên Chiểu</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="/search?districtId=491&districtName=Quận Thanh Khê">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/quang-canh-quan-thanh-khe.jpg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">Quận Thanh Khê</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div>
+            <a href="/search?districtId=495&districtName=Quận Cẩm Lệ">
+                <div class="_1vH0j FvthK"
+                     style="background-image: url(/resources/ohana/img/gui-hang-di-Quan-Cam-Le-Da-Nang.jpg); background-repeat: no-repeat; background-size: cover;">
+                    <div class="_2CKh0">
+                        <span class="_3BLx6">Quận Cẩm Lệ</span>
+                    </div>
+                </div>
+            </a>
+        </div>
+        `
+    }
+
+    function apiProvince (province) {
+        let fomrData = {
+            locationFilter: {
+                provinceId : province
+            }
+        }
         $.ajax({
-            type: "GET",
-            url: App.BASE_URL_API + "/posts/postsNew",
+            url: App.BASE_URL_API + "/posts/trendPost",
+            data: JSON.stringify(fomrData),
+            headers: {
+                "Content-Type": "application/json"
+            },
+            type: "POST",
         }).done(function (data) {
-            $.each(data, (i, item) => {
+            $(".data-container").empty()
+            $.each(data.content, (i, item) => {
                 post = item;
-                $(".data-container").prepend(paging(data))
+                $(".data-container").append(paging(item))
             });
         }).fail(function (err) {
             console.log(err)
             showError("Get Filter Fail")
         })
-    })
+    }
 
-    function paging(data) {
+    function paging(item) {
+        post = item
         let typeRoom;
 
         function checkPrice(price) {
