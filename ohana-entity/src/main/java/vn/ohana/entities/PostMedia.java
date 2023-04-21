@@ -35,7 +35,7 @@ public class PostMedia {
     @Column(name = "cloud_id")
     private String cloudId;
 
-    @Column(name = "public_Id")
+    @Column(name = "public_id")
     private String publicId;
 
     @Column(columnDefinition = "BIGINT(20) DEFAULT 0")

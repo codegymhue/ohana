@@ -8,5 +8,6 @@ import lombok.Setter;
 @Setter
 public class PostMediaResult {
     private String id;
+    private String publicId;
     private String fileUrl;
 }
