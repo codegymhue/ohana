@@ -28,5 +28,6 @@ public interface PostRepository extends JpaRepository<Post, Long>{
 
 
     Page<Post> findAllByStatusAndUser(StatusPost statusPost, User user, Pageable pageable);
-    
+
+    Long countPostByStatus(StatusPost status);
 }
