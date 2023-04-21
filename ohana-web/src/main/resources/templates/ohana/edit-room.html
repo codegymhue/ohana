@@ -506,10 +506,8 @@
 
 
                 results.map(item => {
-                    if ((provinceId == 46 && item.district_id == 474) || provinceId == 48){
                         str = `<option value="${item.district_id}">${item.district_name}</option>`;
                         page.dialogs.elements.district.append(str);
-                    }
                 })
             })
             .fail((error) => {
