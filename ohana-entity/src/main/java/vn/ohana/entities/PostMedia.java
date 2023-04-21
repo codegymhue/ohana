@@ -35,6 +35,9 @@ public class PostMedia {
     @Column(name = "cloud_id")
     private String cloudId;
 
+    @Column(name = "public_Id")
+    private String publicId;
+
     @Column(columnDefinition = "BIGINT(20) DEFAULT 0")
     private Long ts = new Date().getTime();
 

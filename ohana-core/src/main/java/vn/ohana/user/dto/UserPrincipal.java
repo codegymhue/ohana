@@ -6,6 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import vn.ohana.entities.Role;
+import vn.ohana.entities.UserStatus;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +21,8 @@ public class UserPrincipal implements UserDetails {
     private String email;
     private String password;
     private Role role;
+
+    private UserStatus status;
 
 
 

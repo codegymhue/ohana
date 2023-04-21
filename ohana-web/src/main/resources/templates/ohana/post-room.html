@@ -211,13 +211,16 @@
             if (!error && result && result.event === "success") {
                 let {url} = result.info;
                 let {public_id} = result.info;
-                listImageId.push(public_id);
+                listImageId.push({
+                    publicId: public_id,
+                    fileUrl: url
+                });
             }
-           if (result.event === "queues-end"){
+            console.log(listImageId)
+            if (result.event === "queues-end"){
                $("#btnUploadImages").attr("disabled",false).css("z-index", 999).text("Tải thêm ảnh")
                renderCarousel();
            }
-            console.log(result)
         }
     );
     const renderCarousel  = ()=>{
@@ -231,10 +234,10 @@
         listImageId = listImageId.filter(id => id !== imgId);
         renderCarousel();
     }
-    const renderUploadImage = (id) =>{
-        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/v1681975206/${id}.jpg`
+    const renderUploadImage = ({publicId}) =>{
+        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/v1681975206/${publicId}.jpg`
         return `<div class="position-relative">
-                    <button data-imgid="${id}" id="imgDeleteBtn" onclick="handleDeleteUploadImage(this.dataset.imgid)" class="btn-outline-danger btn-sm btn"><i class="fas fa-times-circle"></i></button>
+                    <button data-imgid="${publicId}" id="imgDeleteBtn" onclick="handleDeleteUploadImage(this.dataset.imgid)" class="btn-outline-danger btn-sm btn"><i class="fas fa-times-circle"></i></button>
                     <img class="post_img_preview" src="${url}" alt="Uploaded images"/>
                 </div>`;
     }
@@ -258,6 +261,7 @@
                 let {url} = result.info;
                 let {public_id} = result.info;
                 thumbnailId = public_id;
+                console.log(public_id)
                 $("#imgPreviewThumb").attr("src", url);
                 $("#btnUploadThumb")
                     .text("Thay đổi")

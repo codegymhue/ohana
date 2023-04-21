@@ -18,7 +18,7 @@ public class PostCreateParam {
     private Long categoryId;
     private String descriptionContent;
     private String thumbnailId;
-    private List<String> images;
+    private List<PostMediaParam> images;
     private LocationParam location;
     private RentHouseParam rentHouse;
     private List<Long> utilities;
