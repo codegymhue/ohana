@@ -13,7 +13,6 @@ import vn.ohana.report.ReportService;
 
 @RestController
 @RequestMapping("/api/reports")
-@CrossOrigin("*")
 public class ReportAPI {
 
     @Autowired
