@@ -395,9 +395,10 @@
         })
             .done((data) => {
                 $.each(data.results, (i, item) => {
-                    let str = `<option value="${item.province_id}">${item.province_name}</option>`;
-
-                    page.dialogs.elements.province.append(str);
+                    if (item.province_id == 48 || item.province_id == 46){
+                        let str = `<option value="${item.province_id}">${item.province_name}</option>`;
+                        page.dialogs.elements.province.append(str);
+                    }
 
                 })
 
