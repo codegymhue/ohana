@@ -2,6 +2,9 @@ package vn.ohana.user;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.User;
 import vn.ohana.google.dto.GooglePojo;
@@ -14,7 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public interface UserService {
+public interface UserService  {
     Page<UserResult> getAll(Pageable pageable);
 
     UserResult update(UserUpdateParam updateParam);
@@ -30,7 +33,7 @@ public interface UserService {
 
     UserResult getById(Long id);
 
-    UserResult signUpByGoogle(GooglePojo googlePojo);
+    UserDetails signUpByGoogle(GooglePojo googlePojo);
 
     UserResult signUp(String url, SignUpParam signUpParam) throws MessagingException, UnsupportedEncodingException;
 
@@ -69,6 +72,10 @@ public interface UserService {
 
     void forgetPassword(UserResult UserResult) throws MessagingException, UnsupportedEncodingException;
 
-    void sendMailForgetPassword(User user) throws MessagingException, UnsupportedEncodingException;
+    void sendMailForgetPassword(User user,String tempPwd) throws MessagingException, UnsupportedEncodingException;
+
     UserPrincipal findUserPrincipleByEmail(String username);
+
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
+
 }

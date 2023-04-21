@@ -11,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -33,14 +35,16 @@ import java.util.stream.StreamSupport;
 import static vn.ohana.config.MailConfig.MY_EMAIL;
 
 @Service
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
 
-
     @Autowired
     UserFilterRepository userFilterRepository;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     UserMapper userMapper;
@@ -52,6 +56,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Qualifier("getJavaMailSender")
     public JavaMailSender emailSender;
 
+//    public UserServiceImpl(PasswordEncoder passwordEncoder) {
+//        this.passwordEncoder = new BCryptPasswordEncoder(10);
+//    }
 
     public Page<User> findAll(Pageable pageable) {
         return userRepository.findAll(pageable);
@@ -134,9 +141,9 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserResult findByEmail(String email) {
-        User user = userRepository.findByEmail(email).orElseThrow(()->new ValidationException("user.exception.notFound"));
-        if (user != null) {
-            return userMapper.toUserResultDTO(user);
+        Optional <User> user = userRepository.findByEmail(email);
+        if (user.isPresent()) {
+            return userMapper.toUserResultDTO(user.get());
         }
         return null;
     }
@@ -172,8 +179,11 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserPrincipal findUserPrincipleByEmail(String username) {
-        User user =  userRepository.findByEmail(username).orElseThrow(()->new ValidationException("user.exception.notFound"));
-        return userMapper.toUserPrinciple(user);
+        Optional<User> user =  userRepository.findByEmail(username);
+        if (user.isPresent()) {
+            return userMapper.toUserPrinciple(user.get());
+        }
+        return null;
     }
 
 
@@ -232,20 +242,20 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     @Transactional
-    public UserResult signUpByGoogle(GooglePojo googlePojo) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=+[{]}\\|;:\'\",<.>/?";
+    public UserDetails signUpByGoogle(GooglePojo googlePojo) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()-_=";
         String pwd = RandomStringUtils.random(15, characters);
-        User userCheck =  userRepository.findByEmail(googlePojo.getEmail()).orElseThrow(()->new ValidationException("user.exception.notFound"));
-        if (userCheck != null) {
-            return userMapper.toUserResultDTO(userCheck);
+        Optional<User> userCheck =  userRepository.findByEmail(googlePojo.getEmail());
+        if (userCheck.isPresent()) {
+            return userMapper.toUserPrinciple(userCheck.get());
         } else {
             User user = userMapper.toGooglePojo(googlePojo);
             user.setStatus(UserStatus.ACTIVATED);
             user.setRole(Role.USER);
-            user.setPassword(pwd);
+            user.setPassword(passwordEncoder.encode(pwd));
             user.setThumbnailId(googlePojo.getThumbnailId());
             User entity = userRepository.save(user);
-            return userMapper.toUserResultDTO(entity);
+            return userMapper.toUserPrinciple(entity);
         }
     }
 
@@ -261,7 +271,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         } else {
             User user = new User();
             user.setEmail(signUpParam.getEmail());
-            user.setFullName(signUpParam.getFullName());
+            user.setFullName(passwordEncoder.encode(signUpParam.getPassWord()));
             user.setPassword(signUpParam.getPassWord());
             user.setStatus(UserStatus.CONFIRM_EMAIL);
             user.setRole(Role.USER);
@@ -322,22 +332,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         String pwd = RandomStringUtils.random(15, characters);
 
         User user = userRepository.findByEmail(userResult.getEmail()).orElseThrow(()->new ValidationException("user.exception.notFound"));
-        user.setPassword(pwd);
+        user.setPassword(passwordEncoder.encode(pwd));
         userRepository.save(user);
-
-        sendMailForgetPassword(user);
-
-        userResult = userMapper.toUserDTO(user);
-
+        sendMailForgetPassword(user,pwd);
     }
 
-    public void sendMailForgetPassword(User user) throws MessagingException, UnsupportedEncodingException {
+    public void sendMailForgetPassword(User user,String tempPwd) throws MessagingException, UnsupportedEncodingException {
         String toAddress = user.getEmail();
         String subject = "QUÊN MẬT KHẨU";
 
         String content = "Kính chào " + user.getFullName() + "," + "<br>"
                 + "Mật khẩu mới của bạn là:  "
-                + "<b>" + user.getPassword() + "</b> <br>"
+                + "<b>" + tempPwd + "</b> <br>"
                 + "Vui lòng quay trở lại trang " + "<a href=http://localhost:8080/sign-in>đăng nhập</a> <br><br>"
                 + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi,<br> "
                 + "Ohana team.";

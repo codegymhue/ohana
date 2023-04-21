@@ -5,6 +5,7 @@ import com.cloudinary.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -19,7 +20,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import vn.ohana.jwt.JwtAuthenticationFilter;
+import vn.ohana.user.UserAuthenticateService;
 import vn.ohana.user.UserServiceImpl;
 
 @Configuration
@@ -31,7 +34,7 @@ public class SecurityConfig {
     private JwtAuthenticationFilter jwtAuthFilter;
 
     @Autowired
-    private UserServiceImpl userService;
+    private UserAuthenticateService userService;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -69,6 +72,11 @@ public class SecurityConfig {
         authenticationProvider.setUserDetailsService(userDetailsService());
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
+    }
+
+    @Bean
+    public LogoutSuccessHandler logoutSuccessHandler() {
+        return new LogoutHandler();
     }
 
     @Bean
@@ -126,16 +134,25 @@ public class SecurityConfig {
                         "/**/room",
                         "/search/**",
                         "/view-all", 
-                        "/api/auth/**"
+                        "/api/auth/**",
+                        "/sign-up/**",
+                        "/verify-success",
+                        "/verify-fail",
+                        "/forget-password",
+                        "/info-forget-password"
+
                 ).permitAll()
 //                .antMatchers("/api/utilities/**").hasAuthority("ADMIN")
                 .antMatchers("/api/**").permitAll()
                 .anyRequest().authenticated().and()
-                .formLogin().loginPage("/sign-in")
-                .successHandler(authenticationSuccessHandler())
+                .formLogin()
+//                .loginPage("/sign-in")
+//                .successHandler(authenticationSuccessHandler())
                 .usernameParameter("email").and()
-                .logout().logoutUrl("/sign-out").permitAll().clearAuthentication(true)
-                .deleteCookies("jwtToken").and()
+                .logout().logoutUrl("/sign-out").permitAll()
+                .clearAuthentication(true)
+                .deleteCookies("jwtToken")
+                .logoutSuccessHandler(logoutSuccessHandler()).and()
                 .authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling()

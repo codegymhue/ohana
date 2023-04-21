@@ -48,10 +48,6 @@ public class OhanaControllers {
         return userResult;
     }
 
-    @GetMapping("/gmail")
-    public ModelAndView gmail() {
-        return new ModelAndView(new RedirectView("http://gmail.com"));
-    }
 
     @GetMapping("/")
     public ModelAndView home(@ModelAttribute("userResult") UserResult userResult, @CookieValue(value = "cookieLogin", defaultValue = "0") String loginUsername) {

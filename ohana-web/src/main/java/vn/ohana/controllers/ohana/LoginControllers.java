@@ -9,6 +9,9 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -43,6 +46,7 @@ public class LoginControllers extends BaseController {
     @Autowired
     UserService userService;
 
+
     @Autowired
     JwtService jwtService;
 
@@ -70,44 +74,44 @@ public class LoginControllers extends BaseController {
         return modelAndView;
     }
 
+//    @PostMapping("/sign-in")
+//    public Object doLogin(@ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute LoginParam loginParam, BindingResult bindingResult, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
+//        ModelAndView modelAndView = new ModelAndView("/ohana/sign-in");
+//        LoginResult loginResult = null;
+//        Cookie cookie;
+//
+//        if (ggSignInParam.getCredential() == null) {
+//
+//            new LoginParam().validate(loginParam, bindingResult);
+//            if (bindingResult.hasFieldErrors()) {
+//                return modelAndView;
+//            }
+//
+//            loginResult = userService.findByEmailAndPassword(loginParam.getEmail(), loginParam.getPassword());
+//            if (loginResult != null) {
+//                if (loginResult.getStatus().equals(UserStatus.CONFIRM_EMAIL)) {
+//                    model.addAttribute("confirmMail", true);
+//                    return modelAndView;
+//                }
+//                cookie = new Cookie("cookie", loginParam.getEmail());
+//                cookie.setMaxAge(24 * 60 * 60 * 30);
+//                response.addCookie(cookie);
+//
+//                cookie = new Cookie("cookieLogin", loginParam.getEmail());
+//                cookie.setMaxAge(2);
+//                response.addCookie(cookie);
+//                return "redirect:/";
+//            } else {
+//                model.addAttribute("error", true);
+//                model.addAttribute("messages", "Sai email hoặc mật khẩu");
+//                return modelAndView;
+//            }
+//        } else {
+//            loginGoogle(ggSignInParam, response, model);
+//            return "redirect:/";
+//        }
+//    }
     @PostMapping("/sign-in")
-    public Object doLogin(@ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute LoginParam loginParam, BindingResult bindingResult, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
-        ModelAndView modelAndView = new ModelAndView("/ohana/sign-in");
-        LoginResult loginResult = null;
-        Cookie cookie;
-
-        if (ggSignInParam.getCredential() == null) {
-
-            new LoginParam().validate(loginParam, bindingResult);
-            if (bindingResult.hasFieldErrors()) {
-                return modelAndView;
-            }
-
-            loginResult = userService.findByEmailAndPassword(loginParam.getEmail(), loginParam.getPassword());
-            if (loginResult != null) {
-                if (loginResult.getStatus().equals(UserStatus.CONFIRM_EMAIL)) {
-                    model.addAttribute("confirmMail", true);
-                    return modelAndView;
-                }
-                cookie = new Cookie("cookie", loginParam.getEmail());
-                cookie.setMaxAge(24 * 60 * 60 * 30);
-                response.addCookie(cookie);
-
-                cookie = new Cookie("cookieLogin", loginParam.getEmail());
-                cookie.setMaxAge(2);
-                response.addCookie(cookie);
-                return "redirect:/";
-            } else {
-                model.addAttribute("error", true);
-                model.addAttribute("messages", "Sai email hoặc mật khẩu");
-                return modelAndView;
-            }
-        } else {
-            loginGoogle(ggSignInParam, response, model);
-            return "redirect:/";
-        }
-    }
-    @PostMapping("/log-in")
     public Object doLoginWithCredential(@ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute LoginParam loginParam, BindingResult bindingResult, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
         ModelAndView modelAndView = new ModelAndView("/ohana/sign-in");
         LoginResult loginResult = null;
@@ -120,15 +124,15 @@ public class LoginControllers extends BaseController {
                 return modelAndView;
             }
 
-
             String username = loginParam.getEmail();
             UserPrincipal userDetails = userService.findUserPrincipleByEmail(username);
             if (userDetails != null) {
-
-                if (!userDetails.getRole().equals(Role.ADMIN)) {
-                    return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-                }
                 String password = loginParam.getPassword();
+
+                if (userDetails.getStatus().equals(UserStatus.CONFIRM_EMAIL)) {
+                    model.addAttribute("confirmMail", true);
+                    return modelAndView;
+                }
 
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, password);
                 try {
@@ -144,6 +148,10 @@ public class LoginControllers extends BaseController {
                 cookie.setDomain("localhost");
                 cookie.setSecure(false);
                 response.addCookie(cookie);
+
+                cookie = new Cookie("cookieLogin", userDetails.getEmail());
+                cookie.setMaxAge(2);
+                response.addCookie(cookie);
                 return "redirect:/";
             } else {
                 model.addAttribute("error", true);
@@ -158,21 +166,23 @@ public class LoginControllers extends BaseController {
 
     public Object loginGoogle(GGSignInParam ggSignInParam, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
         try {
-            UserResult userResult = null;
+            UserDetails userDetails = null;
             Cookie cookie;
             GooglePojo googlePojo = googleService.verifyToken(ggSignInParam.getCredential());
-            userResult = userService.findByEmail(googlePojo.getEmail());
-
-            if (userResult != null) {
-//                thông báo vào trang index
-            } else {
-                userResult = userService.signUpByGoogle(googlePojo);
+            userDetails = userService.loadUserByUsername(googlePojo.getEmail());
+            if (userDetails == null) {
+                userDetails = userService.signUpByGoogle(googlePojo);
             }
-            cookie = new Cookie("cookie", userResult.getEmail());
-            cookie.setMaxAge(24 * 60 * 60 * 30);
+            String jwt = jwtService.generateToken(userDetails);
+            cookie = new Cookie("jwtToken", jwt);
+            cookie.setMaxAge(60 * 1000);
+            cookie.setPath("/");
+            cookie.setHttpOnly(true);
+            cookie.setDomain("localhost");
+            cookie.setSecure(false);
             response.addCookie(cookie);
 
-            cookie = new Cookie("cookieLogin", userResult.getEmail());
+            cookie = new Cookie("cookieLogin", googlePojo.getEmail());
             cookie.setMaxAge(2);
             response.addCookie(cookie);
         } catch (Exception e) {

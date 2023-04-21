@@ -8,7 +8,7 @@
 //import org.springframework.security.core.AuthenticationException;
 //import org.springframework.security.core.userdetails.UserDetailsService;
 //import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+//import org.springframework.security.crypto.password.PasswordEncoderImpl;
 //import org.springframework.stereotype.Component;
 //import vn.ohana.user.UserServiceImpl;
 //
