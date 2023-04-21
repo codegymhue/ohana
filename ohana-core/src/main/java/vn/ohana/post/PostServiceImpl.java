@@ -1,33 +1,25 @@
 package vn.ohana.post;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.mail.smtp.SMTPSendFailedException;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.math3.ml.neuralnet.twod.util.LocationFinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mail.SimpleMailMessage;
+import org.springframework.data.domain.Sort;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import vn.ohana.category.CategoryService;
-import vn.ohana.config.MailConfig;
 import vn.ohana.entities.*;
 import vn.ohana.location.LocationMapper;
 import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
 import vn.ohana.entities.User;
-import vn.ohana.location.dto.DataSearchResult;
 import vn.ohana.mail.MailService;
 import vn.ohana.post.dto.*;
 import vn.ohana.user.UserMapper;
 import vn.ohana.user.UserService;
 import vn.ohana.user.UserRepository;
 
-import vn.ohana.user.dto.UserResult;
 import vn.ohana.user.dto.UserUpdateParam;
 import vn.ohana.utility.UtilityService;
 import vn.ohana.utility.dto.UtilityResult;
@@ -36,8 +28,6 @@ import vn.rananu.shared.exceptions.OperationException;
 import vn.rananu.shared.exceptions.ValidationException;
 
 import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -223,8 +213,16 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public List<PostResult> getTop10PostsNew() {
-        return postMapper.toDTOList(postRepository.getPostsNew());
+    public Page<PostResult> getTop10PostsNew(Long id) {
+
+        PostFilterParam filterParam = new PostFilterParam();
+        filterParam.setStatus(StatusPost.PUBLISHED);
+        Pageable pageable = PageRequest.of(0, 10,Sort.by("createdAt").descending());
+        Location location = new Location();
+        location.setProvinceId(id);
+        filterParam.setLocationFilter(location);
+
+        return toDtoPage(postFilterRepository.findAllByFilters(filterParam, pageable));
     }
 
     @Override

@@ -36,4 +36,5 @@ public class PostFilterParam {
     private Instant createdAtEnd;
     private Location locationFilter;
     private List<Integer> utilities;
+    private Integer limit;
 }

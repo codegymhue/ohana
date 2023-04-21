@@ -33,9 +33,9 @@ public interface PostService {
 
     PostResult updateStatusById(PostUpdateParam postUpdateParam);
 
-    List<PostResult>  getTop10PostsNew();
-
     PostCreateParam save(PostCreateParam postCreateParam);
+
+    Page<PostResult> getTop10PostsNew(Long id);
 
     Post findById(Long id);
 

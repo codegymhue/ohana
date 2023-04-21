@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import vn.ohana.entities.Location;
 import vn.ohana.entities.StatusPost;
 import vn.ohana.post.PostService;
 import vn.ohana.post.dto.PostCreateParam;
@@ -65,9 +66,11 @@ public class PostAPI {
         return new ResponseEntity<>( postService.updateStatusById(postUpdateParam), HttpStatus.OK);
     }
 
-    @GetMapping("/postsNew")
-    public ResponseEntity<?> getPostsNew() {
-        return new ResponseEntity<>(postService.getTop10PostsNew(),HttpStatus.OK);
+    @PostMapping("/trendPost")
+    public ResponseEntity<?> getPostsNew(@RequestBody PostFilterParam filterParam) {
+        Location location = filterParam.getLocationFilter();
+        Long proviceId = location.getProvinceId();
+        return new ResponseEntity<>(postService.getTop10PostsNew(proviceId),HttpStatus.OK);
     }
 
     @PostMapping("/postsNew")

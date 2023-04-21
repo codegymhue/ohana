@@ -34,27 +34,31 @@
                         <div class="_1_U71">
                             <div class="_2lKdR">
                                 <div class="_3p4ES _1vH0j" id="floating-city-dropdown">
-                                    <div class="wj6oE"><span class="icon-location-fill"
-                                                             style="color: rgb(247, 52, 134); font-size: 16px;"></span><span
-                                            class="_1qNTb">HUẾ</span>
+                                    <div class="wj6oE">
+                                        <span class="icon-location-fill"
+                                              style="color: rgb(247, 52, 134); font-size: 16px;"></span>
+                                        <span class="_1qNTb">HUẾ</span>
                                     </div>
                                 </div>
-                                <div class="_1pVEQ"><input id="search" class="bX6zE"
-                                                           placeholder="Tìm kiếm theo địa điểm, quận, tên đường..."
-                                                           value fdprocessedid="ncxia9">
-                                    <div class="_2QckJ"><span class="icon-search"
-                                                              style="color: rgb(247, 52, 134); font-size: 24px; align-content: center"></span>
+                                <div class="_1pVEQ">
+                                    <input id="search"
+                                           class="bX6zE"
+                                           placeholder="Tìm kiếm theo địa điểm, quận, tên đường..."
+                                           value fdprocessedid="ncxia9">
+                                    <div class="_2QckJ">
+                                        <span class="icon-search"
+                                              style="color: rgb(247, 52, 134);
+                                              font-size: 24px; align-content: center"></span>
                                     </div>
                                 </div>
                                 <div class="_1IdUV">
-                                    <ul class="b-CdA _11SSO" style="left: 157px;" id="location">
-                                    </ul>
+                                    <ul class="b-CdA _11SSO" style="left: 157px;" id="location"></ul>
                                 </div>
                             </div>
                             <div class="_1IdUV">
                                 <ul class="b-CdA" style="width: 123px;">
-                                    <li class="J_X1w _1vH0j" value="HCM">Huế</li>
-                                    <!--                                    <li class="J_X1w _1vH0j GpngF" value="HN">Hà Nội</li>-->
+                                    <li class="J_X1w _1vH0j" value="HUE">Huế</li>
+                                    <li class="J_X1w _1vH0j GpngF" value="DN">Đằng Nẵng</li>
                                 </ul>
                                 <ul class="b-CdA" style="left: 128px;"></ul>
                             </div>
@@ -77,8 +81,20 @@
                 <!--                            <span style="color: rgb(102, 102, 102);" th:text="${trend.name}"></span>-->
             </div>
         </th:block>
+        <th:block th:if="${param.districtName!=null}">
+            <div class="d-flex">
+                <span class="col-8 offset-4" style="margin-top: 112px;padding: 10px 0;color: rgb(102, 102, 102);">
+                    <i style="color: rgb(72, 119, 248);">Thành Phố Đà Nẵng</i>
+                     <span class="icon-a-right"
+                           style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
+                    </span>
+                    <span style="color: rgb(102, 102, 102);" th:text="${param.districtName}"></span>
+                </span>
+                <!--                            <span style="color: rgb(102, 102, 102);" th:text="${trend.name}"></span>-->
+            </div>
+        </th:block>
 
-        <div th:classappend="${param.wardName==null?'no-breadcrums':''}" class="_2fxFG">
+        <div th:classappend="${(param.wardName==null || param.districtName == null)?'no-breadcrums':''}" class="_2fxFG">
 
             <div class="FMSe2 _3Nvxb">
                 <div class="_1say4">
@@ -430,9 +446,15 @@
             let keyword = urlParams.get("keyword");
             let line1 = urlParams.get("line1");
             let wardName = urlParams.get("wardName");
+            let districtId = urlParams.get("districtId");
+            let districtName = urlParams.get("districtName");
+
 
             if (wardName && wardName.length > 0) {
                 $("#search").val(line1 == null ? wardName : line1 + ", " + wardName)
+            }
+            if (districtName && districtName.length > 0) {
+                $("#search").val(districtName)
             }
             let mess = [[${mess}]];
 
@@ -464,6 +486,16 @@
                 doFilter(location);
                 return;
             }
+            if (districtId != null){
+                let location = {
+                    locationFilter: {
+                        districtId: districtId
+                    }
+                }
+                doFilter(location);
+                return;
+            }
+
             // else if (provinceName != null && locationName != null) {
             //     console.log("có provinceName")
             //     filter.provinceName = provinceName;
@@ -502,6 +534,9 @@
                 case 5:
                     return "tr/căn"
                     break;
+                default:
+                    return "tr/phòng"
+                    break;
             }
             return price / 1000000;
         } else {
@@ -516,6 +551,9 @@
                 case 4:
                 case 5:
                     return "k/căn"
+                    break;
+                default:
+                    return "k/phòng"
                     break;
             }
             return price / 1000;
@@ -534,9 +572,7 @@
                          <li>
                          <div class="nctjX">
                              <div class="X8svI _2DJkz">
-                                 <div class="pcGxo">
-                                     <div class="_228LH">Không có bài đăng nào phù hợp</div>
-                                 </div>
+                                     <div class="_228LH display-6">Không có bài đăng nào phù hợp</div>
                              </div>
                          </div>
                      </li>
