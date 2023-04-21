@@ -15,19 +15,24 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+
     Page<User> findByRoleNot(Role role, Pageable pageable);
+
     @Override
     Page<User> findAll(Pageable pageable);
 
     Optional<User> findByEmail(String email);
 
+    Long countUsersByStatus(UserStatus status);
 
     boolean existsByPhoneOrEmail(String phone, String email);
 
     boolean existsByEmail(String Email);
+
     boolean existsByPhoneAndIdNot(String phone, Long id);
 
     boolean existsByEmailAndIdNot(String email, Long id);
+
     User findByEmailAndPassword(String email, String password);
 
     User findByCode(String code);
