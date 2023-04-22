@@ -340,7 +340,7 @@
             url: page.url.getAllCategories
         }).done(function (data) {
             // $("#categories").html('');
-            data.forEach((item) => {
+            data.content.forEach((item) => {
                 let str = `<option value="${item.id}">${item.title}</option>`;
                 $("#category").append(str);
             });

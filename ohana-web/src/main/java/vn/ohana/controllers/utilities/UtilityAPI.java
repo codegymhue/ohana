@@ -17,7 +17,7 @@ public class UtilityAPI {
     UtilityService utilityService;
 
     @GetMapping
-    public ResponseEntity<?> findAll(@RequestParam(name = "page") int page, @RequestParam(name = "size") int size, @RequestParam(name = "status") String status ) {
+    public ResponseEntity<?> findAll(@RequestParam(name = "page",defaultValue = "0") int page, @RequestParam(name = "size",defaultValue = "10") int size, @RequestParam(name = "status",defaultValue = "") String status ) {
         if (status.trim().length() == 0) {
             return new ResponseEntity<>( utilityService.findAll(PageRequest.of(page, size)), HttpStatus.OK);
         }

@@ -361,7 +361,7 @@
             post = data;
             let location = post.location
             let utilitiesByIdUser = post.utilities;
-            listImageId = data.postMedia.map(img => img.id);
+            listImageId = data.postMedia.map(img => img.publicId);
             renderCarousel();
             page.dialogs.elements.title.val(post.title);
             page.dialogs.elements.descriptionContent.val(post.descriptionContent);

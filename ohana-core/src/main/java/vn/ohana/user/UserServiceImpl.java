@@ -115,8 +115,12 @@ public class UserServiceImpl implements UserService {
         List<Long> failIds = new ArrayList<>();
         Iterable<User> entities = userRepository.findAllById(ids);
         entities.forEach(entity -> {
-            entity.setStatus(status);
-            successIds.add(entity.getId());
+            if (entity.getRole().equals(Role.ADMIN)) {
+                failIds.add(entity.getId());
+            }else {
+                entity.setStatus(status);
+                successIds.add(entity.getId());
+            }
         });
         result.put("succeed", successIds);
 
@@ -132,9 +136,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public void modifyStatusById(Long id, String statusRaw) {
+    public boolean modifyStatusById(Long id, String statusRaw) {
         UserStatus status = UserStatus.parseUserStatus(statusRaw);
-        findById(id).setStatus(status);
+        User user = findById(id);
+        if (user.getRole().equals(Role.ADMIN)) {
+            return false;
+        }
+        user.setStatus(status);
+        return true;
     }
 
     @Override

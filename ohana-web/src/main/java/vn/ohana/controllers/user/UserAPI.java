@@ -63,8 +63,11 @@ public class UserAPI {
     @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/{id}/status")
     public ResponseEntity<?> modifyStatusById(@PathVariable Long id, @RequestParam(name = "status") String status) {
-        userService.modifyStatusById(id, status);
-        return new ResponseEntity<>(HttpStatus.OK);
+        boolean updateStatus = userService.modifyStatusById(id, status);
+        if (updateStatus) {
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
 

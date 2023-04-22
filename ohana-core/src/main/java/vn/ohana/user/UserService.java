@@ -29,7 +29,7 @@ public interface UserService  {
     Map<String, List<Long>> modifyStatusByIds(Set<Long> ids, String status);
 
     @Transactional
-    void modifyStatusById(Long id, String statusRaw);
+    boolean modifyStatusById(Long id, String statusRaw);
 
     UserResult getById(Long id);
 

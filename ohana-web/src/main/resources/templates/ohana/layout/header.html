@@ -50,7 +50,10 @@
                             <a type="button" class="rounded-circle" data-bs-toggle="dropdown" aria-expanded="false">
                                 <th:block th:if="${userResult.thumbnailId}!=null">
                                     <img style=" width: 30px; height: 30px;" class="rounded-circle"
-                                         th:src="${userResult.thumbnailId}"
+                                         th:src="
+                                         ${userResult.thumbnailId.matches('((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)')
+                                         ? userResult.thumbnailId
+                                         :'https://res.cloudinary.com/dh8nlcoul/image/upload/c_thumb,h_275,w_275/r_50/v1//'+userResult.getThumbnailId()+'?_a=ATFGlAA0'}"
                                          alt="Image Description">
                                 </th:block>
                                 <th:block th:unless="${userResult.thumbnailId}!=null">
