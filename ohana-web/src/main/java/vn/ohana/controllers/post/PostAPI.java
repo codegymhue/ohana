@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,8 +28,9 @@ public class PostAPI {
     PostService postService;
 
     @GetMapping
-    public ResponseEntity<?> findAll(Pageable pageable) {
-        return new ResponseEntity<>(postService.findAll(pageable), HttpStatus.OK);
+    public ResponseEntity<?> findAll(@RequestParam(name = "page",defaultValue = "0") int page, @RequestParam(name = "size",defaultValue = "10") int size, @RequestParam(name = "sort",defaultValue ="DESC" )Sort.Direction direction) {
+
+        return new ResponseEntity<>(postService.findAll(PageRequest.of(page,size,Sort.by(direction,"createdAt"))), HttpStatus.OK);
     }
 
     @PostMapping("/{userId}/user")
