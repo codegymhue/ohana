@@ -166,13 +166,17 @@
             </div>
             <div style="margin-bottom: 28px;">
                 <span style="color: rgb(102, 102, 102);">
-                    <a href="/view-all" style="color: rgb(72, 119, 248);">Huế</a>
+                    <a th:href="@{'/search?provinceId='+${post.location.getProvinceId()}+'&provinceName='+${post.location.getProvinceName()}}"
+                       style="color: rgb(72, 119, 248);"
+                       th:text="${post.location.getProvinceName()}"></a>
                     <span class="icon-a-right"
                     style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;"></span>
                 </span>
                 <span style="color: rgb(102, 102, 102);">
-                    <a th:href="@{'/view-all?provinceName='+${post.location.getProvinceName()}+'&locationName='+${post.location.getDistrictName()}}"
-                    style="color: rgb(72, 119, 248);" th:text="${post.location.getDistrictName()}"></a>
+                    <a th:href="@{'/search?provinceId='+${post.location.getProvinceId()}+'&provinceName='+${post.location.getProvinceName()}
+                    +'&districtId='+${post.location.districtId}+'&districtName='+${post.location.getDistrictName()}}"
+                    style="color: rgb(72, 119, 248);"
+                       th:text="${post.location.getDistrictName()}"></a>
                     <span class="icon-a-right"
                     style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;"></span>
                 </span>

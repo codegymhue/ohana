@@ -69,32 +69,27 @@
                 </div>
             </div>
         </div>
-        <th:block th:if="${param.wardName!=null}">
+        <th:block th:if="${(param.provinceName!=null)||(param.districtName!=null)||(param.wardName!=null)}">
             <div class="d-flex">
                 <span class="col-8 offset-4" style="margin-top: 112px;padding: 10px 0;color: rgb(102, 102, 102);">
-                    <i style="color: rgb(72, 119, 248);">Thành Phố Huế</i>
-                     <span class="icon-a-right"
-                           style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
-                    </span>
-                    <span style="color: rgb(102, 102, 102);" th:text="${param.wardName}"></span>
+                    <i style="color: rgb(72, 119, 248);"th:text="${param.provinceName}"></i>
+                    <th:block th:if="${param.districtName!=null}">
+                        <span class="icon-a-right"
+                              style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
+                        </span>
+                        <span style="color: rgb(102, 102, 102);" th:text="${param.districtName}"></span>
+                    </th:block>
+                    <th:block th:if="${param.wardName!=null}">
+                        <span class="icon-a-right"
+                              style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
+                        </span>
+                        <span style="color: rgb(102, 102, 102);" th:text="${param.wardName}"></span>
+                    </th:block>
                 </span>
                 <!--                            <span style="color: rgb(102, 102, 102);" th:text="${trend.name}"></span>-->
             </div>
         </th:block>
-        <th:block th:if="${param.districtName!=null}">
-            <div class="d-flex">
-                <span class="col-8 offset-4" style="margin-top: 112px;padding: 10px 0;color: rgb(102, 102, 102);">
-                    <i style="color: rgb(72, 119, 248);">Thành Phố Đà Nẵng</i>
-                     <span class="icon-a-right"
-                           style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;">
-                    </span>
-                    <span style="color: rgb(102, 102, 102);" th:text="${param.districtName}"></span>
-                </span>
-                <!--                            <span style="color: rgb(102, 102, 102);" th:text="${trend.name}"></span>-->
-            </div>
-        </th:block>
-
-        <div th:classappend="${(param.wardName==null || param.districtName == null)?'no-breadcrums':''}" class="_2fxFG">
+        <div th:classappend="${param.provinceName==null ?'no-breadcrums':''}" class="_2fxFG">
 
             <div class="FMSe2 _3Nvxb">
                 <div class="_1say4">
@@ -448,6 +443,8 @@
             let wardName = urlParams.get("wardName");
             let districtId = urlParams.get("districtId");
             let districtName = urlParams.get("districtName");
+            let provinceId = urlParams.get("provinceId");
+            let provinceName = urlParams.get("provinceName");
 
 
             if (wardName && wardName.length > 0) {
@@ -486,10 +483,19 @@
                 doFilter(location);
                 return;
             }
-            if (districtId != null){
+            if (districtId != null) {
                 let location = {
                     locationFilter: {
                         districtId: districtId
+                    }
+                }
+                doFilter(location);
+                return;
+            }
+            if (provinceId != null) {
+                let location = {
+                    locationFilter: {
+                        provinceId: provinceId
                     }
                 }
                 doFilter(location);
@@ -651,13 +657,13 @@
 
         console.log(totalElements, size, number)
 
-        let firstEl = !first ? ` <li role="button" class="page-item" onclick="handleChangePage(${number-1})">
+        let firstEl = !first ? ` <li role="button" class="page-item" onclick="handleChangePage(${number - 1})">
                                       <span class="page-link">
                                         <span aria-hidden="true">&laquo;</span>
                                         <span class="sr-only">Previous</span>
                                       </span>
                                     </li>` : "";
-        let lastEl = !last ? `<li role="button" class="page-item" onclick="handleChangePage(${number+1})">
+        let lastEl = !last ? `<li role="button" class="page-item" onclick="handleChangePage(${number + 1})">
                                   <span class="page-link" href="#" aria-label="Next">
                                     <span aria-hidden="true">&raquo;</span>
                                     <span class="sr-only">Next</span>
@@ -668,7 +674,7 @@
         if (!empty) {
             for (let i = 0; i < totalPages; i++) {
                 let pageNum = i + 1
-                numbersEl += `<li role="button" class="page-item ${i===number?"active":null}" ${i !== number &&  `onclick="handleChangePage(${i})"`}><span class="page-link">${pageNum}</span></li>`;
+                numbersEl += `<li role="button" class="page-item ${i === number ? "active" : null}" ${i !== number && `onclick="handleChangePage(${i})"`}><span class="page-link">${pageNum}</span></li>`;
             }
         }
         return `
@@ -682,9 +688,9 @@
         `;
     }
 
- function handleChangePage (pageNum){
-     console.log(pageNum)
-     doFilter(filter,{paginationPage:pageNum, size : 10})
+    function handleChangePage(pageNum) {
+        console.log(pageNum)
+        doFilter(filter, {paginationPage: pageNum, size: 10})
     }
 
     // (function (name) {
