@@ -1,13 +1,17 @@
 package vn.ohana.category;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.category.dto.CategoryCreationParam;
 import vn.ohana.category.dto.CategoryResult;
 import vn.ohana.category.dto.CategoryUpdateParam;
 import vn.ohana.entities.Category;
+import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusCategory;
+import vn.ohana.post.dto.PostResult;
 import vn.rananu.shared.exceptions.NotFoundException;
 import vn.rananu.shared.exceptions.ValidationException;
 
@@ -27,6 +31,23 @@ public class CategoryServiceImpl implements CategoryService {
         List<Category> entities = categoryRepository.findAll();
         return categoryMapper.toDTOList(entities);
 
+    }
+
+    @Override
+    public Page<CategoryResult> findAllPaging(Pageable pageable) {
+        return toDtoPage(categoryRepository.findAll(pageable));
+    }
+
+    private Page<CategoryResult> toDtoPage(Page<Category> page) {
+        return page.map(entity -> categoryMapper.toDTO(entity));
+    }
+
+    @Override
+    public Page<CategoryResult> findAllByStatusPaging(StatusCategory status, Pageable pageable) {
+        if (status == null) {
+            return toDtoPage(categoryRepository.findAll(pageable));
+        }
+        return toDtoPage(categoryRepository.findAllByStatus(status, pageable));
     }
 
     @Override

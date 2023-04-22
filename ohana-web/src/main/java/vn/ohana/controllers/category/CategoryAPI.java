@@ -2,6 +2,8 @@ package vn.ohana.controllers.category;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +22,8 @@ public class CategoryAPI {
     CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<?> getAllCategory() {
-
-        return new ResponseEntity<>(categoryService.findAll(), HttpStatus.OK);
+    public ResponseEntity<?> getAllCategory(@RequestParam(name = "page",defaultValue = "0") int page, @RequestParam(name = "size",defaultValue = "100") int size) {
+        return new ResponseEntity<>(categoryService.findAllPaging(PageRequest.of(page,size, Sort.by(Sort.Direction.DESC,"id"))), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
