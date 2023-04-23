@@ -394,14 +394,14 @@
             url: 'https://vapi.vnappmob.com/api/province/'
         })
             .done((data) => {
+                let str = `<option>--Chọn Tỉnh/Thành phố--</option>`
+                page.dialogs.elements.province.append(str);
                 $.each(data.results, (i, item) => {
                     if (item.province_id == 48 || item.province_id == 46){
                         let str = `<option value="${item.province_id}">${item.province_name}</option>`;
                         page.dialogs.elements.province.append(str);
                     }
-
                 })
-
                 addEventChangeProvince();
                 addEventChangeDistrict();
 
@@ -418,6 +418,8 @@
         })
             .done((data) => {
                 page.dialogs.elements.district.empty();
+                let str = `<option>--Chọn Quận/Thị xã/Huyện--</option>`
+                page.dialogs.elements.district.append(str);
                 $.each(data.results, (i, item) => {
                     let str = `<option value="${item.district_id}">${item.district_name}</option>`;
 
@@ -439,6 +441,8 @@
         })
             .done((data) => {
                 page.dialogs.elements.ward.empty();
+                let str = `<option value="0">--Chọn Phường/Xã--</option>`
+                page.dialogs.elements.ward.append(str);
                 $.each(data.results, (i, item) => {
                     let str = `<option value="${item.ward_id}">${item.ward_name}</option>`;
 
