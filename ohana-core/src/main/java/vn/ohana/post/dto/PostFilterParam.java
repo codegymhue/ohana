@@ -29,7 +29,7 @@ public class PostFilterParam {
     private Gender gender;
     @Enumerated(EnumType.STRING)
     private StatusPost status;
-    private Long categories;
+    private List<Long> categories;
     private BigDecimal priceStarts;
     private BigDecimal priceEnds;
     private Instant createdAtStart;

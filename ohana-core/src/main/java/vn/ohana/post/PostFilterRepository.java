@@ -67,8 +67,12 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
                 predicateList.add(joinQuery);
             }
 
-            if (filter.getCategories() != null) {
-                Predicate categoryPredicate = criteriaBuilder.equal(root.get("category"), filter.getCategories());
+            if (filter.getCategories() != null && !filter.getCategories().isEmpty()) {
+                List<Predicate> catePredicateList = new ArrayList<>();
+                for (Long c : filter.getCategories()) {
+                    catePredicateList.add(criteriaBuilder.equal(root.get("category"), c));
+                }
+                Predicate categoryPredicate = criteriaBuilder.or(catePredicateList.toArray(new Predicate[0]));
                 predicateList.add(categoryPredicate);
             }
 
