@@ -7,11 +7,14 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.entities.User;
+import vn.ohana.entities.UserStatus;
 import vn.ohana.google.dto.GooglePojo;
+import vn.ohana.report.dto.DateReportResult;
 import vn.ohana.user.dto.*;
 
 import javax.mail.MessagingException;
 import java.io.UnsupportedEncodingException;
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -78,4 +81,9 @@ public interface UserService  {
 
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
+    Long count();
+
+    Long countUsersByStatus(UserStatus status);
+
+    List<Object> countByMonthBetweenDate(Instant startDate, Instant endDate);
 }

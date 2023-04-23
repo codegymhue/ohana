@@ -5,12 +5,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import vn.ohana.category.CategoryService;
 import vn.ohana.entities.StatusPost;
 import vn.ohana.entities.UserStatus;
+import vn.ohana.report.dto.DateReportParam;
 import vn.ohana.report.ReportService;
 
-import java.util.Set;
+import java.time.Instant;
 
 @RestController
 @RequestMapping("/api/reports")
@@ -53,5 +53,29 @@ public class ReportAPI {
 
         return new ResponseEntity<>(reportService.countPost(), HttpStatus.OK);
     }
+    @GetMapping("/analyze/users")
+    public ResponseEntity<?> getUsersAnalysis() {
 
+        return new ResponseEntity<>(reportService.getUserAnalysis(), HttpStatus.OK);
+    }
+    @GetMapping("/analyze/posts")
+    public ResponseEntity<?> getPostsAnalysis() {
+
+        return new ResponseEntity<>(reportService.getPostAnalysis(), HttpStatus.OK);
+    }
+
+    @GetMapping("/ten/pending_posts")
+    public ResponseEntity<?> getTenNearestPendingPosts() {
+        return new ResponseEntity<>(reportService.countTenNearestPendingPosts(), HttpStatus.OK);
+    }
+    @PostMapping("/count/month/posts")
+    public ResponseEntity<?> countByMonthBetween(@RequestBody DateReportParam dateReportParam) {
+        return new ResponseEntity<>(reportService.countPostByMonthBetweenDate(dateReportParam.getStartDate().toInstant(), dateReportParam.getEndDate().toInstant()), HttpStatus.OK);
+    }
+    @PostMapping("/count/monthly/unp")
+    public ResponseEntity<?> countUserAndPostByMonthBetween(@RequestBody DateReportParam dateReportParam) {
+        Instant startDate = dateReportParam.getStartDate().toInstant();
+        Instant endDate = dateReportParam.getEndDate().toInstant();
+        return new ResponseEntity<>(reportService.countPostsAndUsersByMonthBetweenDate(startDate, endDate), HttpStatus.OK);
+    }
 }

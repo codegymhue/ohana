@@ -23,6 +23,7 @@ import vn.ohana.entities.User;
 import vn.ohana.entities.UserStatus;
 import vn.ohana.google.dto.GooglePojo;
 import vn.ohana.post.PostMediaService;
+import vn.ohana.report.dto.DateReportResult;
 import vn.ohana.user.dto.*;
 import vn.rananu.shared.exceptions.NotFoundException;
 import vn.rananu.shared.exceptions.ValidationException;
@@ -30,6 +31,8 @@ import vn.rananu.shared.exceptions.ValidationException;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -306,6 +309,23 @@ public class UserServiceImpl implements UserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return findUserPrincipleByEmail(username);
     }
+
+    @Override
+    public Long count() {
+        return userRepository.count();
+    }
+
+    @Override
+    public Long countUsersByStatus(UserStatus status) {
+        return userRepository.countUsersByStatus(status);
+    }
+
+    @Override
+    @Transactional
+    public List<Object> countByMonthBetweenDate(Instant startDate, Instant endDate) {
+        return userRepository.countByMonthBetweenDate(startDate, endDate);
+    }
+
 
     @ResponseBody
     public void sendMailSignUp(String url, UserResult UserResult) throws MessagingException, UnsupportedEncodingException {

@@ -1,6 +1,5 @@
 package vn.ohana.post;
 
-import org.apache.commons.math3.ml.neuralnet.twod.util.LocationFinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,6 +15,7 @@ import vn.ohana.entities.StatusPost;
 import vn.ohana.entities.User;
 import vn.ohana.mail.MailService;
 import vn.ohana.post.dto.*;
+import vn.ohana.report.dto.DateReportResult;
 import vn.ohana.user.UserMapper;
 import vn.ohana.user.UserService;
 import vn.ohana.user.UserRepository;
@@ -27,6 +27,8 @@ import vn.rananu.shared.exceptions.NotFoundException;
 import vn.rananu.shared.exceptions.OperationException;
 import vn.rananu.shared.exceptions.ValidationException;
 
+import java.math.BigInteger;
+import java.time.Instant;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -235,6 +237,27 @@ public class PostServiceImpl implements PostService {
     public Page<PostResult> findAllByStatusAndUser(StatusPost status, Long id, Pageable pageable) {
         User user = userRepository.findById(id).orElseThrow(() -> new NotFoundException("user.exception.notFound"));
         return toDtoPage(postRepository.findAllByStatusAndUser(status, user,pageable));
+    }
+
+    @Override
+    public Page<PostResult> findAllByStatus(StatusPost statusPost, Pageable pageRequest) {
+        return toDtoPage(postRepository.findAllByStatus(statusPost, pageRequest));
+    }
+
+    @Override
+    public Long count() {
+        return postRepository.count();
+    }
+
+    @Override
+    public Long countPostByStatus(StatusPost status) {
+        return postRepository.countPostByStatus(status);
+    }
+
+    @Override
+    @Transactional(readOnly = false)
+    public List<Object> countByMonthBetweenDate(Instant startDate, Instant endDate) {
+        return postRepository.countByMonthBetweenDate(startDate, endDate);
     }
 
 

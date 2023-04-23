@@ -3,15 +3,14 @@ package vn.ohana.post;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import vn.ohana.entities.Post;
 import vn.ohana.entities.StatusPost;
 import vn.ohana.entities.User;
-import vn.ohana.post.dto.PostResult;
 
+import java.time.Instant;
 import java.util.List;
 
 
@@ -23,4 +22,11 @@ public interface PostRepository extends JpaRepository<Post, Long>{
     Page<Post> findAllByStatusAndUser(StatusPost statusPost, User user, Pageable pageable);
 
     Long countPostByStatus(StatusPost status);
+
+    Page<Post> findAllByStatus(StatusPost status, Pageable pageable);
+
+
+    @Procedure(procedureName = "coutPostByMonhtBetweenDate")
+    List<Object> countByMonthBetweenDate(@Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
+
 }
