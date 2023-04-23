@@ -403,10 +403,11 @@
             url: page.url.getAllCategories + "?status=SHOW"
         }).done(function (data) {
             $("#categories").html('');
-            data.forEach((item) => {
-                let str = `<label class="zOnI7" id="categories"><span
-                                        class="_1HWTz">${item.title}</span><input value="${item.id}" type="radio" name="roomCategoriesRadio"><span
-                                        class="_30lzl"></span>
+            data.content.forEach((item) => {
+                let str = `<label class="zOnI7" id="categories">
+                                <span class="_1HWTz">${item.title}</span>
+                                <input value="${item.id}" type="checkbox" name="categoriesCheckbox">
+                                <span class="_30lzl"></span>
                            </label>`;
                 $("#categories").append(str);
             });
@@ -518,7 +519,11 @@
 
             filter.utilities = utilities;
 
-            filter.categories = +$('input[type="radio"][name="roomCategoriesRadio"]:checked').val();
+            let categories = [];
+            $.each($("input[name='categoriesCheckbox']:checked"), function () {
+                categories.push(+$(this).val());
+            });
+            filter.categories = categories;
 
             filter.gender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val();
             doFilter(filter)
