@@ -314,11 +314,11 @@ public class PostServiceImpl implements PostService {
         post.setRentHouse(rentHouse);
 
         postRepository.save(post);
-
+        String url = "https://res.cloudinary.com/dh8nlcoul/image/upload/l_l_cloudinary_icon,c_limit,w_200,h_200,o_60/ivzmrhhwlcphwev4jx19.jpg";
         for (PostMediaParam img : postCreateParam.getImages()) {
             PostMedia postMedia = new PostMedia();
             postMedia.setPublicId(img.getPublicId());
-            postMedia.setFileUrl(img.getFileUrl());
+            postMedia.setFileUrl("https://res.cloudinary.com/dh8nlcoul/image/upload/l_l_cloudinary_icon,c_limit,w_200,h_200,o_60/" + img.getPublicId() + ".jpg");
             postMedia.setPost(post);
             postMediaRepository.save(postMedia);
 

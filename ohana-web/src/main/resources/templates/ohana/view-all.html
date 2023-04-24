@@ -571,7 +571,6 @@
         $("#paginationPost").html(renderPagination(data))
     }
 
-
     function renderPosts(response, pagination) {
         if (response.length === 0) {
             return `<ul>
@@ -584,11 +583,9 @@
                      </li>
                  </ul>`
         }
-
         let str = '<ul>';
         $.each(response, function (index, item) {
             post = item;
-
             let typeRoom = checkPrice(item.roomPrice);
             // let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/" + post.thumbnailId + ".jpg";
             let image_thumbnail = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50/v1681975206/${post.thumbnailId}.jpg`;

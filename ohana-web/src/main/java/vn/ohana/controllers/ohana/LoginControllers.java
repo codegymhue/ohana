@@ -73,7 +73,7 @@ public class LoginControllers extends BaseController {
         return modelAndView;
     }
 
-//    @PostMapping("/sign-in")
+    //    @PostMapping("/sign-in")
 //    public Object doLogin(@ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute LoginParam loginParam, BindingResult bindingResult, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
 //        ModelAndView modelAndView = new ModelAndView("/ohana/sign-in");
 //        LoginResult loginResult = null;
@@ -137,7 +137,10 @@ public class LoginControllers extends BaseController {
                 try {
                     authenticationManager.authenticate(authentication);
                 } catch (AuthenticationException e) {
-                    throw new ValidationException("login.exception.emailOrPwd");
+//                    throw new ValidationException("login.exception.emailOrPwd");
+                    model.addAttribute("error", true);
+                    model.addAttribute("messages", "Sai email hoặc mật khẩu.");
+                    return modelAndView;
                 }
                 String jwt = jwtService.generateToken(userDetails);
                 cookie = new Cookie("jwtToken", jwt);
@@ -152,7 +155,8 @@ public class LoginControllers extends BaseController {
                 cookie.setMaxAge(2);
                 response.addCookie(cookie);
                 return "redirect:/";
-            } else {
+            }
+            else {
                 model.addAttribute("error", true);
                 model.addAttribute("messages", "Sai email hoặc mật khẩu");
                 return modelAndView;
@@ -229,6 +233,7 @@ public class LoginControllers extends BaseController {
         ModelAndView modelAndView = new ModelAndView("/ohana/verify-success");
         return modelAndView;
     }
+
     @GetMapping("/verify-fail")
     public ModelAndView verifyFail() {
         ModelAndView modelAndView = new ModelAndView("/ohana/verify-fail");
@@ -236,17 +241,18 @@ public class LoginControllers extends BaseController {
     }
 
 
-
     @GetMapping("/info-forget-password")
     public ModelAndView infoFogetPassword() {
         ModelAndView modelAndView = new ModelAndView("/ohana/info-forget-password");
         return modelAndView;
     }
+
     @GetMapping("/forget-password")
     public ModelAndView forgetPassword() {
         ModelAndView modelAndView = new ModelAndView("/ohana/forget-password");
         return modelAndView;
     }
+
     @PostMapping("/forget-password")
     public Object forgetPassword(HttpServletRequest req) throws MessagingException, UnsupportedEncodingException {
         ModelAndView modelAndView = new ModelAndView("/ohana/forget-password");

@@ -87,7 +87,7 @@ class LocationRegion {
 }
 
 class PostDTO {
-    constructor(title, categoryId, descriptionContent, images, location, rentHouse, poster, utilities, thumbnailId, id,idUser) {
+    constructor(title, categoryId, descriptionContent, images, location, rentHouse, poster, utilities, thumbnailId, id,idUser,status) {
         this.id = id;
         this.title = title;
         this.categoryId = categoryId;
@@ -99,6 +99,7 @@ class PostDTO {
         this.poster = poster;
         this.utilities = utilities;
         this.idUser = idUser;
+        this.status = status;
 
     }
 }

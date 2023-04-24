@@ -340,13 +340,11 @@
         cloudinaryWidgetThumb.open();
     });
 
-
     let renderImage = (image) => {
         return `
             <img style="object-fit: cover" id="imgPreview" src="${image}" class="postroom"/>
         `
     }
-
 
 
     page.commands.getPostById = (postId) => {
@@ -366,7 +364,7 @@
             page.dialogs.elements.title.val(post.title);
             page.dialogs.elements.descriptionContent.val(post.descriptionContent);
             page.dialogs.elements.category.val(post.category.id);
-            page.commands.getAllUtilities(utilitiesByIdUser)
+            page.commands.getAllUtilities(utilitiesByIdUser);
             page.dialogs.elements.gender.val(post.rentHouse.gender.id);
             page.dialogs.elements.capacity.val(post.rentHouse.capacity);
             page.dialogs.elements.roomPrice.val(post.rentHouse.roomPrice);
@@ -407,8 +405,9 @@
             type: "GET",
             url: page.url.getAllCategories
         }).done(function (data) {
+            console.log(data)
             // $("#categories").html('');
-            data.forEach((item) => {
+            data.content.forEach((item) => {
                 let str = `<option value="${item.id}">${item.title}</option>`;
                 $("#category").append(str);
             });
@@ -752,6 +751,7 @@
         postDTO.idUser = idUser;
         postDTO.utilities = Array.from(utilities);
         postDTO.id = postId;
+        postDTO.status = "PUBLISHED";
 
         $.ajax({
             headers: {

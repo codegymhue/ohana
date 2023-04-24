@@ -134,12 +134,12 @@
                 <div class="col-md-3" style="position: relative;top: 10px;">
                     <button type="button" id="upload_widget" class="col-md-3 w-100 h-100">Up anh
                         <input type="hidden" id="urlImage" th:field="${userUpdateParam.thumbnailId}">
-                        <img id="imgPreview" class="col-md-3 h-100"
-                             th:src="
-                             ${userUpdateParam.thumbnailId.matches('((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)')
-                             ? userUpdateParam.thumbnailId
-                             :'https://res.cloudinary.com/dh8nlcoul/image/upload/c_thumb,h_275,w_275/r_50/v1//'+userUpdateParam.getThumbnailId()+'?_a=ATFGlAA0'}"
-                        />
+<!--                        <img id="imgPreview" class="col-md-3 h-100"-->
+<!--                             th:src="-->
+<!--                             ${userUpdateParam.thumbnailId.matches('((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)')-->
+<!--                             ? userUpdateParam.thumbnailId-->
+<!--                             :'https://res.cloudinary.com/dh8nlcoul/image/upload/c_thumb,h_275,w_275/r_50/v1//'+userUpdateParam.getThumbnailId()+'?_a=ATFGlAA0'}"-->
+<!--                        />-->
                     </button>
                     <!--                    <img id="imgPreview"/>-->
                 </div>

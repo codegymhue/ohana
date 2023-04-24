@@ -43,14 +43,14 @@
                     <div class="wrap-login100 p-l-55 p-r-55 p-t-80 p-b-30">
                         <form class="login100-form validate-form-sign-in" th:action="@{/sign-in}" method="post"
                               th:object="${loginParam}">
-                            <div class="login100-form-title p-b-37 div-sign-in">
+                            <div class="login100-form-title p-b-20 div-sign-in">
                                     <span>
                                         Đăng nhập
                                     </span>
                             </div>
 
                             <th:block th:if="${error == true}">
-                                <label id="title-error" class="error" th:text="${messages}"></label>
+                                <label id="title-error" class="error mb-3" th:text="${messages}"></label>
                             </th:block>
 
                             <label  class="error"  th:each="err : ${#fields.errors('email')}" th:text="${err}">
