@@ -187,7 +187,7 @@
                     <div id="showImage"  class="col-12 position-relative w-100">
                         <div id="imagesUpload" class="owl-carousel">
                         </div>
-                        <button type="button" onclick="cloudinaryWidget.open()" disabled id="btnUploadImages" class="btn btn-primary">Upload bài viết</button>
+                        <button type="button" onclick="cloudinaryWidget.open()" id="btnUploadImages" class="btn btn-primary" style="z-index: 999">Chỉnh sửa ảnh</button>
                     </div>
                 </div>
             </div>
@@ -283,7 +283,7 @@
                 listImageId.push(public_id);
             }
             if (result.event === "queues-end"){
-                $("#btnUploadImages").attr("disabled",false).css("z-index", 999).text("Tải thêm ảnh")
+                $("#btnUploadImages").attr("disabled",false).css("z-index", 999).text("Tải thêm ảnh");
                 renderCarousel();
             }
         }
@@ -709,7 +709,18 @@
             }
         },
         submitHandler: function () {
-            doUpdateRoom();
+            Swal.fire({
+                title: 'Bấm Xác nhận để cập nhật!',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    doUpdateRoom();
+                }
+            })
         }
     });
 
