@@ -642,7 +642,7 @@ h1 {
     -ms-flex-align: center;
     align-items: center;
     height: inherit;
-    padding-left: 32px;
+    padding-left: 25%;
     padding-right: 32px;
 }
 

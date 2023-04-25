@@ -67,43 +67,41 @@
             <div class="QZg_h _18fKS">
                 <div class="_3oMi4">
                     <div class="_3OgY1">
-                        <a href="/">
-                            <img src="/resources/ohana/img/8cc95480cbd2708db10ad4b8de56306a.svg">
-                        </a>
-                        <div class="_1_U71">
-                            <div class="_2lKdR">
-                                <div class="_3p4ES _1vH0j" id="floating-city-dropdown">
-                                    <div class="wj6oE"><span class="icon-location-fill"
+
+                        <div class="_1_u71">
+                            <div class="_2lkdr">
+                                <div class="_3p4es _1vh0j" id="floating-city-dropdown">
+                                    <div class="wj6oe"><span class="icon-location-fill"
                                                              style="color: rgb(247, 52, 134); font-size: 16px;"></span><span
-                                            class="_1qNTb">Huế</span>
+                                            class="_1qntb">huế</span>
                                         <!--                                        <span class="icon-a-down"-->
                                         <!--                                                                           style="color: rgb(102, 102, 102); font-size: 16px;"></span>-->
                                     </div>
                                 </div>
-                                <div class="_1pVEQ"><input id="search" class="bX6zE"
-                                                           placeholder="Tìm kiếm theo địa điểm, huyện, tên đường..."
+                                <div class="_1pveq"><input id="search" class="bx6ze"
+                                                           placeholder="tìm kiếm theo địa điểm, huyện, tên đường..."
                                                            value="">
-                                    <div class="_2QckJ"><span class="icon-search"
+                                    <div class="_2qckj"><span class="icon-search"
                                                               style="color: rgb(247, 52, 134); font-size: 24px;"></span>
                                     </div>
-                                    <div th:if="${mess}!=null" class="_3Ob4b">
-                                        <a th:href="@{/edit/__${post.id}__}" id="btnEditPreview"
-                                           class="btn btn-info">Chỉnh lại</a>
-                                        <button type="button" id="btnSavePreview" class="btn btn-primary">Đăng</button>
+                                    <div th:if="${mess}!=null" class="_3ob4b">
+                                        <a th:href="@{/edit/__${post.id}__}" id="btneditpreview"
+                                           class="btn btn-info">chỉnh lại</a>
+                                        <button type="button" id="btnsavepreview" class="btn btn-primary">đăng</button>
                                     </div>
 
                                 </div>
-                                <div class="_1IdUV">
-                                    <ul class="b-CdA _11SSO" style="left: 157px;" id="location">
+                                <div class="_1iduv">
+                                    <ul class="b-cda _11sso" style="left: 157px;" id="location">
                                     </ul>
                                 </div>
                             </div>
-                            <div class="_1IdUV">
-                                <ul class="b-CdA" style="width: 123px;">
-                                    <li class="J_X1w _1vH0j" value="Huế">Huế</li>
-                                    <!--                                    <li class="J_X1w _1vH0j GpngF" value="HN">Hà Nội</li>-->
+                            <div class="_1iduv">
+                                <ul class="b-cda" style="width: 123px;">
+                                    <li class="j_x1w _1vh0j" value="huế">huế</li>
+<!--                                    <li class="j_x1w _1vh0j gpngf" value="hn">hà nội</li>-->
                                 </ul>
-                                <ul class="b-CdA" style="left: 128px;"></ul>
+                                <ul class="b-cda" style="left: 128px;"></ul>
                             </div>
                         </div>
                     </div>
@@ -310,7 +308,10 @@
                                  class="_1Ad8s">
                         </td>
                         <td th:unless="${post.user.thumbnailId}==null">
-                            <img th:src="${post.user.thumbnailId}" alt="avatar" class="_1Ad8s">
+                            <img th:src="
+                             ${post.user.thumbnailId.matches('((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)')
+                             ? post.user.thumbnailId
+                             :'https://res.cloudinary.com/dh8nlcoul/image/upload/c_thumb,h_275,w_275/r_50/' + post.user.thumbnailId}" alt="avatar" class="_1Ad8s">
                         </td>
                         <div class="_3OSo7"><span th:text="${post.user.fullName}"></span>
                             <div><span>SĐT:&nbsp;</span><span th:text="${post.user.phone}"></span></div>

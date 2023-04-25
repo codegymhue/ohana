@@ -14,9 +14,7 @@
 
 <body data-new-gr-c-s-check-loaded="14.1057.0" data-gr-ext-installed="" cz-shortcut-listen="true">
 <div class="container">
-
     <div class="_3bjUj">
-
         <!--header-->
         <th:block th:replace="/ohana/layout/header :: header(${userResult})"/>
     </div>
@@ -54,17 +52,21 @@
                 <tbody>
 
                 </tbody>
+
+
             </table>
         </div>
     </div>
+
 </div>
 <footer id="footer">
-    <th:block th:replace="/ohana/layout/footer :: footer"/>
+        <th:block th:replace="/ohana/layout/footer :: footer"/>
 </footer>
 </body>
 
 <th:block th:replace="/ohana/layout/script :: script"/>
 <script src="/resources/ohana/js/dataTable.js"></script>
+
 <script th:inline="javascript">
     let userId = Number([[${userResult.id}]]);
     let table;
@@ -201,7 +203,7 @@
                 } else {
                     rentHouse.status = "Còn phòng"
                 }
-                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/"  + item.thumbnailId + ".jpg";
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/"  + item.thumbnailId + ".jpg";
 
                 let str = `  <tr id="tr_${post.id}">
                     <td class= "col-1">
@@ -302,7 +304,7 @@
                 } else {
                     rentHouse.status = "Còn phòng"
                 }
-                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/"  + item.thumbnailId + ".jpg";
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/"  + item.thumbnailId + ".jpg";
 
                 let str = `  <tr id="tr_${post.id}">
                     <td class= "col-1">
@@ -394,7 +396,7 @@
                 }
             }
             data.content.forEach((item) => {
-                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/"  + item.thumbnailId + ".jpg";
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/"  + item.thumbnailId + ".jpg";
                 post = item;
                 user = post.user;
                 locationResult = post.location;
@@ -479,7 +481,7 @@
                 }
             }
             data.content.forEach((item) => {
-                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/"  + item.thumbnailId + ".jpg";
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/"  + item.thumbnailId + ".jpg";
                 post = item;
                 user = post.user;
                 locationResult = post.location;
@@ -578,7 +580,6 @@
 
             })
         })
-
     }
 
 
@@ -662,5 +663,6 @@
 
     })
 </script>
+
 </body>
 </html>

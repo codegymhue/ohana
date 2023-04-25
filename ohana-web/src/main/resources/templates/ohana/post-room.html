@@ -65,7 +65,7 @@
 
     <div class="container mt-xl-5">
         <div class="text-center">
-            <h3>
+            <h3 >
                 ĐĂNG TIN
             </h3>
         </div>
@@ -182,14 +182,14 @@
                     <div id="showImage"  class="col-12 position-relative w-100">
                       <div id="imagesUpload" class="owl-carousel">
                       </div>
-                        <button type="button" onclick="cloudinaryWidget.open()" disabled id="btnUploadImages" class="btn btn-primary">Upload bài viết</button>
+                        <button type="button" onclick="cloudinaryWidget.open()" disabled id="btnUploadImages" class="btn btn-primary btn-confirm">Upload bài viết</button>
                     </div>
                 </div>
             </div>
 
 
             <div class="w-100 col-md-12 px-2">
-                <button id="submitPost" name="submitPost" type="submit" class="btn btn-primary mt-3">Đăng tin</button>
+                <button id="submitPost" name="submitPost" type="submit" class="btn btn-primary mt-3" >Đăng tin</button>
             </div>
         </form>
     </div>
@@ -218,7 +218,7 @@
                 });
             }
             console.log(listImageId)
-            if (result.event === "queues-end"){
+            if (result.event ==="queues-end"){
                $("#btnUploadImages").attr("disabled",false).css("z-index", 999).text("Tải thêm ảnh")
                renderCarousel();
            }
@@ -236,7 +236,7 @@
         renderCarousel();
     }
     const renderUploadImage = ({publicId}) =>{
-        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50/v1681975206/${publicId}.jpg`
+        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/v1681975206/${publicId}.jpg`
         return `<div class="position-relative">
                     <button data-imgid="${publicId}" id="imgDeleteBtn" onclick="handleDeleteUploadImage(this.dataset.imgid)" class="btn-outline-danger btn-sm btn"><i class="fas fa-times-circle"></i></button>
                     <img class="post_img_preview" src="${url}" alt="Uploaded images"/>
@@ -283,85 +283,6 @@
             <img style="object-fit: cover" id="imgPreview" src="${image}" class="postroom"/>
         `
     }
-
-    // $("input[data-type='currency']").on({
-    //     keyup: function() {
-    //         formatCurrency($(this));
-    //     },
-    //     blur: function() {
-    //         formatCurrency($(this), "blur");
-    //     }
-    // });
-    //
-    // function formatNumber(n) {
-    //     // format number 1000000 to 1,234,567
-    //     return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-    // }
-    //
-    // function formatCurrency(input, blur) {
-    //     // appends $ to value, validates decimal side
-    //     // and puts cursor back in right position.
-    //
-    //     // get input value
-    //     var input_val = input.val();
-    //
-    //     // don't validate empty input
-    //     if (input_val === "") { return; }
-    //
-    //     // original length
-    //     var original_len = input_val.length;
-    //
-    //     // initial caret position
-    //     var caret_pos = input.prop("selectionStart");
-    //
-    //     // check for decimal
-    //     if (input_val.indexOf(".") >= 0) {
-    //
-    //         // get position of first decimal
-    //         // this prevents multiple decimals from
-    //         // being entered
-    //         var decimal_pos = input_val.indexOf(".");
-    //
-    //         // split number by decimal point
-    //         var left_side = input_val.substring(0, decimal_pos);
-    //         var right_side = input_val.substring(decimal_pos);
-    //
-    //         // add commas to left side of number
-    //         left_side = formatNumber(left_side);
-    //
-    //         // validate right side
-    //         right_side = formatNumber(right_side);
-    //
-    //         // On blur make sure 2 numbers after decimal
-    //         if (blur === "blur") {
-    //             right_side += "00";
-    //         }
-    //
-    //         // Limit decimal to only 2 digits
-    //         right_side = right_side.substring(0, 2);
-    //
-    //         // join number by .
-    //         input_val = left_side + "." + right_side;
-    //
-    //     } else {
-    //         // no decimal entered
-    //         // add commas to number
-    //         // remove all non-digits
-    //         input_val = formatNumber(input_val);
-    //
-    //
-    //         // final formatting
-    //     }
-    //
-    //     // send updated string to input
-    //     input.val(input_val);
-    //
-    //     // put caret back in the right position
-    //     var updated_len = input_val.length;
-    //     caret_pos = updated_len - original_len + caret_pos;
-    //     input[0].setSelectionRange(caret_pos, caret_pos);
-    // }
-
 
     let page = {
         url: {
@@ -811,7 +732,18 @@
         // },
         submitHandler: function () {
             // e.preventDefault();
-            doPostRoom();
+            Swal.fire({
+                title: 'Bấm Xác nhận để đăng tin!',
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonText: 'Xác nhận',
+                cancelButtonText: 'Hủy'
+            }).then((result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    doPostRoom();
+                }
+            })
         }
     });
 
@@ -843,8 +775,6 @@
     //         console.log("abc");
     //     });
     // }
-
-
 
     $(() => {
         page.commands.getAllCategories();
