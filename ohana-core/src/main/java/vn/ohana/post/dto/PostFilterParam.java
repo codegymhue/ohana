@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 import vn.ohana.entities.Gender;
 import vn.ohana.entities.Location;
 import vn.ohana.entities.StatusPost;
@@ -23,6 +24,7 @@ import java.util.Set;
 @Setter
 @Data
 @NoArgsConstructor
+@Accessors(chain = true)
 public class PostFilterParam {
     private User user;
     private String keyword;

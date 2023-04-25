@@ -7,6 +7,7 @@ import vn.ohana.entities.UserStatus;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.report.dto.DateReportResult;
 
+import java.text.ParseException;
 import java.time.Instant;
 import java.util.List;
 import java.util.Map;
@@ -34,4 +35,6 @@ public interface ReportService {
     Map<String,Long> getPostAnalysis();
     List<DateReportResult> countPostByMonthBetweenDate(@Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
     Map<String,List<DateReportResult>> countPostsAndUsersByMonthBetweenDate(@Param("startDate") Instant startDate, @Param("endDate") Instant endDate);
+
+    Map<String,Object> getDataByMonth(String monthAndYear) throws ParseException;
 }

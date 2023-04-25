@@ -195,7 +195,7 @@
                         <div class="_2zScZ">
                             <div class="_70zUr">
                                 <p>Giá phòng</p>
-                                <p th:text="${#numbers.formatCurrency(post.rentHouse.roomPrice)}"></p>
+                                <p th:text="${#numbers.formatDecimal(post.rentHouse.roomPrice, 3, 'COMMA', 0, 'POINT')} + ' Đồng'"></p>
                             </div>
                             <div class="_70zUr">
                                 <p>Diện tích</p>
@@ -203,7 +203,7 @@
                             </div>
                             <div class="_70zUr">
                                 <p>Đặt cọc</p>
-                                <p th:text="${#numbers.formatCurrency(post.rentHouse.deposit)}"></p>
+                                <p th:text="${#numbers.formatDecimal(post.rentHouse.deposit, 3, 'COMMA', 0, 'POINT')}+ ' Đồng'"></p>
                             </div>
                             <div class="_70zUr">
                                 <p>Sức chứa</p>
@@ -213,15 +213,15 @@
                         <div class="_2zScZ">
                             <div class="_70zUr">
                                 <p>Điện</p>
-                                <p th:text="${#numbers.formatCurrency(post.rentHouse.electricityPrice)}"></p>
+                                <p th:text="${#numbers.formatDecimal(post.rentHouse.electricityPrice, 3, 'COMMA', 0, 'POINT')}+ ' Đồng'"></p>
                             </div>
                             <div class="_70zUr">
                                 <p>Nước</p>
-                                <p th:text="${#numbers.formatCurrency(post.rentHouse.waterPrice)}"></p>
+                                <p th:text="${#numbers.formatDecimal(post.rentHouse.waterPrice, 3, 'COMMA', 0, 'POINT')}+ ' Đồng'"></p>
                             </div>
                             <div class="_70zUr">
                                 <p>WIFI</p>
-                                <p th:text="${post.rentHouse.wifiPrice}!=0?${#numbers.formatCurrency(post.rentHouse.wifiPrice)}: 'Miễn Phí' "></p>
+                                <p th:text="${post.rentHouse.wifiPrice}!=0?${#numbers.formatDecimal(post.rentHouse.wifiPrice, 3, 'COMMA', 0, 'POINT')+ ' Đồng'}: 'Miễn Phí' "></p>
                             </div>
                             <div class="_70zUr">
                                 <p>Trạng thái</p>
@@ -310,7 +310,12 @@
                                  class="_1Ad8s">
                         </td>
                         <td th:unless="${post.user.thumbnailId}==null">
-                            <img th:src="${post.user.thumbnailId}" alt="avatar" class="_1Ad8s">
+                            <img style=" width: 60px; height: 60px;" class="rounded-circle"
+                                 th:src="
+                                         ${userResult.thumbnailId.matches('((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)')
+                                         ? userResult.thumbnailId
+                                         :'https://res.cloudinary.com/dh8nlcoul/image/upload/c_thumb,h_60,w_60/r_50/v1//'+userResult.getThumbnailId()+'?_a=ATFGlAA0'}"
+                                 alt="Image Description">
                         </td>
                         <div class="_3OSo7"><span th:text="${post.user.fullName}"></span>
                             <div><span>SĐT:&nbsp;</span><span th:text="${post.user.phone}"></span></div>

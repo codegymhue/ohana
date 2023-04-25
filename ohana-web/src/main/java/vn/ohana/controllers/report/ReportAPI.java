@@ -10,7 +10,12 @@ import vn.ohana.entities.UserStatus;
 import vn.ohana.report.dto.DateReportParam;
 import vn.ohana.report.ReportService;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/api/reports")
@@ -34,12 +39,12 @@ public class ReportAPI {
 
     @GetMapping("/{status}/userStatus")
     public ResponseEntity<?> countAllUserByStatus(@PathVariable UserStatus status) {
-        return new ResponseEntity<>(reportService.countUserByStatus(status),HttpStatus.OK);
+        return new ResponseEntity<>(reportService.countUserByStatus(status), HttpStatus.OK);
     }
 
     @GetMapping("/{status}/postStatus")
     public ResponseEntity<?> countAllPostByStatus(@PathVariable StatusPost status) {
-        return new ResponseEntity<>(reportService.countPostByStatus(status),HttpStatus.OK);
+        return new ResponseEntity<>(reportService.countPostByStatus(status), HttpStatus.OK);
     }
 
     @GetMapping("/countUtility")
@@ -53,11 +58,13 @@ public class ReportAPI {
 
         return new ResponseEntity<>(reportService.countPost(), HttpStatus.OK);
     }
+
     @GetMapping("/analyze/users")
     public ResponseEntity<?> getUsersAnalysis() {
 
         return new ResponseEntity<>(reportService.getUserAnalysis(), HttpStatus.OK);
     }
+
     @GetMapping("/analyze/posts")
     public ResponseEntity<?> getPostsAnalysis() {
 
@@ -68,14 +75,21 @@ public class ReportAPI {
     public ResponseEntity<?> getTenNearestPendingPosts() {
         return new ResponseEntity<>(reportService.countTenNearestPendingPosts(), HttpStatus.OK);
     }
+
     @PostMapping("/count/month/posts")
     public ResponseEntity<?> countByMonthBetween(@RequestBody DateReportParam dateReportParam) {
         return new ResponseEntity<>(reportService.countPostByMonthBetweenDate(dateReportParam.getStartDate().toInstant(), dateReportParam.getEndDate().toInstant()), HttpStatus.OK);
     }
+
     @PostMapping("/count/monthly/unp")
     public ResponseEntity<?> countUserAndPostByMonthBetween(@RequestBody DateReportParam dateReportParam) {
         Instant startDate = dateReportParam.getStartDate().toInstant();
         Instant endDate = dateReportParam.getEndDate().toInstant();
         return new ResponseEntity<>(reportService.countPostsAndUsersByMonthBetweenDate(startDate, endDate), HttpStatus.OK);
+    }
+
+    @PostMapping("/analyze/monthly")
+    public ResponseEntity<?> getDataByMonth(@RequestBody String monthAndYear) throws ParseException {
+        return new ResponseEntity<>(reportService.getDataByMonth(monthAndYear),HttpStatus.OK);
     }
 }

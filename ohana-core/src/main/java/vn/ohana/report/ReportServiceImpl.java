@@ -5,22 +5,27 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import vn.ohana.category.CategoryRepository;
 import vn.ohana.entities.StatusPost;
 import vn.ohana.entities.UserStatus;
+import vn.ohana.filter.dto.FilterParam;
 import vn.ohana.post.PostService;
+import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.report.dto.DateReportResult;
 import vn.ohana.user.UserService;
+import vn.ohana.user.dto.UserFilterParam;
+import vn.ohana.user.dto.UserResult;
 import vn.ohana.utility.UtilityRepository;
 
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.time.ZoneId;
+import java.util.*;
 
 @Service
 public class ReportServiceImpl implements ReportService{
@@ -109,20 +114,37 @@ public class ReportServiceImpl implements ReportService{
 
     @Override
     public List<DateReportResult> countPostByMonthBetweenDate(Instant startDate, Instant endDate) {
-        return toDaReportResult( postService.countByMonthBetweenDate(startDate, endDate));
+        return toDateReportResult( postService.countByMonthBetweenDate(startDate, endDate));
+    }
+
+    @Override
+    public Map<String,Object> getDataByMonth(String monthAndYear) throws ParseException {
+        Map<String, Object> resultMap = new HashMap<>();
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        String date = "01-" + monthAndYear;
+        String[] dateEle = date.split("-");
+        LocalDate localDate = LocalDate.of(Integer.parseInt(dateEle[2]), Integer.parseInt(dateEle[1]), Integer.parseInt(dateEle[0]));
+        int numberDateOfMonth = localDate.lengthOfMonth();
+        Date startDate = Date.from(localDate.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Date endDate = Date.from(LocalDate.of(Integer.parseInt(dateEle[2]), Integer.parseInt(dateEle[1]),numberDateOfMonth).atStartOfDay(ZoneId.systemDefault()).toInstant());
+        PostFilterParam postFilterParam = new PostFilterParam().setCreatedAtStart(startDate.toInstant()).setCreatedAtEnd(endDate.toInstant());
+        UserFilterParam userFilterParam = new UserFilterParam().setCreatedAtStart(startDate.toInstant()).setCreatedAtEnd(endDate.toInstant());
+        resultMap.put("listPostByMonth", (List<PostResult>) postService.filter(postFilterParam, PageRequest.of(0, 100)).getContent());
+        resultMap.put("listUserByMonth", (List<UserResult>)userService.filter(userFilterParam, PageRequest.of(0, 100)).getContent());
+        return resultMap;
     }
 
     @Override
     public Map<String,List<DateReportResult>> countPostsAndUsersByMonthBetweenDate(Instant startDate, Instant endDate) {
         Map<String,List<DateReportResult>> stringListMap =new HashMap<>();
-        List<DateReportResult> postReportResults = toDaReportResult(postService.countByMonthBetweenDate(startDate, endDate));
-        List<DateReportResult> userReportResults = toDaReportResult(userService.countByMonthBetweenDate(startDate, endDate));
+        List<DateReportResult> postReportResults = toDateReportResult(postService.countByMonthBetweenDate(startDate, endDate));
+        List<DateReportResult> userReportResults = toDateReportResult(userService.countByMonthBetweenDate(startDate, endDate));
         stringListMap.put("postMonthlyCount", postReportResults);
         stringListMap.put("userMonthlyCount", userReportResults);
         return stringListMap;
     }
 
-    private List<DateReportResult> toDaReportResult(List<Object> objects) {
+    private List<DateReportResult> toDateReportResult(List<Object> objects) {
         List <DateReportResult> reportResults = new ArrayList<>();
         objects.forEach(obj->{
             Object[] newObj = (Object[]) obj;

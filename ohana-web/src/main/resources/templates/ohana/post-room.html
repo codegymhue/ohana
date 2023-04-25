@@ -420,6 +420,8 @@
             url: page.url.getAllCategories
         }).done(function (data) {
             // $("#categories").html('');
+            let str = `<option value=""  >--Chọn loại phòng--</option>`
+            page.dialogs.elements.category.append(str);
             data.content.forEach((item) => {
                 let str = `<option value="${item.id}">${item.title}</option>`;
                 $("#category").append(str);
@@ -434,6 +436,8 @@
             type: "GET",
             url: page.url.getAllGenders
         }).done(function (data) {
+            let str = `<option value=""  >--Chọn giới tính--</option>`
+            page.dialogs.elements.gender.append(str);
             data.forEach((item) => {
                 let str = `<option value="${item.id}">${item.name}</option>`;
                 $("#gender").append(str);
