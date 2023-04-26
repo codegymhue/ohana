@@ -4,9 +4,9 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="/resources/bootstrap-5.0.2/css/bootstrap.min.css">
-<!--    <script src="/resources/bootstrap-5.0.2/js/bootstrap.bundle.min.js"></script>-->
+    <!--    <script src="/resources/bootstrap-5.0.2/js/bootstrap.bundle.min.js"></script>-->
     <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
-    <link rel="stylesheet" href="/resources/ohana/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="/resources/ohana/css/owl.carousel.min.css"/>
     <style>
         body {
             background-color: #F6F5F2;
@@ -18,13 +18,13 @@
 
 <!-- Modal Share-->
 <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
-     aria-hidden="true"  th:object="${post}">
+     aria-hidden="true" th:object="${post}">
     <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Chia sẻ</h5>
-                    <span type="button" aria-label="Close" data-bs-dismiss="modal"
-                          aria-hidden="true" class="icon-close-fill FsoGs close" style="font-size: 25px "></span>
+                <span type="button" aria-label="Close" data-bs-dismiss="modal"
+                      aria-hidden="true" class="icon-close-fill FsoGs close" style="font-size: 25px "></span>
             </div>
             <div class="_1D3OM">
                 <div class="_3vJvL">
@@ -99,7 +99,7 @@
                             <div class="_1iduv">
                                 <ul class="b-cda" style="width: 123px;">
                                     <li class="j_x1w _1vh0j" value="huế">huế</li>
-<!--                                    <li class="j_x1w _1vh0j gpngf" value="hn">hà nội</li>-->
+                                    <!--                                    <li class="j_x1w _1vh0j gpngf" value="hn">hà nội</li>-->
                                 </ul>
                                 <ul class="b-cda" style="left: 128px;"></ul>
                             </div>
@@ -156,9 +156,10 @@
             <div class="RS_7D">
                 <h1 itemprop="name" class="Vg-MA" th:text="${post.title}"></h1>
                 <div>
-                    <div class="yCvnn _1vH0j  btn-share-modal" data-bs-popper="shareModal"  data-toggle="modal" data-target="#shareModal">
-                            <span class="icon-external" style="color: rgb(255, 255, 255); font-size: 24px;"></span>
-                            <span class="L3u-1">Chia sẻ</span>
+                    <div class="yCvnn _1vH0j  btn-share-modal" data-bs-popper="shareModal" data-toggle="modal"
+                         data-target="#shareModal">
+                        <span class="icon-external" style="color: rgb(255, 255, 255); font-size: 24px;"></span>
+                        <span class="L3u-1">Chia sẻ</span>
                     </div>
                 </div>
             </div>
@@ -168,15 +169,15 @@
                        style="color: rgb(72, 119, 248);"
                        th:text="${post.location.getProvinceName()}"></a>
                     <span class="icon-a-right"
-                    style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;"></span>
+                          style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;"></span>
                 </span>
                 <span style="color: rgb(102, 102, 102);">
                     <a th:href="@{'/search?provinceId='+${post.location.getProvinceId()}+'&provinceName='+${post.location.getProvinceName()}
                     +'&districtId='+${post.location.districtId}+'&districtName='+${post.location.getDistrictName()}}"
-                    style="color: rgb(72, 119, 248);"
+                       style="color: rgb(72, 119, 248);"
                        th:text="${post.location.getDistrictName()}"></a>
                     <span class="icon-a-right"
-                    style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;"></span>
+                          style="color: rgb(102, 102, 102); font-size: 14px; margin-left: 10px; margin-right: 10px;"></span>
                 </span>
                 <span style="color: rgb(102, 102, 102);" th:text="${post.location.getWardName()}"></span>
             </div>
@@ -303,23 +304,36 @@
                                 phòng</span>
                     </div>
                     <div class="_3YtkH">
-                        <td th:if="${post.user.thumbnailId}==null">
-                            <img src="/resources/image/22-223863_no-avatar-png-circle-transparent-png.png" alt="avatar"
-                                 class="_1Ad8s">
-                        </td>
-                        <td th:unless="${post.user.thumbnailId}==null">
-                            <img style=" width: 60px; height: 60px;" class="rounded-circle"
+                        <!--                        <td th:if="${post.user.thumbnailId}==null">-->
+                        <!--                            <img src="/resources/image/22-223863_no-avatar-png-circle-transparent-png.png" alt="avatar"-->
+                        <!--                                 class="_1Ad8s">-->
+                        <!--                        </td>-->
+                        <!--                        <td th:unless="${post.user.thumbnailId}==null">-->
+                        <!--                            <img style=" width: 60px; height: 60px;" class="rounded-circle"-->
+                        <!--                                 th:src="-->
+                        <!--                                         ${post.user.thumbnailId.matches('((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)')-->
+                        <!--                                         ? post.user.thumbnailId-->
+                        <!--                                         :'https://res.cloudinary.com/dh8nlcoul/image/upload/c_thumb,h_60,w_60/r_50/v1//'+userResult.getThumbnailId()+'?_a=ATFGlAA0'}"-->
+                        <!--                                 alt="Image Description">-->
+                        <!--                        </td>-->
+                        <td>
+                            <img style=" width: 60px; height: 60px;" class="rounded-circle _1Ad8s"
                                  th:src="
-                                         ${userResult.thumbnailId.matches('((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)')
-                                         ? userResult.thumbnailId
-                                         :'https://res.cloudinary.com/dh8nlcoul/image/upload/c_thumb,h_60,w_60/r_50/v1//'+userResult.getThumbnailId()+'?_a=ATFGlAA0'}"
+                             ${(post.user.thumbnailId == null)
+                             ? 'https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
+                             : (post.user.thumbnailId.matches('((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)'))
+                             ? post.user.thumbnailId
+                             : 'https://res.cloudinary.com/dh8nlcoul/image/upload/c_thumb,h_275,w_275/r_50/v1//'+ post.user.getThumbnailId() + '?_a=ATFGlAA0'}"
                                  alt="Image Description">
                         </td>
-                        <div class="_3OSo7"><span th:text="${post.user.fullName}"></span>
-                            <div><span>SĐT:&nbsp;</span><span th:text="${post.user.phone}"></span></div>
+                        <div class="_3OSo7"><span th:text="${post.user.fullName}">
+                        </span>
+                            <div><span>SĐT:&nbsp;</span><span th:text="${post.user.phone}"></span>
+                            </div>
                         </div>
                         <div class="_17grU"><span>Ngày đăng:&nbsp;</span><span
-                                th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy')}"></span></div>
+                                th:text="${#dates.format(post.createdAt, 'dd-MM-yyyy')}"></span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -344,7 +358,6 @@
             redirectAllListPost: App.DOMAIN + "/list-post",
         }
     }
-
 
 
     let idPreview = [[${post.id}]]
@@ -445,14 +458,14 @@
         }
     });
 
-$(()=>{
-    $(".owl-carousel").owlCarousel({
-        items:1,
-        nav: true,
-        loop: true,
-        autoHeight: true,
-    });
-})
+    $(() => {
+        $(".owl-carousel").owlCarousel({
+            items: 1,
+            nav: true,
+            loop: true,
+            autoHeight: true,
+        });
+    })
 </script>
 </body>
 

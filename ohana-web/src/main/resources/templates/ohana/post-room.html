@@ -783,8 +783,6 @@
         }
     });
 
-
-
     //
     // $("#submitPost").on('click', () => {
     //     $("#frmPost").trigger('submit');
@@ -814,6 +812,7 @@
         $.validator.addMethod("selectWard", function (value, element) {
             return this.optional(element) || value > 0;
         }, "Hãy chọn Phường/Xã");
+
         jQuery.validator.addMethod(
             "maxMoney",
             function(value, element,maxValue) {

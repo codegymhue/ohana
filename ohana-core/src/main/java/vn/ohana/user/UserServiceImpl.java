@@ -286,7 +286,7 @@ public class UserServiceImpl implements UserService {
 //        chuyển DTO,send mail và trả về
         boolean exists = existsByEmail(signUpParam.getEmail());
         if (exists) {
-            throw new RuntimeException("Email da ton tai");
+            throw new RuntimeException("Email đã tồn tại trong hệ thống.");
         } else {
             User user = new User();
             user.setEmail(signUpParam.getEmail());

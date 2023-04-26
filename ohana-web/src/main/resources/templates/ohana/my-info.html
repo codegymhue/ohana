@@ -80,14 +80,14 @@
                         <input type="hidden" class="form-control" th:field="${userUpdateParam.id}">
                         <div class="form-group col-md-6">
                             <label class="m-1">Họ và tên:</label>
-                            <input type="text" class="form-control" th:field="${userUpdateParam.fullName}">
+                            <input type="text" id="fullName" class="form-control" th:field="${userUpdateParam.fullName}">
                             <label class="error" id="message" th:each="err : ${#fields.errors('fullName')}"
                                    th:text="${err}">
                             </label>
                         </div>
                         <div class="form-group col-md-6">
                             <label class="m-1">Số điện thoại:</label>
-                            <input type="number" class="form-control" placeholder=""
+                            <input type="number" id="phone" class="form-control" placeholder=""
                                    th:field="${userUpdateParam.phone}">
                             <label class="error" th:each="err : ${#fields.errors('phone')}"
                                    th:text="${err}">
@@ -101,7 +101,7 @@
                     <div class="row col-md-12">
                         <div class="form-group col-md-6">
                             <label class="m-1">Email:</label>
-                            <input type="email" class="form-control" placeholder="" th:field="${userUpdateParam.email}">
+                            <input type="email" id="email" class="form-control" placeholder="" th:field="${userUpdateParam.email}">
                             <label class="error" th:each="err : ${#fields.errors('email')}"
                                    th:text="${err}">
                             </label>
@@ -112,8 +112,8 @@
                         </div>
                         <div class="form-group col-md-6">
                             <label class="m-1">Mô tả:</label>
-                            <input type="text" class="form-control" placeholder=""
-                                   th:field="${userUpdateParam.description}">
+                            <textarea type="text" id="description" class="form-control" placeholder=""
+                                      th:field="${userUpdateParam.description}"></textarea>
                             <label class="error" th:each="err : ${#fields.errors('address')}"
                                    th:text="${err}">
                             </label>
@@ -123,7 +123,7 @@
                     <div class="row col-md-12">
                         <div class="form-group col-md-12">
                             <label class="m-1">Địa chỉ:</label>
-                            <input type="text" class="form-control" th:field="${userUpdateParam.address}">
+                            <input type="text" id="line1" class="form-control" th:field="${userUpdateParam.address}">
                             <label class="error" th:each="err : ${#fields.errors('description')}"
                                    th:text="${err}">
                             </label>
@@ -136,12 +136,12 @@
                         <input type="hidden" id="urlImage" th:field="${userUpdateParam.thumbnailId}">
                         <img id="imgPreview" class="col-md-3 h-100"
                              th:src="
-                             ${userUpdateParam.thumbnailId.matches('((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)')
+                             ${(userUpdateParam.thumbnailId == null)
+                             ? 'https://i.pinimg.com/736x/c6/e5/65/c6e56503cfdd87da299f72dc416023d4.jpg'
+                             : userUpdateParam.thumbnailId.matches('((([A-Za-z]{3,9}:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)')
                              ? userUpdateParam.thumbnailId
-                             :'https://res.cloudinary.com/dh8nlcoul/image/upload/c_thumb,h_275,w_275/r_50/v1//'+userUpdateParam.getThumbnailId()+'?_a=ATFGlAA0'}">
-<!--                        />-->
+                             :'https://res.cloudinary.com/dh8nlcoul/image/upload/c_thumb,h_275,w_275/r_50/v1//'+ userUpdateParam.getThumbnailId() + '?_a=ATFGlAA0'}">
                     </button>
-                    <!--                    <img id="imgPreview"/>-->
                 </div>
             </div>
             <div class="">
@@ -178,8 +178,154 @@
     $("#upload_widget").on("click", function () {
         cloudinaryWidget.open();
     });
-</script>
 
+    // let page = {
+    //     url: {
+    //         getAllCategories: App.BASE_URL_API + "/categories",
+    //         getAllUtilities: App.BASE_URL_API + "/utilities",
+    //         getAllGenders: App.BASE_URL_API + "/genders",
+    //         doCreatePost: App.BASE_URL_API + "/posts/postsNew",
+    //         doFilter: App.BASE_URL_API + "/posts/filter",
+    //         getAllProvinces: App.BASE_URL_PROVINCE,
+    //     },
+    //     element: {},
+    //     loadData: {},
+    //     commands: {},
+    //     dialogs: {
+    //         elements: {},
+    //         loadData: {},
+    //         commands: {},
+    //         alertDanger: {}
+    //     },
+    //     initializeControlEvent: {},
+    //     // let isClickInside = specifiedElement.contains(event.target)
+    // }
+    // page.dialogs.elements.name = $('#fullName');
+    // page.dialogs.elements.phone = $('#phone');
+    // page.dialogs.elements.email = $('#email');
+    // page.dialogs.elements.description = $('#description');
+    //
+    // page.dialogs.elements.province = $('#province');
+    // page.dialogs.elements.district = $('#district');
+    // page.dialogs.elements.ward = $('#ward');
+    // page.dialogs.elements.line1 = $('#line1');
+    //
+    // page.dialogs.elements.urlImage = $('#urlImage');
+    // page.dialogs.elements.imgPreview = $('#imgPreview');
+    //
+    // page.dialogs.loadData.getAllProvinces = () => {
+    //     return $.ajax({
+    //         type: 'GET',
+    //         url: 'https://vapi.vnappmob.com/api/province/'
+    //     })
+    //         .done((data) => {
+    //             let str = `<option value="0" >--Chọn Tỉnh/Thành phố--</option>`
+    //             page.dialogs.elements.province.append(str);
+    //             $.each(data.results, (i, item) => {
+    //                 if (item.province_id == 48 || item.province_id == 46){
+    //                     let str = `<option value="${item.province_id}">${item.province_name}</option>`;
+    //                     page.dialogs.elements.province.append(str);
+    //                 }
+    //             })
+    //             addEventChangeProvince();
+    //             addEventChangeDistrict();
+    //
+    //         })
+    //         .fail((jqXHR) => {
+    //             AppBase.SweetAlert.showErrorAlert('Load Provinces fail');
+    //         })
+    // }
+    //
+    // page.dialogs.loadData.getAllDistrictsByProvince = (provinceId) => {
+    //     return $.ajax({
+    //         type: 'GET',
+    //         url: 'https://vapi.vnappmob.com/api/province/district/' + provinceId
+    //     })
+    //         .done((data) => {
+    //             page.dialogs.elements.district.empty();
+    //             let str = `<option value="0"  >--Chọn Quận/Thị xã/Huyện--</option>`
+    //             page.dialogs.elements.district.append(str);
+    //             $.each(data.results, (i, item) => {
+    //                 let str = `<option value="${item.district_id}">${item.district_name}</option>`;
+    //
+    //                 page.dialogs.elements.district.append(str);
+    //
+    //             })
+    //
+    //
+    //         })
+    //         .fail((jqXHR) => {
+    //             AppBase.SweetAlert.showErrorAlert('Load Districts fail');
+    //         })
+    // }
+    //
+    // page.dialogs.loadData.getAllWardsByDistrict = (districtId) => {
+    //     return $.ajax({
+    //         type: 'GET',
+    //         url: 'https://vapi.vnappmob.com/api/province/ward/' + districtId
+    //     })
+    //         .done((data) => {
+    //             page.dialogs.elements.ward.empty();
+    //             let str = `<option value="0" >--Chọn Phường/Xã--</option>`
+    //             page.dialogs.elements.ward.append(str);
+    //             $.each(data.results, (i, item) => {
+    //                 let str = `<option value="${item.ward_id}">${item.ward_name}</option>`;
+    //
+    //                 page.dialogs.elements.ward.append(str);
+    //             })
+    //
+    //         })
+    //         .fail((jqXHR) => {
+    //             AppBase.SweetAlert.showErrorAlert('Load Wards fail');
+    //         })
+    // }
+    //
+    // function addEventChangeProvince() {
+    //     page.dialogs.elements.province.on("change", function () {
+    //         let provinceId = $(this).val();
+    //         console.log(provinceId)
+    //
+    //         if (provinceId !== 0) {
+    //             page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
+    //                 let districtId = page.dialogs.elements.district.val();
+    //                 page.dialogs.loadData.getAllWardsByDistrict(districtId);
+    //             })
+    //         }
+    //     })
+    // }
+    //
+    // function addEventChangeDistrict() {
+    //
+    //     page.dialogs.elements.district.on("change", function () {
+    //         let districtId = $(this).val();
+    //
+    //         if (districtId !== 0) {
+    //
+    //             page.dialogs.loadData.getAllWardsByDistrict(districtId);
+    //         }
+    //
+    //     })
+    // }
+    //
+    // function resetLocationRegion() {
+    //     page.dialogs.loadData.getAllProvinces().then(() => {
+    //         let provinceId = page.dialogs.elements.province.val();
+    //
+    //         page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
+    //             let districtId = page.dialogs.elements.district.val();
+    //
+    //             page.dialogs.loadData.getAllWardsByDistrict(districtId);
+    //         });
+    //     });
+    // }
+    //
+    // $(() => {
+    //     resetLocationRegion();
+    // })
+
+
+
+</script>
 <th:block th:if="${success == true}">
     <script>
         showSuccess('Cập nhật thành công!!!')
