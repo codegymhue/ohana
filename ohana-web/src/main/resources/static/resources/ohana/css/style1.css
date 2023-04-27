@@ -7277,3 +7277,10 @@ a {
      height: 20%;
  }
 
+ #notification{
+     padding: 10px;
+ }
+
+ #tbPost_length{
+     padding-bottom: 10px;
+ }

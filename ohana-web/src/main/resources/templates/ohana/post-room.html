@@ -65,7 +65,7 @@
 
     <div class="container mt-xl-5">
         <div class="text-center">
-            <h3 >
+            <h3>
                 ĐĂNG TIN
             </h3>
         </div>
@@ -87,7 +87,8 @@
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Loại phòng</label>
-                    <select type="text" class="form-select" name="category" id="category" th:field="${postCreateParam.categoryId}">
+                    <select type="text" class="form-select" name="category" id="category"
+                            th:field="${postCreateParam.categoryId}">
                     </select>
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
@@ -105,37 +106,44 @@
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Giá phòng (Đơn vị: VNĐ/Tháng)</label>
-                    <input type="text" class="form-control" id="roomPrice"  name="roomPrice" th:field="${postCreateParam.rentHouse.roomPrice}">
+                    <input type="text" data-type="currency" class="form-control" id="roomPrice" name="roomPrice"
+                           th:field="${postCreateParam.rentHouse.roomPrice}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền cọc (Đơn vị: VNĐ/Tháng)</label>
-                    <input type="number" data-type="currency" class="form-control" id="deposit" name="deposit" th:field="${postCreateParam.rentHouse.deposit}">
+                    <input type="text" data-type="currency" class="form-control" id="deposit" name="deposit"
+                           th:field="${postCreateParam.rentHouse.deposit}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Diện tích (m2)</label>
-                    <input type="number" class="form-control" id="area" name="area" th:field="${postCreateParam.rentHouse.area}">
+                    <input type="number" class="form-control" id="area" name="area"
+                           th:field="${postCreateParam.rentHouse.area}">
                 </div>
 
             </div>
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền điện (Đơn vị: VNĐ/kWh)</label>
-                    <input type="text" data-type="currency" class="form-control" name="electricityPrice" id="electricityPrice" th:field="${postCreateParam.rentHouse.electricityPrice}">
+                    <input type="text" data-type="currency" class="form-control" name="electricityPrice"
+                           id="electricityPrice" th:field="${postCreateParam.rentHouse.electricityPrice}">
                     </input>
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền nước (Đơn vị: VNĐ/m³)</label>
-                    <input type="text" data-type="currency" class="form-control" id="waterPrice"  name="waterPrice" th:field="${postCreateParam.rentHouse.waterPrice}">
+                    <input type="text" data-type="currency" class="form-control" id="waterPrice" name="waterPrice"
+                           th:field="${postCreateParam.rentHouse.waterPrice}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền wifi (Đơn vị: VNĐ/Tháng)</label>
-                    <input type="text" data-type="currency" class="form-control" id="wifiPrice" name="wifiPrice" th:field="${postCreateParam.rentHouse.wifiPrice}">
+                    <input type="text" data-type="currency" class="form-control" id="wifiPrice" name="wifiPrice"
+                           th:field="${postCreateParam.rentHouse.wifiPrice}">
                 </div>
             </div>
 
             <div class=" col-md-12 errorTotal">
                 <label class="m-1 form-label">Tiện ích: </label>
-                <div class="d-flex flex-wrap col-md-12 px-5" id="utilities" name="utilities" th:field="${postCreateParam.utilities}">
+                <div class="d-flex flex-wrap col-md-12 px-5" id="utilities" name="utilities"
+                     th:field="${postCreateParam.utilities}">
                 </div>
 
             </div>
@@ -154,42 +162,49 @@
                 </div>
                 <div class="col-md-3 px-2 errorTotal">
                     <label class="m-1">Phường/Xã</label>
-                    <select type="text" class="form-select" id="ward"  name="ward" th:field="${postCreateParam.location.wardId}">
+                    <select type="text" class="form-select" id="ward" name="ward"
+                            th:field="${postCreateParam.location.wardId}">
                     </select>
                 </div>
 
                 <div class="col-md-3 px-2 errorTotal">
                     <label class="m-1">Địa chỉ</label>
-                    <input type="text" class="form-control" id="line1" name="line1" th:field="${postCreateParam.location.line1}">
+                    <input type="text" class="form-control" id="line1" name="line1"
+                           th:field="${postCreateParam.location.line1}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
             </div>
             <div class="d-flex col-md-12  mt-3 ">
                 <div class="col-md-3 px-2 errorTotal">
-                    <div  id="showImageThumb" class="col-md-12errorTotal">
+                    <div id="showImageThumb" class="col-md-12errorTotal">
                         <div id="upload_widgetThumb" class="d-flex">
-                            <input type="hidden" id="urlImageThumb" name="urlImageThumb" th:field="${postCreateParam.thumbnailId}">
-                           <div style="position: relative">
-                               <img id="imgPreviewThumb"
-                                    src="/resources/image/thumbpost.png"/>
-                               <button type="button" disabled id="btnUploadThumb" class="btn btn-primary">Upload ảnh bìa</button>
-                           </div>
+                            <input type="hidden" id="urlImageThumb" name="urlImageThumb"
+                                   th:field="${postCreateParam.thumbnailId}">
+                            <div style="position: relative">
+                                <img id="imgPreviewThumb"
+                                     src="/resources/image/thumbpost.png"/>
+                                <button type="button" disabled id="btnUploadThumb" class="btn btn-primary">Upload ảnh
+                                    bìa
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-9 errorTotal">
-                    <div id="showImage"  class="col-12 position-relative w-100">
-                      <div id="imagesUpload" class="owl-carousel">
-                      </div>
-                        <button type="button" onclick="cloudinaryWidget.open()" disabled id="btnUploadImages" class="btn btn-primary btn-confirm">Upload bài viết</button>
+                    <div id="showImage" class="col-12 position-relative w-100">
+                        <div id="imagesUpload" class="owl-carousel">
+                        </div>
+                        <button type="button" onclick="cloudinaryWidget.open()" disabled id="btnUploadImages"
+                                class="btn btn-primary btn-confirm">Upload bài viết
+                        </button>
                     </div>
                 </div>
             </div>
 
 
             <div class="w-100 col-md-12 px-2">
-                <button id="submitPost" name="submitPost" type="submit" class="btn btn-primary mt-3" >Đăng tin</button>
+                <button id="submitPost" name="submitPost" type="submit" class="btn btn-primary mt-3">Đăng tin</button>
             </div>
         </form>
     </div>
@@ -218,25 +233,25 @@
                 });
             }
             console.log(listImageId)
-            if (result.event ==="queues-end"){
-               $("#btnUploadImages").attr("disabled",false).css("z-index", 999).text("Tải thêm ảnh")
-               renderCarousel();
-           }
+            if (result.event === "queues-end") {
+                $("#btnUploadImages").attr("disabled", false).css("z-index", 999).text("Tải thêm ảnh")
+                renderCarousel();
+            }
         }
     );
-    const renderCarousel  = ()=>{
+    const renderCarousel = () => {
         $("#imagesUpload").trigger('destroy.owl.carousel').removeClass('owl-loaded');
         $("#imagesUpload").find('.owl-stage-outer').children().unwrap();
         let imgElements = [...listImageId].map(img => renderUploadImage(img));
         $("#imagesUpload").html(imgElements.join(""))
-        $("#imagesUpload").owlCarousel({items: 4,nav: true,dots: false})
+        $("#imagesUpload").owlCarousel({items: 4, nav: true, dots: false})
     }
-    const handleDeleteUploadImage = (imgId)=>{
+    const handleDeleteUploadImage = (imgId) => {
         listImageId = listImageId.filter(({publicId}) => publicId !== imgId);
         renderCarousel();
     }
-    const renderUploadImage = ({publicId}) =>{
-        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/v1681975206/${publicId}.jpg`
+    const renderUploadImage = ({publicId}) => {
+        let url = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/v1681975206/${publicId}.jpg`
         return `<div class="position-relative">
                     <button data-imgid="${publicId}" id="imgDeleteBtn" onclick="handleDeleteUploadImage(this.dataset.imgid)" class="btn-outline-danger btn-sm btn"><i class="fas fa-times-circle"></i></button>
                     <img class="post_img_preview" src="${url}" alt="Uploaded images"/>
@@ -261,15 +276,15 @@
             if (!error && result && result.event === "success") {
                 let {public_id} = result.info;
                 thumbnailId = public_id;
-                let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50/v1681975206/${thumbnailId}.jpg`
+                let url = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50/v1681975206/${thumbnailId}.jpg`
                 console.log(public_id)
                 $("#imgPreviewThumb").attr("src", url);
                 $("#btnUploadThumb")
                     .text("Thay đổi")
-                    .attr("disabled",false)
+                    .attr("disabled", false)
                     .addClass("btn-sm btn-outline-secondary text-white")
                     .removeClass("btn-primary")
-                    .css("text-shadow","0 0 5px black")
+                    .css("text-shadow", "0 0 5px black")
             }
         }
     );
@@ -341,8 +356,6 @@
             url: page.url.getAllCategories
         }).done(function (data) {
             // $("#categories").html('');
-            let str = `<option value=""  >--Chọn loại phòng--</option>`
-            page.dialogs.elements.category.append(str);
             data.content.forEach((item) => {
                 let str = `<option value="${item.id}">${item.title}</option>`;
                 $("#category").append(str);
@@ -357,8 +370,6 @@
             type: "GET",
             url: page.url.getAllGenders
         }).done(function (data) {
-            let str = `<option value=""  >--Chọn giới tính--</option>`
-            page.dialogs.elements.gender.append(str);
             data.forEach((item) => {
                 let str = `<option value="${item.id}">${item.name}</option>`;
                 $("#gender").append(str);
@@ -381,7 +392,7 @@
                 $('#utilities').append(str);
             });
             $("input[type=checkbox]").off("change");
-            $("input[type=checkbox]").on("change", function() {
+            $("input[type=checkbox]").on("change", function () {
                 if (!$(this).is(":checked")) {
                     utilities.delete($(this).val());
                 } else {
@@ -402,7 +413,7 @@
                 let str = `<option value="0" >--Chọn Tỉnh/Thành phố--</option>`
                 page.dialogs.elements.province.append(str);
                 $.each(data.results, (i, item) => {
-                    if (item.province_id == 48 || item.province_id == 46){
+                    if (item.province_id == 48 || item.province_id == 46) {
                         let str = `<option value="${item.province_id}">${item.province_name}</option>`;
                         page.dialogs.elements.province.append(str);
                     }
@@ -498,40 +509,8 @@
             });
         });
     }
-    function formatCurrencyFields (){
-        $("#roomPrice").on("input",function (e){
-            if (!e.target.value.match(/\d/)||e.target.value === "NaN") {
-                console.log(123)
-                $(this).val(0);
-                return;
-            }
-          else{
-                let money = e.target.value.replace(/[,]/g, "");
-                $(this).val(formatCurrency(money))
-            }
-        })
-        $("#wifiPrice").on("input",function (e){
-            let money = e.target.value.replace(/[,]/g, "");
-            $(this).val(formatCurrency(money))
-        })
-        $("#waterPrice").on("input",function (e){
-            let money = e.target.value.replace(/[,]/g, "");
-            $(this).val(formatCurrency(money))
-        })
-        $("#electricityPrice").on("input",function (e){
-            let money = e.target.value.replace(/[,]/g, "");
-            $(this).val(formatCurrency(money))
-        })
-        $("#deposit").on("input",function (e){
-            let money = e.target.value.replace(/[,]/g, "");
-            $(this).val(formatCurrency(money))
-        })
-    }
-    function formatCurrency (value){
-         return new Intl.NumberFormat('vn-VN').format(value);
-    }
 
-    function clearForm(){
+    function clearForm() {
 
         $("#title").val("");
         $("#descriptionContent").val("");
@@ -550,9 +529,7 @@
         $("#showImage").empty();
         $('#showImageThumb').empty();
         $('#showImage').empty();
-        $("input[type=checkbox]").prop("checked",false);
-
-
+        $("input[type=checkbox]").prop("checked", false);
     }
 
     let doPostRoom = () => {
@@ -573,14 +550,14 @@
         location.wardName = $("#ward").find("option:selected").text();
         location.line1 = $("#line1").val();
 
-        rentHouse.roomPrice = $("#roomPrice").val();
-        rentHouse.deposit = $("#deposit").val();
+        rentHouse.roomPrice = Number(($("#roomPrice").val()).replaceAll(/[.]/g,""));
+        rentHouse.deposit = Number(($("#deposit").val()).replaceAll(/[.]/g,""));
         rentHouse.area = $("#area").val();
         rentHouse.capacity = $("#capacity").val();
         rentHouse.gender = $("#gender").val();
-        rentHouse.electricityPrice = $("#electricityPrice").val();
-        rentHouse.waterPrice = $("#waterPrice").val();
-        rentHouse.wifiPrice = $("#wifiPrice").val();
+        rentHouse.electricityPrice =  Number(($("#electricityPrice").val()).replaceAll(/[.]/g,""));
+        rentHouse.waterPrice = Number(($("#waterPrice").val()).replaceAll(/[.]/g,""));
+        rentHouse.wifiPrice = Number(($("#wifiPrice").val()).replaceAll(/[.]/g,""));
 
         postDTO.title = title;
         postDTO.descriptionContent = descriptionContent;
@@ -614,8 +591,6 @@
             })
     }
 
-
-
     $("#frmPost").validate({
         rules: {
             title: {
@@ -636,12 +611,11 @@
             },
             "rentHouse.roomPrice": {
                 required: true,
-                maxMoney: 100000000,
-                minMoney: 100000
+                minMoney: 100000,
+                maxMoney: 100000000
             },
             "rentHouse.deposit": {
                 required: true,
-                money: true,
                 minMoney: 100000,
                 maxMoney: 100000000
             },
@@ -659,21 +633,18 @@
             },
             "rentHouse.electricityPrice": {
                 required: true,
-                money: true,
-                minMoney: 1000,
-                maxMoney: 20000
+                minDNW: 1000,
+                maxDNW: 3000000
             },
             "rentHouse.waterPrice": {
                 required: true,
-                money: true,
-                minMoney: 1000,
-                maxMoney: 30000
+                minDNW: 1000,
+                maxDNW: 3000000
             },
             "rentHouse.wifiPrice": {
                 required: true,
-                money: true,
-                minMoney: 10000,
-                maxMoney: 3000000
+                minDNW: 1000,
+                maxDNW: 3000000
             },
             "location.provinceId": {
                 selectProvince: true
@@ -709,15 +680,9 @@
             },
             "rentHouse.roomPrice": {
                 required: "Giá không được để trống",
-                maxMoney: "Giá không được vượt quá 100.000.000 đồng",
-                minMoney: "Giá không được dưới  100.000 đồng",
-                money: "Giá phòng không hợp lệ"
             },
             "rentHouse.deposit": {
                 required: "Giá không được để trống",
-                money: "nhập số",
-                minMoney: "Giá không được dưới 100.000 đồng",
-                maxMoney: "Giá không được vượt quá 100.000.000 đồng"
             },
             "rentHouse.area": {
                 required: "Diện tích không được để trống",
@@ -733,21 +698,12 @@
             },
             "rentHouse.electricityPrice": {
                 required: "Tiền điện không được để trống",
-                money: "Chỉ nhập số",
-                minMoney: "Tiền điện không được dưới 1.000 đồng",
-                maxMoney: "Tiền điện vượt quá 20.000 đồng"
             },
             "rentHouse.waterPrice": {
                 required: "Tiền nước không được để trống",
-                money: "Chỉ nhập số",
-                minMoney: "Tiền nước không dưới 1.000 đồng",
-                maxMoney: "Tiền nước không vượt quá 30.000 đồng"
             },
             "rentHouse.wifiPrice": {
                 required: "Tiền wifi không được để trống",
-                money: "Chỉ nhập số",
-                minMoney: "Tiền wifi không dưới 10.000 đồng",
-                maxMoney: "Tiền wifi không vượt quá 3.000.000 đồng"
             },
             "location.line1": {
                 required: "Địa chỉ không được để trống",
@@ -755,17 +711,6 @@
                 maxlength: "Địa chỉ không được vượt quá 255 kí tự"
             }
         },
-        // showErrors: function (errorMap, errorList) {
-        //     console.log(errorList.length)
-        //     if (errorList.length > 0) {
-        //         $("#title .errorTitle").removeClass("hide").addClass("show");
-        //     } else {
-        //         console.log(errorMap)
-        //         $("#title-error").removeClass("error").addClass("hide").empty();
-        //         // $("#frmTransfer input.error").removeClass("error");
-        //     }
-        //     this.defaultShowErrors();
-        // },
         submitHandler: function () {
             // e.preventDefault();
             Swal.fire({
@@ -783,24 +728,8 @@
         }
     });
 
-    //
-    // $("#submitPost").on('click', () => {
-    //     $("#frmPost").trigger('submit');
-    // })
-
-    // $("#submitPost").on("click", function (e) {
-    //     e.preventDefault();
-    //     doPostRoom();
-    // });
-
-
-    //     $.each($("input[name='utilitiesCheckbox']:checked"), function () {
-    //         utilities.push(+$(this).val());
-    //         console.log("abc");
-    //     });
-    // }
-
     function initValidator() {
+
         $.validator.addMethod("selectProvince", function (value, element) {
             return this.optional(element) || value > 0;
         }, "Hãy chọn Tỉnh/thành phố");
@@ -813,37 +742,66 @@
             return this.optional(element) || value > 0;
         }, "Hãy chọn Phường/Xã");
 
-        jQuery.validator.addMethod(
-            "maxMoney",
-            function(value, element,maxValue) {
-                console.log(maxValue)
-                return this.optional(element) || Number(value.replace(/[,]/g,"") < maxValue);
-            },
-            "Insert "
-        )
-        jQuery.validator.addMethod(
-            "minMoney",
-            function(value, element,maxValue) {
-                console.log(maxValue)
-                return this.optional(element) || Number(value.replace(/[,]/g,"") > maxValue);
-            },
-            "Insert "
-        )
-        jQuery.validator.addMethod(
-            "monney",
-            function(value, element) {
-                var isValidMoney = /^\d{0,4}(\.\d{0,2})?$/.test(value);
-                return this.optional(element) || isValidMoney;
-            },
-            "Insert "
-        )
+        $.validator.addMethod("maxMoney", function (value, element, maxvalue) {
+            console.log(element)
+            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") <= maxvalue);
+        }, "Vui lòng nhập số và không vượt quá 100.000.000 đồng");
+
+        $.validator.addMethod("minMoney", function (value, element, minMoney) {
+            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") >= minMoney);
+        }, "Vui lòng nhập số và không dưới 100.000 đồng");
+
+        $.validator.addMethod("maxDNW", function (value, element, maxDNW) {
+            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") <= maxDNW);
+        }, "Vui lòng nhập số và không vượt quá 3.000.000 đồng");
+
+        $.validator.addMethod("minDNW", function (value, element, minDNW) {
+            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") >= minDNW);
+        }, "Vui lòng nhập số và không dưới 1.000 đồng");
 
     }
 
+    function formatCurrencyFields() {
+        $("#roomPrice").on("blur", function () {
+            value1 = this.value;
+            valueRep = value1.replaceAll('.','');
+            value2 = valueRep.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $("#roomPrice").val(value2);
+        })
+        $("#deposit").on("blur", function () {
+            value1 = this.value;
+            valueRep = value1.replaceAll('.','');
+            value2 = valueRep.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $("#deposit").val(value2);
+        })
+        $("#electricityPrice").on("blur", function () {
+            value1 = this.value;
+            valueRep = value1.replaceAll('.','');
+            value2 = valueRep.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $("#electricityPrice").val(value2);
+        })
+        $("#waterPrice").on("blur", function () {
+            value1 = this.value;
+            valueRep = value1.replaceAll('.','');
+            value2 = valueRep.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $("#waterPrice").val(value2);
+        })
+        $("#wifiPrice").on("blur", function () {
+            value1 = this.value;
+            valueRep = value1.replaceAll('.','');
+            value2 = valueRep.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+            $("#wifiPrice").val(value2);
+        })
+
+
+
+    }
+
+
     $(() => {
+        formatCurrencyFields();
+        initValidator();
         page.commands.getAllCategories();
-        formatCurrencyFields ()
-        initValidator()
         page.commands.getAllGenders();
         page.commands.getAllUtilities();
         resetLocationRegion();

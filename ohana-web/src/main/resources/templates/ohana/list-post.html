@@ -171,14 +171,14 @@
             }
             $("#noLength").empty();
             $("#notification").html('');
-            let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
+            let srt = ` <label >Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `<tr>
-                            <th class= "col-1" style="min-width: 100px">Ảnh</th>
+                            <th class= "col-1" >Ảnh</th>
                             <th class= "col-3">Tên bài đăng</th>
                             <th class= "col-3">Địa chỉ</th>
-                            <th class= "col-1">Giá</th>
+                            <th class= "col-1">Giá (đồng)</th>
                             <th class= "col-1">Ngày đăng</th>
                             <th class= "col-1">Đường dẫn</th>
                             <th class= "col-1">Trạng thái</th>
@@ -209,7 +209,7 @@
                     <td class= "col-1">
                         <div class="d-flex align-items-center">
                             <img src="${image_thumbnail}" alt=""
-                                 style="width: 100px; height: 100px" class="rounded-1"/>
+                                 style="width: 50px; height: 50px" class="rounded-1"/>
                         </div>
                     </td>
                     <td class= "col-3">
@@ -221,7 +221,7 @@
                         <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                     <td class= "col-1">
-                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} VNĐ</p>
+                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} </p>
                     </td>
                     <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
@@ -272,14 +272,14 @@
             }
             $("#noLength").empty();
             $("#notification").html('');
-            let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
+            let srt = ` <label >Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `<tr>
-                            <th class= "col-1" style="min-width: 100px">Ảnh</th>
+                            <th class= "col-1" >Ảnh</th>
                             <th class= "col-3">Tên bài đăng</th>
                             <th class= "col-3">Địa chỉ</th>
-                            <th class= "col-1">Giá</th>
+                            <th class= "col-1">Giá (đồng)</th>
                             <th class= "col-1">Ngày đăng</th>
                             <th class= "col-1">Đường dẫn</th>
                             <th class= "col-1">Trạng thái</th>
@@ -310,7 +310,7 @@
                     <td class= "col-1">
                         <div class="d-flex align-items-center">
                             <img src="${image_thumbnail}" alt=""
-                                 style="width: 100px; height: 100px" class="rounded-1"/>
+                                 style="width: 50px; height: 50px" class="rounded-1"/>
                         </div>
                     </td>
                     <td class= "col-3">
@@ -322,7 +322,7 @@
                         <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                     <td class= "col-1">
-                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} VNĐ</p>
+                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} </p>
                     </td>
                     <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
@@ -374,16 +374,16 @@
             }
             $("#noLength").empty();
             $("#notification").html('');
-            let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
+            let srt = ` <label >Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `
                 <tr>
-                    <th class= "col-2" style="min-width: 100px">Ảnh</th>
+                    <th class= "col-2" >Ảnh</th>
                     <th class= "col-4">Tên bài đăng</th>
                     <th class= "col-4">Địa chỉ</th>
-                    <th class= "col-1">Giá</th>
-                    <th class= "col-1">Ngày đăng</th>
+                    <th class= "col-1" >Giá (đồng)</th>
+                    <th class= "col-1" >Ngày đăng</th>
 
                 </tr>`;
             $("#tbPost thead").prepend(tr);
@@ -405,7 +405,7 @@
                     <td class= "col-1">
                         <div class="d-flex align-items-center">
                             <img src="${image_thumbnail}" alt=""
-                                 style="width: 100px; height: 100px" class="rounded-3"/>
+                                 style="width: 50px; height: 50px" class="rounded-3"/>
                         </div>
                     </td>
                     <td class= "col-4">
@@ -417,7 +417,7 @@
                                <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                      <td class= "col-1">
-                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} VNĐ</p>
+                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} </p>
                     </td>
                     <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
@@ -459,14 +459,14 @@
             $("#noLength").empty();
 
             $("#notification").html('');
-            let srt = ` <label id="notification">Tổng số :${data.content.length}</label>`
+            let srt = ` <label >Tổng số :${data.content.length}</label>`
             $("#notification").prepend(srt);
             $("#tbPost thead").html('');
             let tr = `<tr>
-                <th class= "col-1" style="min-width: 100px">Ảnh</th>
+                <th class= "col-1" >Ảnh</th>
                 <th class= "col-5">Tên bài đăng</th>
                 <th class= "col-5">Địa chỉ</th>
-                <th class= "col-1">Giá</th>
+                <th class= "col-1">Giá (đồng)</th>
                 <th class= "col-1">Ngày đăng</th>
                 <th class= "col-1">Trạng thái</th>
 
@@ -490,7 +490,7 @@
                     <td class= "col-1">
                         <div class="d-flex align-items-center">
                             <img src="${image_thumbnail}" alt=""
-                                 style="width: 100px; height: 100px" class="rounded-3"/>
+                                 style="width: 50px; height: 50px" class="rounded-3"/>
                         </div>
                     </td>
                     <td class= "col-3">
@@ -502,7 +502,7 @@
                                 <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                      <td class= "col-1">
-                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} VNĐ</p>
+                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} </p>
                     </td>
                     <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
