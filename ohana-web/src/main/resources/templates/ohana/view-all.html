@@ -459,13 +459,6 @@
             let districtName = urlParams.get("districtName");
             let provinceName = urlParams.get("provinceName");
 
-
-            if (wardName && wardName.length > 0) {
-                $("#search").val(line1 == null ? wardName : line1 + ", " + wardName)
-            }
-            if (districtName && districtName.length > 0) {
-                $("#search").val(districtName)
-            }
             let mess = [[${mess}]];
 
             $("#price").hide();
@@ -493,6 +486,7 @@
                         wardId: wardId
                     }
                 }
+                $("#search").val(line1 == null ? wardName : line1 + ", " + wardName)
                 doFilter(location);
                 return;
             }
@@ -502,6 +496,7 @@
                         districtId: districtId
                     }
                 }
+                $("#search").val(districtName)
                 doFilter(location);
                 return;
             }
