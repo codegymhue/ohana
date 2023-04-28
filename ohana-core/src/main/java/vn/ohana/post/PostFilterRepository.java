@@ -39,8 +39,12 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
                 predicateList.add(pricePredicate);
             }
 
-            if (filter.getGender() != null && filter.getGender().getId() != null) {
-                Predicate genderIdPredicate = criteriaBuilder.equal(rentHouse.get("gender"), filter.getGender().getId());
+            if (filter.getGender() != null && !filter.getGender().isEmpty()) {
+                List<Predicate> genderPredicateList = new ArrayList<>();
+                for (Long c : filter.getGender()) {
+                    genderPredicateList.add(criteriaBuilder.equal(rentHouse.get("gender").get("id"), c));
+                }
+                Predicate genderIdPredicate = criteriaBuilder.or(genderPredicateList.toArray(new Predicate[0]));
                 predicateList.add(genderIdPredicate);
             }
 

@@ -368,7 +368,16 @@
         });
         filter.categories = categories;
 
-        filter.gender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val();
+        let checkGender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val()
+        if(checkGender == 1) {
+            filter.gender = [1];
+        }
+        if(checkGender == 2){
+            filter.gender = [1,2];
+        }
+        if(checkGender == 3) {
+            filter.gender = [1,3];
+        }
 
         doFilter(filter);
     })
@@ -496,13 +505,6 @@
                 doFilter(location);
                 return;
             }
-
-            // else if (provinceName != null && locationName != null) {
-            //     console.log("có provinceName")
-            //     filter.provinceName = provinceName;
-            //     filter.locationName = locationName;
-            // }
-
             filter.priceStarts = min;
             filter.priceEnds = max;
 
@@ -519,14 +521,19 @@
             });
             filter.categories = categories;
 
-            filter.gender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val();
+            let checkGender = +$('input[type="radio"][name="roomGendersRadio"]:checked').val()
+            if(checkGender == 2){
+                filter.gender = [1,2];
+            }
+            if(checkGender == 3) {
+                filter.gender = [1, 3];
+            }
             doFilter(filter)
         }
     )
 
     function checkPrice(price) {
         if (price >= 1000000) {
-
             switch (post.category.id) {
                 case 1:
                 case 2:
@@ -585,7 +592,6 @@
         let str = '<ul>';
         $.each(response, function (index, item) {
             post = item;
-            let typeRoom = checkPrice(item.roomPrice);
             // let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/" + post.thumbnailId + ".jpg";
             let image_thumbnail = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50/v1681975206/${post.thumbnailId}.jpg`;
             let gender;
@@ -594,7 +600,48 @@
             } else {
                 gender = post.rentHouse.gender.name;
             }
-            let price = item.rentHouse.roomPrice
+            let typeRoom;
+
+            function checkPrice(price) {
+                if (price >= 1000000) {
+                    switch (post.category.id) {
+                        case 1:
+                        case 2:
+                            typeRoom = "tr/phòng"
+                            break;
+                        case 3:
+                            typeRoom = "tr/người"
+                            break;
+                        case 4:
+                        case 5:
+                            typeRoom = "tr/căn"
+                            break;
+                        default:
+                            typeRoom = "tr/phòng"
+                            break;
+                    }
+                    return price / 1000000;
+                } else {
+                    switch (post.category.id) {
+                        case 1:
+                        case 2:
+                            typeRoom = "k/phòng"
+                            break;
+                        case 3:
+                            typeRoom = "k/người"
+                            break;
+                        case 4:
+                        case 5:
+                            typeRoom = "k/căn"
+                            break;
+                        default:
+                            typeRoom = "k/phòng"
+                            break;
+                    }
+                    return price / 1000;
+                }
+            }
+            let price = checkPrice(post.rentHouse.roomPrice);
             str += `<li>
                          <div class="nctjX"><a target="_blank" href="/${post.id}/room">
                                 <div class="X8svI _2DJkz">
@@ -630,7 +677,7 @@
                                                 </div>
                                             </div>
                                             <div class="_1ezn1">
-                                                <span class="_36r7N">${price >= 1000000 ? price / 1000000 : price / 1000}</span>
+                                                <span class="_36r7N">${price}</span>
                                                 <span class="_11LqE">${typeRoom}</span>
                                             </div>
                                         </div>
@@ -688,97 +735,6 @@
         console.log(pageNum)
         doFilter(filter, {paginationPage: pageNum, size: 10})
     }
-
-    // (function (name) {
-    //     let container = $('#pagination-' + name);
-    //     let options = {
-    //         dataSource: data.content,
-    //         callback: function (response, pagination) {
-    //             let str = '<ul>';
-    //             $.each(response, function (index, item) {
-    //                 post = item;
-    //                 let typeRoom = checkPrice(item.price);
-    //
-    //                 let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/" + "post_images/" + post.thumbnailId;
-    //
-    //                 let price = checkPrice(post.rentHouse.price);
-    //                 let gender;
-    //                 if (post.rentHouse.gender.id === 1) {
-    //                     gender = "Nam/Nữ";
-    //                 } else {
-    //                     gender = post.rentHouse.gender.name;
-    //                 }
-    //                 str += `<li>
-    //                      <div class="nctjX"><a target="_blank" href="/${post.id}/room">
-    //                             <div class="X8svI _2DJkz">
-    //                                 <div class="pcGxo">
-    //                                     <div class="_1Gm0b"><img
-    //                                             src="/resources/ohana/img/20c8373d39e30d04cde885686abc2987.png"
-    //                                             alt="verified-img" class="_1TPDO"></div>
-    //                                     <img src=${image_thumbnail}
-    //                                          alt="room-img"
-    //                                          class="_1IOeB">
-    //                                 </div>
-    //                                 <div class="_228LH">
-    //                                     <p class="_3xXyQ" >${post.title}</p>
-    //                                     <div class="_27rcQ">
-    //                                         <div class="_3piN7">
-    //                                             <div class="wpwoK"><span class="icon-nav-home"
-    //                                                                      style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span
-    //                                                    >${post.category.title}</span>
-    //                                                    <span
-    //                                                                      style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span
-    //                                                    >Sức chứa: ${post.rentHouse.capacity}</span></div>
-    //                                             <div class="_3TYbx"><span><span class="icon-nav-roomate"
-    //                                                                             style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"
-    //                                                                            >${gender}</span></span><span><span
-    //                                                     class="icon-squaremeter"
-    //                                                     style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"
-    //                                                    >${post.rentHouse.area}</span>m<sup>2</sup></span>
-    //                                             </div>
-    //                                             <div class="_1jHdY"><span class="icon-location"
-    //                                                                       style="color: rgb(102, 102, 102); font-size: 24px; margin-right: 8px;"></span><span
-    //                                                     class="uKi2L"
-    //                                                    >${post.location.line1}, ${post.location.wardName}, ${post.location.districtName}, ${post.location.provinceName}</span>
-    //                                             </div>
-    //                                         </div>
-    //                                         <div class="_1ezn1">
-    //                                             <span class="_36r7N">${price}</span>
-    //                                             <span class="_11LqE">${typeRoom}</span>
-    //                                         </div>
-    //                                     </div>
-    //                                 </div>
-    //                             </div>
-    //                             <hr>
-    //                         </a>
-    //                         </div>
-    //                         </li>
-    //                 `;
-    //                 // $(container).append(str);
-    //             });
-    //             str += '</ul>';
-    //             container.prev().html(str);
-    //         }
-    //     };
-    //
-    //     container.pagination(options);
-    //
-    //     if (data.length == 0) {
-    //         $('#pagination-demo1').html("");
-    //         let str = ` <ul>
-    //                             <li>
-    //                                 <div class="nctjX">
-    //                                     <div class="X8svI _2DJkz">
-    //                                         <div class="pcGxo">
-    //                                             <div class="_228LH">Không có bài đăng nào phù hợp</div>
-    //                                         </div>
-    //                                     </div>
-    //                                 </div>
-    //                             </li>
-    //                         </ul>`;
-    //         $(container).append(str);
-    //     }
-    // })('demo1');
 
     $("#search").on('input', () => {
         let valueSearch = $("#search").val();
