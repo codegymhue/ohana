@@ -28,7 +28,7 @@ import java.util.Set;
 public class PostFilterParam {
     private User user;
     private String keyword;
-    private Gender gender;
+    private List<Long> gender;
     @Enumerated(EnumType.STRING)
     private StatusPost status;
     private List<Long> categories;

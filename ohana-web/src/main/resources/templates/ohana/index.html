@@ -422,6 +422,9 @@
                     case 5:
                         typeRoom = "tr/căn"
                         break;
+                    default:
+                        typeRoom = "tr/phòng"
+                        break;
                 }
                 return price / 1000000;
             } else {
@@ -436,6 +439,9 @@
                     case 4:
                     case 5:
                         typeRoom = "k/căn"
+                        break;
+                    default:
+                        typeRoom = "k/phòng"
                         break;
                 }
                 return price / 1000;
