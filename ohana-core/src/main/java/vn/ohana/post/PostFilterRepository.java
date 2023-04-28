@@ -26,8 +26,8 @@ public interface PostFilterRepository extends JpaRepository<Post, Long>, JpaSpec
             List<Predicate> predicateList = new ArrayList<>();
 
             if (filter.getKeyword() != null && filter.getKeyword().trim().length() != 0) {
-                Predicate locationPredicate = criteriaBuilder.like(root.get("location"), "%" + filter.getKeyword() + "%");
-                Predicate titlePredicate = criteriaBuilder.like(root.get("title"), "%" + filter.getKeyword() + "%");
+                Predicate locationPredicate = criteriaBuilder.like(criteriaBuilder.upper(root.get("location")), "%" + filter.getKeyword().toUpperCase() + "%");
+                Predicate titlePredicate = criteriaBuilder.like(criteriaBuilder.upper(root.get("title")), "%" + filter.getKeyword().toUpperCase() + "%");
                 Predicate kwPredicate = criteriaBuilder.or(locationPredicate, titlePredicate);
                 predicateList.add(kwPredicate);
             }
