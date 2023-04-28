@@ -79,11 +79,18 @@ public class OhanaControllers {
         }
     }
 
+    @GetMapping("/terms-and-policy")
+    public Object termsAndPolicy() {
+        ModelAndView modelAndView = new ModelAndView("/ohana/layout/terms-and-policy");
+        return modelAndView;
+    }
+
     @PostMapping("/myinfo")
     public Object doMyInfo(@ModelAttribute("userUpdateParam") UserUpdateParam userUpdateParam, BindingResult bindingResult) throws GeneralSecurityException, IOException {
 
         ModelAndView modelAndView = new ModelAndView("/ohana/my-info");
         new UserUpdateParam().validate(userUpdateParam, bindingResult);
+
         if (bindingResult.hasFieldErrors()) {
             modelAndView.addObject("userUpdateParam", userUpdateParam);
             modelAndView.addObject("error", true);
@@ -156,12 +163,11 @@ public class OhanaControllers {
             return modelAndView;
         }
     }
-
     @GetMapping("/post-room")
     public Object postRoom(@ModelAttribute("userResult") UserResult userResult) {
         ModelAndView modelAndView = new ModelAndView("/ohana/post-room");
 
-        if (userResult.getPhone() == null || userResult.getAddress() == null) {
+        if (userResult.getPhone() == null || userResult.getLocation() == null) {
             modelAndView = new ModelAndView("/ohana/my-info");
             UserUpdateParam userUpdateParam = userService.findByEmailUpdate(userResult.getEmail());
             modelAndView.addObject("userResult", userResult);

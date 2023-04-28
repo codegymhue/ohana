@@ -3,6 +3,7 @@ package vn.ohana.user.dto;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import vn.ohana.location.dto.LocationParam;
 import vn.rananu.shared.validation.constraints.NullOrNotBlank;
 
 import javax.validation.constraints.NotBlank;
@@ -17,8 +18,10 @@ public class BaseUser {
     private String email;
     @NotBlank
     private String phone;
-    @NullOrNotBlank
+
     private String description;
-    @NullOrNotBlank
+
     private String address;
+
+    private LocationParam location;
 }

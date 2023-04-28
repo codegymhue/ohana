@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.Instant;
@@ -37,6 +38,10 @@ public class User extends BaseEntity {
 
     @Column(name = "address")
     private String address;
+
+    @Type(type = "location")
+    @Column(name = "location", nullable = false, columnDefinition = "JSON")
+    private Location location;
 
     @Column(name = "role")
     @Enumerated(EnumType.STRING)

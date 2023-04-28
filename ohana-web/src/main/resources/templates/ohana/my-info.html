@@ -78,14 +78,27 @@
                 <div class="col-md-9">
                     <div class="row col-md-12">
                         <input type="hidden" class="form-control" th:field="${userUpdateParam.id}">
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
                             <label class="m-1">Họ và tên:</label>
-                            <input type="text" id="fullName" class="form-control" th:field="${userUpdateParam.fullName}">
+                            <input type="text" id="fullName" class="form-control"
+                                   th:field="${userUpdateParam.fullName}">
                             <label class="error" id="message" th:each="err : ${#fields.errors('fullName')}"
                                    th:text="${err}">
                             </label>
                         </div>
-                        <div class="form-group col-md-6">
+                        <div class="form-group col-md-4">
+                            <label class="m-1">Email:</label>
+                            <input type="email" id="email" class="form-control" placeholder=""
+                                   th:field="${userUpdateParam.email}">
+                            <label class="error" th:each="err : ${#fields.errors('email')}"
+                                   th:text="${err}">
+                            </label>
+                            <th:block th:if="${errorDupliEmail == true}">
+                                <label class="error" th:text="${message}">
+                                </label>
+                            </th:block>
+                        </div>
+                        <div class="form-group col-md-4">
                             <label class="m-1">Số điện thoại:</label>
                             <input type="number" id="phone" class="form-control" placeholder=""
                                    th:field="${userUpdateParam.phone}">
@@ -97,39 +110,62 @@
                                 </label>
                             </th:block>
                         </div>
+
                     </div>
+
                     <div class="row col-md-12">
-                        <div class="form-group col-md-6">
-                            <label class="m-1">Email:</label>
-                            <input type="email" id="email" class="form-control" placeholder="" th:field="${userUpdateParam.email}">
-                            <label class="error" th:each="err : ${#fields.errors('email')}"
+                        <div class="form-group col-md-4">
+                            <label class="m-1">Tỉnh/Thành phố: </label>
+                            <select type="text" class="form-select" id="province" name="province"
+                                    th:field="${userUpdateParam.location.provinceId}">
+                            </select>
+                            <label class="error" th:each="err : ${#fields.errors('location.provinceId')}"
                                    th:text="${err}">
                             </label>
-                            <th:block th:if="${errorDupliEmail == true}">
-                                <label class="error" th:text="${message}">
-                                </label>
-                            </th:block>
+                            <input type="hidden" id="provinceName" th:field="${userUpdateParam.location.provinceName}">
                         </div>
-                        <div class="form-group col-md-6">
-                            <label class="m-1">Mô tả:</label>
-                            <textarea type="text" id="description" class="form-control" placeholder=""
-                                      th:field="${userUpdateParam.description}"></textarea>
-                            <label class="error" th:each="err : ${#fields.errors('address')}"
+                        <div class="form-group col-md-4">
+                            <label class="m-1">Quận/Huyện/Thị Xã: </label>
+                            <select type="text" class="form-select" id="district" name="district"
+                                    th:field="${userUpdateParam.location.districtId}">>
+                            </select>
+                            <label class="error" th:each="err : ${#fields.errors('location.districtId')}"
                                    th:text="${err}">
                             </label>
+                            <input type="hidden" id="districtName" th:field="${userUpdateParam.location.districtName}">
+
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label class="m-1">Phường/Xã: </label>
+                            <select type="text" class="form-select" id="ward" name="ward"
+                                    th:field="${userUpdateParam.location.wardId}">>
+                            </select>
+                            <label class="error" th:each="err : ${#fields.errors('location.wardId')}"
+                                   th:text="${err}">
+                            </label>
+                            <input type="hidden" id="wardName" th:field="${userUpdateParam.location.wardName}">
+
                         </div>
                     </div>
 
                     <div class="row col-md-12">
                         <div class="form-group col-md-12">
                             <label class="m-1">Địa chỉ:</label>
-                            <input type="text" id="line1" class="form-control" th:field="${userUpdateParam.address}">
+                            <input type="text" id="line1" class="form-control"
+                                   th:field="${userUpdateParam.location.line1}">
+                        </div>
+                    </div>
+                    <div class="row col-md-12">
+                        <div class="form-group col-md-12">
+                            <label class="m-1">Mô tả:</label>
+                            <textarea type="text" rows="2" id="description" class="form-control" placeholder=""
+                                      th:field="${userUpdateParam.description}"></textarea>
                             <label class="error" th:each="err : ${#fields.errors('description')}"
                                    th:text="${err}">
                             </label>
                         </div>
-
                     </div>
+
                 </div>
                 <div class="col-md-3" style="position: relative;top: 10px;">
                     <button type="button" id="upload_widget" class="col-md-3 w-100 h-100">Up anh
@@ -159,7 +195,19 @@
 
 <th:block th:replace="/ohana/layout/script :: script"/>
 <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+
+    var userWardId = /*[[${userUpdateParam.location.wardId}]]*/ null;
+    var userDistrictId = /*[[${userUpdateParam.location.districtId}]]*/ null;
+    var userProvinceId = /*[[${userUpdateParam.location.provinceId}]]*/ null;
+
+    /*]]>*/
+
+</script>
 <script>
+
+
     var cloudinaryWidget = cloudinary.createUploadWidget(
         {
             cloudName: "dh8nlcoul",
@@ -169,7 +217,7 @@
         (error, result) => {
             if (!error && result && result.event === "success") {
                 console.log("Done! Here is the image info: ", result.info);
-                let {public_id,url} = result.info;
+                let {public_id, url} = result.info;
                 $("#imgPreview").attr("src", url)
                 $('#urlImage').val(public_id);
             }
@@ -179,150 +227,153 @@
         cloudinaryWidget.open();
     });
 
-    // let page = {
-    //     url: {
-    //         getAllCategories: App.BASE_URL_API + "/categories",
-    //         getAllUtilities: App.BASE_URL_API + "/utilities",
-    //         getAllGenders: App.BASE_URL_API + "/genders",
-    //         doCreatePost: App.BASE_URL_API + "/posts/postsNew",
-    //         doFilter: App.BASE_URL_API + "/posts/filter",
-    //         getAllProvinces: App.BASE_URL_PROVINCE,
-    //     },
-    //     element: {},
-    //     loadData: {},
-    //     commands: {},
-    //     dialogs: {
-    //         elements: {},
-    //         loadData: {},
-    //         commands: {},
-    //         alertDanger: {}
-    //     },
-    //     initializeControlEvent: {},
-    //     // let isClickInside = specifiedElement.contains(event.target)
-    // }
-    // page.dialogs.elements.name = $('#fullName');
-    // page.dialogs.elements.phone = $('#phone');
-    // page.dialogs.elements.email = $('#email');
-    // page.dialogs.elements.description = $('#description');
-    //
-    // page.dialogs.elements.province = $('#province');
-    // page.dialogs.elements.district = $('#district');
-    // page.dialogs.elements.ward = $('#ward');
-    // page.dialogs.elements.line1 = $('#line1');
-    //
-    // page.dialogs.elements.urlImage = $('#urlImage');
-    // page.dialogs.elements.imgPreview = $('#imgPreview');
-    //
-    // page.dialogs.loadData.getAllProvinces = () => {
-    //     return $.ajax({
-    //         type: 'GET',
-    //         url: 'https://vapi.vnappmob.com/api/province/'
-    //     })
-    //         .done((data) => {
-    //             let str = `<option value="0" >--Chọn Tỉnh/Thành phố--</option>`
-    //             page.dialogs.elements.province.append(str);
-    //             $.each(data.results, (i, item) => {
-    //                 if (item.province_id == 48 || item.province_id == 46){
-    //                     let str = `<option value="${item.province_id}">${item.province_name}</option>`;
-    //                     page.dialogs.elements.province.append(str);
-    //                 }
-    //             })
-    //             addEventChangeProvince();
-    //             addEventChangeDistrict();
-    //
-    //         })
-    //         .fail((jqXHR) => {
-    //             AppBase.SweetAlert.showErrorAlert('Load Provinces fail');
-    //         })
-    // }
-    //
-    // page.dialogs.loadData.getAllDistrictsByProvince = (provinceId) => {
-    //     return $.ajax({
-    //         type: 'GET',
-    //         url: 'https://vapi.vnappmob.com/api/province/district/' + provinceId
-    //     })
-    //         .done((data) => {
-    //             page.dialogs.elements.district.empty();
-    //             let str = `<option value="0"  >--Chọn Quận/Thị xã/Huyện--</option>`
-    //             page.dialogs.elements.district.append(str);
-    //             $.each(data.results, (i, item) => {
-    //                 let str = `<option value="${item.district_id}">${item.district_name}</option>`;
-    //
-    //                 page.dialogs.elements.district.append(str);
-    //
-    //             })
-    //
-    //
-    //         })
-    //         .fail((jqXHR) => {
-    //             AppBase.SweetAlert.showErrorAlert('Load Districts fail');
-    //         })
-    // }
-    //
-    // page.dialogs.loadData.getAllWardsByDistrict = (districtId) => {
-    //     return $.ajax({
-    //         type: 'GET',
-    //         url: 'https://vapi.vnappmob.com/api/province/ward/' + districtId
-    //     })
-    //         .done((data) => {
-    //             page.dialogs.elements.ward.empty();
-    //             let str = `<option value="0" >--Chọn Phường/Xã--</option>`
-    //             page.dialogs.elements.ward.append(str);
-    //             $.each(data.results, (i, item) => {
-    //                 let str = `<option value="${item.ward_id}">${item.ward_name}</option>`;
-    //
-    //                 page.dialogs.elements.ward.append(str);
-    //             })
-    //
-    //         })
-    //         .fail((jqXHR) => {
-    //             AppBase.SweetAlert.showErrorAlert('Load Wards fail');
-    //         })
-    // }
-    //
-    // function addEventChangeProvince() {
-    //     page.dialogs.elements.province.on("change", function () {
-    //         let provinceId = $(this).val();
-    //         console.log(provinceId)
-    //
-    //         if (provinceId !== 0) {
-    //             page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
-    //                 let districtId = page.dialogs.elements.district.val();
-    //                 page.dialogs.loadData.getAllWardsByDistrict(districtId);
-    //             })
-    //         }
-    //     })
-    // }
-    //
-    // function addEventChangeDistrict() {
-    //
-    //     page.dialogs.elements.district.on("change", function () {
-    //         let districtId = $(this).val();
-    //
-    //         if (districtId !== 0) {
-    //
-    //             page.dialogs.loadData.getAllWardsByDistrict(districtId);
-    //         }
-    //
-    //     })
-    // }
-    //
-    // function resetLocationRegion() {
-    //     page.dialogs.loadData.getAllProvinces().then(() => {
-    //         let provinceId = page.dialogs.elements.province.val();
-    //
-    //         page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
-    //             let districtId = page.dialogs.elements.district.val();
-    //
-    //             page.dialogs.loadData.getAllWardsByDistrict(districtId);
-    //         });
-    //     });
-    // }
-    //
-    // $(() => {
-    //     resetLocationRegion();
-    // })
+    let page = {
+        url: {
+            getAllCategories: App.BASE_URL_API + "/categories",
+            getAllUtilities: App.BASE_URL_API + "/utilities",
+            getAllGenders: App.BASE_URL_API + "/genders",
+            doCreatePost: App.BASE_URL_API + "/posts/postsNew",
+            doFilter: App.BASE_URL_API + "/posts/filter",
+            getAllProvinces: App.BASE_URL_PROVINCE,
+        },
+        element: {},
+        loadData: {},
+        commands: {},
+        dialogs: {
+            elements: {},
+            loadData: {},
+            commands: {},
+            alertDanger: {}
+        },
+        initializeControlEvent: {},
+        // let isClickInside = specifiedElement.contains(event.target)
+    }
+    page.dialogs.elements.name = $('#fullName');
+    page.dialogs.elements.phone = $('#phone');
+    page.dialogs.elements.email = $('#email');
+    page.dialogs.elements.description = $('#description');
 
+    page.dialogs.elements.province = $('#province');
+    page.dialogs.elements.district = $('#district');
+    page.dialogs.elements.ward = $('#ward');
+    page.dialogs.elements.line1 = $('#line1');
+
+    page.dialogs.elements.urlImage = $('#urlImage');
+    page.dialogs.elements.imgPreview = $('#imgPreview');
+
+    function addEventChangeWard() {
+        page.dialogs.elements.ward.on("change", function () {
+            $("#wardName").val($(this).find(':selected').text());
+        });
+    }
+
+    page.dialogs.loadData.getAllProvinces = () => {
+        return $.ajax({
+            type: 'GET',
+            url: 'https://vapi.vnappmob.com/api/province/'
+        })
+            .done((data) => {
+                let str = `<option value="0" >--Chọn Tỉnh/Thành phố--</option>`
+                page.dialogs.elements.province.append(str);
+                $.each(data.results, (i, item) => {
+                    let str = `<option ${!!userProvinceId && userProvinceId === +item.province_id ? "selected" : ""} value="${item.province_id}">${item.province_name}</option>`;
+                    page.dialogs.elements.province.append(str);
+                })
+
+                addEventChangeProvince();
+                addEventChangeDistrict();
+                addEventChangeWard();
+
+            })
+            .fail((jqXHR) => {
+                AppBase.SweetAlert.showErrorAlert('Load Provinces fail');
+            })
+    }
+
+    page.dialogs.loadData.getAllDistrictsByProvince = (provinceId) => {
+        return $.ajax({
+            type: 'GET',
+            url: 'https://vapi.vnappmob.com/api/province/district/' + provinceId
+        })
+            .done((data) => {
+                page.dialogs.elements.district.empty();
+                let str = `<option value="0"  >--Chọn Quận/Thị xã/Huyện--</option>`
+                page.dialogs.elements.district.append(str);
+                $.each(data.results, (i, item) => {
+                    let str = `<option ${!!userDistrictId && userDistrictId === +item.district_id ? "selected" : ""} value="${item.district_id}">${item.district_name}</option>`;
+
+                    page.dialogs.elements.district.append(str);
+
+                })
+
+
+            })
+            .fail((jqXHR) => {
+                AppBase.SweetAlert.showErrorAlert('Load Districts fail');
+            })
+    }
+
+    page.dialogs.loadData.getAllWardsByDistrict = (districtId) => {
+        return $.ajax({
+            type: 'GET',
+            url: 'https://vapi.vnappmob.com/api/province/ward/' + districtId
+        })
+            .done((data) => {
+                page.dialogs.elements.ward.empty();
+                let str = `<option value="0" >--Chọn Phường/Xã--</option>`
+                page.dialogs.elements.ward.append(str);
+                $.each(data.results, (i, item) => {
+                    let str = `<option ${!!userWardId && userWardId === +item.ward_id ? "selected" : ""} value="${item.ward_id}">${item.ward_name}</option>`;
+                    page.dialogs.elements.ward.append(str);
+                })
+
+            })
+            .fail((jqXHR) => {
+                AppBase.SweetAlert.showErrorAlert('Load Wards fail');
+            })
+    }
+
+    function addEventChangeProvince() {
+        page.dialogs.elements.province.on("change", function () {
+            let provinceId = $(this).val();
+            $("#provinceName").val($(this).find(':selected').text());
+            if (provinceId !== 0) {
+                page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
+                    let districtId = page.dialogs.elements.district.val();
+                    page.dialogs.loadData.getAllWardsByDistrict(districtId);
+                })
+            }
+        })
+    }
+
+    function addEventChangeDistrict() {
+
+        page.dialogs.elements.district.on("change", function () {
+            let districtId = $(this).val();
+            $("#districtName").val($(this).find(':selected').text());
+            if (districtId !== 0) {
+
+                page.dialogs.loadData.getAllWardsByDistrict(districtId);
+            }
+
+        })
+    }
+
+    function resetLocationRegion() {
+        page.dialogs.loadData.getAllProvinces().then(() => {
+            let provinceId = page.dialogs.elements.province.val();
+
+            page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
+                let districtId = page.dialogs.elements.district.val();
+
+                page.dialogs.loadData.getAllWardsByDistrict(districtId);
+            });
+        });
+    }
+
+    $(() => {
+        resetLocationRegion();
+    })
 
 
 </script>

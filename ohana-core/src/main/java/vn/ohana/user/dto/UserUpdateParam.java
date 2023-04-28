@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import vn.ohana.entities.Location;
 import vn.ohana.entities.Role;
 import vn.ohana.entities.UserStatus;
+import vn.ohana.location.dto.LocationParam;
 
 import java.time.Instant;
 
@@ -27,9 +29,9 @@ public class UserUpdateParam extends BaseUser implements Validator {
 
         String fullName = userUpdateParam.getFullName();
         String email = userUpdateParam.getEmail();
-        String address = userUpdateParam.getAddress();
         String description = userUpdateParam.getDescription();
         String phone = userUpdateParam.getPhone();
+        LocationParam locationParam = userUpdateParam.getLocation();
 
         if (fullName.length() == 0) {
             errors.rejectValue("fullName", "userupdate.validation.fullName.notBlank");
@@ -47,8 +49,22 @@ public class UserUpdateParam extends BaseUser implements Validator {
             }
         }
 
-        if (address.length() > 255) {
-            errors.rejectValue("address", "user.validation.address.description");
+        if (locationParam == null) {
+            errors.rejectValue("location","user.validation.location.null");
+        }else {
+            if (locationParam.getProvinceId() == 0) {
+                errors.rejectValue("location.provinceId","user.validation.location.emptyProvince");
+            }
+            if (locationParam.getDistrictId() == 0) {
+                errors.rejectValue("location.districtId","user.validation.location.emptyDistrict");
+            }
+            if (locationParam.getWardId() == 0) {
+                errors.rejectValue("location.wardId","user.validation.location.emptyWard");
+            }
+
+            if (locationParam.getLine1().length() > 255) {
+                errors.rejectValue("address", "user.validation.address.addressLength");
+            }
         }
 
         if (description.length() > 255) {

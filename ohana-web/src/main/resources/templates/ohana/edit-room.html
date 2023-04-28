@@ -111,11 +111,11 @@
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Giá phòng (Đơn vị: VNĐ/Tháng)</label>
-                    <input type="number" class="form-control" id="roomPrice"  name="roomPrice" th:field="${postUpdateParam.rentHouse.roomPrice}">
+                    <input type="text" class="form-control" id="roomPrice"  name="roomPrice" th:field="${postUpdateParam.rentHouse.roomPrice}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền cọc (Đơn vị: VNĐ/Tháng)</label>
-                    <input type="number" class="form-control" id="deposit" name="deposit" th:field="${postUpdateParam.rentHouse.deposit}">
+                    <input type="text" class="form-control" id="deposit" name="deposit" th:field="${postUpdateParam.rentHouse.deposit}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Diện tích (m2)</label>
@@ -125,16 +125,16 @@
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền điện (Đơn vị: VNĐ/kWh)</label>
-                    <input type="text" class="form-select" name="electricityPrice" id="electricityPrice" th:field="${postUpdateParam.rentHouse.electricityPrice}">
+                    <input type="text" class="form-control" name="electricityPrice" id="electricityPrice" th:field="${postUpdateParam.rentHouse.electricityPrice}">
                     </input>
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền nước (Đơn vị: VNĐ/m³)</label>
-                    <input type="number" class="form-control" id="waterPrice"  name="waterPrice" th:field="${postUpdateParam.rentHouse.waterPrice}">
+                    <input type="text" class="form-control" id="waterPrice"  name="waterPrice" th:field="${postUpdateParam.rentHouse.waterPrice}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền wifi (Đơn vị: VNĐ/Tháng)</label>
-                    <input type="number" class="form-control" id="wifiPrice" name="wifiPrice" th:field="${postUpdateParam.rentHouse.wifiPrice}">
+                    <input type="text" class="form-control" id="wifiPrice" name="wifiPrice" th:field="${postUpdateParam.rentHouse.wifiPrice}">
                 </div>
             </div>
 
@@ -300,7 +300,7 @@
         renderCarousel();
     }
     const renderUploadImage = (id) =>{
-        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/v1681975206/${id}.jpg`
+        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/v1681975206/${id}.jpg`
         return `<div class="position-relative">
                     <button data-imgid="${id}" id="imgDeleteBtn" onclick="handleDeleteUploadImage(this.dataset.imgid)" class="btn-outline-danger btn-sm btn"><i class="fas fa-times-circle"></i></button>
                     <img class="post_img_preview" src="${url}" alt="Uploaded images"/>
@@ -353,7 +353,7 @@
             url: "http://localhost:8080/api/posts/" + postId
         }).done((data)=>{
 
-            let thumbnail = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_250/v1681980805/${data.thumbnailId}.jpg`;
+            let thumbnail = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_250/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/v1681980805/${data.thumbnailId}.jpg`;
             $("#imgPreviewThumb").attr("src",thumbnail);
 
             post = data;
@@ -367,12 +367,12 @@
             page.commands.getAllUtilities(utilitiesByIdUser);
             page.dialogs.elements.gender.val(post.rentHouse.gender.id);
             page.dialogs.elements.capacity.val(post.rentHouse.capacity);
-            page.dialogs.elements.roomPrice.val(post.rentHouse.roomPrice);
+            page.dialogs.elements.roomPrice.val(formatCurrency(post.rentHouse.roomPrice));
             page.dialogs.elements.area.val(post.rentHouse.area);
-            page.dialogs.elements.electricityPrice.val(post.rentHouse.electricityPrice);
-            page.dialogs.elements.waterPrice.val(post.rentHouse.waterPrice);
-            page.dialogs.elements.wifiPrice.val(post.rentHouse.wifiPrice);
-            page.dialogs.elements.deposit.val(post.rentHouse.deposit);
+            page.dialogs.elements.electricityPrice.val(formatCurrency(post.rentHouse.electricityPrice));
+            page.dialogs.elements.waterPrice.val(formatCurrency(post.rentHouse.waterPrice));
+            page.dialogs.elements.wifiPrice.val(formatCurrency(post.rentHouse.wifiPrice));
+            page.dialogs.elements.deposit.val(formatCurrency(post.rentHouse.deposit));
 
             page.dialogs.elements.locationRegionId.val(location.id);
             page.dialogs.elements.province.val(location.provinceId);
@@ -563,7 +563,7 @@
         rules: {
             title: {
                 required: true,
-                minlength: 15,
+                minlength: 20,
                 maxlength: 100
             },
             descriptionContent: {
@@ -579,15 +579,13 @@
             },
             "rentHouse.roomPrice": {
                 required: true,
-                number: true,
-                min: 100000,
-                max: 100000000
+                minMoney: 100000,
+                maxMoney: 100000000
             },
             "rentHouse.deposit": {
                 required: true,
-                number: true,
-                min: 100000,
-                max: 100000000
+                minMoney: 100000,
+                maxMoney: 100000000
             },
             "rentHouse.area": {
                 required: true,
@@ -603,30 +601,27 @@
             },
             "rentHouse.electricityPrice": {
                 required: true,
-                number: true,
-                min: 1000,
-                max: 20000
+                minDNW: 1000,
+                maxDNW: 3000000
             },
             "rentHouse.waterPrice": {
                 required: true,
-                number: true,
-                min: 1000,
-                max: 30000
+                minDNW: 1000,
+                maxDNW: 3000000
             },
             "rentHouse.wifiPrice": {
                 required: true,
-                number: true,
-                min: 10000,
-                max: 3000000
+                minDNW: 1000,
+                maxDNW: 3000000
             },
-            "location.province": {
-                required: true,
+            "location.provinceId": {
+                selectProvince: true
             },
-            "location.district": {
-                required: true,
+            "location.districtId": {
+                selectDistrict: true
             },
-            "location.ward": {
-                required: true,
+            "location.wardId": {
+                selectWard: true
             },
             "location.line1": {
                 required: true,
@@ -653,21 +648,15 @@
             },
             "rentHouse.roomPrice": {
                 required: "Giá không được để trống",
-                number: "nhập số",
-                min: "Giá không được dưới 100.000 đồng",
-                max: "Giá không được vượt quá 100.000.000 đồng"
             },
             "rentHouse.deposit": {
                 required: "Giá không được để trống",
-                number: "nhập số",
-                min: "Giá không được dưới 100.000 đồng",
-                max: "Giá không được vượt quá 100.000.000 đồng"
             },
             "rentHouse.area": {
                 required: "Diện tích không được để trống",
                 number: "Chỉ nhập số",
                 min: "Diện tích không được dưới 10 m2",
-                max: "Diện tích không được vượt quá 1000 m2"
+                max: "Diện tích không được vượt quá 1.000 m2"
             },
             "rentHouse.capacity": {
                 required: "Sức chứa không được để trống",
@@ -677,30 +666,12 @@
             },
             "rentHouse.electricityPrice": {
                 required: "Tiền điện không được để trống",
-                number: "Chỉ nhập số",
-                min: "Tiền điện dưới 1000 đồng",
-                max: "Tiền điện vượt quá 20.000 đồng"
             },
             "rentHouse.waterPrice": {
                 required: "Tiền nước không được để trống",
-                number: "Chỉ nhập số",
-                min: "Tiền nước không dưới 1000 đồng",
-                max: "Tiền nước không vượt quá 30.000 đồng"
             },
             "rentHouse.wifiPrice": {
                 required: "Tiền wifi không được để trống",
-                number: "Chỉ nhập số",
-                min: "Tiền wifi không dưới 10.000 đồng",
-                max: "Tiền wifi không vượt quá 3.000.000 đồng"
-            },
-            "location.province": {
-                required: "Vui lòng chọn Tỉnh/Thành Phố",
-            },
-            "location.district": {
-                required: "Vui lòng chọn Quận/Huyện/Thị Xã",
-            },
-            "location.ward": {
-                required: "Vui lòng chọn Phường/Xã",
             },
             "location.line1": {
                 required: "Địa chỉ không được để trống",
@@ -743,14 +714,14 @@
         location.wardName = $("#ward").find("option:selected").text();
         location.line1 = $("#line1").val();
 
-        rentHouse.roomPrice = $("#roomPrice").val();
-        rentHouse.deposit = $("#deposit").val();
+        rentHouse.roomPrice = Number(($("#roomPrice").val()).replaceAll(/[.]/g,""));
+        rentHouse.deposit = Number(($("#deposit").val()).replaceAll(/[.]/g,""));
         rentHouse.area = $("#area").val();
         rentHouse.capacity = $("#capacity").val();
         rentHouse.gender = $("#gender").val();
-        rentHouse.electricityPrice = $("#electricityPrice").val();
-        rentHouse.waterPrice = $("#waterPrice").val();
-        rentHouse.wifiPrice = $("#wifiPrice").val();
+        rentHouse.electricityPrice =  Number(($("#electricityPrice").val()).replaceAll(/[.]/g,""));
+        rentHouse.waterPrice = Number(($("#waterPrice").val()).replaceAll(/[.]/g,""));
+        rentHouse.wifiPrice = Number(($("#wifiPrice").val()).replaceAll(/[.]/g,""));
 
         postDTO.title = title;
         postDTO.descriptionContent = descriptionContent;
@@ -787,7 +758,71 @@
                 showError(message);
             })
     }
+
+    function initValidator() {
+
+        $.validator.addMethod("selectProvince", function (value, element) {
+            return this.optional(element) || value > 0;
+        }, "Hãy chọn Tỉnh/thành phố");
+
+        $.validator.addMethod("selectDistrict", function (value, element) {
+            return this.optional(element) || value > 0;
+        }, "Hãy chọn Quận/Huyện/Thị Xã");
+
+        $.validator.addMethod("selectWard", function (value, element) {
+            return this.optional(element) || value > 0;
+        }, "Hãy chọn Phường/Xã");
+
+        $.validator.addMethod("maxMoney", function (value, element, maxvalue) {
+            console.log(element)
+            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") <= maxvalue);
+        }, "Vui lòng nhập số và không vượt quá 100.000.000 đồng");
+
+        $.validator.addMethod("minMoney", function (value, element, minMoney) {
+            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") >= minMoney);
+        }, "Vui lòng nhập số và không dưới 100.000 đồng");
+
+        $.validator.addMethod("maxDNW", function (value, element, maxDNW) {
+            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") <= maxDNW);
+        }, "Vui lòng nhập số và không vượt quá 3.000.000 đồng");
+
+        $.validator.addMethod("minDNW", function (value, element, minDNW) {
+            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") >= minDNW);
+        }, "Vui lòng nhập số và không dưới 1.000 đồng");
+
+    }
+
+    function formatCurrency(defaultVl) {
+        let valueRep = defaultVl.toString().replaceAll('.','');
+        return valueRep.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    }
+
+    function formatCurrencyFields() {
+        $("#roomPrice").on("blur", function () {
+            $(this).val(formatCurrency($(this).val()));
+        });
+
+        $("#deposit").on("blur", function () {
+            $(this).val(formatCurrency($(this).val()));
+        });
+
+        $("#electricityPrice").on("blur", function () {
+            $(this).val(formatCurrency($(this).val()));
+        });
+
+        $("#waterPrice").on("blur", function () {
+            $(this).val(formatCurrency($(this).val()));
+        });
+
+        $("#wifiPrice").on("blur", function () {
+            $(this).val(formatCurrency($(this).val()));
+        });
+    }
+
+
     page.loadData = () => {
+        formatCurrencyFields();
+        initValidator();
         page.commands.getAllCategories();
         page.commands.getAllGenders();
         page.commands.getAllProvinces().then(() => {

@@ -200,6 +200,8 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResult updateStatusById(PostUpdateParam postUpdateParam) {
         Post post = findById(postUpdateParam.getId());
+        post.setStatus(StatusPost.PENDING_REVIEW);
+        postUpdateParam.setStatus(StatusPost.PENDING_REVIEW);
         postMapper.transferFields(postUpdateParam, post, true);
         try {
             if (postUpdateParam.getStatus().equals(StatusPost.PUBLISHED)) {

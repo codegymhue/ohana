@@ -22,6 +22,7 @@ import vn.ohana.entities.Role;
 import vn.ohana.entities.User;
 import vn.ohana.entities.UserStatus;
 import vn.ohana.google.dto.GooglePojo;
+import vn.ohana.location.LocationMapper;
 import vn.ohana.post.PostMediaService;
 import vn.ohana.report.dto.DateReportResult;
 import vn.ohana.user.dto.*;
@@ -56,6 +57,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     PostMediaService postMediaService;
+
+    @Autowired
+    LocationMapper locationMapper;
 
     @Autowired
     @Qualifier("getJavaMailSender")
@@ -180,17 +184,17 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
+    @Transactional
     public UserResult save(UserUpdateParam userUpdateParam) {
-        User user = findById(userUpdateParam.getId());
 
+        User user = findById(userUpdateParam.getId());
         user.setFullName(userUpdateParam.getFullName());
         user.setEmail(userUpdateParam.getEmail());
         user.setPhone(userUpdateParam.getPhone());
-        user.setAddress(userUpdateParam.getAddress());
+        user.setLocation(locationMapper.toEntity(userUpdateParam.getLocation()));
         if (userUpdateParam.getPassword() != null) {
             user.setPassword(userUpdateParam.getPassword());
         }
-
         user.setDescription(userUpdateParam.getDescription());
         user.setThumbnailId(userUpdateParam.getThumbnailId());
         userRepository.save(user);
