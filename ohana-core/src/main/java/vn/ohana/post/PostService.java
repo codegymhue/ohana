@@ -9,7 +9,6 @@ import vn.ohana.post.dto.PostCreateParam;
 import vn.ohana.post.dto.PostFilterParam;
 import vn.ohana.post.dto.PostResult;
 import vn.ohana.post.dto.PostUpdateParam;
-import vn.ohana.report.dto.DateReportResult;
 import vn.ohana.user.dto.UserUpdateParam;
 
 import java.time.Instant;
@@ -32,6 +31,8 @@ public interface PostService {
     Page<PostResult> filterPublishedPosts(PostFilterParam filter, Pageable pageable);
 
     PostResult getById(Long pId);
+
+    PostResult updateById(PostUpdateParam postUpdateParam);
 
     PostResult updateStatusById(PostUpdateParam postUpdateParam);
 

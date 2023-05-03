@@ -3,7 +3,6 @@ package vn.ohana.controllers.post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +64,11 @@ public class PostAPI {
     @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
     @PatchMapping ("/{id}")
     public ResponseEntity<?> updateById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
+        return new ResponseEntity<>( postService.updateById(postUpdateParam), HttpStatus.OK);
+    }
+    @PreAuthorize("hasAnyAuthority('ADMIN','USER')")
+    @PatchMapping ("/status/{id}")
+    public ResponseEntity<?> updateStatusById(@PathVariable Long id,@RequestBody PostUpdateParam postUpdateParam) {
         return new ResponseEntity<>( postService.updateStatusById(postUpdateParam), HttpStatus.OK);
     }
 

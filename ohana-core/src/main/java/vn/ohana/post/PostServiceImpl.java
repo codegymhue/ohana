@@ -200,7 +200,24 @@ public class PostServiceImpl implements PostService {
     @Transactional
     public PostResult updateStatusById(PostUpdateParam postUpdateParam) {
         Post post = findById(postUpdateParam.getId());
-        post.setStatus(StatusPost.PENDING_REVIEW);
+        post.setStatus(postUpdateParam.getStatus());
+        try {
+            if (postUpdateParam.getStatus().equals(StatusPost.PUBLISHED)) {
+                mailService.sendPostApprovedMail(post.getUser().getEmail(), post.getTitle());
+            }
+            if (postUpdateParam.getStatus().equals(StatusPost.REFUSED)) {
+                mailService.sendPostRefusedMail(post.getUser().getEmail(), post.getTitle());
+            }
+        } catch (InterruptedException e) {
+            throw new OperationException("mai.exception.sendError");
+        }
+        return addPostResultUtilities(post, post.getUtilities());
+    }
+
+    @Override
+    @Transactional
+    public PostResult updateById(PostUpdateParam postUpdateParam) {
+        Post post = findById(postUpdateParam.getId());
         postUpdateParam.setStatus(StatusPost.PENDING_REVIEW);
         postMapper.transferFields(postUpdateParam, post, true);
         try {
