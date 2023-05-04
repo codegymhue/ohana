@@ -15,13 +15,12 @@ public class SignUpParam implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return LoginParam.class.isAssignableFrom(clazz);
+        return SignUpParam.class.isAssignableFrom(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
         SignUpParam signUpParam = (SignUpParam) target;
-
         String fullName = signUpParam.getFullName();
         String email = signUpParam.getEmail();
         String password = signUpParam.getPassWord();

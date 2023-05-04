@@ -38,7 +38,7 @@ public interface UserService  {
 
     UserDetails signUpByGoogle(GooglePojo googlePojo);
 
-    UserResult signUp(String url, SignUpParam signUpParam) throws MessagingException, UnsupportedEncodingException;
+    UserResult signUp(String url, SignUpParam signUpParam);
 
     boolean existsByPhoneOrEmail(String phoneOrEmail);
 

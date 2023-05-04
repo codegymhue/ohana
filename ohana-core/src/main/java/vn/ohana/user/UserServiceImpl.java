@@ -283,7 +283,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResult signUp(String url, SignUpParam signUpParam) throws MessagingException, UnsupportedEncodingException {
+    public UserResult signUp(String url, SignUpParam signUpParam)  {
 //        check email tồn tại hay chưa
 //        Lưu user
 //        set các trường mặc định
@@ -332,7 +332,7 @@ public class UserServiceImpl implements UserService {
 
 
     @ResponseBody
-    public void sendMailSignUp(String url, UserResult UserResult) throws MessagingException, UnsupportedEncodingException {
+    public void sendMailSignUp(String url, UserResult UserResult)  {
 
         String toAddress = UserResult.getEmail();
         String subject = "XÁC THỰC TÀI KHOẢN OHANA";
@@ -343,14 +343,19 @@ public class UserServiceImpl implements UserService {
                 + "Xin chân thành cảm ơn, <br>"
                 + "Ohana team.";
 
-        MimeMessage message = emailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+        try {
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            helper.setFrom(MY_EMAIL, "Ohana");
+            helper.setTo(toAddress);
+            helper.setSubject(subject);
+            helper.setText(content, true);
+            emailSender.send(message);
 
-        helper.setFrom(MY_EMAIL, "Ohana");
-        helper.setTo(toAddress);
-        helper.setSubject(subject);
-        helper.setText(content, true);
-        emailSender.send(message);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
     }
 
     @Override

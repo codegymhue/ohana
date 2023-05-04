@@ -167,7 +167,7 @@ public class LoginControllers extends BaseController {
         }
     }
 
-    public Object loginGoogle(GGSignInParam ggSignInParam, HttpServletResponse response, Model model) throws GeneralSecurityException, IOException {
+    public Object loginGoogle(GGSignInParam ggSignInParam, HttpServletResponse response, Model model) {
         try {
             UserDetails userDetails = null;
             Cookie cookie;
@@ -196,14 +196,24 @@ public class LoginControllers extends BaseController {
     }
 
     @PostMapping("/sign-up")
-    public Object doSignUp(HttpServletRequest request, @ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute SignUpParam signUpParam, Model model, HttpServletResponse response) throws GeneralSecurityException, IOException {
+    public Object doSignUp(HttpServletRequest request, @ModelAttribute GGSignInParam ggSignInParam, @ModelAttribute SignUpParam signUpParam , BindingResult bindingResult,Model model, HttpServletResponse response)  throws GeneralSecurityException, IOException{
         System.out.println(request.getRequestURL().toString());
         String url = request.getRequestURL().toString();
         ModelAndView modelAndView = new ModelAndView("/ohana/sign-up");
         Cookie cookie;
+        new SignUpParam().validate(signUpParam, bindingResult);
+        if (bindingResult.hasFieldErrors()) {
+            return modelAndView;
+        }
 
         if (ggSignInParam.getCredential() == null) {
-            try {
+                boolean exists = userService.existsByEmail(signUpParam.getEmail());
+                if (exists) {
+                    model.addAttribute("error", true);
+                    model.addAttribute("messages", "Email đã tồn tại tron hệ thống");
+                    return modelAndView;
+                }
+
                 UserResult userResult = userService.signUp(url, signUpParam);
 
                 cookie = new Cookie("cookie", userResult.getEmail());
@@ -215,12 +225,6 @@ public class LoginControllers extends BaseController {
                 response.addCookie(cookie);
 
                 return "redirect:/sign-in";
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                model.addAttribute("error", true);
-                model.addAttribute("messages", e.getMessage());
-                return modelAndView;
-            }
         } else {
             loginGoogle(ggSignInParam, response, model);
             return "redirect:/";

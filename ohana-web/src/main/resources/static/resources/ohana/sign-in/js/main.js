@@ -16,17 +16,20 @@
         var check = true;
         $("#phoneOrEmail").removeClass('error');
         let regexEmail = /\w+\w*@\w+(\.\w+)$/;
-        let regexPhone = /(84|0[1-9])+([0-9]{8})\b/;
         let regexPassword = /(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[-`!~({})|.,*_@#$%^&+=/])(?=\S+$).{6,}$/;
         let phoneOrEmail = $("#phoneOrEmail").val();
-        if (!regexEmail.test(phoneOrEmail) && !regexPhone.test(phoneOrEmail)) {
+        if (!regexEmail.test(phoneOrEmail)) {
             // alert($("#phoneOrEmail").val());
             $("#checkPhoneOrEmail").html("");
             let str = `<label id="title-error" class="error" for="title">Vui lòng nhập đúng định dạng Email</label>`;
             $("#checkPhoneOrEmail").append(str);
             check = false;
         }
-        console.log("check")
+        if ((phoneOrEmail == "")) {
+            let str = `<label id="title-error" class="error" for="title">Email không được để trống</label>`;
+            $("#checkPhoneOrEmail").append(str);
+        }
+        console.log("check");
 
         for (var i = 0; i < input.length; i++) {
             if (validate(input[i]) == false) {
