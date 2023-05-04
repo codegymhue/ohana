@@ -36,7 +36,7 @@
                                     <div class="wj6oE">
                                         <span class="icon-location-fill"
                                               style="color: rgb(247, 52, 134); font-size: 16px;"></span>
-                                        <span class="_1qNTb">OHANA</span>
+                                        <span class="_1qNTb">Huế</span>
                                     </div>
                                 </div>
                                 <div class="_1pVEQ">
@@ -113,19 +113,22 @@
                                     <div class="range-slide">
                                         <div class="slide">
                                             <div class="line" id="line" style="left: 0%; right: 0%;"></div>
+                                            <div class="line" id="line2" style="left: 0%; right: 0%;opacity: 0.4"></div>
                                             <span class="thumb" id="thumbMin" style="left: 0%;"></span>
                                             <span class="thumb" id="thumbMax" style="left: 100%;"></span>
                                         </div>
-                                        <input class="input-class" id="rangeMin" type="range" max="15000000" min="0"
+
+                                        <input class="input-class" id="rangeMin" type="range" max="40000001" min="0"
                                                step="50"
                                                value="0">
-                                        <input class="input-class" id="rangeMax" type="range" max="15000000" min="0"
+
+                                        <input class="input-class" id="rangeMax" type="range" max="40000001" min="0"
                                                step="50"
-                                               value="15000000">
+                                               value="40000001">
                                     </div>
                                     <div class="display">
                                         <span class="text-start" id="min">0tr</span>
-                                        <span class="text-end" id="max" style="width: 50px;">15tr</span>
+                                        <span class="text-end" id="max" style="width: 50px;">40tr</span>
                                     </div>
                                 </div>
                             </div>
@@ -188,7 +191,7 @@
                     </div>
                     <div class="_1RkT-">
                         <section>
-                            <div id="postContainer"></div>
+                            <div id="postContainer" style="min-height: 303px;position: relative"></div>
                         </section>
                         <div id="paginationPost" class="d-flex justify-content-center">
 
@@ -230,32 +233,35 @@
     let filter = {};
     let listPost = [];
     let min = 0;
-    let max = 15000000;
+    let max = 40000001;
 
-    const calcLeftPosition = value => 100 / (15000000) * (value);
+    let newMin = 0;
+    let newMax = 40000001;
+
+    const calcLeftPosition = value => 100 / (max) * (value);
 
     // Rang: Min, Max
 
     $('#rangeMin').on('input', function (e) {
         const newValue = parseInt(e.target.value);
-        if (newValue + 500000 > max) return;
-        min = newValue;
+        if (newValue + 1500000 > newMax) return;
+        newMin = newValue;
         $('#thumbMin').css('left', calcLeftPosition(newValue) + '%');
         $('#min').html(Math.ceil(newValue / 500000) * 500000 / 1000000 + 'tr');
         $('#line').css({
             'left': calcLeftPosition(newValue) + '%',
-            'right': (100 - calcLeftPosition(max)) + '%'
+            'right': (100 - calcLeftPosition(newMax)) + '%'
         });
     });
 
     $('#rangeMax').on('input', function (e) {
         const newValue = parseInt(e.target.value);
-        if (newValue - 500000 < min) return;
-        max = newValue;
+        if (newValue - 1500000 < newMin) return;
+        newMax = newValue;
         $('#thumbMax').css('left', calcLeftPosition(newValue) + '%');
         $('#max').html(Math.ceil(newValue / 500000) * 500000 / 1000000 + 'tr');
         $('#line').css({
-            'left': calcLeftPosition(min) + '%',
+            'left': calcLeftPosition(newMin) + '%',
             'right': (100 - calcLeftPosition(newValue)) + '%'
         });
     });
@@ -269,6 +275,12 @@
 
     function doFilter(filter, pagingPr = pagingParams) {
         let {paginationPage, size} = pagingPr;
+        $("#postContainer").empty();
+        $("#postContainer").append(() =>
+            `<div  style="width: 60px;height: 60px;position: absolute; top: 50%;left: 50%;transform: translateY(-50%)">
+               <div class="spinner-border text-danger" style="width: 60px;height: 60px" role="status">
+            </div>
+            </div>`);
         $.ajax({
             data: JSON.stringify(filter),
             "headers": {
@@ -277,6 +289,7 @@
             type: "POST",
             url: page.url.doFilter + `?page=${paginationPage}&size=${size}`,
         }).done(function (data) {
+            $("#postContainer").empty();
             paging(data);
         }).fail(function (jqXhr) {
             showError("Get Filter Fail")
@@ -353,8 +366,8 @@
 
 
     $(".btn-search").on('click', function () {
-        filter.priceStarts = min;
-        filter.priceEnds = max;
+        filter.priceStarts = newMin;
+        filter.priceEnds = newMax;
 
         let utilities = [];
         $.each($("input[name='utilitiesCheckbox']:checked"), function () {
@@ -573,7 +586,7 @@
     }
 
     function renderPosts(response, pagination) {
-        if (response.length === 0) {
+        if (response.length === 0 || response.every(p => p.status === "PENDING_REVIEW"||p.status === "REFUSED")) {
             return `<ul>
                          <li>
                          <div class="nctjX">

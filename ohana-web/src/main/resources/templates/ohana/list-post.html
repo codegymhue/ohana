@@ -5,14 +5,15 @@
     <link rel="stylesheet" type="text/css" href="/resources/bootstrap-5.0.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="/resources/ohana/css/dataTable.css">
     <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
-<style>
-    tr th {
-        text-align: center;
-    }
-</style>
+    <style>
+        tr th {
+            text-align: center;
+        }
+    </style>
 </head>
 
-<body data-new-gr-c-s-check-loaded="14.1057.0" data-gr-ext-installed="" cz-shortcut-listen="true" style="padding-bottom: 90px">
+<body data-new-gr-c-s-check-loaded="14.1057.0" data-gr-ext-installed="" cz-shortcut-listen="true"
+      style="padding-bottom: 90px">
 <div class="container">
     <div class="_3bjUj">
         <!--header-->
@@ -60,7 +61,7 @@
 
 </div>
 <footer id="footer">
-        <th:block th:replace="/ohana/layout/footer :: footer"/>
+    <th:block th:replace="/ohana/layout/footer :: footer"/>
 </footer>
 </body>
 
@@ -122,13 +123,13 @@
         page.commands.getAllRefused();
     })
 
-    const disableBtn = (name)=>{
+    const disableBtn = (name) => {
         let elements = document.getElementsByClassName("btn-check");
         for (let el of elements) {
             if (el.getAttribute("id") === currBtn) {
-                $(el).attr("disabled",true)
-            }else {
-                $(el).attr("disabled",false)
+                $(el).attr("disabled", true)
+            } else {
+                $(el).attr("disabled", false)
             }
         }
     }
@@ -159,13 +160,13 @@
     }
 
 
-    page.commands.getAllPostPublished = () =>  {
+    page.commands.getAllPostPublished = () => {
         removeDataTable()
         $.ajax({
             type: "GET",
             url: page.url.getAllPostPublished
         }).done(function (data) {
-            if (data.content.length == 0){
+            if (data.content.length == 0) {
                 showNoLengthPost()
                 return;
             }
@@ -178,9 +179,8 @@
                             <th class= "col-1" >Ảnh</th>
                             <th class= "col-3">Tên bài đăng</th>
                             <th class= "col-3">Địa chỉ</th>
-                            <th class= "col-1">Giá (đồng)</th>
-                            <th class= "col-1">Ngày đăng</th>
-                            <th class= "col-1">Đường dẫn</th>
+                            <th class="text-end" style="min-width: 100px">Giá phòng</th>
+                            <th style="min-width: 100px" class= "col-1">Ngày đăng</th>
                             <th class= "col-1">Trạng thái</th>
                             <th class= "col-1" >Quản lý</th>
                        </tr>`;
@@ -203,7 +203,7 @@
                 } else {
                     rentHouse.status = "Còn phòng"
                 }
-                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/"  + item.thumbnailId + ".jpg";
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/" + item.thumbnailId + ".jpg";
 
                 let str = `  <tr id="tr_${post.id}">
                     <td class= "col-1">
@@ -214,23 +214,21 @@
                     </td>
                     <td class= "col-3">
                         <div class="">
-                            <p class="fw-bold mb-1">${post.title}</p>
+                        <a href="/${post.id}/room" target="_blank">
+                          <p class="fw-bold mb-1 text-decoration-underline">${post.title}</p>
+                        </a>
                         </div>
                     </td>
                     <td class= "col-3">
                         <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                     <td class= "col-1">
-                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} </p>
+                        <p class="fw-normal text-end mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} đ</p>
                     </td>
                     <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
                     </td>
-                    <td class= "col-1">
-                        <a href="/${post.id}/room">
-                          <i style="text-decoration:none" class="far fa-arrow-alt-circle-right" ></i>
-                        </a>
-                    </td>
+
 
                     <td class= "col-1">
                         <a type="button" class="btn btn-outline-warning btn-status" style="min-width: 120px " data-id="${post.id}">
@@ -266,7 +264,7 @@
             type: "GET",
             url: page.url.getAllOverRoom
         }).done(function (data) {
-            if (data.content.length == 0){
+            if (data.content.length == 0) {
                 showNoLengthPost()
                 return;
             }
@@ -279,9 +277,8 @@
                             <th class= "col-1" >Ảnh</th>
                             <th class= "col-3">Tên bài đăng</th>
                             <th class= "col-3">Địa chỉ</th>
-                            <th class= "col-1">Giá (đồng)</th>
-                            <th class= "col-1">Ngày đăng</th>
-                            <th class= "col-1">Đường dẫn</th>
+                            <th class="text-end" style="min-width: 100px">Giá phòng</th>
+                            <th style="min-width: 100px" class= "col-1">Ngày đăng</th>
                             <th class= "col-1">Trạng thái</th>
                             <th class= "col-1">Quản lý</th>
                        </tr>`;
@@ -304,7 +301,7 @@
                 } else {
                     rentHouse.status = "Còn phòng"
                 }
-                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/"  + item.thumbnailId + ".jpg";
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/" + item.thumbnailId + ".jpg";
 
                 let str = `  <tr id="tr_${post.id}">
                     <td class= "col-1">
@@ -315,22 +312,19 @@
                     </td>
                     <td class= "col-3">
                         <div class="">
-                            <p class="fw-bold mb-1">${post.title}</p>
+                             <a href="/${post.id}/room" target="_blank">
+                          <p class="fw-bold mb-1 text-decoration-underline">${post.title}</p>
+                        </a>
                         </div>
                     </td>
                     <td class= "col-3">
                         <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                     <td class= "col-1">
-                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} </p>
+                        <p class="fw-normal text-end mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} đ</p>
                     </td>
                     <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
-                    </td>
-                    <td class= "col-1">
-                        <a href="/${post.id}/room">
-                          <i style="text-decoration:none" class="far fa-arrow-alt-circle-right" ></i>
-                        </a>
                     </td>
                     <td class= "col-1">
                         <a type="button" class="btn btn-outline-success btn-status" style="min-width: 120px " data-id="${post.id}">
@@ -339,7 +333,7 @@
                     </td>
                     <td>
                         <div class="d-flex align-items-center">
-                            <div class="">
+                            <div class="me-1">
                                 <a href="/${post.id}/edit-room" type="button" class="btn btn-outline-primary btn-edit">Sửa</a>
                             </div>
                             <div class="">
@@ -358,7 +352,7 @@
             handlerDelete();
         }).fail(function () {
             showError('Error')
-        }).always(()=>{
+        }).always(() => {
         })
 
     }
@@ -368,7 +362,7 @@
             type: "GET",
             url: page.url.getAllPendingReview
         }).done(function (data) {
-            if (data.content.length == 0){
+            if (data.content.length == 0) {
                 showNoLengthPost()
                 return;
             }
@@ -382,9 +376,8 @@
                     <th class= "col-2" >Ảnh</th>
                     <th class= "col-4">Tên bài đăng</th>
                     <th class= "col-4">Địa chỉ</th>
-                    <th class= "col-1" >Giá (đồng)</th>
-                    <th class= "col-1" >Ngày đăng</th>
-
+                    <th class="text-end" style="min-width: 100px">Giá phòng</th>
+                    <th style="min-width: 100px" class= "col-1">Ngày đăng</th>
                 </tr>`;
             $("#tbPost thead").prepend(tr);
             $("#tbPost tbody").html('');
@@ -396,7 +389,7 @@
                 }
             }
             data.content.forEach((item) => {
-                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/"  + item.thumbnailId + ".jpg";
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/" + item.thumbnailId + ".jpg";
                 post = item;
                 user = post.user;
                 locationResult = post.location;
@@ -410,14 +403,16 @@
                     </td>
                     <td class= "col-4">
                         <div class="">
-                            <p class="fw-bold mb-1">${post.title}</p>
+                            <a href="/${post.id}/room" target="_blank">
+                          <p class="fw-bold mb-1 text-decoration-underline">${post.title}</p>
+                        </a>
                         </div>
                     </td>
                     <td class= "col-4">
                                <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                      <td class= "col-1">
-                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} </p>
+                        <p class="fw-normal text-end mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} đ</p>
                     </td>
                     <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
@@ -432,7 +427,7 @@
         })
     }
 
-    function removeDataTable(){
+    function removeDataTable() {
         $("#notification").empty()
         $("#tbPost_wrapper").empty();
         let tablee = `<table class="table align-middle mb-0 bg-white" id="tbPost" style="width: 100%">
@@ -452,7 +447,7 @@
             type: "GET",
             url: page.url.getAllRefused
         }).done(function (data) {
-            if (data.content.length == 0){
+            if (data.content.length == 0) {
                 showNoLengthPost()
                 return;
             }
@@ -466,8 +461,8 @@
                 <th class= "col-1" >Ảnh</th>
                 <th class= "col-5">Tên bài đăng</th>
                 <th class= "col-5">Địa chỉ</th>
-                <th class= "col-1">Giá (đồng)</th>
-                <th class= "col-1">Ngày đăng</th>
+                <th class="text-end" style="min-width: 100px">Giá phòng</th>
+                <th style="min-width: 100px" class= "col-1">Ngày đăng</th>
                 <th class= "col-1">Trạng thái</th>
 
            </tr>`;
@@ -481,7 +476,7 @@
                 }
             }
             data.content.forEach((item) => {
-                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100  + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/"  + item.thumbnailId + ".jpg";
+                let image_thumbnail = App.BASE_URL_CLOUD_IMAGE + "/" + App.SCALE_IMAGE_W600_H650_Q100 + "/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/" + item.thumbnailId + ".jpg";
                 post = item;
                 user = post.user;
                 locationResult = post.location;
@@ -502,7 +497,7 @@
                                 <p class="fw-normal mb-1">${locationResult.line1}, ${locationResult.wardName}, ${locationResult.districtName}, ${locationResult.provinceName}</p>
                     </td>
                      <td class= "col-1">
-                        <p class="fw-normal mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} </p>
+                        <p class="fw-normal text-end mb-1">${new Intl.NumberFormat('de-DE').format(rentHouse.roomPrice)} đ</p>
                     </td>
                     <td class= "col-1">
                         <p class="fw-normal mb-1">${moment(post.createdAt).format("DD-MM-yyyy")}</p>
@@ -523,12 +518,12 @@
         })
     }
 
-    function showNoLengthPost(){
+    function showNoLengthPost() {
         removeDataTable()
         $("#noLength").html(renderNoLength())
     }
 
-    function renderNoLength(){
+    function renderNoLength() {
         return `
              <div class="nctjX">
                  <div class="X8svI _2DJkz" style="display: flex; justify-content: center">

@@ -105,12 +105,12 @@
             </div>
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Giá phòng (Đơn vị: VNĐ/Tháng)</label>
+                    <label class="m-1">Giá (đơn vị: đồng/tháng)</label>
                     <input type="text" data-type="currency" class="form-control" id="roomPrice" name="roomPrice"
                            th:field="${postCreateParam.rentHouse.roomPrice}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Tiền cọc (Đơn vị: VNĐ/Tháng)</label>
+                    <label class="m-1">Tiền cọc (đơn vị: đồng)</label>
                     <input type="text" data-type="currency" class="form-control" id="deposit" name="deposit"
                            th:field="${postCreateParam.rentHouse.deposit}">
                 </div>
@@ -123,18 +123,17 @@
             </div>
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Tiền điện (Đơn vị: VNĐ/kWh)</label>
+                    <label class="m-1">Tiền điện (đơn vị: đồng/kWh)</label>
                     <input type="text" data-type="currency" class="form-control" name="electricityPrice"
                            id="electricityPrice" th:field="${postCreateParam.rentHouse.electricityPrice}">
-                    </input>
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Tiền nước (Đơn vị: VNĐ/m³)</label>
+                    <label class="m-1">Tiền nước (đơn vị: đồng/tháng)</label>
                     <input type="text" data-type="currency" class="form-control" id="waterPrice" name="waterPrice"
                            th:field="${postCreateParam.rentHouse.waterPrice}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Tiền wifi (Đơn vị: VNĐ/Tháng)</label>
+                    <label class="m-1">Tiền wifi (đơn vị: đồng/tháng)</label>
                     <input type="text" data-type="currency" class="form-control" id="wifiPrice" name="wifiPrice"
                            th:field="${postCreateParam.rentHouse.wifiPrice}">
                 </div>
@@ -233,7 +232,6 @@
                     fileUrl: url
                 });
             }
-            console.log(listImageId)
             if (result.event === "queues-end") {
                 $("#btnUploadImages").attr("disabled", false).css("z-index", 999).text("Tải thêm ảnh")
                 renderCarousel();
@@ -253,7 +251,7 @@
     }
     const renderUploadImage = ({publicId}) => {
         let url = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/v1681975206/${publicId}.jpg`
-        return `<div class="position-relative">
+        return `<div class="position-relative   ">
                     <button data-imgid="${publicId}" id="imgDeleteBtn" onclick="handleDeleteUploadImage(this.dataset.imgid)" class="btn-outline-danger btn-sm btn"><i class="fas fa-times-circle"></i></button>
                     <img class="post_img_preview" src="${url}" alt="Uploaded images"/>
                 </div>`;
@@ -279,7 +277,6 @@
                 let {public_id} = result.info;
                 thumbnailId = public_id;
                 let url = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50/v1681975206/${thumbnailId}.jpg`
-                console.log(public_id)
                 $("#imgPreviewThumb").attr("src", url);
                 $("#btnUploadThumb")
                     .text("Thay đổi")
@@ -476,7 +473,6 @@
     function addEventChangeProvince() {
         page.dialogs.elements.province.on("change", function () {
             let provinceId = $(this).val();
-            console.log(provinceId)
 
             if (provinceId !== 0) {
                 page.dialogs.loadData.getAllDistrictsByProvince(provinceId).then(() => {
@@ -525,12 +521,16 @@
         $("#electricityPrice").val("");
         $("#waterPrice").val("");
         $("#line1").val("");
-        $("#province").val("");
-        $("#district").val("");
-        $("#ward").val("");
+        $("#province").val(0);
+        $("#district").val(0);
+        $("#ward").val(0);
         $("#showImage").empty();
-        $('#showImageThumb').empty();
+        $("#imgPreviewThumb").attr("src","/resources/image/thumbpost.png")
+        // $('#showImageThumb').empty();
         $('#showImage').empty();
+        $('#btnUploadImages').show();
+        $('#btnUploadThumb').show();
+
         $("input[type=checkbox]").prop("checked", false);
     }
 
@@ -581,14 +581,17 @@
             data: JSON.stringify(postDTO)
         })
             .done((data) => {
+
                 clearForm();
                 showSuccess("đăng bài thành công!!!")
+                setTimeout(()=>{
+                    window.location.href="/list-post"
+                },1500)
 
             })
             .fail((jqXHR) => {
                 let errors = jqXHR.responseJSON;
                 let message = errors.message;
-                console.log(message)
                 showError(message);
             })
     }
@@ -745,7 +748,6 @@
         }, "Hãy chọn Phường/Xã");
 
         $.validator.addMethod("maxMoney", function (value, element, maxvalue) {
-            console.log(element)
             return this.optional(element) || Number(value.replaceAll(/[.]/g,"") <= maxvalue);
         }, "Vui lòng nhập số và không vượt quá 100.000.000 đồng");
 

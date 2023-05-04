@@ -3,7 +3,7 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="/resources/bootstrap-5.0.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/resources/ohana/css/owl.carousel.min.css">ink
+    <link rel="stylesheet" href="/resources/ohana/css/owl.carousel.min.css">
     <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
     <style>
         .col-md-3 {
@@ -70,7 +70,7 @@
     </div>
 
     <div class="container mt-xl-5">
-        <div class="text-center">
+        <div class="text-center pt-2">
             <h3>
                 CHỈNH SỬA TIN
             </h3>
@@ -86,7 +86,7 @@
             <div class=" col-md-12">
                 <div class="col-md-12 px-2 errorTotal">
                     <label class="m-1">Nội dung</label>
-                    <textarea id="descriptionContent" name="descriptionContent" type="text" class="form-control"
+                    <textarea rows="3" id="descriptionContent" name="descriptionContent" type="text" class="form-control"
                               th:field="${postUpdateParam.descriptionContent}"></textarea>
                 </div>
             </div>
@@ -110,11 +110,11 @@
             </div>
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Giá phòng (Đơn vị: VNĐ/Tháng)</label>
+                    <label class="m-1">Giá phòng (đơn vị: đồng/tháng)</label>
                     <input type="text" class="form-control" id="roomPrice"  name="roomPrice" th:field="${postUpdateParam.rentHouse.roomPrice}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Tiền cọc (Đơn vị: VNĐ/Tháng)</label>
+                    <label class="m-1">Tiền cọc (đơn vị: đồng/tháng)</label>
                     <input type="text" class="form-control" id="deposit" name="deposit" th:field="${postUpdateParam.rentHouse.deposit}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
@@ -124,16 +124,16 @@
             </div>
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Tiền điện (Đơn vị: VNĐ/kWh)</label>
+                    <label class="m-1">Tiền điện (đơn vị: đồng/kWh)</label>
                     <input type="text" class="form-control" name="electricityPrice" id="electricityPrice" th:field="${postUpdateParam.rentHouse.electricityPrice}">
                     </input>
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Tiền nước (Đơn vị: VNĐ/m³)</label>
+                    <label class="m-1">Tiền nước (đơn vị: đồng/tháng)</label>
                     <input type="text" class="form-control" id="waterPrice"  name="waterPrice" th:field="${postUpdateParam.rentHouse.waterPrice}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
-                    <label class="m-1">Tiền wifi (Đơn vị: VNĐ/Tháng)</label>
+                    <label class="m-1">Tiền wifi (đơn vị: đồng/tháng)</label>
                     <input type="text" class="form-control" id="wifiPrice" name="wifiPrice" th:field="${postUpdateParam.rentHouse.wifiPrice}">
                 </div>
             </div>

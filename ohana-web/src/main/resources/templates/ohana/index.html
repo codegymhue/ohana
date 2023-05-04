@@ -120,89 +120,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="_3eGuJ">
-                    <div class="_2qYc6 _3Nvxb mt-5">
-                        <div class="_1Tf_Z _2o1M1"><span class="_3gUBz"><span class="icon-shield"
-                                                                              style="color: rgb(72, 119, 248); font-size: 32px;"></span><span
-                                class="_2TvH9">Đã xác thực</span></span><a href="/search">
-                            <div class="_1Gwyz _1vH0j"><span>Xem tất cả</span></div>
-                        </a></div>
-                        <div class="_2YccU">
-                            <div class="_2UeBM"><a target="_blank" href="/room.html">
-                                <div class="_2QGFT sLxZO _2DJkz">
-                                    <div class="_248il"><img
-                                            src="/resources/ohana/img/20c8373d39e30d04cde885686abc2987.png"
-                                            alt="verified-img" class="_1TPDO"></div>
-                                    <img
-                                            src="/resources/ohana/img/property-images_1610865968860_received_329664098218414.jpeg"
-                                            alt="room-img" class="_3nHfZ">
-                                    <p class="_3fYd3">HOMESTAY DORM Home 1 phường 1 Gò Vấp</p>
-                                    <div class="_3lVLQ"><span class="_1v4nA">Quận Gò Vấp</span><span
-                                            class="_2ldkt">1,5 tr/người</span></div>
-                                </div>
-                            </a></div>
-                            <div class="_2UeBM"><a target="_blank" href="/room.html">
-                                <div class="_2QGFT sLxZO _2DJkz">
-                                    <div class="_248il"><img
-                                            src="/resources/ohana/img/20c8373d39e30d04cde885686abc2987.png"
-                                            alt="verified-img" class="_1TPDO"></div>
-                                    <img
-                                            src="/resources/ohana/img/2b271aa2-779e-4bb3-b9dc-0a730084fc22-46325561_1975119655915194_6045991570992267264_n.jpg"
-                                            alt="room-img" class="_3nHfZ">
-                                    <p class="_3fYd3">Ký túc xá quận Thủ Đức</p>
-                                    <div class="_3lVLQ"><span class="_1v4nA">Quận Thủ Đức</span><span
-                                            class="_2ldkt">1,5 tr/người</span></div>
-                                </div>
-                            </a></div>
-                            <div class="_2UeBM"><a target="_blank" href="/room.html">
-                                <div class="_2QGFT sLxZO _2DJkz">
-                                    <div class="_248il"><img
-                                            src="/resources/ohana/img/20c8373d39e30d04cde885686abc2987.png"
-                                            alt="verified-img" class="_1TPDO"></div>
-                                    <img
-                                            src="/resources/ohana/img/property-images_1645104422405_IMG_7299.JPG"
-                                            alt="room-img"
-                                            class="_3nHfZ">
-                                    <p class="_3fYd3">Phòng cho thuê Nguyễn Sỹ Sách, Quận Tân Bình</p>
-                                    <div class="_3lVLQ"><span class="_1v4nA">Quận Tân Bình</span><span
-                                            class="_2ldkt">2,2 tr/phòng</span></div>
-                                </div>
-                            </a></div>
-                            <div class="_2UeBM"><a target="_blank" href="/room.html">
-                                <div class="_2QGFT sLxZO _2DJkz">
-                                    <div class="_248il"><img
-                                            src="/resources/ohana/img/20c8373d39e30d04cde885686abc2987.png"
-                                            alt="verified-img" class="_1TPDO"></div>
-                                    <img
-                                            src="/resources/ohana/img/property-images_1647699346746_IMG_8554.HEIC"
-                                            alt="room-img"
-                                            class="_3nHfZ">
-                                    <p class="_3fYd3">Phòng cho thuê Bầu Cát 2, Quận Tân Bình</p>
-                                    <div class="_3lVLQ"><span class="_1v4nA">Quận Tân Bình</span><span
-                                            class="_2ldkt">2,4 tr/phòng</span></div>
-                                </div>
-                            </a></div>
-                            <div class="_2UeBM"><a target="_blank" href="/room.html">
-                                <div class="_2QGFT sLxZO _2DJkz">
-                                    <div class="_248il"><img
-                                            src="/resources/ohana/img/20c8373d39e30d04cde885686abc2987.png"
-                                            alt="verified-img" class="_1TPDO"></div>
-                                    <img
-                                            src="/resources/ohana/img/property-images_1598331300474_IMG_20200825_115316.jpg"
-                                            alt="room-img" class="_3nHfZ">
-                                    <p class="_3fYd3">HOMESTAY DORM MẶT TIỀN D5 HÀNG XANH</p>
-                                    <div class="_3lVLQ"><span class="_1v4nA">Quận Bình Thạnh</span><span
-                                            class="_2ldkt">1,9 tr/người</span></div>
-                                </div>
-                            </a></div>
-                        </div>
-                        <a href="/search">
-                            <div class="_3X6_U KNq0i">
-                                <span>Xem tất cả</span>
-                            </div>
-                        </a>
-                    </div>
-                </div>
             </div>
         </div>
         <!--            footer-->
@@ -524,7 +441,7 @@
                 let locationDetail;
                 $("#location").empty()
                 console.log(data)
-                data.content.forEach(({location}) => {
+                data.content.filter(p=>p.status!=="PENDING_REVIEW").forEach(({location,status}) => {
                     let item = location
                     if (item.provinceId== 48){
                         let str = `<a href="/search?provinceName=${item.provinceName}&districtId=${item.districtId}&districtName=${item.districtName}"><li role="button" class="li-search" >
@@ -541,7 +458,7 @@
                         $("#location").empty()
                     }
                 })
-                data.content.forEach(({location}) => {
+                data.content.filter(p=>p.status!=="PENDING_REVIEW").forEach(({location}) => {
                     let item = location
                     if (item.wardName == null) {
                         locationDetail = item.districtName;
