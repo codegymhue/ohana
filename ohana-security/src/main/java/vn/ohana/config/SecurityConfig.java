@@ -139,7 +139,8 @@ public class SecurityConfig {
                         "/verify-success",
                         "/verify-fail",
                         "/forget-password",
-                        "/info-forget-password"
+                        "/info-forget-password",
+                        "/terms-and-policy"
 
                 ).permitAll()
 //                .antMatchers("/api/utilities/**").hasAuthority("ADMIN")

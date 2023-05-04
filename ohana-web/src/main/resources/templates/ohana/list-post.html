@@ -598,7 +598,7 @@
         }
         $.ajax({
             type: "PATCH",
-            url: page.url.doUpdateStatus + postId,
+            url: page.url.doUpdateStatus + "status/" + postId,
             data: JSON.stringify(fomrData),
             headers: {
                 "Content-Type": "application/json"
