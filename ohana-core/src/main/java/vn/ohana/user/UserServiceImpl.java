@@ -367,6 +367,11 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    @Transactional
+    public List<Object> getUserWithMostPosts(int limit) {
+        return userRepository.findUserWithMostPosts(limit);
+    }
     public void forgetPassword(UserResult userResult) throws MessagingException, UnsupportedEncodingException {
         String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789~`!@#$%^&*()";
         String pwd = RandomStringUtils.random(15, characters);

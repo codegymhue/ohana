@@ -86,4 +86,6 @@ public interface UserService  {
     Long countUsersByStatus(UserStatus status);
 
     List<Object> countByMonthBetweenDate(Instant startDate, Instant endDate);
+
+    Object getUserWithMostPosts(int limit);
 }

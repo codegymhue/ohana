@@ -92,4 +92,8 @@ public class ReportAPI {
     public ResponseEntity<?> getDataByMonth(@RequestBody String monthAndYear) throws ParseException {
         return new ResponseEntity<>(reportService.getDataByMonth(monthAndYear),HttpStatus.OK);
     }
+    @GetMapping("/analyze/fiveMostContributedUser")
+    public ResponseEntity<?> getTopFiveMostContributedUser() throws ParseException {
+        return new ResponseEntity<>(reportService.getFiveUserWithMostPosts(),HttpStatus.OK);
+    }
 }

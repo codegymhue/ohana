@@ -135,6 +135,11 @@ public class ReportServiceImpl implements ReportService{
     }
 
     @Override
+    public Object getFiveUserWithMostPosts() {
+        return userService.getUserWithMostPosts(5);
+    }
+
+    @Override
     public Map<String,List<DateReportResult>> countPostsAndUsersByMonthBetweenDate(Instant startDate, Instant endDate) {
         Map<String,List<DateReportResult>> stringListMap =new HashMap<>();
         List<DateReportResult> postReportResults = toDateReportResult(postService.countByMonthBetweenDate(startDate, endDate));
