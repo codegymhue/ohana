@@ -61,9 +61,12 @@ public class UserUpdateParam extends BaseUser implements Validator {
             if (locationParam.getWardId() == 0) {
                 errors.rejectValue("location.wardId","user.validation.location.emptyWard");
             }
+            if (locationParam.getLine1().length() == 0) {
+                errors.rejectValue("address", "user.validation.location.addressLength");
+            }
 
             if (locationParam.getLine1().length() > 255) {
-                errors.rejectValue("address", "user.validation.address.addressLength");
+                errors.rejectValue("address", "user.validation.location.addressLength");
             }
         }
 

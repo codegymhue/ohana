@@ -151,6 +151,9 @@
                     <div class="row col-md-12">
                         <div class="form-group col-md-12">
                             <label class="m-1">Địa chỉ:</label>
+                            <label class="error" th:each="err : ${#fields.errors('address')}"
+                                   th:text="${err}">
+                            </label>
                             <input type="text" id="line1" class="form-control"
                                    th:field="${userUpdateParam.location.line1}">
                         </div>
