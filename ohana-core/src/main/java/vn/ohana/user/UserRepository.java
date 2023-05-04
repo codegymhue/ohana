@@ -46,6 +46,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Procedure(procedureName = "coutUserByMonhtBetweenDate")
     List<Object> countByMonthBetweenDate(Instant startDate, Instant endDate);
 
-    @Query(value = "SELECT u.id,u.full_name,u.email,count(p.id) AS count FROM post p JOIN users u ON p.user_id = u.id GROUP BY p.user_id ORDER BY count DESC LIMIT :limit", nativeQuery = true)
+    @Query(value = "SELECT u.id,u.full_name,u.email,count(p.id) AS count FROM (SELECT p1.id, p1.user_id FROM post p1 WHERE p1.status = 'PUBLISHED') p JOIN users u ON p.user_id = u.id GROUP BY p.user_id ORDER BY count DESC LIMIT :limit", nativeQuery = true)
     List<Object> findUserWithMostPosts(@Param(value = "limit")int limit);
 }
