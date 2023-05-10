@@ -1,4 +1,9 @@
- ._2QckJ {
+a {
+    text-decoration: none;
+}
+
+
+._2QckJ {
     background-color: #FFFFFF;
     height: 100%;
     border-bottom-right-radius: 16px;
@@ -7284,3 +7289,4 @@ a {
  #tbPost_length{
      padding-bottom: 10px;
  }
+
