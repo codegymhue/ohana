@@ -192,6 +192,12 @@ public class OhanaControllers {
         return modelAndView;
     }
 
+    @GetMapping("/admin/dashboard")
+    public ModelAndView adminDashboardPage() {
+        ModelAndView modelAndView = new ModelAndView("/admin/index");
+        return modelAndView;
+    }
+
 //    @GetMapping("/edit-room")
 //    public ModelAndView editRoom() {
 //        ModelAndView modelAndView = new ModelAndView("/ohana/edit-room");
