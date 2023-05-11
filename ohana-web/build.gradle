@@ -1,6 +1,7 @@
 plugins {
     id "war"
     id "java"
+
 }
 
 group = 'vn.ohana'
