@@ -394,7 +394,7 @@ public class UserServiceImpl implements UserService {
         String content = "Kính chào " + user.getFullName() + "," + "<br>"
                 + "Mật khẩu mới của bạn là:  "
                 + "<b>" + tempPwd + "</b> <br>"
-                + "Vui lòng quay trở lại trang " + "<a href=http://localhost:8080/sign-in>đăng nhập</a> <br><br>"
+                + "Vui lòng quay trở lại trang " + "<a href=https://ohana.cghue.com/sign-in>đăng nhập</a> <br><br>"
                 + "Cảm ơn bạn đã sử dụng dịch vụ của chúng tôi,<br> "
                 + "Ohana team.";
 
