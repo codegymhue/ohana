@@ -2,8 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html" lang="en">
 
 <head>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" >
-    <link rel="stylesheet" href="/resources/ohana/css/owl.carousel.min.css">
+    <link rel="stylesheet" type="text/css"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+          integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
     <th:block th:replace="/ohana/layout/head :: head('Ohana - Tìm ở ghép, phòng trọ siêu nhanh')"/>
     <style>
         .col-md-3 {
@@ -86,14 +89,16 @@
             <div class=" col-md-12">
                 <div class="col-md-12 px-2 errorTotal">
                     <label class="m-1">Nội dung</label>
-                    <textarea rows="3" id="descriptionContent" name="descriptionContent" type="text" class="form-control"
+                    <textarea rows="3" id="descriptionContent" name="descriptionContent" type="text"
+                              class="form-control"
                               th:field="${postUpdateParam.descriptionContent}"></textarea>
                 </div>
             </div>
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Loại phòng</label>
-                    <select type="text" class="form-select" name="category" id="category" th:field="${postUpdateParam.categoryId}">
+                    <select type="text" class="form-select" name="category" id="category"
+                            th:field="${postUpdateParam.categoryId}">
                     </select>
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
@@ -111,36 +116,43 @@
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Giá phòng (đơn vị: đồng/tháng)</label>
-                    <input type="text" class="form-control" id="roomPrice"  name="roomPrice" th:field="${postUpdateParam.rentHouse.roomPrice}">
+                    <input type="text" class="form-control" id="roomPrice" name="roomPrice"
+                           th:field="${postUpdateParam.rentHouse.roomPrice}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền cọc (đơn vị: đồng/tháng)</label>
-                    <input type="text" class="form-control" id="deposit" name="deposit" th:field="${postUpdateParam.rentHouse.deposit}">
+                    <input type="text" class="form-control" id="deposit" name="deposit"
+                           th:field="${postUpdateParam.rentHouse.deposit}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Diện tích (m2)</label>
-                    <input type="number" class="form-control" id="area" name="area" th:field="${postUpdateParam.rentHouse.area}">
+                    <input type="number" class="form-control" id="area" name="area"
+                           th:field="${postUpdateParam.rentHouse.area}">
                 </div>
             </div>
             <div class="d-flex col-md-12">
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền điện (đơn vị: đồng/kWh)</label>
-                    <input type="text" class="form-control" name="electricityPrice" id="electricityPrice" th:field="${postUpdateParam.rentHouse.electricityPrice}">
+                    <input type="text" class="form-control" name="electricityPrice" id="electricityPrice"
+                           th:field="${postUpdateParam.rentHouse.electricityPrice}">
                     </input>
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền nước (đơn vị: đồng/tháng)</label>
-                    <input type="text" class="form-control" id="waterPrice"  name="waterPrice" th:field="${postUpdateParam.rentHouse.waterPrice}">
+                    <input type="text" class="form-control" id="waterPrice" name="waterPrice"
+                           th:field="${postUpdateParam.rentHouse.waterPrice}">
                 </div>
                 <div class="col-md-4 px-2 errorTotal">
                     <label class="m-1">Tiền wifi (đơn vị: đồng/tháng)</label>
-                    <input type="text" class="form-control" id="wifiPrice" name="wifiPrice" th:field="${postUpdateParam.rentHouse.wifiPrice}">
+                    <input type="text" class="form-control" id="wifiPrice" name="wifiPrice"
+                           th:field="${postUpdateParam.rentHouse.wifiPrice}">
                 </div>
             </div>
 
             <div class=" col-md-12 errorTotal">
                 <label class="m-1 form-label">Tiện ích: </label>
-                <div class="d-flex flex-wrap col-md-12 px-5" id="utilities" name="utilities" th:field="${postUpdateParam.utilities}">
+                <div class="d-flex flex-wrap col-md-12 px-5" id="utilities" name="utilities"
+                     th:field="${postUpdateParam.utilities}">
                 </div>
 
             </div>
@@ -159,35 +171,42 @@
                 </div>
                 <div class="col-md-3 px-2 errorTotal">
                     <label class="m-1">Phường/Xã</label>
-                    <select type="text" class="form-select" id="ward"  name="ward" th:field="${postUpdateParam.location.wardId}">
+                    <select type="text" class="form-select" id="ward" name="ward"
+                            th:field="${postUpdateParam.location.wardId}">
                     </select>
                 </div>
 
                 <div class="col-md-3 px-2 errorTotal">
                     <label class="m-1">Địa chỉ</label>
-                    <input type="text" class="form-control" id="line1" name="line1" th:field="${postUpdateParam.location.line1}">
+                    <input type="text" class="form-control" id="line1" name="line1"
+                           th:field="${postUpdateParam.location.line1}">
                     <!--                    <label class="error">-->
                     <!--                    </label>-->
                 </div>
             </div>
             <div class="d-flex col-md-12  mt-3 ">
                 <div class="col-md-3 px-2 errorTotal">
-                    <div  id="showImageThumb" class="col-md-12errorTotal">
+                    <div id="showImageThumb" class="col-md-12errorTotal">
                         <div id="upload_widgetThumb" class="d-flex">
-                            <input type="hidden" id="urlImageThumb" name="urlImageThumb" th:field="${postUpdateParam.thumbnailId}">
+                            <input type="hidden" id="urlImageThumb" name="urlImageThumb"
+                                   th:field="${postUpdateParam.thumbnailId}">
                             <div style="position: relative">
                                 <img id="imgPreviewThumb"
                                      src="/resources/image/thumbpost.png"/>
-                                <button type="button" disabled id="btnUploadThumb" class="btn btn-primary">Upload ảnh bìa</button>
+                                <button type="button" disabled id="btnUploadThumb" class="btn btn-primary">Upload ảnh
+                                    bìa
+                                </button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-9 errorTotal">
-                    <div id="showImage"  class="col-12 position-relative w-100">
+                    <div id="showImage" class="col-12 position-relative w-100">
                         <div id="imagesUpload" class="owl-carousel">
                         </div>
-                        <button type="button" onclick="cloudinaryWidget.open()" id="btnUploadImages" class="btn btn-primary" style="z-index: 999">Chỉnh sửa ảnh</button>
+                        <button type="button" onclick="cloudinaryWidget.open()" id="btnUploadImages"
+                                class="btn btn-primary" style="z-index: 999">Chỉnh sửa ảnh
+                        </button>
                     </div>
                 </div>
             </div>
@@ -202,8 +221,12 @@
 <th:block th:replace="/ohana/layout/script :: script"/>
 
 <script src="https://widget.cloudinary.com/v2.0/global/all.js"></script>
-<script src="/resources/js/owl.carousel.min.js"></script>
-<script src="/resources/paginationjs-master/paginationjs-master/src/pagination.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+        integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/paginationjs/2.1.5/pagination.min.js"
+        integrity="sha512-1zzZ0ynR2KXnFskJ1C2s+7TIEewmkB2y+5o/+ahF7mwNj9n3PnzARpqalvtjSbUETwx6yuxP5AJXZCpnjEJkQw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script>
     $(".view-avatar").change(function () {
         const src = URL.createObjectURL(this.files[0]);
@@ -224,7 +247,7 @@
     let page = {
         url: {
             getDomain: App.GETDOMAIN,
-            doUpdatePost: App.BASE_URL_API + "/posts/" ,
+            doUpdatePost: App.BASE_URL_API + "/posts/",
             getPostById: App.BASE_URL_API + "/posts/",
             getAllCategories: App.BASE_URL_API + "/categories",
             getAllUtilities: App.BASE_URL_API + "/utilities",
@@ -282,25 +305,25 @@
                 let {public_id} = result.info;
                 listImageId.push(public_id);
             }
-            if (result.event === "queues-end"){
-                $("#btnUploadImages").attr("disabled",false).css("z-index", 999).text("Tải thêm ảnh");
+            if (result.event === "queues-end") {
+                $("#btnUploadImages").attr("disabled", false).css("z-index", 999).text("Tải thêm ảnh");
                 renderCarousel();
             }
         }
     );
-    const renderCarousel  = ()=>{
+    const renderCarousel = () => {
         $("#imagesUpload").trigger('destroy.owl.carousel').removeClass('owl-loaded');
         $("#imagesUpload").find('.owl-stage-outer').children().unwrap();
         let imgElements = [...listImageId].map(id => renderUploadImage(id));
         $("#imagesUpload").html(imgElements.join(""))
-        $("#imagesUpload").owlCarousel({items: 4,nav: true,dots: false})
+        $("#imagesUpload").owlCarousel({items: 4, nav: true, dots: false})
     }
-    const handleDeleteUploadImage = (imgId)=>{
+    const handleDeleteUploadImage = (imgId) => {
         listImageId = listImageId.filter(id => id !== imgId);
         renderCarousel();
     }
-    const renderUploadImage = (id) =>{
-        let url  = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/v1681975206/${id}.jpg`
+    const renderUploadImage = (id) => {
+        let url = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_220,r_10/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/v1681975206/${id}.jpg`
         return `<div class="position-relative">
                     <button data-imgid="${id}" id="imgDeleteBtn" onclick="handleDeleteUploadImage(this.dataset.imgid)" class="btn-outline-danger btn-sm btn"><i class="fas fa-times-circle"></i></button>
                     <img class="post_img_preview" src="${url}" alt="Uploaded images"/>
@@ -329,10 +352,10 @@
                 $("#imgPreviewThumb").attr("src", url);
                 $("#btnUploadThumb")
                     .text("Thay đổi")
-                    .attr("disabled",false)
+                    .attr("disabled", false)
                     .addClass("btn-sm btn-outline-secondary text-white")
                     .removeClass("btn-primary")
-                    .css("text-shadow","0 0 5px black")
+                    .css("text-shadow", "0 0 5px black")
             }
         }
     );
@@ -350,11 +373,11 @@
     page.commands.getPostById = (postId) => {
         return $.ajax({
             type: "GET",
-            url: "http://localhost:8080/api/posts/" + postId
-        }).done((data)=>{
+            url: location.origin + "/api/posts/" + postId
+        }).done((data) => {
 
             let thumbnail = `https://res.cloudinary.com/dh8nlcoul/image/upload/w_190,h_250/l_l_cloudinary_icon,c_limit,w_50,h_50,o_60/v1681980805/${data.thumbnailId}.jpg`;
-            $("#imgPreviewThumb").attr("src",thumbnail);
+            $("#imgPreviewThumb").attr("src", thumbnail);
 
             post = data;
             let location = post.location
@@ -430,14 +453,14 @@
                     }
                 })
                 let str = `<div class="col-md-2" style="font-size: 1.2rem;">
-                            <input type="checkbox" id="utility" name="utilitiesCheckbox" value=${item.id} ${checkutilities?"checked":""}>
+                            <input type="checkbox" id="utility" name="utilitiesCheckbox" value=${item.id} ${checkutilities ? "checked" : ""}>
                             <span class="mx-2">${item.name}</span>
                            </div>`;
                 $('#utilities').append(str);
             });
             // utilities = utilitiesByIdUser;
             $("input[type=checkbox]").off("change");
-            $("input[type=checkbox]").on("change", function() {
+            $("input[type=checkbox]").on("change", function () {
                 if (!$(this).is(":checked")) {
                     utilities.delete(Number($(this).val()));
                 } else {
@@ -474,7 +497,7 @@
                 let results = data.results;
 
                 results.map(item => {
-                    if (item.province_id == 48 || item.province_id == 46){
+                    if (item.province_id == 48 || item.province_id == 46) {
                         let str = `<option value="${item.province_id}">${item.province_name}</option>`;
                         page.dialogs.elements.province.append(str);
                     }
@@ -505,8 +528,8 @@
 
 
                 results.map(item => {
-                        str = `<option value="${item.district_id}">${item.district_name}</option>`;
-                        page.dialogs.elements.district.append(str);
+                    str = `<option value="${item.district_id}">${item.district_name}</option>`;
+                    page.dialogs.elements.district.append(str);
                 })
             })
             .fail((error) => {
@@ -714,14 +737,14 @@
         location.wardName = $("#ward").find("option:selected").text();
         location.line1 = $("#line1").val();
 
-        rentHouse.roomPrice = Number(($("#roomPrice").val()).replaceAll(/[.]/g,""));
-        rentHouse.deposit = Number(($("#deposit").val()).replaceAll(/[.]/g,""));
+        rentHouse.roomPrice = Number(($("#roomPrice").val()).replaceAll(/[.]/g, ""));
+        rentHouse.deposit = Number(($("#deposit").val()).replaceAll(/[.]/g, ""));
         rentHouse.area = $("#area").val();
         rentHouse.capacity = $("#capacity").val();
         rentHouse.gender = $("#gender").val();
-        rentHouse.electricityPrice =  Number(($("#electricityPrice").val()).replaceAll(/[.]/g,""));
-        rentHouse.waterPrice = Number(($("#waterPrice").val()).replaceAll(/[.]/g,""));
-        rentHouse.wifiPrice = Number(($("#wifiPrice").val()).replaceAll(/[.]/g,""));
+        rentHouse.electricityPrice = Number(($("#electricityPrice").val()).replaceAll(/[.]/g, ""));
+        rentHouse.waterPrice = Number(($("#waterPrice").val()).replaceAll(/[.]/g, ""));
+        rentHouse.wifiPrice = Number(($("#wifiPrice").val()).replaceAll(/[.]/g, ""));
 
         postDTO.title = title;
         postDTO.descriptionContent = descriptionContent;
@@ -746,9 +769,9 @@
         })
             .done((data) => {
                 showSuccess("Cập nhật thành công!!!")
-                setTimeout(()=>{
+                setTimeout(() => {
                     window.location.href = page.url.getDomain + "/list-post";
-                },1000)
+                }, 1000)
             })
             .fail((jqXHR) => {
                 console.log(jqXHR)
@@ -775,25 +798,25 @@
 
         $.validator.addMethod("maxMoney", function (value, element, maxvalue) {
             console.log(element)
-            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") <= maxvalue);
+            return this.optional(element) || Number(value.replaceAll(/[.]/g, "") <= maxvalue);
         }, "Vui lòng nhập số và không vượt quá 100.000.000 đồng");
 
         $.validator.addMethod("minMoney", function (value, element, minMoney) {
-            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") >= minMoney);
+            return this.optional(element) || Number(value.replaceAll(/[.]/g, "") >= minMoney);
         }, "Vui lòng nhập số và không dưới 100.000 đồng");
 
         $.validator.addMethod("maxDNW", function (value, element, maxDNW) {
-            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") <= maxDNW);
+            return this.optional(element) || Number(value.replaceAll(/[.]/g, "") <= maxDNW);
         }, "Vui lòng nhập số và không vượt quá 3.000.000 đồng");
 
         $.validator.addMethod("minDNW", function (value, element, minDNW) {
-            return this.optional(element) || Number(value.replaceAll(/[.]/g,"") >= minDNW);
+            return this.optional(element) || Number(value.replaceAll(/[.]/g, "") >= minDNW);
         }, "Vui lòng nhập số và không dưới 1.000 đồng");
 
     }
 
     function formatCurrency(defaultVl) {
-        let valueRep = defaultVl.toString().replaceAll('.','');
+        let valueRep = defaultVl.toString().replaceAll('.', '');
         return valueRep.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     }
 
@@ -834,7 +857,7 @@
                 page.commands.getAllWardsByDistrictId(districtId);
             });
         })
-            page.commands.handleUpdate();
+        page.commands.handleUpdate();
     }
 
     $(function () {

@@ -147,7 +147,6 @@ public class LoginControllers extends BaseController {
                 cookie.setMaxAge(60 * 1000);
                 cookie.setPath("/");
                 cookie.setHttpOnly(true);
-                cookie.setDomain("localhost");
                 cookie.setSecure(false);
                 response.addCookie(cookie);
 
@@ -181,7 +180,6 @@ public class LoginControllers extends BaseController {
             cookie.setMaxAge(60 * 1000);
             cookie.setPath("/");
             cookie.setHttpOnly(true);
-            cookie.setDomain("localhost");
             cookie.setSecure(false);
             response.addCookie(cookie);
 

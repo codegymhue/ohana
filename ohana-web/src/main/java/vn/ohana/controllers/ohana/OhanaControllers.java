@@ -56,7 +56,7 @@ public class OhanaControllers {
     }
 
 
-    @GetMapping("/")
+    @GetMapping
     public ModelAndView home(@ModelAttribute("userResult") UserResult userResult, @CookieValue(value = "cookieLogin", defaultValue = "0") String loginUsername) {
         ModelAndView modelAndView = new ModelAndView("/ohana/index");
         if (!loginUsername.equals("0")) {
