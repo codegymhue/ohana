@@ -1,0 +1,21 @@
+plugins {
+    id 'org.springframework.boot' version '2.7.7'
+    id 'io.spring.dependency-management' version '1.1.0'
+    id 'java'
+}
+
+group 'vn.rananu'
+version = '1.0'
+
+repositories {
+    mavenCentral()
+}
+
+
+dependencies {
+    compileOnly 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly "org.springframework.boot:spring-boot-starter-validation"
+    compileOnly 'org.modelmapper:modelmapper:3.1.1'
+    compileOnly 'com.jayway.jsonpath:json-path:2.4.0'
+    compileOnly 'io.hypersistence:hypersistence-utils-hibernate-55:3.2.0'
+}
